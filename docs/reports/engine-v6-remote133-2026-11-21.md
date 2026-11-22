@@ -37,3 +37,8 @@ The final revision also bounds stalled DNS lookup within the chain deadline. A f
 ## Delivery state
 
 Code and evidence are submitted through PR76. The bilingual diary source is prepared for publication. A browser integration failure points to an older Browser service version which is no longer installed. The newer client could not connect, including after a fresh session. No public deployment or hosted private-engine change was attempted. The [delivery-state record](engine-v6-remote133-2026-11-21/delivery-state.json) identifies the prepared stable artifact, its checksum and the publication blocker. The wiki and Git delivery state are checked independently from the website.
+
+
+## 22 November evidence-handling clarification
+
+The 172 locally downloaded attempt bodies originally retained under remote133/bodies belong to the 16 November baseline. They must not be joined by filename alone to the 21 November report. The actual 21 November archive was subsequently recovered independently and all 165 referenced hashes matched. The [129-scope follow-up and epoch reconciliation](engine-v6-held129-rendering-2026-11-22.md) preserve both sets and the new 22 November observations separately. No historical outcome or failed attempt is replaced.

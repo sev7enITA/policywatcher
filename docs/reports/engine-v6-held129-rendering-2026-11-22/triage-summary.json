@@ -1,0 +1,121 @@
+{
+  "createdAt": "2026-11-22T06:27:52.391401+00:00",
+  "sourceReportSha256": "4fb0a00029283f7ac7660c5cf77761a2e10f3c9c40696da448e2249d18e0e353",
+  "catalogueSha256": "f5ce32a4d3772be90eaa0eaee2c9481124a1403b3b94408afc5f6c325f045e81",
+  "originalScopes": 133,
+  "held129": 129,
+  "previousExtractedSeparately": 4,
+  "heldReasons": {
+    "extraction_size_out_of_bounds": 24,
+    "transport_rejected": 98,
+    "source_block_or_soft_404": 3,
+    "origin_backoff": 4
+  },
+  "triageClassifications": {
+    "generic_meta_bootstrap_document_unconfirmed": 5,
+    "http_access_refused": 50,
+    "dns_resolution_failed": 5,
+    "redirect_host_identity_requires_review": 18,
+    "html_refresh_and_document_name_scope_migration": 1,
+    "http2_connection_failed": 5,
+    "spa_rule_route_requires_rendering": 3,
+    "redirect_to_generic_help_application": 1,
+    "access_interstitial_not_document": 2,
+    "redirect_document_and_region_identity_changed": 1,
+    "pdf_url_returns_html_application_shell": 1,
+    "html_refresh_requires_bounded_navigation_review": 2,
+    "http_endpoint_unavailable": 6,
+    "source_pending_response": 2,
+    "redirect308_response_chain_requires_review": 4,
+    "opaque_empty_js_response": 2,
+    "successful_http_but_scope_drift": 2,
+    "expected_document_replaced_by_non_document_type": 1,
+    "publisher_declared_notice_retired": 1,
+    "origin_backoff_measured429": 2,
+    "origin_backoff_suppressed_without_attempt": 2,
+    "identified_document_gatsby_shell": 1,
+    "http2_deadline": 4,
+    "stale_fragment_on_rich_static_document": 1,
+    "generic_app_shell_with_prerender_signal": 2,
+    "redirect_limit_or_loop": 1,
+    "game_app_loading_shell": 2,
+    "identified_privacy_document_js_shell": 1,
+    "missing_fragment_on_legal_index": 1
+  },
+  "renderPriorityCountsAmong24": {
+    "tier2_conditional_capture": 9,
+    "source_identity_review_first": 3,
+    "tier1_conditional_capture": 7,
+    "source_format_review_first": 1,
+    "inspect_opaque_shell_first": 2,
+    "offline_scope_review_first": 1,
+    "source_scope_review_first": 1
+  },
+  "exactArchiveVerification": {
+    "baseline": {
+      "references": 172,
+      "matching": 172
+    },
+    "followup21": {
+      "references": 165,
+      "matching": 165
+    },
+    "followupTarSha256": "854af0fdf797864191bf6db90e591817c6916fa3ae3a0b88d339d76ff28fdee0"
+  },
+  "bodyEpochWarning": "Original output/remote133/bodies belongs to baseline,172/172. Never join its filename alone to21Nov wave. Parent separately retrieved exact21Nov archive, now165/165 verified.",
+  "originalBaselineComparedToFollowup": {
+    "matches": 47,
+    "differentLocalBaselineBytes": 110,
+    "missingBaselineFilename": 8,
+    "meaning": "Not missing remote bodies; local baseline snapshot was the wrong epoch. Exact followup files are now separately preserved."
+  },
+  "sourceCodeHash": {
+    "src/lib/engine/acquisition.ts": "3c9a10042a0e3fce802f651088c2bfaff495463e290b9276f8025aa2108149bd",
+    "src/lib/scraper.ts": "74ea02d0e563307105110c2b595ecb4635855103e0bd69f3aca9d5fbf47f8a45",
+    "src/lib/acquisitionScope.ts": "e3cc3ec89c8f223af18ee6c9c62f1dae3b7cb59268ac30037f2338782abc38d9"
+  },
+  "offlineTestSourceSha256": "b82cc1cd893e677861bb18645540188749fe4d0f9bd4bea53519d3e3addd58f1",
+  "limits": [
+    "No renderer, network request, AI review, source approval, code/DB change, policy publication or notification.",
+    "Offline diagnostics do not add captures, accepted extractions, temporal days or500-policy/day qualification.",
+    "DOM conclusions use exact21Nov response bytes; baseline observations remain separate.",
+    "Higher render priority is a hypothesis for bounded observation, never eligibility or permission to bypass challenge/login."
+  ],
+  "offlineDiagnostics": {
+    "testFilesPassed": 1,
+    "diagnosticTestsPassed": 2,
+    "diagnosticTestsFailedFinal": 0,
+    "recordsPerEpoch": 27,
+    "epochs": 2,
+    "analysisTimeoutMs": 20000,
+    "retainedFailures": [
+      "offline-diagnostics.initial.log: incorrect imported function name",
+      "offline-diagnostics-final.log:5-second local parser-test timeout"
+    ],
+    "networkOrRendererExecuted": false,
+    "databaseModule": "Mock throws on access",
+    "qualificationAdded": 0
+  },
+  "falsifiableFindings": 5,
+  "filesSha256": {
+    "offline-dom-followup21-diagnostics.json": "ef4ef802d96e47d76e9331cac149e418d05131d3cc402903c5be3fb47e706076",
+    "offline-diagnostics-initial-import-failure.test.ts.txt": "e00b6e4746a2fe2641c4e0fc8e11cac58abaf8f88d597bd95fdeb39605093a6e",
+    "previous-four-extractions.json": "ddef58c6e97591e73f1cebabe35016dc6b73921ed1a08b45f6e6f7f4b04f963f",
+    "render-and-scope-shortlist24.csv": "a1a6fc3a690c892dc7e592f5dd657b9a70412ea6ff7633e72a143d30a85dd948",
+    "held129-matrix.csv": "3af9a10a6607f1d3239276ba9febbed64e1846633fb93755f48b95ac7d47fef8",
+    "vitest.offline.config.mts": "c6ba617307db7dc458ca22bb3c326b0e092f815352cd98b4520dbf417ad4a45a",
+    "offline-diagnostics.test.ts": "b82cc1cd893e677861bb18645540188749fe4d0f9bd4bea53519d3e3addd58f1",
+    "previous-four-extractions.csv": "788818aec56574657177de418129172546a2e8371907b72e5c4cda6c88521ae0",
+    "offline-diagnostics.initial.log": "25a8ef9902ca5c457bc30fa7c1b2ac92351d99d44392dc2fa5f36f5687b360eb",
+    "assessment.md": "6b819e2335cacc314689ec7717e933b7c3a716307027e180312b78d5279e0701",
+    "body-hash-integrity.csv": "8961b8de023dfd60eefead03da3ca5402db2fb69b0c078dddef5387a2324a76e",
+    "build-matrix.py": "50dca45df66052e4c5f04e76b0c875301a0e50a1fdaf794e7cc5f26e33b8f27b",
+    "offline-diagnostics-final.log": "3aaed8dfe23a73fc1e63a92b78ae7a8462f7a820250237ff16fcbbd55b848b05",
+    "build-summary.log": "31acd70231f87f27686c511a519b01854b25a7e962d37712cc60d65413012f10",
+    "offline-diagnostics-final-bounded.log": "21186d987f5cd56d6d126232ec9e91403e51ebf58bc007570d20ae3ff6852f18",
+    "falsifiable-findings.json": "023092ce60bd1cf06daa9735c36f7afee1c9b8fbae8f90349affc387591b9e12",
+    "held129-matrix.json": "465347d4a817cacb7180780876900b58a6c8fbee79dfd4d6a58eaf993a6a9ad6",
+    "offline-diagnostics.log": "fbaf54a1905b3c9e6288dd270ddfbd5137baa53781c6772fe18934a54f114b3d",
+    "offline-dom-baseline-diagnostics.json": "e43dca40b90d10238685fadac26d0998ab79f3f558e657fca54623c213065460"
+  }
+}

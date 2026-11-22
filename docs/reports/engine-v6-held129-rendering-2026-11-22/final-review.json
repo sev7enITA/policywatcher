@@ -1,0 +1,191 @@
+{
+  "checkedAt": "2026-11-22T06:58:30.009Z",
+  "reviewedCommit": "13f2c23bc7eddd7106ebb95117fef55ccd655deb",
+  "rootPreparedSource": "18606e9",
+  "verdict": "APPROVE bounded serial rendered-only follow-up",
+  "conditions": [
+    "Exact new prepared plan and hashes; no reuse of initial unsafe plan",
+    "Existing free renderer only, concurrency1, maximum32requests,1500ms pacing",
+    "Every result remains held; fullyQualifiedScopes0; no source completeness or500/day qualification",
+    "No direct/HTTP2 refetch, models, baseline, public-policy writes, publication or notifications"
+  ],
+  "tests": {
+    "offlineGuards": 25,
+    "network": "OS denied"
+  },
+  "staticReportHash": "70dc48766256de6e6fa9c1dd373b04f92d1ea0d30c168a53e122e77e8004ab9d",
+  "sourceHashes": {
+    "scripts/engine-held129-recovery.ts": "0c8363f22f9b181a8b2a20f7aff41b8e92a387233ec5869668b24de34cb68e54",
+    "scripts/lib/held129.ts": "119fd49ddb201a284651349984682b3b2105ae850864e09a7504e49a00000ed7",
+    "src/lib/__tests__/engineHeld129.test.ts": "2823f95fde32e28c1f6077d1cc210626dedb7d153ff2e1d78036040588cfa3b5"
+  },
+  "selectedRowsVerified": [
+    {
+      "source": "https://www.facebook.com/legal/ai-terms",
+      "selectedReason": "script_shell_after_static_failure",
+      "status": 200,
+      "ok": true,
+      "bodyHashMatches": true,
+      "receiptWithinStaticWindow": true,
+      "staticScopeReasons": []
+    },
+    {
+      "source": "https://www.asus.com/content/asus-product-security-advisory/",
+      "selectedReason": "same_provider_refresh_observation_not_identity_approval",
+      "status": 200,
+      "ok": true,
+      "bodyHashMatches": true,
+      "receiptWithinStaticWindow": true,
+      "staticScopeReasons": []
+    },
+    {
+      "source": "https://rulechannel.alibaba.com/icbu?type=detail&ruleId=2034&cId=1306#/rule/detail?cId=1306&ruleId=2034",
+      "selectedReason": "client_fragment_shell",
+      "status": 200,
+      "ok": true,
+      "bodyHashMatches": true,
+      "receiptWithinStaticWindow": true,
+      "staticScopeReasons": [
+        "fragment_client_route_unreviewed"
+      ]
+    },
+    {
+      "source": "https://rulechannel.alibaba.com/icbu?type=detail&ruleId=2041&cId=1307#/rule/detail?cId=1307&ruleId=2041",
+      "selectedReason": "client_fragment_shell",
+      "status": 200,
+      "ok": true,
+      "bodyHashMatches": true,
+      "receiptWithinStaticWindow": true,
+      "staticScopeReasons": [
+        "fragment_client_route_unreviewed"
+      ]
+    },
+    {
+      "source": "https://www.bankid.com/en/integritetspolicy",
+      "selectedReason": "same_provider_refresh_observation_not_identity_approval",
+      "status": 200,
+      "ok": true,
+      "bodyHashMatches": true,
+      "receiptWithinStaticWindow": true,
+      "staticScopeReasons": []
+    },
+    {
+      "source": "https://www.bankid.com/en/terms-of-use-bankid-mobile-application",
+      "selectedReason": "same_provider_refresh_observation_not_identity_approval",
+      "status": 200,
+      "ok": true,
+      "bodyHashMatches": true,
+      "receiptWithinStaticWindow": true,
+      "staticScopeReasons": []
+    },
+    {
+      "source": "https://www.crunchyroll.com/tos/",
+      "selectedReason": "script_shell_after_static_failure",
+      "status": 200,
+      "ok": true,
+      "bodyHashMatches": true,
+      "receiptWithinStaticWindow": true,
+      "staticScopeReasons": []
+    },
+    {
+      "source": "https://www.facebook.com/legal/EU_data_transfer_addendum",
+      "selectedReason": "script_shell_after_static_failure",
+      "status": 200,
+      "ok": true,
+      "bodyHashMatches": true,
+      "receiptWithinStaticWindow": true,
+      "staticScopeReasons": []
+    },
+    {
+      "source": "https://en-gb.facebook.com/policies/live",
+      "selectedReason": "script_shell_after_static_failure",
+      "status": 200,
+      "ok": true,
+      "bodyHashMatches": true,
+      "receiptWithinStaticWindow": true,
+      "staticScopeReasons": []
+    },
+    {
+      "source": "https://gofile.io/privacy",
+      "selectedReason": "script_shell_after_static_failure",
+      "status": 200,
+      "ok": true,
+      "bodyHashMatches": true,
+      "receiptWithinStaticWindow": true,
+      "staticScopeReasons": []
+    },
+    {
+      "source": "https://gofile.io/terms",
+      "selectedReason": "script_shell_after_static_failure",
+      "status": 200,
+      "ok": true,
+      "bodyHashMatches": true,
+      "receiptWithinStaticWindow": true,
+      "staticScopeReasons": []
+    },
+    {
+      "source": "https://hsr.hoyoverse.com/en-us/company/privacy",
+      "selectedReason": "script_shell_after_static_failure",
+      "status": 200,
+      "ok": true,
+      "bodyHashMatches": true,
+      "receiptWithinStaticWindow": true,
+      "staticScopeReasons": []
+    },
+    {
+      "source": "https://hsr.hoyoverse.com/en-us/company/terms",
+      "selectedReason": "script_shell_after_static_failure",
+      "status": 200,
+      "ok": true,
+      "bodyHashMatches": true,
+      "receiptWithinStaticWindow": true,
+      "staticScopeReasons": []
+    },
+    {
+      "source": "https://help.instagram.com/494561080557017",
+      "selectedReason": "script_shell_after_static_failure",
+      "status": 200,
+      "ok": true,
+      "bodyHashMatches": true,
+      "receiptWithinStaticWindow": true,
+      "staticScopeReasons": []
+    },
+    {
+      "source": "https://privacycenter.instagram.com/policy/",
+      "selectedReason": "script_shell_after_static_failure",
+      "status": 200,
+      "ok": true,
+      "bodyHashMatches": true,
+      "receiptWithinStaticWindow": true,
+      "staticScopeReasons": []
+    },
+    {
+      "source": "https://help.instagram.com/581066165581870",
+      "selectedReason": "script_shell_after_static_failure",
+      "status": 200,
+      "ok": true,
+      "bodyHashMatches": true,
+      "receiptWithinStaticWindow": true,
+      "staticScopeReasons": []
+    }
+  ],
+  "initialPlanSelected": 9,
+  "initialProblematicSelections": 5,
+  "initialFalsePositivesWereNotLiveExecuted": true,
+  "findingsClosed": [
+    "HTTP202 active AWS WAF shell selection",
+    "Active validateCaptcha form classified ordinary interstitial",
+    "Unreviewed path/selector change used for positive selection",
+    "Stored manifest hash did not verify current implementation source bytes",
+    "Static window lacked age/chronology checks",
+    "Renderer endpoint path not separately bound"
+  ],
+  "residualP2": [
+    "Generic renderDecision still permits unlisted non200statuses; actual16 all200oktrue",
+    "Post-render scopeReasons are retained annotations, not qualified identity; raw extracted text must never be called a recovered policy",
+    "Expected language is unknown; observed language does not establish locale or completeness"
+  ],
+  "reviewerLiveRequests": 0,
+  "reviewerGuiActions": 0,
+  "authorBranchModifiedByReviewer": false
+}

@@ -1,0 +1,19 @@
+import {readFileSync} from 'node:fs';
+import {resolve} from 'node:path';
+import {pathToFileURL} from 'node:url';
+async function main(){
+const m=await import(pathToFileURL(resolve(process.argv[2])).href);
+const root='output/held129-20261122/static/';
+const report=JSON.parse(readFileSync(root+'report.json','utf8'));
+const targets=['https://www.binance.com/en/privacy','https://www.binance.com/en/terms','https://www.amazon.co.uk/gp/help/customer/display.html/?nodeId=201909010&ref_=a20m_us_fnav_l_prvcy_gb'];
+const results=targets.map(source=>{
+ const r=report.rows.find((r:any)=>r.scopes.some((s:any)=>s.source===source));
+ const a=[...r.attempts].reverse().find((a:any)=>a.bodyFile);
+ const html=readFileSync(root+a.bodyFile,'utf8');
+ const decision=m.renderDecision({status:a.status,html,source,blocked:source.includes('amazon')?'access_interstitial':null,soft404:false,drift:false,extractionCompleted:false});
+ return {source,bodyHash:a.bodyHash,status:a.status,...decision,guardPassed:decision.eligible===false};
+});
+console.log(JSON.stringify({module:process.argv[2],results},null,2));
+if(results.some(r=>!r.guardPassed))process.exitCode=1;
+}
+void main().catch(e=>{console.error(e);process.exitCode=1});

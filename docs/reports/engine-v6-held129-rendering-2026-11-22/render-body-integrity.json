@@ -1,0 +1,21 @@
+{
+  "bodyRepresentations": 3,
+  "matched": 3,
+  "checks": [
+    {
+      "source": "https://www.facebook.com/legal/ai-terms",
+      "bodyFile": "b6bd617099cd8579eb61df3e-rendered.body.txt",
+      "matched": true
+    },
+    {
+      "source": "https://www.facebook.com/legal/EU_data_transfer_addendum",
+      "bodyFile": "8ea525fd5e6cf7b5fbe3f973-rendered.body.txt",
+      "matched": true
+    },
+    {
+      "source": "https://en-gb.facebook.com/policies/live",
+      "bodyFile": "e42066c6ac83880ad57b5ccd-rendered.body.txt",
+      "matched": true
+    }
+  ]
+}

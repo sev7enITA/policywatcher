@@ -1,0 +1,104 @@
+[
+  {
+    "id": "F1",
+    "classification": "confirmed_diagnostic_taxonomy_gap_not_an_acceptance_fix",
+    "originalUrl": "https://www.forbes.com/privacy/english/#1a05e1630610",
+    "bodySha256": "5833a08ba4f82d1fa2c3f306a1d6d2d2b8067e5a71a28424f1e6d590ff725e3c",
+    "observation": {
+      "fragmentMatches": 0,
+      "wholePageUnscopedDiagnosticChars": 103382,
+      "engineResult": {
+        "state": "rejected",
+        "reason": "Error: extraction_size_out_of_bounds"
+      },
+      "sharedScopedValidation": {
+        "ok": false,
+        "reason": "scope_missing"
+      }
+    },
+    "invariant": "A missing requested fragment must stay held; report scope_missing rather than treating a rich page as merely undersized. Do not remove the fragment or adopt whole-page scope silently.",
+    "falsifiable": "On the identical saved bytes, original fragment has zero targets; shared validator reports scope_missing, while Engine6 reports extraction_size_out_of_bounds."
+  },
+  {
+    "id": "F2-1",
+    "classification": "shared_default_validator_false_positive_boundary_requires_caller_path_audit",
+    "originalUrl": "https://www.asus.com/content/asus-product-security-advisory/",
+    "bodySha256": "7855c71a68b06199242b5e8f5e3c0d3ee728bc018cffc93dadd1d585abdcbbde",
+    "sharedDefaultValidation": {
+      "ok": true,
+      "textLength": 1513
+    },
+    "engineResult": {
+      "state": "rejected",
+      "reason": "Error: extraction_size_out_of_bounds"
+    },
+    "visibleDocumentRootChars": 25,
+    "documentTitle": "ASUS Product Security Advisory\uff5cASUS GlobalASUS Security Advisory \u8f49\u5740",
+    "observation": "Default shared validateContent accepts boilerplate/index/redirect text, while Engine6 correctly holds. This is not a demonstrated public publishing bypass; source/redirect gates in each caller require separate trace.",
+    "falsifiable": "Replay exact21Nov bytes through validateContent(html, originalUrl) with its default800-character minimum; result is ok with1513/1016/1728chars respectively. Current Engine6 rejects the same bytes."
+  },
+  {
+    "id": "F2-2",
+    "classification": "shared_default_validator_false_positive_boundary_requires_caller_path_audit",
+    "originalUrl": "https://rule.alibaba.com/rule/detail/6391.htm",
+    "bodySha256": "07c2f77fbc878fc79ee8340658ddeaeb00f61a2b53bc731e8d62530f64295769",
+    "sharedDefaultValidation": {
+      "ok": true,
+      "textLength": 1016
+    },
+    "engineResult": {
+      "state": "rejected",
+      "reason": "Error: extraction_size_out_of_bounds"
+    },
+    "visibleDocumentRootChars": 0,
+    "documentTitle": "Alibaba.com Rules Center",
+    "observation": "Default shared validateContent accepts boilerplate/index/redirect text, while Engine6 correctly holds. This is not a demonstrated public publishing bypass; source/redirect gates in each caller require separate trace.",
+    "falsifiable": "Replay exact21Nov bytes through validateContent(html, originalUrl) with its default800-character minimum; result is ok with1513/1016/1728chars respectively. Current Engine6 rejects the same bytes."
+  },
+  {
+    "id": "F2-3",
+    "classification": "shared_default_validator_false_positive_boundary_requires_caller_path_audit",
+    "originalUrl": "https://www.apple.com/legal/internet-services/itunes/gamecenter/uk/terms.html",
+    "bodySha256": "5de4afad05a2438f14e99b67ea17b9ceae8e6aa598c34f91960de2da03c392dd",
+    "sharedDefaultValidation": {
+      "ok": true,
+      "textLength": 1728
+    },
+    "engineResult": {
+      "state": "rejected",
+      "reason": "Error: extraction_size_out_of_bounds"
+    },
+    "visibleDocumentRootChars": 41,
+    "documentTitle": "Legal - Apple Media Services - Apple",
+    "observation": "Default shared validateContent accepts boilerplate/index/redirect text, while Engine6 correctly holds. This is not a demonstrated public publishing bypass; source/redirect gates in each caller require separate trace.",
+    "falsifiable": "Replay exact21Nov bytes through validateContent(html, originalUrl) with its default800-character minimum; result is ok with1513/1016/1728chars respectively. Current Engine6 rejects the same bytes."
+  },
+  {
+    "id": "F3",
+    "classification": "structured_html_redirect_diagnostics_gap",
+    "observations": [
+      {
+        "originalUrl": "https://www.asus.com/content/asus-product-security-advisory/",
+        "bodySha256": "7855c71a68b06199242b5e8f5e3c0d3ee728bc018cffc93dadd1d585abdcbbde",
+        "literalRefresh": "0; url=https://www.asus.com/security-advisory/",
+        "htmlLanguage": "en-us",
+        "reason": "HTML refresh metadata is available as source migration evidence but current hold collapses into generic extraction_size_out_of_bounds. No target was fetched/adopted."
+      },
+      {
+        "originalUrl": "https://www.bankid.com/en/integritetspolicy",
+        "bodySha256": "f5403a1e2b3d51829c0cd9159e17e47e398ed6a42716f83f4f24906cebc6a2bb",
+        "literalRefresh": "0; url=/en/legal/privacy-policy-bankid?mtm_campaign=redirect&mtm_kwd=/en/integritetspolicy",
+        "htmlLanguage": "sv",
+        "reason": "HTML refresh metadata is available as source migration evidence but current hold collapses into generic extraction_size_out_of_bounds. No target was fetched/adopted."
+      },
+      {
+        "originalUrl": "https://www.bankid.com/en/terms-of-use-bankid-mobile-application",
+        "bodySha256": "1c79733b53d0d3e96fa38cb06bd5498b101adcb9c46d67ad988225440c155c9b",
+        "literalRefresh": "0; url=/en/legal/terms-and-conditions/terms-of-use-bankid-mobile-application?mtm_campaign=redirect&mtm_kwd=en/terms-of-use-bankid-mobile-application",
+        "htmlLanguage": "sv",
+        "reason": "HTML refresh metadata is available as source migration evidence but current hold collapses into generic extraction_size_out_of_bounds. No target was fetched/adopted."
+      }
+    ],
+    "invariant": "Record HTML refresh target as unreviewed observed source evidence; never silently replace catalogue URL, language or document identity."
+  }
+]

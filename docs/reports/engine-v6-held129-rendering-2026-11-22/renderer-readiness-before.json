@@ -1,0 +1,14 @@
+{
+  "ok": true,
+  "service": "policywatcher-renderer",
+  "version": "1.2.0",
+  "state": "ready",
+  "active": 0,
+  "capacity": 3,
+  "secretRotation": "single-active",
+  "targetAllowlistCount": 18,
+  "subresourceAllowlistCount": 2,
+  "browserVersionMajor": "149",
+  "userAgentMode": "browser-default",
+  "uptimeSeconds": 686993
+}

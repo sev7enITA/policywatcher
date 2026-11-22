@@ -1,0 +1,1482 @@
+{
+  "schema": "pw-held129-render-followup-1",
+  "preparedAt": "2026-11-22T06:56:11.048Z",
+  "sourceCommit": "18606e9a4826c39f244cd52d74f0c8f2c97912e9",
+  "implementation": "1832fcbfe1bc668b88f55da44e94e05abf3cc12ae7cea9228eea4be1003fd5d4",
+  "harnessHashes": {
+    "scripts/engine-held129-recovery.ts": "0c8363f22f9b181a8b2a20f7aff41b8e92a387233ec5869668b24de34cb68e54",
+    "scripts/lib/held129.ts": "119fd49ddb201a284651349984682b3b2105ae850864e09a7504e49a00000ed7"
+  },
+  "baselineHashes": [
+    "f5ce32a4d3772be90eaa0eaee2c9481124a1403b3b94408afc5f6c325f045e81",
+    "4fb0a00029283f7ac7660c5cf77761a2e10f3c9c40696da448e2249d18e0e353",
+    "58dbc54a104def16b9d4acb24ee58285c90e3e260449f2771fa444b8d16b4823",
+    "54c987a55f494af04baef95c40d898d2f15070553363db7f2ca77e5f5c202de4"
+  ],
+  "staticReportHash": "70dc48766256de6e6fa9c1dd373b04f92d1ea0d30c168a53e122e77e8004ab9d",
+  "staticSourceCommit": "c96b4f08fc93e6a35acb1acda30122f894f53a39",
+  "staticCatalogueHash": "780a56d5fe71b6d99fe8b7baac5f88e387383d8428655755633e6b929ccf9f30",
+  "excluded": [
+    "https://www.tiktok.com/legal/privacy-policy-eea",
+    "https://www.mailjet.com/legal/sending-policy/",
+    "https://www.mailjet.com/privacy-policy/",
+    "https://www.mailjet.com/legal/terms/"
+  ],
+  "denominator": 129,
+  "origins": 69,
+  "maxRendered": 32,
+  "renderConcurrency": 1,
+  "pacingMs": 1500,
+  "maximumRunMs": 2700000,
+  "boundary": "Fresh129-scope static wave plus separate serial rendered follow-up. Earlier4 extractions remain held for completeness. No direct/HTTP2 refetch, model inference, contract approval, baseline, policy writes, publication, notification or500/day qualification.",
+  "selections": [
+    {
+      "id": "87c9526a37054d6e2919443f",
+      "catalogueId": "033ac1b4-114a-40d4-a666-374379c0df00",
+      "source": "https://www.amazon.com/gp/help/customer/display.html?nodeId=GX7NJQ4ZB8MHFRNJ",
+      "category": "http_access_refused",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "fresh_http_denial_no_browser_bypass"
+    },
+    {
+      "id": "b6bd617099cd8579eb61df3e",
+      "catalogueId": "8e2eb94e-eb92-458f-9012-494c6fc36707",
+      "source": "https://www.facebook.com/legal/ai-terms",
+      "category": "static_document_incomplete",
+      "priorReason": "extraction_size_out_of_bounds",
+      "languageExpectation": "unknown",
+      "selected": true,
+      "reason": "script_shell_after_static_failure",
+      "staticScopeReasons": [],
+      "staticBodyFile": "b6bd617099cd8579eb61df3e-direct.body.txt",
+      "staticBodyHash": "ff06f9c58acf7e7eb5724d18a028c1ced63e4e35867737c4bdc41d76fb75b2f5",
+      "staticObservedAt": "2026-11-22T06:27:39.258Z"
+    },
+    {
+      "id": "b2b9a6958c3a471c748c907d",
+      "catalogueId": "00aa1a087a52f6fe8756a984",
+      "source": "https://ask.fm/docs/privacy_policy/?lang=en",
+      "category": "network_dns_or_timeout",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "no_verified_current_body"
+    },
+    {
+      "id": "ff6af8f52e7f6dede9fa4db1",
+      "catalogueId": "960450a4eed25f8c50af14d2",
+      "source": "https://about.ask.fm/legal/en/terms.html",
+      "category": "network_dns_or_timeout",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "no_verified_current_body"
+    },
+    {
+      "id": "8bd561539c7f417595b1e9fe",
+      "catalogueId": "12eb4be755179bdcdbb203d5",
+      "source": "https://www.asus.com/content/asus-product-security-advisory/",
+      "category": "static_document_incomplete",
+      "priorReason": "extraction_size_out_of_bounds",
+      "languageExpectation": "unknown",
+      "selected": true,
+      "reason": "same_provider_refresh_observation_not_identity_approval",
+      "staticScopeReasons": [],
+      "staticBodyFile": "8bd561539c7f417595b1e9fe-direct.body.txt",
+      "staticBodyHash": "7f1439ab5af4c86c33dc93f23cd3839672cd227a6a530a462cd929c769568198",
+      "staticObservedAt": "2026-11-22T06:27:47.484Z"
+    },
+    {
+      "id": "fe628a15c82f674f8ccd06f8",
+      "catalogueId": "d6294a463c44d9b2d3394f4b",
+      "source": "https://www.academia.edu/privacy",
+      "category": "http_access_refused",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "fresh_http_denial_no_browser_bypass"
+    },
+    {
+      "id": "04854b503562685de6cf3c69",
+      "catalogueId": "3c35cc3ab6a92633107ac2e4",
+      "source": "https://www.academia.edu/terms",
+      "category": "http_access_refused",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "fresh_http_denial_no_browser_bypass"
+    },
+    {
+      "id": "fd73022d5f5ffecb7d4e9795",
+      "catalogueId": "8e1341d46fc21b8b9ae86b84",
+      "source": "https://www.acuityads.com/terms-and-conditions/",
+      "category": "network_dns_or_timeout",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "no_verified_current_body"
+    },
+    {
+      "id": "4e8f536435078045f71451a9",
+      "catalogueId": "0b9f0a6c9694323f88fbbb82",
+      "source": "https://www.acuityads.com/cookie-policy/",
+      "category": "network_dns_or_timeout",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "no_verified_current_body"
+    },
+    {
+      "id": "9a891d06da0f0bb67993d75d",
+      "catalogueId": "7ced9ec5db56d6845eb786a9",
+      "source": "https://privacy.google.com/businesses/controllerterms/",
+      "category": "redirect_identity_requires_review",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "no_verified_current_body"
+    },
+    {
+      "id": "6788afd864005a63ab2decdb",
+      "catalogueId": "7cfecf17002625b66ba15808",
+      "source": "https://help.adroll.com/hc/en-us/articles/360031225371-Prohibited-Content-and-Practices-Inappropriate-Content",
+      "category": "http_access_refused",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "fresh_http_denial_no_browser_bypass"
+    },
+    {
+      "id": "98504fb750669afe06a00b0d",
+      "catalogueId": "292b066ed67c8fd24ffcad40",
+      "source": "https://www.amazon.com/gp/help/customer/display.html?nodeId=201809740",
+      "category": "http_access_refused",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "fresh_http_denial_no_browser_bypass"
+    },
+    {
+      "id": "d99c8df7541b61ffd5227ce8",
+      "catalogueId": "878be731beb1fb150163cf26",
+      "source": "https://rule.alibaba.com/rule/detail/6391.htm",
+      "category": "static_document_incomplete",
+      "priorReason": "extraction_size_out_of_bounds",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "source_identity_or_soft404_hold",
+      "staticScopeReasons": [
+        "path_identity_unreviewed"
+      ],
+      "staticBodyFile": "d99c8df7541b61ffd5227ce8-direct.body.txt",
+      "staticBodyHash": "087d0dc33fb83cec19d2d8b4d1fcfe28daff3986863ecc26de357d731111ca1a",
+      "staticObservedAt": "2026-11-22T06:28:12.890Z"
+    },
+    {
+      "id": "0ef79c7c32905d2652bd2655",
+      "catalogueId": "567c01603c532cad1b5d34e5",
+      "source": "https://rulechannel.alibaba.com/icbu?type=detail&ruleId=2034&cId=1306#/rule/detail?cId=1306&ruleId=2034",
+      "category": "fragment_scope_requires_review",
+      "priorReason": "extraction_size_out_of_bounds",
+      "languageExpectation": "unknown",
+      "selected": true,
+      "reason": "client_fragment_shell",
+      "staticScopeReasons": [
+        "fragment_client_route_unreviewed"
+      ],
+      "staticBodyFile": "9ffc5723b0a4ed864ccfd294-direct.body.txt",
+      "staticBodyHash": "10e10c06ae8da5b4992f6a7bb007d11d5aade2358753ac02f372bf0f6f549466",
+      "staticObservedAt": "2026-11-22T06:28:13.005Z"
+    },
+    {
+      "id": "89b44ba0e3faa53adc454430",
+      "catalogueId": "8f622086aaf995a2d8471a8e",
+      "source": "https://rulechannel.alibaba.com/icbu?type=detail&ruleId=2041&cId=1307#/rule/detail?cId=1307&ruleId=2041",
+      "category": "fragment_scope_requires_review",
+      "priorReason": "extraction_size_out_of_bounds",
+      "languageExpectation": "unknown",
+      "selected": true,
+      "reason": "client_fragment_shell",
+      "staticScopeReasons": [
+        "fragment_client_route_unreviewed"
+      ],
+      "staticBodyFile": "489b280c8cbf9f2ac7d780ae-direct.body.txt",
+      "staticBodyHash": "232b9859354844886f4b3c8647bff49ecf7c3fb72cb190f1e2cbfbc303e17276",
+      "staticObservedAt": "2026-11-22T06:28:15.511Z"
+    },
+    {
+      "id": "88057c9ca5c42d1c60545825",
+      "catalogueId": "9c5cece0d47c4b5b6d4e68ce",
+      "source": "https://www.meredith.com/nmg/privacy",
+      "category": "redirect_identity_requires_review",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "no_verified_current_body"
+    },
+    {
+      "id": "71c217d2b4e80d1bf29a45ef",
+      "catalogueId": "f6ad1a4385d1104469ba82e3",
+      "source": "https://www.meredith.com/legal/terms",
+      "category": "redirect_identity_requires_review",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "no_verified_current_body"
+    },
+    {
+      "id": "52de32e375e7b1bbcc101882",
+      "catalogueId": "c5ae02ba3c7e515ca4d32ae7",
+      "source": "https://advertising.amazon.com/resources/ad-policy/creative-acceptance",
+      "category": "static_document_incomplete",
+      "priorReason": "extraction_size_out_of_bounds",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "source_identity_or_soft404_hold",
+      "staticScopeReasons": [
+        "path_identity_unreviewed"
+      ],
+      "staticBodyFile": "52de32e375e7b1bbcc101882-direct.body.txt",
+      "staticBodyHash": "557c5c131bfdeba91bf4963d34e8a35832c6592b16fabc5be86e06bb0adb6317",
+      "staticObservedAt": "2026-11-22T06:28:18.045Z"
+    },
+    {
+      "id": "9343242cf2e8257a8aa06d05",
+      "catalogueId": "7d8073c57e2ae51cf1b09fd3",
+      "source": "https://www.amazon.co.uk/gp/help/customer/display.html/?nodeId=201909010&ref_=a20m_us_fnav_l_prvcy_gb",
+      "category": "http_access_refused",
+      "priorReason": "source_block_or_soft_404",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "no_active_waf_challenge_bypass",
+      "staticScopeReasons": [],
+      "staticBodyFile": "9343242cf2e8257a8aa06d05-direct.body.txt",
+      "staticBodyHash": "1e5482688980458bf272a7e8179f2ab4ebb388990dceeddbace2c89c743aa518",
+      "staticObservedAt": "2026-11-22T06:28:19.723Z"
+    },
+    {
+      "id": "faaa3c847d90068b8e78b7c7",
+      "catalogueId": "034d285c9091f9c4c0fdbecc",
+      "source": "https://www.amazon.co.uk/gp/help/customer/display.html/?ie=UTF8&nodeId=1040616&ref_=a20m_us_fnav_l_cndtns_gb",
+      "category": "http_access_refused",
+      "priorReason": "source_block_or_soft_404",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "fresh_http_denial_no_browser_bypass"
+    },
+    {
+      "id": "d7a6f8210dcdd62d579ac508",
+      "catalogueId": "378ddc0d770e5f2a0f4bd8db",
+      "source": "https://www.amazon.co.uk/gp/help/customer/display.html?ie=UTF8&nodeId=201890250&ref_=a20m_us_fnav_l_cook_gb",
+      "category": "access_interstitial",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "fresh_http_denial_no_browser_bypass"
+    },
+    {
+      "id": "f950a7cb1016338ec5aff5fb",
+      "catalogueId": "30d9d3dd697230e308070c1e",
+      "source": "https://www.amazon.com/gp/help/customer/display.html?nodeId=201485660",
+      "category": "http_access_refused",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "fresh_http_denial_no_browser_bypass"
+    },
+    {
+      "id": "e1596d3189142e2258f6e782",
+      "catalogueId": "421a1c63fce7d4d07adf56c4",
+      "source": "https://www.amazon.com/gp/help/customer/display.html?nodeId=201434520",
+      "category": "http_access_refused",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "fresh_http_denial_no_browser_bypass"
+    },
+    {
+      "id": "5c1f3d1186e2293fc3c8a325",
+      "catalogueId": "a9b347b4c69fe2b954bde72d",
+      "source": "https://www.amazon.com/gp/help/customer/display.html?nodeId=202002080",
+      "category": "access_interstitial",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "fresh_http_denial_no_browser_bypass"
+    },
+    {
+      "id": "5c587de6aa6aeaae1f61acd2",
+      "catalogueId": "2ad5ce5fd6f27b62222eccce",
+      "source": "https://www.amazon.com/gp/help/customer/display.html?nodeId=200699130",
+      "category": "http_access_refused",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "fresh_http_denial_no_browser_bypass"
+    },
+    {
+      "id": "563567805b6ac24e0fbf1153",
+      "catalogueId": "ce4d0e5077b5d64ee29f268d",
+      "source": "https://www.amazon.com/gp/help/customer/display.html?nodeId=201014950",
+      "category": "http_access_refused",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "fresh_http_denial_no_browser_bypass"
+    },
+    {
+      "id": "03055e6f896c91829d7b9032",
+      "catalogueId": "199878b086c2553b0ea20bcd",
+      "source": "https://www.amazon.com/gp/help/customer/display.html?nodeId=201544030",
+      "category": "http_access_refused",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "fresh_http_denial_no_browser_bypass"
+    },
+    {
+      "id": "f8113d0b79fd50736c93c4e1",
+      "catalogueId": "c469269ebd7ff4a66be9dca7",
+      "source": "https://www.amazon.com/gp/help/customer/display.html?nodeId=202095050",
+      "category": "http_access_refused",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "fresh_http_denial_no_browser_bypass"
+    },
+    {
+      "id": "82328f077ce637bbe5e392d3",
+      "catalogueId": "fd749337399ac5e5c2b0e924",
+      "source": "https://www.amazon.com/gp/help/customer/display.html?nodeId=201380010",
+      "category": "http_access_refused",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "fresh_http_denial_no_browser_bypass"
+    },
+    {
+      "id": "b8ca89862b2b3dbba02318af",
+      "catalogueId": "d9a75181c71efb7792f29499",
+      "source": "https://www.amazon.com/gp/help/customer/display.html?nodeId=201376540",
+      "category": "http_access_refused",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "fresh_http_denial_no_browser_bypass"
+    },
+    {
+      "id": "c4837ad74f70363b8a3cc888",
+      "catalogueId": "ac65062b89af9a653e94312a",
+      "source": "https://www.amazon.com/gp/help/customer/display.html?nodeId=13819201",
+      "category": "http_access_refused",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "fresh_http_denial_no_browser_bypass"
+    },
+    {
+      "id": "5994060ef53527244d1eecae",
+      "catalogueId": "99b632efcd244abb547be768",
+      "source": "https://www.amazon.com/gp/help/customer/display.html?nodeId=200775270",
+      "category": "http_access_refused",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "fresh_http_denial_no_browser_bypass"
+    },
+    {
+      "id": "fc59d09457cdc5b12b51a8d4",
+      "catalogueId": "fbbbada2e8570e36df98bde7",
+      "source": "https://www.amazon.com/gp/help/customer/display.html?ie=UTF8&nodeId=GFUSWPZP368LFFA9",
+      "category": "http_access_refused",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "fresh_http_denial_no_browser_bypass"
+    },
+    {
+      "id": "253f02541fc6c42e8fed8a56",
+      "catalogueId": "2926b8e820c81c1b0c334026",
+      "source": "https://www.amazon.com/gp/help/customer/display.html?nodeId=202119380",
+      "category": "http_access_refused",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "fresh_http_denial_no_browser_bypass"
+    },
+    {
+      "id": "b3c6d1b39ef6b623b0ca6f21",
+      "catalogueId": "0570d2fe334061c73dfa98a2",
+      "source": "https://www.amazon.com/gp/help/customer/display.html/ref=hp_left_v4_sib?ie=UTF8&nodeId=GX7NJQ4ZB8MHFRNJ",
+      "category": "http_access_refused",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "fresh_http_denial_no_browser_bypass"
+    },
+    {
+      "id": "4ef1a9e56ee4be9a218af7e1",
+      "catalogueId": "b0bd6636bbf31a3a94f313b4",
+      "source": "https://www.amazon.com/gp/help/customer/display.html/ref=hp_left_v4_sib?ie=UTF8&nodeId=201909000",
+      "category": "http_access_refused",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "fresh_http_denial_no_browser_bypass"
+    },
+    {
+      "id": "9f54f9b314fceb4e974861d2",
+      "catalogueId": "9934a0cda6b77a30b03bb31f",
+      "source": "https://developer.apple.com/support/downloads/terms/apple-developer-agreement/Apple-Developer-Agreement-20240610-English.pdf",
+      "category": "declared_source_unavailable",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "fresh_http_denial_no_browser_bypass"
+    },
+    {
+      "id": "210283a1080718a09328a995",
+      "catalogueId": "e4a83815e860a93884f45cf8",
+      "source": "https://www.apple.com/legal/internet-services/itunes/gamecenter/uk/terms.html",
+      "category": "static_document_incomplete",
+      "priorReason": "extraction_size_out_of_bounds",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "source_identity_or_soft404_hold",
+      "staticScopeReasons": [
+        "path_identity_unreviewed"
+      ],
+      "staticBodyFile": "210283a1080718a09328a995-direct.body.txt",
+      "staticBodyHash": "91f686a6c3f60237b8183f34b358db7074717125c13d280222333b57c7180c3f",
+      "staticObservedAt": "2026-11-22T06:28:30.582Z"
+    },
+    {
+      "id": "f7ff3cfba68fee266a57c026",
+      "catalogueId": "5bea60780c89f2b4a55607f7",
+      "source": "https://investor.apple.com/files/doc_downloads/gov_docs/Apple-Human-Rights-Policy.pdf",
+      "category": "redirect_identity_requires_review",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "no_verified_current_body"
+    },
+    {
+      "id": "90acf7542347e865444be2ac",
+      "catalogueId": "4b2eccb9d2282b52e1b82dcf",
+      "source": "https://www.artstation.com/privacy",
+      "category": "http_access_refused",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "fresh_http_denial_no_browser_bypass"
+    },
+    {
+      "id": "1f1309fc5af4ac71fe965a18",
+      "catalogueId": "d6917a402d34c79ce760dc53",
+      "source": "https://www.artstation.com/tos",
+      "category": "http_access_refused",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "fresh_http_denial_no_browser_bypass"
+    },
+    {
+      "id": "692f3b4239fbfcf08f3fd8d6",
+      "catalogueId": "9a1145913f34fd10a6c327f7",
+      "source": "https://www.bred.fr/medias/pdf/informations-reglementaires/convention-bredacces.pdf",
+      "category": "static_document_incomplete",
+      "priorReason": "extraction_size_out_of_bounds",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "pdf_not_browser_html",
+      "staticScopeReasons": [],
+      "staticBodyFile": "692f3b4239fbfcf08f3fd8d6-direct.body.txt",
+      "staticBodyHash": "36155769ce1cf79a34555aed91d3cd12cf65d589bfd839a589f8fdb4276b6920",
+      "staticObservedAt": "2026-11-22T06:28:34.445Z"
+    },
+    {
+      "id": "d6e1908a61f3965291851f9e",
+      "catalogueId": "abf87c1db18aef84d2c56bdf",
+      "source": "https://www.bankid.com/en/integritetspolicy",
+      "category": "static_document_incomplete",
+      "priorReason": "extraction_size_out_of_bounds",
+      "languageExpectation": "unknown",
+      "selected": true,
+      "reason": "same_provider_refresh_observation_not_identity_approval",
+      "staticScopeReasons": [],
+      "staticBodyFile": "d6e1908a61f3965291851f9e-direct.body.txt",
+      "staticBodyHash": "f5403a1e2b3d51829c0cd9159e17e47e398ed6a42716f83f4f24906cebc6a2bb",
+      "staticObservedAt": "2026-11-22T06:28:36.192Z"
+    },
+    {
+      "id": "9938bdceee6a3c2aa97df7ab",
+      "catalogueId": "6f0fda8dabea3083b5487365",
+      "source": "https://www.bankid.com/en/terms-of-use-bankid-mobile-application",
+      "category": "static_document_incomplete",
+      "priorReason": "extraction_size_out_of_bounds",
+      "languageExpectation": "unknown",
+      "selected": true,
+      "reason": "same_provider_refresh_observation_not_identity_approval",
+      "staticScopeReasons": [],
+      "staticBodyFile": "9938bdceee6a3c2aa97df7ab-direct.body.txt",
+      "staticBodyHash": "1c79733b53d0d3e96fa38cb06bd5498b101adcb9c46d67ad988225440c155c9b",
+      "staticObservedAt": "2026-11-22T06:28:37.871Z"
+    },
+    {
+      "id": "2eb1a6f26429e3b72022a559",
+      "catalogueId": "7f573b5bf759bf6077e9d0f7",
+      "source": "https://docs.base.org/docs/privacy-policy/",
+      "category": "http2_redirect_unsupported_in_baseline",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "fresh_http_denial_no_browser_bypass"
+    },
+    {
+      "id": "4359e8a94e5f765be743436f",
+      "catalogueId": "8cab6a8d97169e6422080fea",
+      "source": "https://docs.base.org/docs/cookie-policy/",
+      "category": "http2_redirect_unsupported_in_baseline",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "fresh_http_denial_no_browser_bypass"
+    },
+    {
+      "id": "03a08e5f26b7443df60e850e",
+      "catalogueId": "4c6e7654bc414af5405ca3ba",
+      "source": "https://www.binance.com/en/privacy",
+      "category": "source_pending_response",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "pending_response_requires_review",
+      "staticScopeReasons": [],
+      "staticBodyFile": "03a08e5f26b7443df60e850e-http2.body.txt",
+      "staticBodyHash": "3974a339eda20cb02eb51ec25fd013b69d22c010b2c51497eefd17b04e4ccfef",
+      "staticObservedAt": "2026-11-22T06:28:42.909Z"
+    },
+    {
+      "id": "546bec401451d4f339d5ddc4",
+      "catalogueId": "c619121c3e6b7c498b8cd68b",
+      "source": "https://www.binance.com/en/terms",
+      "category": "source_pending_response",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "pending_response_requires_review",
+      "staticScopeReasons": [],
+      "staticBodyFile": "546bec401451d4f339d5ddc4-http2.body.txt",
+      "staticBodyHash": "d069130119078b79a6f840a8a04efd4906d51c5f19b14bef4472864ea7979bc6",
+      "staticObservedAt": "2026-11-22T06:28:47.436Z"
+    },
+    {
+      "id": "4705a0a7bcd3a60948a8dddb",
+      "catalogueId": "c78fc50d1089ae5095e14689",
+      "source": "https://blockworks.co/trust-ethics",
+      "category": "redirect_identity_requires_review",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "no_verified_current_body"
+    },
+    {
+      "id": "562f0fd36b2d5dc83fc38e93",
+      "catalogueId": "e686ab180b6dd4777b5eef23",
+      "source": "https://blockworks.co/privacy-policy",
+      "category": "redirect_identity_requires_review",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "no_verified_current_body"
+    },
+    {
+      "id": "f2cbf04cfd069911fcf9c05a",
+      "catalogueId": "1896df9730081b3b210ae0f6",
+      "source": "https://bolt.eu/en/legal/ie/privacy-for-drivers/",
+      "category": "http2_redirect_unsupported_in_baseline",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "source_identity_or_soft404_hold",
+      "staticScopeReasons": [
+        "path_identity_unreviewed"
+      ],
+      "staticBodyFile": "f2cbf04cfd069911fcf9c05a-http2.body.txt",
+      "staticBodyHash": "c3529355b3794972ffadd39ae72c6354ec632bd6725b061108e7b16e5d1e223f",
+      "staticObservedAt": "2026-11-22T06:28:52.243Z"
+    },
+    {
+      "id": "19d3021363a03ff28eb0fe91",
+      "catalogueId": "111b56059bb6ba4456ba7fc9",
+      "source": "https://bolt.eu/en/legal/ie/terms-for-drivers/",
+      "category": "http2_redirect_unsupported_in_baseline",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "source_identity_or_soft404_hold",
+      "staticScopeReasons": [
+        "path_identity_unreviewed"
+      ],
+      "staticBodyFile": "19d3021363a03ff28eb0fe91-http2.body.txt",
+      "staticBodyHash": "5fda695439d7ffb2fd2293033002a0700c68c17daa9aff1c6f65d71d5496d58b",
+      "staticObservedAt": "2026-11-22T06:28:56.962Z"
+    },
+    {
+      "id": "a48a406e3bb5135e86d82b41",
+      "catalogueId": "fc3ce76b753837b1cfc0ed5f",
+      "source": "https://bolt.eu/en/legal/ie/privacy-for-riders/",
+      "category": "http2_redirect_unsupported_in_baseline",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "source_identity_or_soft404_hold",
+      "staticScopeReasons": [
+        "path_identity_unreviewed"
+      ],
+      "staticBodyFile": "a48a406e3bb5135e86d82b41-http2.body.txt",
+      "staticBodyHash": "5530106d3f5a263a4f030e21217d43665691cdde5069ce92fd7d0e0b01c6d8a5",
+      "staticObservedAt": "2026-11-22T06:29:01.707Z"
+    },
+    {
+      "id": "5a69d8c484ddaac7ad326140",
+      "catalogueId": "d19b1b9a217a57460c69bca2",
+      "source": "https://bolt.eu/en/legal/ie/terms-for-riders/",
+      "category": "http2_redirect_unsupported_in_baseline",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "source_identity_or_soft404_hold",
+      "staticScopeReasons": [
+        "path_identity_unreviewed"
+      ],
+      "staticBodyFile": "5a69d8c484ddaac7ad326140-http2.body.txt",
+      "staticBodyHash": "a71d3fd6189f93cce864507f3ee632069e3cd14adbd612f0dfa9d6c9529c8a0a",
+      "staticObservedAt": "2026-11-22T06:29:06.427Z"
+    },
+    {
+      "id": "94e24dabd2f164ef7004b0db",
+      "catalogueId": "c2dd218690d56b7121a2709e",
+      "source": "https://www.warnermediaprivacy.com/policycenter/b2c/en-row/",
+      "category": "redirect_identity_requires_review",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "no_verified_current_body"
+    },
+    {
+      "id": "0506aa726273a8600418688b",
+      "catalogueId": "706b2fd3b89b9a1386140270",
+      "source": "https://www.wildskymedia.com/privacy-policy/",
+      "category": "redirect_scope_requires_review",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "source_identity_or_soft404_hold",
+      "staticScopeReasons": [
+        "path_identity_unreviewed"
+      ],
+      "staticBodyFile": "0506aa726273a8600418688b-http2.body.txt",
+      "staticBodyHash": "ebc160bc190c5af498c4881b7c0baf713981c8ad8a55d2c556e040e86fd1e34b",
+      "staticObservedAt": "2026-11-22T06:29:02.700Z"
+    },
+    {
+      "id": "e775ba208468c85a28189e5c",
+      "catalogueId": "05f5ad3f4bfe7677907a3326",
+      "source": "https://www.wildskymedia.com/terms-of-service/",
+      "category": "redirect_scope_requires_review",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "source_identity_or_soft404_hold",
+      "staticScopeReasons": [
+        "path_identity_unreviewed"
+      ],
+      "staticBodyFile": "e775ba208468c85a28189e5c-http2.body.txt",
+      "staticBodyHash": "ebc160bc190c5af498c4881b7c0baf713981c8ad8a55d2c556e040e86fd1e34b",
+      "staticObservedAt": "2026-11-22T06:29:07.478Z"
+    },
+    {
+      "id": "1b625905b93b3dd6e7608654",
+      "catalogueId": "2536c5f7d3caf7bdfc5447ac",
+      "source": "https://clients.cdiscount.com/simple/cgv.aspx",
+      "category": "http2_redirect_unsupported_in_baseline",
+      "priorReason": "extraction_size_out_of_bounds",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "fresh_http_denial_no_browser_bypass"
+    },
+    {
+      "id": "e11c2434a36c21e80da63233",
+      "catalogueId": "c064d2827395c4dd9cf592ca",
+      "source": "https://i2.cdscdn.com/resources/imagesok/cgu/mkp/cgu_acheteurs_mp_cdiscount.pdf",
+      "category": "http2_redirect_unsupported_in_baseline",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "no_verified_current_body"
+    },
+    {
+      "id": "8ba6733c1f7c791c45491a4f",
+      "catalogueId": "46abde4bf527c5091212a7d0",
+      "source": "https://www.cdiscount.com/vie-privee-et-cookies.html",
+      "category": "static_document_incomplete",
+      "priorReason": "extraction_size_out_of_bounds",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "fresh_http_denial_no_browser_bypass"
+    },
+    {
+      "id": "0bf7df2bd2c0fa86f27e1b35",
+      "catalogueId": "d9ba74dfff538e74fd627e36",
+      "source": "https://www.chayn.co/policies/privacy-policy",
+      "category": "network_dns_or_timeout",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "no_verified_current_body"
+    },
+    {
+      "id": "d25bee115a4c309066b3161d",
+      "catalogueId": "bd4f56015c4123cde8b5205d",
+      "source": "https://www.google.com/chrome/privacy/?hl=en_GB",
+      "category": "declared_source_unavailable",
+      "priorReason": "source_block_or_soft_404",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "source_identity_or_soft404_hold",
+      "staticScopeReasons": [],
+      "staticBodyFile": "d25bee115a4c309066b3161d-direct.body.txt",
+      "staticBodyHash": "2dd6871c010c7e4e161d7df9715fe04a53c1d39cd3017a95a6df834556d53dc3",
+      "staticObservedAt": "2026-11-22T06:29:14.064Z"
+    },
+    {
+      "id": "a11df90ae3ba512f2c013f67",
+      "catalogueId": "28b2ebb8a1111705af4625aa",
+      "source": "https://www.coinbase.com/legal/privacy",
+      "category": "http_access_refused",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "fresh_http_denial_no_browser_bypass"
+    },
+    {
+      "id": "12f5c3c329c165376b4be757",
+      "catalogueId": "aaa180f7147a9466b53acfac",
+      "source": "https://www.coinbase.com/legal/user_agreement/ireland_europe",
+      "category": "http_access_refused",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "fresh_http_denial_no_browser_bypass"
+    },
+    {
+      "id": "25ebcc81dff8a9dca517ec10",
+      "catalogueId": "e7ab9b888038099297f7f907",
+      "source": "https://www.coinbase.com/legal/cookie",
+      "category": "http_access_refused",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "fresh_http_denial_no_browser_bypass"
+    },
+    {
+      "id": "1d1662c5380182dc858284e0",
+      "catalogueId": "227c5e873681285e1c24755c",
+      "source": "https://www.coindesk.com/ethics/",
+      "category": "rate_limit_or_origin_backoff",
+      "priorReason": "origin_backoff",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "fresh_origin_backoff"
+    },
+    {
+      "id": "4bdd0fc1be4f85b958188948",
+      "catalogueId": "c0c0f81500125b3e5007e148",
+      "source": "https://www.coindesk.com/privacy/",
+      "category": "rate_limit_or_origin_backoff",
+      "priorReason": "origin_backoff",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "fresh_origin_backoff"
+    },
+    {
+      "id": "3370acd10a0d3ea49fe34647",
+      "catalogueId": "5dbeb6ac86eca2ccf05df67c",
+      "source": "https://www.coindesk.com/terms/",
+      "category": "rate_limit_or_origin_backoff",
+      "priorReason": "origin_backoff",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "fresh_origin_backoff"
+    },
+    {
+      "id": "14686c55592c3bbe5522073b",
+      "catalogueId": "2eca232c3d8f44203955c57d",
+      "source": "https://about.couchsurfing.com/about/privacy-policy/",
+      "category": "redirect_identity_requires_review",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "no_verified_current_body"
+    },
+    {
+      "id": "b66d9d5432aaebb20bed70f4",
+      "catalogueId": "cd094d158a592d6f8cdc0935",
+      "source": "https://about.couchsurfing.com/about/terms-of-use/",
+      "category": "redirect_identity_requires_review",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "no_verified_current_body"
+    },
+    {
+      "id": "80f92fd76d1145dd6f7a3913",
+      "catalogueId": "d61a023fc5a037d48b1040eb",
+      "source": "https://www.crunchyroll.com/tos/",
+      "category": "static_document_incomplete",
+      "priorReason": "extraction_size_out_of_bounds",
+      "languageExpectation": "unknown",
+      "selected": true,
+      "reason": "script_shell_after_static_failure",
+      "staticScopeReasons": [],
+      "staticBodyFile": "80f92fd76d1145dd6f7a3913-direct.body.txt",
+      "staticBodyHash": "f0196f584dcef1c9053fae534762e3122356a200659b708954a396f733272442",
+      "staticObservedAt": "2026-11-22T06:29:29.780Z"
+    },
+    {
+      "id": "63f3ae08672bbd98b6d76aba",
+      "catalogueId": "bd76b1bd13937359cb63d788",
+      "source": "https://www.dailymail.co.uk/home/article-7759273/Privacy-Cookies-Policy-Policy.html",
+      "category": "redirect_identity_requires_review",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "no_verified_current_body"
+    },
+    {
+      "id": "87d9718a7a67a219d63259e2",
+      "catalogueId": "e27ae46815dcc5e882240d5b",
+      "source": "https://www.dailymail.co.uk/home/article-1388146/Terms.html",
+      "category": "redirect_identity_requires_review",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "no_verified_current_body"
+    },
+    {
+      "id": "b394f14f5ebc6592e3a1f9c2",
+      "catalogueId": "158ffd845d143256722fd3ba",
+      "source": "https://www.bahn.com/en/privacy/privacy-customer",
+      "category": "http_access_refused",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "fresh_http_denial_no_browser_bypass"
+    },
+    {
+      "id": "1194259d7dea8144d95a0d53",
+      "catalogueId": "7b97c8ef885fa6ea9aaecf9a",
+      "source": "https://www.bahn.com/en/terms-of-use/customer-accounts-terms-of-use",
+      "category": "http_access_refused",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "fresh_http_denial_no_browser_bypass"
+    },
+    {
+      "id": "64135059f85bffafc4541e60",
+      "catalogueId": "95bd6f50d1b398bfff14931f",
+      "source": "https://about.deviantart.com/policy/privacy/",
+      "category": "http_access_refused",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "fresh_http_denial_no_browser_bypass"
+    },
+    {
+      "id": "1549957e0124a964383bad40",
+      "catalogueId": "f8a7f035e5ab8765bf26f1f9",
+      "source": "https://about.deviantart.com/policy/service/",
+      "category": "http_access_refused",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "fresh_http_denial_no_browser_bypass"
+    },
+    {
+      "id": "beb5a2f3f99b027ad1d6accf",
+      "catalogueId": "5581d8870353a0d16cda3c61",
+      "source": "https://www.donkey.bike/privacy-policy/",
+      "category": "network_dns_or_timeout",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "no_verified_current_body"
+    },
+    {
+      "id": "95630d244106e5d89d1f8305",
+      "catalogueId": "28bcbb7d86dcb7de6a3a56f6",
+      "source": "https://dune.com/privacy",
+      "category": "http_access_refused",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "fresh_http_denial_no_browser_bypass"
+    },
+    {
+      "id": "fd762ba7aa413eced0b3cbae",
+      "catalogueId": "457118abbc04a5d33b0fbeb6",
+      "source": "https://dune.com/terms",
+      "category": "http_access_refused",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "fresh_http_denial_no_browser_bypass"
+    },
+    {
+      "id": "761b6f7c5ace1e7ef8992eb8",
+      "catalogueId": "99c3bf5ee7915c9d0e264ae2",
+      "source": "https://exponential.com/documents/publisher-code-of-conduct/?wpdmdl=17753",
+      "category": "network_dns_or_timeout",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "no_verified_current_body"
+    },
+    {
+      "id": "ce19a6b6f2b179535a7c4674",
+      "catalogueId": "86a8aa8fc0df518bff67edd0",
+      "source": "https://exponential.com/privacy/",
+      "category": "network_dns_or_timeout",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "no_verified_current_body"
+    },
+    {
+      "id": "8ea525fd5e6cf7b5fbe3f973",
+      "catalogueId": "b0f2c59cc34341708cd74b4a",
+      "source": "https://www.facebook.com/legal/EU_data_transfer_addendum",
+      "category": "static_document_incomplete",
+      "priorReason": "extraction_size_out_of_bounds",
+      "languageExpectation": "unknown",
+      "selected": true,
+      "reason": "script_shell_after_static_failure",
+      "staticScopeReasons": [],
+      "staticBodyFile": "8ea525fd5e6cf7b5fbe3f973-direct.body.txt",
+      "staticBodyHash": "04744048b0a71c912e7e3bbcba407f75a8dd389f75367ef81b72622d22bd69d8",
+      "staticObservedAt": "2026-11-22T06:27:41.825Z"
+    },
+    {
+      "id": "53abe90b3e2596c66b21b556",
+      "catalogueId": "1fc5a2652ad53f761e7a05a1",
+      "source": "https://www.facebook.com/safety/groups/law/guidelines",
+      "category": "redirect_identity_requires_review",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "no_verified_current_body"
+    },
+    {
+      "id": "e42066c6ac83880ad57b5ccd",
+      "catalogueId": "3f4e80908ebefc4610282447",
+      "source": "https://en-gb.facebook.com/policies/live",
+      "category": "static_document_incomplete",
+      "priorReason": "extraction_size_out_of_bounds",
+      "languageExpectation": "unknown",
+      "selected": true,
+      "reason": "script_shell_after_static_failure",
+      "staticScopeReasons": [],
+      "staticBodyFile": "e42066c6ac83880ad57b5ccd-direct.body.txt",
+      "staticBodyHash": "5f6a597ea4a89f1f4636f82aac9fb018cdef8c5f649d74253610ee5a63ac0e38",
+      "staticObservedAt": "2026-11-22T06:29:59.136Z"
+    },
+    {
+      "id": "03bd17118b7f66facbb8140f",
+      "catalogueId": "e9b8bc13a679849ea4d354bd",
+      "source": "https://feddit.de/legal",
+      "category": "declared_source_unavailable",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "fresh_http_denial_no_browser_bypass"
+    },
+    {
+      "id": "6843b3990756884bed16ed5a",
+      "catalogueId": "55f50cfa7da6cb96d419d436",
+      "source": "https://www.forbes.com/privacy/english/#1a05e1630610",
+      "category": "fragment_scope_requires_review",
+      "priorReason": "extraction_size_out_of_bounds",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "no_current_render_signal",
+      "staticScopeReasons": [
+        "fragment_missing"
+      ],
+      "staticBodyFile": "ea46c23ce365f39bb4f27bd1-direct.body.txt",
+      "staticBodyHash": "5833a08ba4f82d1fa2c3f306a1d6d2d2b8067e5a71a28424f1e6d590ff725e3c",
+      "staticObservedAt": "2026-11-22T06:30:05.666Z"
+    },
+    {
+      "id": "bf15a1e96e36117e345ed4ec",
+      "catalogueId": "c8bbb61b436ed5a46c001b10",
+      "source": "https://www.freetaxusa.com/privacy",
+      "category": "http_access_refused",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "fresh_http_denial_no_browser_bypass"
+    },
+    {
+      "id": "36d0572bed18122ab85c3d18",
+      "catalogueId": "113a6b58dec3d40307ff8d21",
+      "source": "https://www.freetaxusa.com/terms",
+      "category": "http_access_refused",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "fresh_http_denial_no_browser_bypass"
+    },
+    {
+      "id": "2d279cc53e6b0cc673d42694",
+      "catalogueId": "d193ee07d04e14b39e194d5f",
+      "source": "https://www.gartner.com/en/about/policies/privacy",
+      "category": "http_access_refused",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "fresh_http_denial_no_browser_bypass"
+    },
+    {
+      "id": "9921828f6350f2c3731d3b8f",
+      "catalogueId": "aebc240b1b757be24a382eec",
+      "source": "https://www.gartner.com/en/about/policies/terms-of-use",
+      "category": "http_access_refused",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "fresh_http_denial_no_browser_bypass"
+    },
+    {
+      "id": "0e5c2d767f6eda333cf57d21",
+      "catalogueId": "ea65cd8da32bcae38ca69128",
+      "source": "https://www.google.com/glass/termsofuse/",
+      "category": "declared_source_unavailable",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "fresh_http_denial_no_browser_bypass"
+    },
+    {
+      "id": "a22a6d32a8b071be79d612a0",
+      "catalogueId": "2dad436b47367e2c3a0bc360",
+      "source": "https://help.glassdoor.com/s/article/Community-Guidelines?language=en_US",
+      "category": "http_access_refused",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "fresh_http_denial_no_browser_bypass"
+    },
+    {
+      "id": "0df88df2bdd9c3b19cbb6813",
+      "catalogueId": "49e29361ba4733b25150df53",
+      "source": "https://www.glassdoor.com/about/terms/",
+      "category": "http_access_refused",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "fresh_http_denial_no_browser_bypass"
+    },
+    {
+      "id": "855afd9d644168f2cc3278fc",
+      "catalogueId": "8e6116330e265c3512471b5d",
+      "source": "https://www.google.com/gmail/about/policy/?hl=en_GB",
+      "category": "declared_source_unavailable",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "fresh_http_denial_no_browser_bypass"
+    },
+    {
+      "id": "1674b9a870c3677afcfb97a1",
+      "catalogueId": "64b9a9050dab2834e4b6b470",
+      "source": "https://gofile.io/privacy",
+      "category": "static_document_incomplete",
+      "priorReason": "extraction_size_out_of_bounds",
+      "languageExpectation": "unknown",
+      "selected": true,
+      "reason": "script_shell_after_static_failure",
+      "staticScopeReasons": [],
+      "staticBodyFile": "1674b9a870c3677afcfb97a1-direct.body.txt",
+      "staticBodyHash": "585ccf7bd8b0802895258eb3d204b0dd4bd36c3fd25e5f0e6f35323eba56b705",
+      "staticObservedAt": "2026-11-22T06:30:30.727Z"
+    },
+    {
+      "id": "33c854b7af3fcb25f78af5c4",
+      "catalogueId": "77fa27de933ec6bbeb6e8c68",
+      "source": "https://gofile.io/terms",
+      "category": "static_document_incomplete",
+      "priorReason": "extraction_size_out_of_bounds",
+      "languageExpectation": "unknown",
+      "selected": true,
+      "reason": "script_shell_after_static_failure",
+      "staticScopeReasons": [],
+      "staticBodyFile": "33c854b7af3fcb25f78af5c4-direct.body.txt",
+      "staticBodyHash": "585ccf7bd8b0802895258eb3d204b0dd4bd36c3fd25e5f0e6f35323eba56b705",
+      "staticObservedAt": "2026-11-22T06:30:32.250Z"
+    },
+    {
+      "id": "5e1e2221ea493dcc16eafccf",
+      "catalogueId": "39b156f6089b5acc4fa73bdd",
+      "source": "https://privacy.google.com/businesses/processorterms/",
+      "category": "redirect_identity_requires_review",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "no_verified_current_body"
+    },
+    {
+      "id": "bb8a5ba301e358f1863782c3",
+      "catalogueId": "6b3c505dfadde5fa58b9d34b",
+      "source": "https://developer.android.com/distribute/marketing-tools/brand-guidelines",
+      "category": "redirect_identity_requires_review",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "no_verified_current_body"
+    },
+    {
+      "id": "1885d37b01aceb2967ebcdbc",
+      "catalogueId": "e181a8a3e04a9f2f123d3649",
+      "source": "https://play.google.com/intl/ALL_en/about/developer-distribution-agreement.html",
+      "category": "redirect_identity_requires_review",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "no_verified_current_body"
+    },
+    {
+      "id": "0a378e4e261197d71bdf570c",
+      "catalogueId": "913c91a4dcf0566c00de4b1b",
+      "source": "https://support.google.com/googleplay/android-developer/answer/11044265?hl=en-IE",
+      "category": "http2_redirect_unsupported_in_baseline",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "no_verified_current_body"
+    },
+    {
+      "id": "8119b33c09ed08350c69b885",
+      "catalogueId": "ae99daa6b7622303f5dddd9d",
+      "source": "https://www.grammarly.com/privacy-policy",
+      "category": "redirect_identity_requires_review",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "no_verified_current_body"
+    },
+    {
+      "id": "190ef478dfc2fe1d5752ec49",
+      "catalogueId": "a89d4de8950da4f48a856111",
+      "source": "https://support.guilded.gg/hc/en-us/articles/360052815873-Community-Guidelines",
+      "category": "http_access_refused",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "fresh_http_denial_no_browser_bypass"
+    },
+    {
+      "id": "74f724caf88eb4636803aba2",
+      "catalogueId": "11363e1c5acb6f09b016c2f2",
+      "source": "https://support.guilded.gg/hc/en-us/articles/360039235054-Privacy",
+      "category": "http_access_refused",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "fresh_http_denial_no_browser_bypass"
+    },
+    {
+      "id": "0ef1b7eff96f9b3d9d6bcf75",
+      "catalogueId": "350c5ad91a939e337f33cb3d",
+      "source": "https://support.guilded.gg/hc/en-us/articles/360039728313-Terms-of-Use",
+      "category": "http_access_refused",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "fresh_http_denial_no_browser_bypass"
+    },
+    {
+      "id": "578ac92471fa94b5bf9eeecb",
+      "catalogueId": "368ba288bd77cf292acd8ca4",
+      "source": "https://hsr.hoyoverse.com/en-us/company/privacy",
+      "category": "static_document_incomplete",
+      "priorReason": "extraction_size_out_of_bounds",
+      "languageExpectation": "unknown",
+      "selected": true,
+      "reason": "script_shell_after_static_failure",
+      "staticScopeReasons": [],
+      "staticBodyFile": "578ac92471fa94b5bf9eeecb-direct.body.txt",
+      "staticBodyHash": "7ca065d83fa6c49db55b5a63c92c5faa09236dfd2773b70a0fbf40a3827eb702",
+      "staticObservedAt": "2026-11-22T06:30:44.174Z"
+    },
+    {
+      "id": "b085bf775aaaebc0190d5be7",
+      "catalogueId": "029222ccab8f318c58fe6fbc",
+      "source": "https://hsr.hoyoverse.com/en-us/company/terms",
+      "category": "static_document_incomplete",
+      "priorReason": "extraction_size_out_of_bounds",
+      "languageExpectation": "unknown",
+      "selected": true,
+      "reason": "script_shell_after_static_failure",
+      "staticScopeReasons": [],
+      "staticBodyFile": "b085bf775aaaebc0190d5be7-direct.body.txt",
+      "staticBodyHash": "7ca065d83fa6c49db55b5a63c92c5faa09236dfd2773b70a0fbf40a3827eb702",
+      "staticObservedAt": "2026-11-22T06:30:45.857Z"
+    },
+    {
+      "id": "92ecd8ab6801b44b6c4ec91b",
+      "catalogueId": "c26f1e30ba0ebe5f1b79eb41",
+      "source": "https://help.instagram.com/477434105621119",
+      "category": "redirect_identity_requires_review",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "no_verified_current_body"
+    },
+    {
+      "id": "2a5d4e524a1c82a45d6c967f",
+      "catalogueId": "ad36106b117ccf18337199ed",
+      "source": "https://help.instagram.com/494561080557017",
+      "category": "static_document_incomplete",
+      "priorReason": "extraction_size_out_of_bounds",
+      "languageExpectation": "unknown",
+      "selected": true,
+      "reason": "script_shell_after_static_failure",
+      "staticScopeReasons": [],
+      "staticBodyFile": "2a5d4e524a1c82a45d6c967f-direct.body.txt",
+      "staticBodyHash": "a01c2c4be9dfebd26cf488e6d8973a1e1f655a7ccc0d674aca2ec5448bb2ec11",
+      "staticObservedAt": "2026-11-22T06:30:53.455Z"
+    },
+    {
+      "id": "5baea185ea55fc1e54196f45",
+      "catalogueId": "910762446761229e36705d9e",
+      "source": "https://privacycenter.instagram.com/policy/",
+      "category": "static_document_incomplete",
+      "priorReason": "extraction_size_out_of_bounds",
+      "languageExpectation": "unknown",
+      "selected": true,
+      "reason": "script_shell_after_static_failure",
+      "staticScopeReasons": [],
+      "staticBodyFile": "5baea185ea55fc1e54196f45-direct.body.txt",
+      "staticBodyHash": "6ebbcc4817a3e1acd7b78cfb321399295105f2dbaec50cc484b2a2d94c6200d9",
+      "staticObservedAt": "2026-11-22T06:30:59.242Z"
+    },
+    {
+      "id": "e20a3fb155336ffb80cac60b",
+      "catalogueId": "e3661d8e1cc574037501052c",
+      "source": "https://help.instagram.com/581066165581870",
+      "category": "static_document_incomplete",
+      "priorReason": "extraction_size_out_of_bounds",
+      "languageExpectation": "unknown",
+      "selected": true,
+      "reason": "script_shell_after_static_failure",
+      "staticScopeReasons": [],
+      "staticBodyFile": "e20a3fb155336ffb80cac60b-direct.body.txt",
+      "staticBodyHash": "42efe5b0b8ecc576e877d55b45d628a398e4ba59031a6b7344f586b9de3b4562",
+      "staticObservedAt": "2026-11-22T06:30:56.042Z"
+    },
+    {
+      "id": "0d7ebc7e133377b46752fcbd",
+      "catalogueId": "a13e62772432ec6be135c04b",
+      "source": "https://interstellarlab.com/legal/privacy-policy",
+      "category": "rate_limit_or_origin_backoff",
+      "priorReason": "origin_backoff",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "fresh_origin_backoff"
+    },
+    {
+      "id": "9c8b8515b903524b477e36cd",
+      "catalogueId": "0f41d10b414139a2959b7e8a",
+      "source": "https://kbin.social/privacy-policy",
+      "category": "network_dns_or_timeout",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "no_verified_current_body"
+    },
+    {
+      "id": "c586efb7f23efc5b5795148f",
+      "catalogueId": "6fca872436b86a386cf5c226",
+      "source": "https://kbin.social/terms",
+      "category": "network_dns_or_timeout",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "no_verified_current_body"
+    },
+    {
+      "id": "4186212a99f542693513ded6",
+      "catalogueId": "e1f07012c9a35543d965cfaf",
+      "source": "https://kimcartoon.li/Message/PrivacyPolicy",
+      "category": "network_dns_or_timeout",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "no_verified_current_body"
+    },
+    {
+      "id": "1204ab350a57491228783934",
+      "catalogueId": "efba6cfccf3de393da4f87a0",
+      "source": "https://www.kraken.com/en-us/legal#complete-tos",
+      "category": "fragment_scope_requires_review",
+      "priorReason": "extraction_size_out_of_bounds",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "source_identity_or_soft404_hold",
+      "staticScopeReasons": [
+        "path_identity_unreviewed",
+        "fragment_missing"
+      ],
+      "staticBodyFile": "adbd2466a4febf937e9a73ab-direct.body.txt",
+      "staticBodyHash": "675f4ad24c06cdf9bd266c8b87fc0451e2a875ab2a516b1a31a2536e9bf23127",
+      "staticObservedAt": "2026-11-22T06:31:08.791Z"
+    },
+    {
+      "id": "546fe5c86d2f56edb307daf2",
+      "catalogueId": "7219dbcca5b14b3bf66e5034",
+      "source": "https://terms.line.me/line_rules/?lang=en",
+      "category": "redirect_identity_requires_review",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "no_verified_current_body"
+    },
+    {
+      "id": "b6c4367c4b2e23acdab3b5a0",
+      "catalogueId": "44961624d011d97938fb73fd",
+      "source": "https://www.librarything.com/privacy",
+      "category": "http_access_refused",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "fresh_http_denial_no_browser_bypass"
+    },
+    {
+      "id": "4c8ee10581401538f6fcb77c",
+      "catalogueId": "978640d29119f68298233035",
+      "source": "https://corp.lingualeo.com/terms-of-use-en/",
+      "category": "network_dns_or_timeout",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "no_verified_current_body"
+    },
+    {
+      "id": "578d8ad0412cc7569b8b54ae",
+      "catalogueId": "10d0e3474da15dfb7cf132bd",
+      "source": "https://www.lyft.com/privacy",
+      "category": "http_access_refused",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "fresh_http_denial_no_browser_bypass"
+    },
+    {
+      "id": "213ae6154638ebdbcd471cf9",
+      "catalogueId": "983991b2bbeff7463cff174e",
+      "source": "https://www.lyft.com/terms",
+      "category": "http_access_refused",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "fresh_http_denial_no_browser_bypass"
+    },
+    {
+      "id": "a312c951f6b519e3507505ba",
+      "catalogueId": "8dcf170b1e020f54723d05a8",
+      "source": "https://www.mailjet.com/legal/dpa/",
+      "category": "network_dns_or_timeout",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "no_verified_current_body"
+    },
+    {
+      "id": "e7674bac5d2a5121f4aab7d8",
+      "catalogueId": "37b32b760c0c2028ad27a6cf",
+      "source": "https://www.mailjet.com/legal/privacy-policy/cookies/",
+      "category": "network_dns_or_timeout",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "fresh_http_denial_no_browser_bypass"
+    },
+    {
+      "id": "9c41867d6c07dc6a361f1703",
+      "catalogueId": "322d4032820985ac4e91791d",
+      "source": "https://uk.match.com/pages/misc/privacy",
+      "category": "http_access_refused",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "fresh_http_denial_no_browser_bypass"
+    },
+    {
+      "id": "af9d2a17500f0f9ec01d1331",
+      "catalogueId": "6c341a5afa429478fa88a684",
+      "source": "https://uk.match.com/pages/misc/cge",
+      "category": "http_access_refused",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "fresh_http_denial_no_browser_bypass"
+    },
+    {
+      "id": "e220bc2d10b3340594159c82",
+      "catalogueId": "aa91e4a82f1d837894ca2a5c",
+      "source": "https://help.meetup.com/hc/en-us/articles/360044422391",
+      "category": "http_access_refused",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "fresh_http_denial_no_browser_bypass"
+    },
+    {
+      "id": "0890c85cfc3f26776fd1ebab",
+      "catalogueId": "14f5e897b9c3692dc501eb82",
+      "source": "https://help.meetup.com/hc/en-us/articles/360027447252",
+      "category": "http_access_refused",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "fresh_http_denial_no_browser_bypass"
+    },
+    {
+      "id": "f11e5b9cc72c14f751cea69a",
+      "catalogueId": "06677c6cb5daca125e998f5a",
+      "source": "https://www.mouthshut.com/help/privacy.php",
+      "category": "http_access_refused",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "fresh_http_denial_no_browser_bypass"
+    },
+    {
+      "id": "f6b28db62e2048862228bdaa",
+      "catalogueId": "cb6d05bafb6f7fb257a0a573",
+      "source": "https://www.mouthshut.com/help/tos.php",
+      "category": "http_access_refused",
+      "priorReason": "transport_rejected",
+      "languageExpectation": "unknown",
+      "selected": false,
+      "reason": "fresh_http_denial_no_browser_bypass"
+    }
+  ],
+  "privateOriginalPlanSha256": "aa9d1587c1b1fa7bac995be5bb826ef9f2d85bf4318a8ef4b87f81cc2b3cea2c",
+  "rendererEndpointSha256": "e8151577692f4ffd1c49d0b212b80c3dcc21ad2619f0d46c9ff61da23dc81824",
+  "rendererOriginSha256": "e8151577692f4ffd1c49d0b212b80c3dcc21ad2619f0d46c9ff61da23dc81824"
+}

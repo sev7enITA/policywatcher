@@ -1,0 +1,261 @@
+{
+  "boundary": "Only bodies bound to this fresh static report are considered; old16/21November DOM never supplies rendering signals.",
+  "rows": [
+    {
+      "source": "https://www.facebook.com/legal/ai-terms",
+      "bodyFile": "b6bd617099cd8579eb61df3e-direct.body.txt",
+      "expectedHash": "ff06f9c58acf7e7eb5724d18a028c1ced63e4e35867737c4bdc41d76fb75b2f5",
+      "actualHash": "ff06f9c58acf7e7eb5724d18a028c1ced63e4e35867737c4bdc41d76fb75b2f5",
+      "observedAt": "2026-11-22T06:27:39.258Z",
+      "verified": true
+    },
+    {
+      "source": "https://www.asus.com/content/asus-product-security-advisory/",
+      "bodyFile": "8bd561539c7f417595b1e9fe-direct.body.txt",
+      "expectedHash": "7f1439ab5af4c86c33dc93f23cd3839672cd227a6a530a462cd929c769568198",
+      "actualHash": "7f1439ab5af4c86c33dc93f23cd3839672cd227a6a530a462cd929c769568198",
+      "observedAt": "2026-11-22T06:27:47.484Z",
+      "verified": true
+    },
+    {
+      "source": "https://rule.alibaba.com/rule/detail/6391.htm",
+      "bodyFile": "d99c8df7541b61ffd5227ce8-direct.body.txt",
+      "expectedHash": "087d0dc33fb83cec19d2d8b4d1fcfe28daff3986863ecc26de357d731111ca1a",
+      "actualHash": "087d0dc33fb83cec19d2d8b4d1fcfe28daff3986863ecc26de357d731111ca1a",
+      "observedAt": "2026-11-22T06:28:12.890Z",
+      "verified": true
+    },
+    {
+      "source": "https://rulechannel.alibaba.com/icbu?type=detail&ruleId=2034&cId=1306#/rule/detail?cId=1306&ruleId=2034",
+      "bodyFile": "9ffc5723b0a4ed864ccfd294-direct.body.txt",
+      "expectedHash": "10e10c06ae8da5b4992f6a7bb007d11d5aade2358753ac02f372bf0f6f549466",
+      "actualHash": "10e10c06ae8da5b4992f6a7bb007d11d5aade2358753ac02f372bf0f6f549466",
+      "observedAt": "2026-11-22T06:28:13.005Z",
+      "verified": true
+    },
+    {
+      "source": "https://rulechannel.alibaba.com/icbu?type=detail&ruleId=2041&cId=1307#/rule/detail?cId=1307&ruleId=2041",
+      "bodyFile": "489b280c8cbf9f2ac7d780ae-direct.body.txt",
+      "expectedHash": "232b9859354844886f4b3c8647bff49ecf7c3fb72cb190f1e2cbfbc303e17276",
+      "actualHash": "232b9859354844886f4b3c8647bff49ecf7c3fb72cb190f1e2cbfbc303e17276",
+      "observedAt": "2026-11-22T06:28:15.511Z",
+      "verified": true
+    },
+    {
+      "source": "https://advertising.amazon.com/resources/ad-policy/creative-acceptance",
+      "bodyFile": "52de32e375e7b1bbcc101882-direct.body.txt",
+      "expectedHash": "557c5c131bfdeba91bf4963d34e8a35832c6592b16fabc5be86e06bb0adb6317",
+      "actualHash": "557c5c131bfdeba91bf4963d34e8a35832c6592b16fabc5be86e06bb0adb6317",
+      "observedAt": "2026-11-22T06:28:18.045Z",
+      "verified": true
+    },
+    {
+      "source": "https://www.amazon.co.uk/gp/help/customer/display.html/?nodeId=201909010&ref_=a20m_us_fnav_l_prvcy_gb",
+      "bodyFile": "9343242cf2e8257a8aa06d05-direct.body.txt",
+      "expectedHash": "1e5482688980458bf272a7e8179f2ab4ebb388990dceeddbace2c89c743aa518",
+      "actualHash": "1e5482688980458bf272a7e8179f2ab4ebb388990dceeddbace2c89c743aa518",
+      "observedAt": "2026-11-22T06:28:19.723Z",
+      "verified": true
+    },
+    {
+      "source": "https://www.apple.com/legal/internet-services/itunes/gamecenter/uk/terms.html",
+      "bodyFile": "210283a1080718a09328a995-direct.body.txt",
+      "expectedHash": "91f686a6c3f60237b8183f34b358db7074717125c13d280222333b57c7180c3f",
+      "actualHash": "91f686a6c3f60237b8183f34b358db7074717125c13d280222333b57c7180c3f",
+      "observedAt": "2026-11-22T06:28:30.582Z",
+      "verified": true
+    },
+    {
+      "source": "https://www.bred.fr/medias/pdf/informations-reglementaires/convention-bredacces.pdf",
+      "bodyFile": "692f3b4239fbfcf08f3fd8d6-direct.body.txt",
+      "expectedHash": "36155769ce1cf79a34555aed91d3cd12cf65d589bfd839a589f8fdb4276b6920",
+      "actualHash": "36155769ce1cf79a34555aed91d3cd12cf65d589bfd839a589f8fdb4276b6920",
+      "observedAt": "2026-11-22T06:28:34.445Z",
+      "verified": true
+    },
+    {
+      "source": "https://www.bankid.com/en/integritetspolicy",
+      "bodyFile": "d6e1908a61f3965291851f9e-direct.body.txt",
+      "expectedHash": "f5403a1e2b3d51829c0cd9159e17e47e398ed6a42716f83f4f24906cebc6a2bb",
+      "actualHash": "f5403a1e2b3d51829c0cd9159e17e47e398ed6a42716f83f4f24906cebc6a2bb",
+      "observedAt": "2026-11-22T06:28:36.192Z",
+      "verified": true
+    },
+    {
+      "source": "https://www.bankid.com/en/terms-of-use-bankid-mobile-application",
+      "bodyFile": "9938bdceee6a3c2aa97df7ab-direct.body.txt",
+      "expectedHash": "1c79733b53d0d3e96fa38cb06bd5498b101adcb9c46d67ad988225440c155c9b",
+      "actualHash": "1c79733b53d0d3e96fa38cb06bd5498b101adcb9c46d67ad988225440c155c9b",
+      "observedAt": "2026-11-22T06:28:37.871Z",
+      "verified": true
+    },
+    {
+      "source": "https://www.binance.com/en/privacy",
+      "bodyFile": "03a08e5f26b7443df60e850e-http2.body.txt",
+      "expectedHash": "3974a339eda20cb02eb51ec25fd013b69d22c010b2c51497eefd17b04e4ccfef",
+      "actualHash": "3974a339eda20cb02eb51ec25fd013b69d22c010b2c51497eefd17b04e4ccfef",
+      "observedAt": "2026-11-22T06:28:42.909Z",
+      "verified": true
+    },
+    {
+      "source": "https://www.binance.com/en/terms",
+      "bodyFile": "546bec401451d4f339d5ddc4-http2.body.txt",
+      "expectedHash": "d069130119078b79a6f840a8a04efd4906d51c5f19b14bef4472864ea7979bc6",
+      "actualHash": "d069130119078b79a6f840a8a04efd4906d51c5f19b14bef4472864ea7979bc6",
+      "observedAt": "2026-11-22T06:28:47.436Z",
+      "verified": true
+    },
+    {
+      "source": "https://bolt.eu/en/legal/ie/privacy-for-drivers/",
+      "bodyFile": "f2cbf04cfd069911fcf9c05a-http2.body.txt",
+      "expectedHash": "c3529355b3794972ffadd39ae72c6354ec632bd6725b061108e7b16e5d1e223f",
+      "actualHash": "c3529355b3794972ffadd39ae72c6354ec632bd6725b061108e7b16e5d1e223f",
+      "observedAt": "2026-11-22T06:28:52.243Z",
+      "verified": true
+    },
+    {
+      "source": "https://bolt.eu/en/legal/ie/terms-for-drivers/",
+      "bodyFile": "19d3021363a03ff28eb0fe91-http2.body.txt",
+      "expectedHash": "5fda695439d7ffb2fd2293033002a0700c68c17daa9aff1c6f65d71d5496d58b",
+      "actualHash": "5fda695439d7ffb2fd2293033002a0700c68c17daa9aff1c6f65d71d5496d58b",
+      "observedAt": "2026-11-22T06:28:56.962Z",
+      "verified": true
+    },
+    {
+      "source": "https://bolt.eu/en/legal/ie/privacy-for-riders/",
+      "bodyFile": "a48a406e3bb5135e86d82b41-http2.body.txt",
+      "expectedHash": "5530106d3f5a263a4f030e21217d43665691cdde5069ce92fd7d0e0b01c6d8a5",
+      "actualHash": "5530106d3f5a263a4f030e21217d43665691cdde5069ce92fd7d0e0b01c6d8a5",
+      "observedAt": "2026-11-22T06:29:01.707Z",
+      "verified": true
+    },
+    {
+      "source": "https://bolt.eu/en/legal/ie/terms-for-riders/",
+      "bodyFile": "5a69d8c484ddaac7ad326140-http2.body.txt",
+      "expectedHash": "a71d3fd6189f93cce864507f3ee632069e3cd14adbd612f0dfa9d6c9529c8a0a",
+      "actualHash": "a71d3fd6189f93cce864507f3ee632069e3cd14adbd612f0dfa9d6c9529c8a0a",
+      "observedAt": "2026-11-22T06:29:06.427Z",
+      "verified": true
+    },
+    {
+      "source": "https://www.wildskymedia.com/privacy-policy/",
+      "bodyFile": "0506aa726273a8600418688b-http2.body.txt",
+      "expectedHash": "ebc160bc190c5af498c4881b7c0baf713981c8ad8a55d2c556e040e86fd1e34b",
+      "actualHash": "ebc160bc190c5af498c4881b7c0baf713981c8ad8a55d2c556e040e86fd1e34b",
+      "observedAt": "2026-11-22T06:29:02.700Z",
+      "verified": true
+    },
+    {
+      "source": "https://www.wildskymedia.com/terms-of-service/",
+      "bodyFile": "e775ba208468c85a28189e5c-http2.body.txt",
+      "expectedHash": "ebc160bc190c5af498c4881b7c0baf713981c8ad8a55d2c556e040e86fd1e34b",
+      "actualHash": "ebc160bc190c5af498c4881b7c0baf713981c8ad8a55d2c556e040e86fd1e34b",
+      "observedAt": "2026-11-22T06:29:07.478Z",
+      "verified": true
+    },
+    {
+      "source": "https://www.google.com/chrome/privacy/?hl=en_GB",
+      "bodyFile": "d25bee115a4c309066b3161d-direct.body.txt",
+      "expectedHash": "2dd6871c010c7e4e161d7df9715fe04a53c1d39cd3017a95a6df834556d53dc3",
+      "actualHash": "2dd6871c010c7e4e161d7df9715fe04a53c1d39cd3017a95a6df834556d53dc3",
+      "observedAt": "2026-11-22T06:29:14.064Z",
+      "verified": true
+    },
+    {
+      "source": "https://www.crunchyroll.com/tos/",
+      "bodyFile": "80f92fd76d1145dd6f7a3913-direct.body.txt",
+      "expectedHash": "f0196f584dcef1c9053fae534762e3122356a200659b708954a396f733272442",
+      "actualHash": "f0196f584dcef1c9053fae534762e3122356a200659b708954a396f733272442",
+      "observedAt": "2026-11-22T06:29:29.780Z",
+      "verified": true
+    },
+    {
+      "source": "https://www.facebook.com/legal/EU_data_transfer_addendum",
+      "bodyFile": "8ea525fd5e6cf7b5fbe3f973-direct.body.txt",
+      "expectedHash": "04744048b0a71c912e7e3bbcba407f75a8dd389f75367ef81b72622d22bd69d8",
+      "actualHash": "04744048b0a71c912e7e3bbcba407f75a8dd389f75367ef81b72622d22bd69d8",
+      "observedAt": "2026-11-22T06:27:41.825Z",
+      "verified": true
+    },
+    {
+      "source": "https://en-gb.facebook.com/policies/live",
+      "bodyFile": "e42066c6ac83880ad57b5ccd-direct.body.txt",
+      "expectedHash": "5f6a597ea4a89f1f4636f82aac9fb018cdef8c5f649d74253610ee5a63ac0e38",
+      "actualHash": "5f6a597ea4a89f1f4636f82aac9fb018cdef8c5f649d74253610ee5a63ac0e38",
+      "observedAt": "2026-11-22T06:29:59.136Z",
+      "verified": true
+    },
+    {
+      "source": "https://www.forbes.com/privacy/english/#1a05e1630610",
+      "bodyFile": "ea46c23ce365f39bb4f27bd1-direct.body.txt",
+      "expectedHash": "5833a08ba4f82d1fa2c3f306a1d6d2d2b8067e5a71a28424f1e6d590ff725e3c",
+      "actualHash": "5833a08ba4f82d1fa2c3f306a1d6d2d2b8067e5a71a28424f1e6d590ff725e3c",
+      "observedAt": "2026-11-22T06:30:05.666Z",
+      "verified": true
+    },
+    {
+      "source": "https://gofile.io/privacy",
+      "bodyFile": "1674b9a870c3677afcfb97a1-direct.body.txt",
+      "expectedHash": "585ccf7bd8b0802895258eb3d204b0dd4bd36c3fd25e5f0e6f35323eba56b705",
+      "actualHash": "585ccf7bd8b0802895258eb3d204b0dd4bd36c3fd25e5f0e6f35323eba56b705",
+      "observedAt": "2026-11-22T06:30:30.727Z",
+      "verified": true
+    },
+    {
+      "source": "https://gofile.io/terms",
+      "bodyFile": "33c854b7af3fcb25f78af5c4-direct.body.txt",
+      "expectedHash": "585ccf7bd8b0802895258eb3d204b0dd4bd36c3fd25e5f0e6f35323eba56b705",
+      "actualHash": "585ccf7bd8b0802895258eb3d204b0dd4bd36c3fd25e5f0e6f35323eba56b705",
+      "observedAt": "2026-11-22T06:30:32.250Z",
+      "verified": true
+    },
+    {
+      "source": "https://hsr.hoyoverse.com/en-us/company/privacy",
+      "bodyFile": "578ac92471fa94b5bf9eeecb-direct.body.txt",
+      "expectedHash": "7ca065d83fa6c49db55b5a63c92c5faa09236dfd2773b70a0fbf40a3827eb702",
+      "actualHash": "7ca065d83fa6c49db55b5a63c92c5faa09236dfd2773b70a0fbf40a3827eb702",
+      "observedAt": "2026-11-22T06:30:44.174Z",
+      "verified": true
+    },
+    {
+      "source": "https://hsr.hoyoverse.com/en-us/company/terms",
+      "bodyFile": "b085bf775aaaebc0190d5be7-direct.body.txt",
+      "expectedHash": "7ca065d83fa6c49db55b5a63c92c5faa09236dfd2773b70a0fbf40a3827eb702",
+      "actualHash": "7ca065d83fa6c49db55b5a63c92c5faa09236dfd2773b70a0fbf40a3827eb702",
+      "observedAt": "2026-11-22T06:30:45.857Z",
+      "verified": true
+    },
+    {
+      "source": "https://help.instagram.com/494561080557017",
+      "bodyFile": "2a5d4e524a1c82a45d6c967f-direct.body.txt",
+      "expectedHash": "a01c2c4be9dfebd26cf488e6d8973a1e1f655a7ccc0d674aca2ec5448bb2ec11",
+      "actualHash": "a01c2c4be9dfebd26cf488e6d8973a1e1f655a7ccc0d674aca2ec5448bb2ec11",
+      "observedAt": "2026-11-22T06:30:53.455Z",
+      "verified": true
+    },
+    {
+      "source": "https://privacycenter.instagram.com/policy/",
+      "bodyFile": "5baea185ea55fc1e54196f45-direct.body.txt",
+      "expectedHash": "6ebbcc4817a3e1acd7b78cfb321399295105f2dbaec50cc484b2a2d94c6200d9",
+      "actualHash": "6ebbcc4817a3e1acd7b78cfb321399295105f2dbaec50cc484b2a2d94c6200d9",
+      "observedAt": "2026-11-22T06:30:59.242Z",
+      "verified": true
+    },
+    {
+      "source": "https://help.instagram.com/581066165581870",
+      "bodyFile": "e20a3fb155336ffb80cac60b-direct.body.txt",
+      "expectedHash": "42efe5b0b8ecc576e877d55b45d628a398e4ba59031a6b7344f586b9de3b4562",
+      "actualHash": "42efe5b0b8ecc576e877d55b45d628a398e4ba59031a6b7344f586b9de3b4562",
+      "observedAt": "2026-11-22T06:30:56.042Z",
+      "verified": true
+    },
+    {
+      "source": "https://www.kraken.com/en-us/legal#complete-tos",
+      "bodyFile": "adbd2466a4febf937e9a73ab-direct.body.txt",
+      "expectedHash": "675f4ad24c06cdf9bd266c8b87fc0451e2a875ab2a516b1a31a2536e9bf23127",
+      "actualHash": "675f4ad24c06cdf9bd266c8b87fc0451e2a875ab2a516b1a31a2536e9bf23127",
+      "observedAt": "2026-11-22T06:31:08.791Z",
+      "verified": true
+    }
+  ]
+}

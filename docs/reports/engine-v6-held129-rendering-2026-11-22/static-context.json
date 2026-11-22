@@ -1,0 +1,6 @@
+{
+  "sourceRevision": "c96b4f08fc93e6a35acb1acda30122f894f53a39",
+  "bundleSha256": "d52c98b036af2e73ea27724d4862d3fa9e4c10d28a85f1aa60f29119d5ed5db4",
+  "catalogueSha256": "780a56d5fe71b6d99fe8b7baac5f88e387383d8428655755633e6b929ccf9f30",
+  "boundary": "129 scopes; isolated target-host acquisition/extraction; three workers/one per origin; no models, contracts, DB policy writes, publication or notifications; serial rendering later if justified"
+}

@@ -1,0 +1,10 @@
+{
+  "files": {
+    "static-probe.cjs": "d52c98b036af2e73ea27724d4862d3fa9e4c10d28a85f1aa60f29119d5ed5db4",
+    "catalogue-129.json": "780a56d5fe71b6d99fe8b7baac5f88e387383d8428655755633e6b929ccf9f30",
+    "static-context.json": "dd57fa6c1051fcd4af9f950c7264536e21b18c51a7fe9dd5a801e9a1e8db4059",
+    "output/static/report.json": "70dc48766256de6e6fa9c1dd373b04f92d1ea0d30c168a53e122e77e8004ab9d"
+  },
+  "isolatedDatabaseTables": [],
+  "databaseIntegrity": "ok"
+}

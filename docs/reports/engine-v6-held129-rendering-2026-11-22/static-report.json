@@ -1,0 +1,5019 @@
+{
+  "startedAt": "2026-11-22T06:27:38.309Z",
+  "completedAt": "2026-11-22T06:31:49.069Z",
+  "durationMs": 250760,
+  "sourceCommit": "c96b4f08fc93e6a35acb1acda30122f894f53a39",
+  "catalogueHash": "780a56d5fe71b6d99fe8b7baac5f88e387383d8428655755633e6b929ccf9f30",
+  "boundary": "Configured catalogue acquisition/extraction; 3 workers, one request per origin at a time, 1.5s pacing, origin held after 429/503. No models, renderer, contracts, production DB or delivery. Does not establish 500 qualified daily completions or full-pipeline host capacity.",
+  "runtime": {
+    "node": "v24.22.3",
+    "platform": "linux",
+    "architecture": "x64"
+  },
+  "configuredPolicies": 129,
+  "retrievalScopes": 129,
+  "httpEndpoints": 129,
+  "origins": 69,
+  "completedEndpoints": 129,
+  "attempts": 228,
+  "successfulEndpoints": 27,
+  "extractedScopes": 0,
+  "sourceCompletenessQualified": false,
+  "productionQualified": false,
+  "endpointDurationMs": {
+    "p50": 3079,
+    "p95": 7671
+  },
+  "rows": [
+    {
+      "id": "b6bd617099cd8579eb61df3e",
+      "url": "https://www.facebook.com/legal/ai-terms",
+      "durationMs": 1232,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:27:39.258Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://www.facebook.com/legal/ai-terms",
+          "drift": false,
+          "durationMs": 941,
+          "validators": {
+            "vary": "Accept-Encoding",
+            "cacheControl": "private, no-cache, no-store, must-revalidate",
+            "serverDate": "Sun, 22 Nov 2026 06:27:38 GMT"
+          },
+          "bodyBytes": 476764,
+          "bodyHash": "ff06f9c58acf7e7eb5724d18a028c1ced63e4e35867737c4bdc41d76fb75b2f5",
+          "bodyFile": "b6bd617099cd8579eb61df3e-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.facebook.com/legal/ai-terms",
+          "state": "held",
+          "extraction": "rejected",
+          "reason": "extraction_size_out_of_bounds"
+        }
+      ]
+    },
+    {
+      "id": "b2b9a6958c3a471c748c907d",
+      "url": "https://ask.fm/docs/privacy_policy/?lang=en",
+      "durationMs": 3062,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:27:38.365Z",
+          "durationMs": 60,
+          "error": "dns_lookup_failed"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:27:39.879Z",
+          "status": 0,
+          "ok": false,
+          "finalUrl": "https://ask.fm/docs/privacy_policy/?lang=en",
+          "drift": false,
+          "durationMs": 2,
+          "bodyBytes": 0,
+          "bodyHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bodyFile": null,
+          "error": "dns_lookup_failed"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://ask.fm/docs/privacy_policy/?lang=en",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "87c9526a37054d6e2919443f",
+      "url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=GX7NJQ4ZB8MHFRNJ",
+      "durationMs": 3438,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:27:38.563Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://www.amazon.com/gp/help/customer/display.html?nodeId=GX7NJQ4ZB8MHFRNJ",
+          "drift": false,
+          "durationMs": 253,
+          "validators": {
+            "vary": "User-Agent,Accept-Encoding",
+            "cacheControl": "no-cache",
+            "serverDate": "Sun, 22 Nov 2026 06:27:38 GMT"
+          },
+          "bodyBytes": 2296,
+          "bodyHash": "34c92fb4c6351b94e5cc16f68bb483b0fcda57ee7c43887214005b87d1888d3a",
+          "bodyFile": "87c9526a37054d6e2919443f-direct.body.txt",
+          "error": "http_403"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:27:40.248Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://www.amazon.com/gp/help/customer/display.html?nodeId=GX7NJQ4ZB8MHFRNJ",
+          "drift": false,
+          "durationMs": 185,
+          "bodyBytes": 2319,
+          "bodyHash": "abeb2137f14f1973cb5949a7ea52daf3d9cb22e85cc8d8abd7e0bbff114f1048",
+          "bodyFile": "87c9526a37054d6e2919443f-http2.body.txt",
+          "error": "h2_status_403"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.amazon.com/gp/help/customer/display.html?nodeId=GX7NJQ4ZB8MHFRNJ",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "8ea525fd5e6cf7b5fbe3f973",
+      "url": "https://www.facebook.com/legal/EU_data_transfer_addendum",
+      "durationMs": 895,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:27:41.825Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://www.facebook.com/legal/EU_data_transfer_addendum",
+          "drift": false,
+          "durationMs": 773,
+          "validators": {
+            "vary": "Accept-Encoding",
+            "cacheControl": "private, no-cache, no-store, must-revalidate",
+            "serverDate": "Sun, 22 Nov 2026 06:27:41 GMT"
+          },
+          "bodyBytes": 456606,
+          "bodyHash": "04744048b0a71c912e7e3bbcba407f75a8dd389f75367ef81b72622d22bd69d8",
+          "bodyFile": "8ea525fd5e6cf7b5fbe3f973-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.facebook.com/legal/EU_data_transfer_addendum",
+          "state": "held",
+          "extraction": "rejected",
+          "reason": "extraction_size_out_of_bounds"
+        }
+      ]
+    },
+    {
+      "id": "ff6af8f52e7f6dede9fa4db1",
+      "url": "https://about.ask.fm/legal/en/terms.html",
+      "durationMs": 3050,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:27:42.928Z",
+          "durationMs": 47,
+          "error": "dns_lookup_failed"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:27:44.430Z",
+          "status": 0,
+          "ok": false,
+          "finalUrl": "https://about.ask.fm/legal/en/terms.html",
+          "drift": false,
+          "durationMs": 1,
+          "bodyBytes": 0,
+          "bodyHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bodyFile": null,
+          "error": "dns_lookup_failed"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://about.ask.fm/legal/en/terms.html",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "98504fb750669afe06a00b0d",
+      "url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=201809740",
+      "durationMs": 3351,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:27:43.421Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://www.amazon.com/gp/help/customer/display.html?nodeId=201809740",
+          "drift": false,
+          "durationMs": 172,
+          "validators": {
+            "vary": "User-Agent,Accept-Encoding",
+            "cacheControl": "no-cache",
+            "serverDate": "Sun, 22 Nov 2026 06:27:43 GMT"
+          },
+          "bodyBytes": 2296,
+          "bodyHash": "34c92fb4c6351b94e5cc16f68bb483b0fcda57ee7c43887214005b87d1888d3a",
+          "bodyFile": "98504fb750669afe06a00b0d-direct.body.txt",
+          "error": "http_403"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:27:45.100Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://www.amazon.com/gp/help/customer/display.html?nodeId=201809740",
+          "drift": false,
+          "durationMs": 178,
+          "bodyBytes": 2319,
+          "bodyHash": "abeb2137f14f1973cb5949a7ea52daf3d9cb22e85cc8d8abd7e0bbff114f1048",
+          "bodyFile": "98504fb750669afe06a00b0d-http2.body.txt",
+          "error": "h2_status_403"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.amazon.com/gp/help/customer/display.html?nodeId=201809740",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "53abe90b3e2596c66b21b556",
+      "url": "https://www.facebook.com/safety/groups/law/guidelines",
+      "durationMs": 3147,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:27:43.532Z",
+          "durationMs": 61,
+          "error": "host_drift"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:27:45.118Z",
+          "status": 302,
+          "ok": false,
+          "finalUrl": "https://www.facebook.com/safety/groups/law/guidelines",
+          "drift": false,
+          "durationMs": 86,
+          "bodyBytes": 0,
+          "bodyHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bodyFile": null,
+          "error": "host_drift"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.facebook.com/safety/groups/law/guidelines",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "8bd561539c7f417595b1e9fe",
+      "url": "https://www.asus.com/content/asus-product-security-advisory/",
+      "durationMs": 189,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:27:47.484Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://www.asus.com/content/asus-product-security-advisory/",
+          "drift": false,
+          "durationMs": 52,
+          "validators": {
+            "vary": "Accept-Encoding,Accept-Encoding",
+            "serverDate": "Sun, 22 Nov 2026 05:59:43 GMT",
+            "age": "1684"
+          },
+          "bodyBytes": 295038,
+          "bodyHash": "7f1439ab5af4c86c33dc93f23cd3839672cd227a6a530a462cd929c769568198",
+          "bodyFile": "8bd561539c7f417595b1e9fe-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.asus.com/content/asus-product-security-advisory/",
+          "state": "held",
+          "extraction": "rejected",
+          "reason": "extraction_size_out_of_bounds"
+        }
+      ]
+    },
+    {
+      "id": "fe628a15c82f674f8ccd06f8",
+      "url": "https://www.academia.edu/privacy",
+      "durationMs": 3065,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:27:48.154Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://www.academia.edu/privacy",
+          "drift": false,
+          "durationMs": 35,
+          "validators": {
+            "serverDate": "Sun, 22 Nov 2026 06:27:48 GMT"
+          },
+          "bodyBytes": 6035,
+          "bodyHash": "e793ffdcc26d11e75c3e62ae9a8c52f860a48ddf912490afefb559e298211898",
+          "bodyFile": "fe628a15c82f674f8ccd06f8-direct.body.txt",
+          "error": "http_403"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:27:49.682Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://www.academia.edu/privacy",
+          "drift": false,
+          "durationMs": 27,
+          "bodyBytes": 5907,
+          "bodyHash": "9c66fb960a8dcf6f2b62b7dceed64eacae8451dc01fdbdf8145adde1ce5091ff",
+          "bodyFile": "fe628a15c82f674f8ccd06f8-http2.body.txt",
+          "error": "h2_status_403"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.academia.edu/privacy",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "f950a7cb1016338ec5aff5fb",
+      "url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=201485660",
+      "durationMs": 3350,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:27:48.272Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://www.amazon.com/gp/help/customer/display.html?nodeId=201485660",
+          "drift": false,
+          "durationMs": 170,
+          "validators": {
+            "vary": "User-Agent,Accept-Encoding",
+            "cacheControl": "no-cache",
+            "serverDate": "Sun, 22 Nov 2026 06:27:48 GMT"
+          },
+          "bodyBytes": 2296,
+          "bodyHash": "34c92fb4c6351b94e5cc16f68bb483b0fcda57ee7c43887214005b87d1888d3a",
+          "bodyFile": "f950a7cb1016338ec5aff5fb-direct.body.txt",
+          "error": "http_403"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:27:49.951Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://www.amazon.com/gp/help/customer/display.html?nodeId=201485660",
+          "drift": false,
+          "durationMs": 179,
+          "bodyBytes": 2319,
+          "bodyHash": "abeb2137f14f1973cb5949a7ea52daf3d9cb22e85cc8d8abd7e0bbff114f1048",
+          "bodyFile": "f950a7cb1016338ec5aff5fb-http2.body.txt",
+          "error": "h2_status_403"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.amazon.com/gp/help/customer/display.html?nodeId=201485660",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "04854b503562685de6cf3c69",
+      "url": "https://www.academia.edu/terms",
+      "durationMs": 3043,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:27:52.705Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://www.academia.edu/terms",
+          "drift": false,
+          "durationMs": 21,
+          "validators": {
+            "serverDate": "Sun, 22 Nov 2026 06:27:52 GMT"
+          },
+          "bodyBytes": 6029,
+          "bodyHash": "e79461c467b40f67808f4e1f7bc7a33f15a7b772c32867c48a21ad1d1d773805",
+          "bodyFile": "04854b503562685de6cf3c69-direct.body.txt",
+          "error": "http_403"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:27:54.226Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://www.academia.edu/terms",
+          "drift": false,
+          "durationMs": 20,
+          "bodyBytes": 5901,
+          "bodyHash": "f7795b2fdc67e0e5ada936579062a7b9aade141b861cbbfa975c7935f64ffa33",
+          "bodyFile": "04854b503562685de6cf3c69-http2.body.txt",
+          "error": "h2_status_403"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.academia.edu/terms",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "e1596d3189142e2258f6e782",
+      "url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=201434520",
+      "durationMs": 3332,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:27:53.108Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://www.amazon.com/gp/help/customer/display.html?nodeId=201434520",
+          "drift": false,
+          "durationMs": 155,
+          "validators": {
+            "vary": "User-Agent,Accept-Encoding",
+            "cacheControl": "no-cache",
+            "serverDate": "Sun, 22 Nov 2026 06:27:53 GMT"
+          },
+          "bodyBytes": 2296,
+          "bodyHash": "34c92fb4c6351b94e5cc16f68bb483b0fcda57ee7c43887214005b87d1888d3a",
+          "bodyFile": "e1596d3189142e2258f6e782-direct.body.txt",
+          "error": "http_403"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:27:54.783Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://www.amazon.com/gp/help/customer/display.html?nodeId=201434520",
+          "drift": false,
+          "durationMs": 175,
+          "bodyBytes": 2319,
+          "bodyHash": "abeb2137f14f1973cb5949a7ea52daf3d9cb22e85cc8d8abd7e0bbff114f1048",
+          "bodyFile": "e1596d3189142e2258f6e782-http2.body.txt",
+          "error": "h2_status_403"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.amazon.com/gp/help/customer/display.html?nodeId=201434520",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "fd73022d5f5ffecb7d4e9795",
+      "url": "https://www.acuityads.com/terms-and-conditions/",
+      "durationMs": 7671,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:27:52.092Z",
+          "durationMs": 2970,
+          "error": "connect EHOSTUNREACH 69.90.254.170:443"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:27:55.292Z",
+          "status": 0,
+          "ok": false,
+          "finalUrl": "https://www.acuityads.com/terms-and-conditions/",
+          "drift": false,
+          "durationMs": 1699,
+          "bodyBytes": 0,
+          "bodyHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bodyFile": null,
+          "error": "h2_connect_failed"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.acuityads.com/terms-and-conditions/",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "9a891d06da0f0bb67993d75d",
+      "url": "https://privacy.google.com/businesses/controllerterms/",
+      "durationMs": 3056,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:27:57.262Z",
+          "durationMs": 34,
+          "error": "host_drift"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:27:58.783Z",
+          "status": 301,
+          "ok": false,
+          "finalUrl": "https://privacy.google.com/businesses/controllerterms/",
+          "drift": false,
+          "durationMs": 20,
+          "bodyBytes": 0,
+          "bodyHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bodyFile": null,
+          "error": "host_drift"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://privacy.google.com/businesses/controllerterms/",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "5c1f3d1186e2293fc3c8a325",
+      "url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=202002080",
+      "durationMs": 3334,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:27:57.943Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://www.amazon.com/gp/help/customer/display.html?nodeId=202002080",
+          "drift": false,
+          "durationMs": 158,
+          "validators": {
+            "vary": "User-Agent,Accept-Encoding",
+            "cacheControl": "no-cache",
+            "serverDate": "Sun, 22 Nov 2026 06:27:57 GMT"
+          },
+          "bodyBytes": 2296,
+          "bodyHash": "34c92fb4c6351b94e5cc16f68bb483b0fcda57ee7c43887214005b87d1888d3a",
+          "bodyFile": "5c1f3d1186e2293fc3c8a325-direct.body.txt",
+          "error": "http_403"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:27:59.618Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://www.amazon.com/gp/help/customer/display.html?nodeId=202002080",
+          "drift": false,
+          "durationMs": 174,
+          "bodyBytes": 2319,
+          "bodyHash": "abeb2137f14f1973cb5949a7ea52daf3d9cb22e85cc8d8abd7e0bbff114f1048",
+          "bodyFile": "5c1f3d1186e2293fc3c8a325-http2.body.txt",
+          "error": "h2_status_403"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.amazon.com/gp/help/customer/display.html?nodeId=202002080",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "5e1e2221ea493dcc16eafccf",
+      "url": "https://privacy.google.com/businesses/processorterms/",
+      "durationMs": 3033,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:28:01.799Z",
+          "durationMs": 14,
+          "error": "host_drift"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:28:03.318Z",
+          "status": 301,
+          "ok": false,
+          "finalUrl": "https://privacy.google.com/businesses/processorterms/",
+          "drift": false,
+          "durationMs": 19,
+          "bodyBytes": 0,
+          "bodyHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bodyFile": null,
+          "error": "host_drift"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://privacy.google.com/businesses/processorterms/",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "5c587de6aa6aeaae1f61acd2",
+      "url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=200699130",
+      "durationMs": 3353,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:28:02.791Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://www.amazon.com/gp/help/customer/display.html?nodeId=200699130",
+          "drift": false,
+          "durationMs": 171,
+          "validators": {
+            "vary": "User-Agent,Accept-Encoding",
+            "cacheControl": "no-cache",
+            "serverDate": "Sun, 22 Nov 2026 06:28:02 GMT"
+          },
+          "bodyBytes": 2296,
+          "bodyHash": "34c92fb4c6351b94e5cc16f68bb483b0fcda57ee7c43887214005b87d1888d3a",
+          "bodyFile": "5c587de6aa6aeaae1f61acd2-direct.body.txt",
+          "error": "http_403"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:28:04.472Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://www.amazon.com/gp/help/customer/display.html?nodeId=200699130",
+          "drift": false,
+          "durationMs": 180,
+          "bodyBytes": 2319,
+          "bodyHash": "abeb2137f14f1973cb5949a7ea52daf3d9cb22e85cc8d8abd7e0bbff114f1048",
+          "bodyFile": "5c587de6aa6aeaae1f61acd2-http2.body.txt",
+          "error": "h2_status_403"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.amazon.com/gp/help/customer/display.html?nodeId=200699130",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "4e8f536435078045f71451a9",
+      "url": "https://www.acuityads.com/cookie-policy/",
+      "durationMs": 9447,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:28:01.534Z",
+          "durationMs": 3240,
+          "error": "connect EHOSTUNREACH 69.90.254.170:443"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:28:06.241Z",
+          "status": 0,
+          "ok": false,
+          "finalUrl": "https://www.acuityads.com/cookie-policy/",
+          "drift": false,
+          "durationMs": 3207,
+          "bodyBytes": 0,
+          "bodyHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bodyFile": null,
+          "error": "h2_connect_failed"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.acuityads.com/cookie-policy/",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "6788afd864005a63ab2decdb",
+      "url": "https://help.adroll.com/hc/en-us/articles/360031225371-Prohibited-Content-and-Practices-Inappropriate-Content",
+      "durationMs": 3103,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:28:06.392Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://help.adroll.com/hc/en-us/articles/360031225371-Prohibited-Content-and-Practices-Inappropriate-Content",
+          "drift": false,
+          "durationMs": 73,
+          "validators": {
+            "serverDate": "Sun, 22 Nov 2026 06:28:06 GMT"
+          },
+          "bodyBytes": 6375,
+          "bodyHash": "772fed00d5cd929cd883523bc1c33bad40164fc358a4bcc452ad93c32f321c39",
+          "bodyFile": "6788afd864005a63ab2decdb-direct.body.txt",
+          "error": "http_403"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:28:07.922Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://help.adroll.com/hc/en-us/articles/360031225371-Prohibited-Content-and-Practices-Inappropriate-Content",
+          "drift": false,
+          "durationMs": 30,
+          "bodyBytes": 6247,
+          "bodyHash": "b2a43adf832ff07ed3672099be4d286c80ef0baeb26743ed551aea745c5c3a8e",
+          "bodyFile": "6788afd864005a63ab2decdb-http2.body.txt",
+          "error": "h2_status_403"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://help.adroll.com/hc/en-us/articles/360031225371-Prohibited-Content-and-Practices-Inappropriate-Content",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "563567805b6ac24e0fbf1153",
+      "url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=201014950",
+      "durationMs": 3363,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:28:07.630Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://www.amazon.com/gp/help/customer/display.html?nodeId=201014950",
+          "drift": false,
+          "durationMs": 156,
+          "validators": {
+            "vary": "User-Agent,Accept-Encoding",
+            "cacheControl": "no-cache",
+            "serverDate": "Sun, 22 Nov 2026 06:28:07 GMT"
+          },
+          "bodyBytes": 2296,
+          "bodyHash": "34c92fb4c6351b94e5cc16f68bb483b0fcda57ee7c43887214005b87d1888d3a",
+          "bodyFile": "563567805b6ac24e0fbf1153-direct.body.txt",
+          "error": "http_403"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:28:09.336Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://www.amazon.com/gp/help/customer/display.html?nodeId=201014950",
+          "drift": false,
+          "durationMs": 205,
+          "bodyBytes": 2319,
+          "bodyHash": "abeb2137f14f1973cb5949a7ea52daf3d9cb22e85cc8d8abd7e0bbff114f1048",
+          "bodyFile": "563567805b6ac24e0fbf1153-http2.body.txt",
+          "error": "h2_status_403"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.amazon.com/gp/help/customer/display.html?nodeId=201014950",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "d99c8df7541b61ffd5227ce8",
+      "url": "https://rule.alibaba.com/rule/detail/6391.htm",
+      "durationMs": 3757,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:28:12.890Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://rulechannel.alibaba.com/icbu?type=detail&ruleId=6391&cId=1294#/rule/detail?cId=1294&ruleId=6391",
+          "drift": false,
+          "durationMs": 3648,
+          "validators": {
+            "vary": "Accept-Encoding",
+            "cacheControl": "no-cache, no-store, max-age=0, must-revalidate",
+            "contentLanguage": "en-US",
+            "serverDate": "Sun, 22 Nov 2026 06:28:12 GMT"
+          },
+          "bodyBytes": 259078,
+          "bodyHash": "087d0dc33fb83cec19d2d8b4d1fcfe28daff3986863ecc26de357d731111ca1a",
+          "bodyFile": "d99c8df7541b61ffd5227ce8-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://rule.alibaba.com/rule/detail/6391.htm",
+          "state": "held",
+          "extraction": "rejected",
+          "reason": "extraction_size_out_of_bounds"
+        }
+      ]
+    },
+    {
+      "id": "9ffc5723b0a4ed864ccfd294",
+      "url": "https://rulechannel.alibaba.com/icbu?type=detail&ruleId=2034&cId=1306",
+      "durationMs": 2205,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:28:13.005Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://rulechannel.alibaba.com/icbu?type=detail&ruleId=2034&cId=1306",
+          "drift": false,
+          "durationMs": 2082,
+          "validators": {
+            "vary": "Accept-Encoding",
+            "cacheControl": "no-cache, no-store, max-age=0, must-revalidate",
+            "contentLanguage": "en-US",
+            "serverDate": "Sun, 22 Nov 2026 06:28:12 GMT"
+          },
+          "bodyBytes": 259078,
+          "bodyHash": "10e10c06ae8da5b4992f6a7bb007d11d5aade2358753ac02f372bf0f6f549466",
+          "bodyFile": "9ffc5723b0a4ed864ccfd294-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://rulechannel.alibaba.com/icbu?type=detail&ruleId=2034&cId=1306#/rule/detail?cId=1306&ruleId=2034",
+          "state": "held",
+          "extraction": "rejected",
+          "reason": "extraction_size_out_of_bounds"
+        }
+      ]
+    },
+    {
+      "id": "489b280c8cbf9f2ac7d780ae",
+      "url": "https://rulechannel.alibaba.com/icbu?type=detail&ruleId=2041&cId=1307",
+      "durationMs": 918,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:28:15.511Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://rulechannel.alibaba.com/icbu?type=detail&ruleId=2041&cId=1307",
+          "drift": false,
+          "durationMs": 862,
+          "validators": {
+            "vary": "Accept-Encoding",
+            "cacheControl": "no-cache, no-store, max-age=0, must-revalidate",
+            "contentLanguage": "en-US",
+            "serverDate": "Sun, 22 Nov 2026 06:28:15 GMT"
+          },
+          "bodyBytes": 259078,
+          "bodyHash": "232b9859354844886f4b3c8647bff49ecf7c3fb72cb190f1e2cbfbc303e17276",
+          "bodyFile": "489b280c8cbf9f2ac7d780ae-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://rulechannel.alibaba.com/icbu?type=detail&ruleId=2041&cId=1307#/rule/detail?cId=1307&ruleId=2041",
+          "state": "held",
+          "extraction": "rejected",
+          "reason": "extraction_size_out_of_bounds"
+        }
+      ]
+    },
+    {
+      "id": "03055e6f896c91829d7b9032",
+      "url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=201544030",
+      "durationMs": 3341,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:28:12.492Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://www.amazon.com/gp/help/customer/display.html?nodeId=201544030",
+          "drift": false,
+          "durationMs": 155,
+          "validators": {
+            "vary": "User-Agent,Accept-Encoding",
+            "cacheControl": "no-cache",
+            "serverDate": "Sun, 22 Nov 2026 06:28:12 GMT"
+          },
+          "bodyBytes": 2296,
+          "bodyHash": "34c92fb4c6351b94e5cc16f68bb483b0fcda57ee7c43887214005b87d1888d3a",
+          "bodyFile": "03055e6f896c91829d7b9032-direct.body.txt",
+          "error": "http_403"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:28:14.178Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://www.amazon.com/gp/help/customer/display.html?nodeId=201544030",
+          "drift": false,
+          "durationMs": 184,
+          "bodyBytes": 2319,
+          "bodyHash": "abeb2137f14f1973cb5949a7ea52daf3d9cb22e85cc8d8abd7e0bbff114f1048",
+          "bodyFile": "03055e6f896c91829d7b9032-http2.body.txt",
+          "error": "h2_status_403"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.amazon.com/gp/help/customer/display.html?nodeId=201544030",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "52de32e375e7b1bbcc101882",
+      "url": "https://advertising.amazon.com/resources/ad-policy/creative-acceptance",
+      "durationMs": 1027,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:28:18.045Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://advertising.amazon.com/help",
+          "drift": false,
+          "durationMs": 976,
+          "validators": {
+            "vary": "User-Agent,Accept-Encoding",
+            "cacheControl": "no-cache, no-store, must-revalidate",
+            "contentLanguage": "en-US",
+            "serverDate": "Sun, 22 Nov 2026 06:28:17 GMT"
+          },
+          "bodyBytes": 178375,
+          "bodyHash": "557c5c131bfdeba91bf4963d34e8a35832c6592b16fabc5be86e06bb0adb6317",
+          "bodyFile": "52de32e375e7b1bbcc101882-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://advertising.amazon.com/resources/ad-policy/creative-acceptance",
+          "state": "held",
+          "extraction": "rejected",
+          "reason": "extraction_size_out_of_bounds"
+        }
+      ]
+    },
+    {
+      "id": "88057c9ca5c42d1c60545825",
+      "url": "https://www.meredith.com/nmg/privacy",
+      "durationMs": 3618,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:28:14.760Z",
+          "durationMs": 260,
+          "error": "host_drift"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:28:16.554Z",
+          "status": 301,
+          "ok": false,
+          "finalUrl": "https://www.meredith.com/nmg/privacy",
+          "drift": false,
+          "durationMs": 294,
+          "bodyBytes": 0,
+          "bodyHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bodyFile": null,
+          "error": "host_drift"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.meredith.com/nmg/privacy",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "9343242cf2e8257a8aa06d05",
+      "url": "https://www.amazon.co.uk/gp/help/customer/display.html/?nodeId=201909010&ref_=a20m_us_fnav_l_prvcy_gb",
+      "durationMs": 107,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:28:19.723Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://www.amazon.co.uk/gp/help/customer/display.html/?nodeId=201909010&ref_=a20m_us_fnav_l_prvcy_gb",
+          "drift": false,
+          "durationMs": 103,
+          "validators": {
+            "serverDate": "Sun, 22 Nov 2026 06:28:19 GMT"
+          },
+          "bodyBytes": 3805,
+          "bodyHash": "1e5482688980458bf272a7e8179f2ab4ebb388990dceeddbace2c89c743aa518",
+          "bodyFile": "9343242cf2e8257a8aa06d05-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.amazon.co.uk/gp/help/customer/display.html/?nodeId=201909010&ref_=a20m_us_fnav_l_prvcy_gb",
+          "state": "held",
+          "extraction": "rejected",
+          "reason": "source_block_or_soft_404"
+        }
+      ]
+    },
+    {
+      "id": "f8113d0b79fd50736c93c4e1",
+      "url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=202095050",
+      "durationMs": 3338,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:28:17.350Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://www.amazon.com/gp/help/customer/display.html?nodeId=202095050",
+          "drift": false,
+          "durationMs": 170,
+          "validators": {
+            "vary": "User-Agent,Accept-Encoding",
+            "cacheControl": "no-cache",
+            "serverDate": "Sun, 22 Nov 2026 06:28:17 GMT"
+          },
+          "bodyBytes": 2296,
+          "bodyHash": "34c92fb4c6351b94e5cc16f68bb483b0fcda57ee7c43887214005b87d1888d3a",
+          "bodyFile": "f8113d0b79fd50736c93c4e1-direct.body.txt",
+          "error": "http_403"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:28:19.018Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://www.amazon.com/gp/help/customer/display.html?nodeId=202095050",
+          "drift": false,
+          "durationMs": 166,
+          "bodyBytes": 2319,
+          "bodyHash": "abeb2137f14f1973cb5949a7ea52daf3d9cb22e85cc8d8abd7e0bbff114f1048",
+          "bodyFile": "f8113d0b79fd50736c93c4e1-http2.body.txt",
+          "error": "h2_status_403"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.amazon.com/gp/help/customer/display.html?nodeId=202095050",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "71c217d2b4e80d1bf29a45ef",
+      "url": "https://www.meredith.com/legal/terms",
+      "durationMs": 3192,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:28:19.708Z",
+          "durationMs": 88,
+          "error": "host_drift"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:28:21.311Z",
+          "status": 301,
+          "ok": false,
+          "finalUrl": "https://www.meredith.com/legal/terms",
+          "drift": false,
+          "durationMs": 102,
+          "bodyBytes": 0,
+          "bodyHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bodyFile": null,
+          "error": "host_drift"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.meredith.com/legal/terms",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "faaa3c847d90068b8e78b7c7",
+      "url": "https://www.amazon.co.uk/gp/help/customer/display.html/?ie=UTF8&nodeId=1040616&ref_=a20m_us_fnav_l_cndtns_gb",
+      "durationMs": 1779,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:28:21.438Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://www.amazon.co.uk/gp/help/customer/display.html/?ie=UTF8&nodeId=1040616&ref_=a20m_us_fnav_l_cndtns_gb",
+          "drift": false,
+          "durationMs": 211,
+          "validators": {
+            "vary": "User-Agent,Accept-Encoding",
+            "cacheControl": "no-cache",
+            "serverDate": "Sun, 22 Nov 2026 06:28:21 GMT"
+          },
+          "bodyBytes": 2165,
+          "bodyHash": "b2ab09361e537f997475abd871dee42d29cacab8c3d8adeaabf88d8471942fd7",
+          "bodyFile": "faaa3c847d90068b8e78b7c7-direct.body.txt",
+          "error": "http_403"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:28:23.005Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://www.amazon.co.uk/gp/help/customer/display.html/?ie=UTF8&nodeId=1040616&ref_=a20m_us_fnav_l_cndtns_gb",
+          "drift": false,
+          "durationMs": 67,
+          "bodyBytes": 3805,
+          "bodyHash": "35cbe522190d180bbe9479f1a7a0ed63b57542f7bf00e89644ab8665afcf89e9",
+          "bodyFile": "faaa3c847d90068b8e78b7c7-http2.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.amazon.co.uk/gp/help/customer/display.html/?ie=UTF8&nodeId=1040616&ref_=a20m_us_fnav_l_cndtns_gb",
+          "state": "held",
+          "extraction": "rejected",
+          "reason": "source_block_or_soft_404"
+        }
+      ]
+    },
+    {
+      "id": "82328f077ce637bbe5e392d3",
+      "url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=201380010",
+      "durationMs": 3370,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:28:22.192Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://www.amazon.com/gp/help/customer/display.html?nodeId=201380010",
+          "drift": false,
+          "durationMs": 172,
+          "validators": {
+            "vary": "User-Agent,Accept-Encoding",
+            "cacheControl": "no-cache",
+            "serverDate": "Sun, 22 Nov 2026 06:28:22 GMT"
+          },
+          "bodyBytes": 2296,
+          "bodyHash": "34c92fb4c6351b94e5cc16f68bb483b0fcda57ee7c43887214005b87d1888d3a",
+          "bodyFile": "82328f077ce637bbe5e392d3-direct.body.txt",
+          "error": "http_403"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:28:23.889Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://www.amazon.com/gp/help/customer/display.html?nodeId=201380010",
+          "drift": false,
+          "durationMs": 197,
+          "bodyBytes": 2319,
+          "bodyHash": "abeb2137f14f1973cb5949a7ea52daf3d9cb22e85cc8d8abd7e0bbff114f1048",
+          "bodyFile": "82328f077ce637bbe5e392d3-http2.body.txt",
+          "error": "h2_status_403"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.amazon.com/gp/help/customer/display.html?nodeId=201380010",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "9f54f9b314fceb4e974861d2",
+      "url": "https://developer.apple.com/support/downloads/terms/apple-developer-agreement/Apple-Developer-Agreement-20240610-English.pdf",
+      "durationMs": 3660,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:28:24.945Z",
+          "status": 404,
+          "ok": false,
+          "finalUrl": "https://developer.apple.com/support/downloads/terms/apple-developer-agreement/Apple-Developer-Agreement-20240610-English.pdf",
+          "drift": false,
+          "durationMs": 632,
+          "validators": {
+            "lastModified": "Fri, 30 Jan 2026 23:15:39 GMT",
+            "cacheControl": "no-store",
+            "serverDate": "Sun, 22 Nov 2026 06:28:24 GMT",
+            "age": "0"
+          },
+          "bodyBytes": 82253,
+          "bodyHash": "20e3f5b0c2f9c2884d2e21ae389e8d7e0c1ab6a1d7672f3e8be6d5df2ea4b72e",
+          "bodyFile": "9f54f9b314fceb4e974861d2-direct.body.txt",
+          "error": "http_404"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:28:26.471Z",
+          "status": 0,
+          "ok": false,
+          "finalUrl": "https://developer.apple.com/support/downloads/terms/apple-developer-agreement/Apple-Developer-Agreement-20240610-English.pdf",
+          "drift": false,
+          "durationMs": 26,
+          "bodyBytes": 0,
+          "bodyHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bodyFile": null,
+          "error": "h2_connect_failed"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://developer.apple.com/support/downloads/terms/apple-developer-agreement/Apple-Developer-Agreement-20240610-English.pdf",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "d7a6f8210dcdd62d579ac508",
+      "url": "https://www.amazon.co.uk/gp/help/customer/display.html?ie=UTF8&nodeId=201890250&ref_=a20m_us_fnav_l_cook_gb",
+      "durationMs": 3478,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:28:24.738Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://www.amazon.co.uk/gp/help/customer/display.html?ie=UTF8&nodeId=201890250&ref_=a20m_us_fnav_l_cook_gb",
+          "drift": false,
+          "durationMs": 231,
+          "validators": {
+            "vary": "User-Agent,Accept-Encoding",
+            "cacheControl": "no-cache",
+            "serverDate": "Sun, 22 Nov 2026 06:28:24 GMT"
+          },
+          "bodyBytes": 2165,
+          "bodyHash": "b2ab09361e537f997475abd871dee42d29cacab8c3d8adeaabf88d8471942fd7",
+          "bodyFile": "d7a6f8210dcdd62d579ac508-direct.body.txt",
+          "error": "http_403"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:28:26.485Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://www.amazon.co.uk/gp/help/customer/display.html?ie=UTF8&nodeId=201890250&ref_=a20m_us_fnav_l_cook_gb",
+          "drift": false,
+          "durationMs": 246,
+          "bodyBytes": 2188,
+          "bodyHash": "0e1b58831ff533b1a2ae9c15769113edd4a49a5a8debde6562272d1f5369f6cc",
+          "bodyFile": "d7a6f8210dcdd62d579ac508-http2.body.txt",
+          "error": "h2_status_403"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.amazon.co.uk/gp/help/customer/display.html?ie=UTF8&nodeId=201890250&ref_=a20m_us_fnav_l_cook_gb",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "b8ca89862b2b3dbba02318af",
+      "url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=201376540",
+      "durationMs": 3363,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:28:27.066Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://www.amazon.com/gp/help/customer/display.html?nodeId=201376540",
+          "drift": false,
+          "durationMs": 176,
+          "validators": {
+            "vary": "User-Agent,Accept-Encoding",
+            "cacheControl": "no-cache",
+            "serverDate": "Sun, 22 Nov 2026 06:28:27 GMT"
+          },
+          "bodyBytes": 2296,
+          "bodyHash": "34c92fb4c6351b94e5cc16f68bb483b0fcda57ee7c43887214005b87d1888d3a",
+          "bodyFile": "b8ca89862b2b3dbba02318af-direct.body.txt",
+          "error": "http_403"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:28:28.752Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://www.amazon.com/gp/help/customer/display.html?nodeId=201376540",
+          "drift": false,
+          "durationMs": 185,
+          "bodyBytes": 2319,
+          "bodyHash": "abeb2137f14f1973cb5949a7ea52daf3d9cb22e85cc8d8abd7e0bbff114f1048",
+          "bodyFile": "b8ca89862b2b3dbba02318af-http2.body.txt",
+          "error": "h2_status_403"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.amazon.com/gp/help/customer/display.html?nodeId=201376540",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "210283a1080718a09328a995",
+      "url": "https://www.apple.com/legal/internet-services/itunes/gamecenter/uk/terms.html",
+      "durationMs": 1167,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:28:30.582Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://www.apple.com/legal/internet-services/itunes/ww/index.html",
+          "drift": false,
+          "durationMs": 1108,
+          "validators": {
+            "vary": "Accept-Encoding",
+            "cacheControl": "max-age=360",
+            "serverDate": "Sun, 22 Nov 2026 06:28:30 GMT"
+          },
+          "bodyBytes": 103277,
+          "bodyHash": "91f686a6c3f60237b8183f34b358db7074717125c13d280222333b57c7180c3f",
+          "bodyFile": "210283a1080718a09328a995-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.apple.com/legal/internet-services/itunes/gamecenter/uk/terms.html",
+          "state": "held",
+          "extraction": "rejected",
+          "reason": "extraction_size_out_of_bounds"
+        }
+      ]
+    },
+    {
+      "id": "f7ff3cfba68fee266a57c026",
+      "url": "https://investor.apple.com/files/doc_downloads/gov_docs/Apple-Human-Rights-Policy.pdf",
+      "durationMs": 3285,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:28:29.717Z",
+          "durationMs": 231,
+          "error": "host_drift"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:28:31.270Z",
+          "status": 302,
+          "ok": false,
+          "finalUrl": "https://investor.apple.com/files/doc_downloads/gov_docs/Apple-Human-Rights-Policy.pdf",
+          "drift": false,
+          "durationMs": 53,
+          "bodyBytes": 0,
+          "bodyHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bodyFile": null,
+          "error": "host_drift"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://investor.apple.com/files/doc_downloads/gov_docs/Apple-Human-Rights-Policy.pdf",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "692f3b4239fbfcf08f3fd8d6",
+      "url": "https://www.bred.fr/medias/pdf/informations-reglementaires/convention-bredacces.pdf",
+      "durationMs": 179,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:28:34.445Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://www.bred.fr/medias/pdf/informations-reglementaires/convention-bredacces.pdf",
+          "drift": false,
+          "durationMs": 173,
+          "validators": {
+            "etag": "W/\"b26-i54mTfbk89sWx/c95BXTfmmkFK4\"",
+            "cacheControl": "private",
+            "serverDate": "Sun, 22 Nov 2026 06:28:34 GMT"
+          },
+          "bodyBytes": 2854,
+          "bodyHash": "36155769ce1cf79a34555aed91d3cd12cf65d589bfd839a589f8fdb4276b6920",
+          "bodyFile": "692f3b4239fbfcf08f3fd8d6-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.bred.fr/medias/pdf/informations-reglementaires/convention-bredacces.pdf",
+          "state": "held",
+          "extraction": "rejected",
+          "reason": "extraction_size_out_of_bounds"
+        }
+      ]
+    },
+    {
+      "id": "c4837ad74f70363b8a3cc888",
+      "url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=13819201",
+      "durationMs": 3350,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:28:31.920Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://www.amazon.com/gp/help/customer/display.html?nodeId=13819201",
+          "drift": false,
+          "durationMs": 166,
+          "validators": {
+            "vary": "User-Agent,Accept-Encoding",
+            "cacheControl": "no-cache",
+            "serverDate": "Sun, 22 Nov 2026 06:28:31 GMT"
+          },
+          "bodyBytes": 2296,
+          "bodyHash": "34c92fb4c6351b94e5cc16f68bb483b0fcda57ee7c43887214005b87d1888d3a",
+          "bodyFile": "c4837ad74f70363b8a3cc888-direct.body.txt",
+          "error": "http_403"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:28:33.603Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://www.amazon.com/gp/help/customer/display.html?nodeId=13819201",
+          "drift": false,
+          "durationMs": 181,
+          "bodyBytes": 2319,
+          "bodyHash": "abeb2137f14f1973cb5949a7ea52daf3d9cb22e85cc8d8abd7e0bbff114f1048",
+          "bodyFile": "c4837ad74f70363b8a3cc888-http2.body.txt",
+          "error": "h2_status_403"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.amazon.com/gp/help/customer/display.html?nodeId=13819201",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "90acf7542347e865444be2ac",
+      "url": "https://www.artstation.com/privacy",
+      "durationMs": 3127,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:28:32.236Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://www.artstation.com/privacy",
+          "drift": false,
+          "durationMs": 94,
+          "validators": {
+            "vary": "accept-encoding",
+            "serverDate": "Sun, 22 Nov 2026 06:28:32 GMT"
+          },
+          "bodyBytes": 25845,
+          "bodyHash": "1d51b0777797849fc77e7d6beb26bafec087ca13dbc743e01e5af71c88172cdd",
+          "bodyFile": "90acf7542347e865444be2ac-direct.body.txt",
+          "error": "http_403"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:28:33.768Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://www.artstation.com/privacy",
+          "drift": false,
+          "durationMs": 32,
+          "bodyBytes": 25717,
+          "bodyHash": "4802683c792e84ed744a610725b8950138f8bf3ddd307127f13e60757b88d973",
+          "bodyFile": "90acf7542347e865444be2ac-http2.body.txt",
+          "error": "h2_status_403"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.artstation.com/privacy",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "d6e1908a61f3965291851f9e",
+      "url": "https://www.bankid.com/en/integritetspolicy",
+      "durationMs": 245,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:28:36.192Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://www.bankid.com/en/integritetspolicy",
+          "drift": false,
+          "durationMs": 240,
+          "validators": {
+            "vary": "Accept-Encoding",
+            "serverDate": "Sun, 22 Nov 2026 06:28:36 GMT"
+          },
+          "bodyBytes": 1945,
+          "bodyHash": "f5403a1e2b3d51829c0cd9159e17e47e398ed6a42716f83f4f24906cebc6a2bb",
+          "bodyFile": "d6e1908a61f3965291851f9e-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.bankid.com/en/integritetspolicy",
+          "state": "held",
+          "extraction": "rejected",
+          "reason": "extraction_size_out_of_bounds"
+        }
+      ]
+    },
+    {
+      "id": "9938bdceee6a3c2aa97df7ab",
+      "url": "https://www.bankid.com/en/terms-of-use-bankid-mobile-application",
+      "durationMs": 177,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:28:37.871Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://www.bankid.com/en/terms-of-use-bankid-mobile-application",
+          "drift": false,
+          "durationMs": 172,
+          "validators": {
+            "vary": "Accept-Encoding",
+            "serverDate": "Sun, 22 Nov 2026 06:28:37 GMT"
+          },
+          "bodyBytes": 2003,
+          "bodyHash": "1c79733b53d0d3e96fa38cb06bd5498b101adcb9c46d67ad988225440c155c9b",
+          "bodyFile": "9938bdceee6a3c2aa97df7ab-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.bankid.com/en/terms-of-use-bankid-mobile-application",
+          "state": "held",
+          "extraction": "rejected",
+          "reason": "extraction_size_out_of_bounds"
+        }
+      ]
+    },
+    {
+      "id": "1f1309fc5af4ac71fe965a18",
+      "url": "https://www.artstation.com/tos",
+      "durationMs": 3072,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:28:36.797Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://www.artstation.com/tos",
+          "drift": false,
+          "durationMs": 28,
+          "validators": {
+            "vary": "accept-encoding",
+            "serverDate": "Sun, 22 Nov 2026 06:28:36 GMT"
+          },
+          "bodyBytes": 25812,
+          "bodyHash": "896f84bce0ee1f66f2b6f854368faba9fae4525c2f17d5952186bce20b117d57",
+          "bodyFile": "1f1309fc5af4ac71fe965a18-direct.body.txt",
+          "error": "http_403"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:28:38.341Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://www.artstation.com/tos",
+          "drift": false,
+          "durationMs": 42,
+          "bodyBytes": 25684,
+          "bodyHash": "fc2fbad1037b6a4ca19ceca43e1eed618a32727a555031cf5891d0d47e4d6888",
+          "bodyFile": "1f1309fc5af4ac71fe965a18-http2.body.txt",
+          "error": "h2_status_403"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.artstation.com/tos",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "5994060ef53527244d1eecae",
+      "url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=200775270",
+      "durationMs": 3371,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:28:36.778Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://www.amazon.com/gp/help/customer/display.html?nodeId=200775270",
+          "drift": false,
+          "durationMs": 173,
+          "validators": {
+            "vary": "User-Agent,Accept-Encoding",
+            "cacheControl": "no-cache",
+            "serverDate": "Sun, 22 Nov 2026 06:28:36 GMT"
+          },
+          "bodyBytes": 2296,
+          "bodyHash": "34c92fb4c6351b94e5cc16f68bb483b0fcda57ee7c43887214005b87d1888d3a",
+          "bodyFile": "5994060ef53527244d1eecae-direct.body.txt",
+          "error": "http_403"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:28:38.476Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://www.amazon.com/gp/help/customer/display.html?nodeId=200775270",
+          "drift": false,
+          "durationMs": 198,
+          "bodyBytes": 2319,
+          "bodyHash": "abeb2137f14f1973cb5949a7ea52daf3d9cb22e85cc8d8abd7e0bbff114f1048",
+          "bodyFile": "5994060ef53527244d1eecae-http2.body.txt",
+          "error": "h2_status_403"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.amazon.com/gp/help/customer/display.html?nodeId=200775270",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "2eb1a6f26429e3b72022a559",
+      "url": "https://docs.base.org/docs/privacy-policy/",
+      "durationMs": 4026,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:28:39.897Z",
+          "status": 404,
+          "ok": false,
+          "finalUrl": "https://docs.base.org/docs/privacy-policy",
+          "drift": false,
+          "durationMs": 519,
+          "validators": {
+            "vary": "accept, accept-encoding, User-Agent",
+            "cacheControl": "no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0",
+            "serverDate": "Sun, 22 Nov 2026 06:28:39 GMT"
+          },
+          "bodyBytes": 136249,
+          "bodyHash": "29264fc0c99be0a00e2c2e64333a3a9578a2c225fb6fa9b3a106579d850bab8f",
+          "bodyFile": "2eb1a6f26429e3b72022a559-direct.body.txt",
+          "error": "http_404"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:28:41.902Z",
+          "status": 404,
+          "ok": false,
+          "finalUrl": "https://docs.base.org/docs/privacy-policy",
+          "drift": false,
+          "durationMs": 503,
+          "bodyBytes": 136249,
+          "bodyHash": "29264fc0c99be0a00e2c2e64333a3a9578a2c225fb6fa9b3a106579d850bab8f",
+          "bodyFile": "2eb1a6f26429e3b72022a559-http2.body.txt",
+          "error": "h2_status_404"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://docs.base.org/docs/privacy-policy/",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "03a08e5f26b7443df60e850e",
+      "url": "https://www.binance.com/en/privacy",
+      "durationMs": 3068,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:28:41.388Z",
+          "status": 202,
+          "ok": false,
+          "finalUrl": "https://www.binance.com/en/privacy",
+          "drift": false,
+          "durationMs": 46,
+          "validators": {
+            "cacheControl": "no-store, max-age=0",
+            "serverDate": "Sun, 22 Nov 2026 06:28:41 GMT"
+          },
+          "bodyBytes": 2105,
+          "bodyHash": "8a5399922a603f3bed5305792fec6bb108e5d0d7046a631f5daa391301faecb1",
+          "bodyFile": "03a08e5f26b7443df60e850e-direct.body.txt",
+          "error": "http_202"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:28:42.909Z",
+          "status": 202,
+          "ok": false,
+          "finalUrl": "https://www.binance.com/en/privacy",
+          "drift": false,
+          "durationMs": 21,
+          "bodyBytes": 2105,
+          "bodyHash": "3974a339eda20cb02eb51ec25fd013b69d22c010b2c51497eefd17b04e4ccfef",
+          "bodyFile": "03a08e5f26b7443df60e850e-http2.body.txt",
+          "error": "h2_202_pending"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.binance.com/en/privacy",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "fc59d09457cdc5b12b51a8d4",
+      "url": "https://www.amazon.com/gp/help/customer/display.html?ie=UTF8&nodeId=GFUSWPZP368LFFA9",
+      "durationMs": 3339,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:28:41.646Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://www.amazon.com/gp/help/customer/display.html?ie=UTF8&nodeId=GFUSWPZP368LFFA9",
+          "drift": false,
+          "durationMs": 171,
+          "validators": {
+            "vary": "User-Agent,Accept-Encoding",
+            "cacheControl": "no-cache",
+            "serverDate": "Sun, 22 Nov 2026 06:28:41 GMT"
+          },
+          "bodyBytes": 2296,
+          "bodyHash": "34c92fb4c6351b94e5cc16f68bb483b0fcda57ee7c43887214005b87d1888d3a",
+          "bodyFile": "fc59d09457cdc5b12b51a8d4-direct.body.txt",
+          "error": "http_403"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:28:43.314Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://www.amazon.com/gp/help/customer/display.html?ie=UTF8&nodeId=GFUSWPZP368LFFA9",
+          "drift": false,
+          "durationMs": 167,
+          "bodyBytes": 2319,
+          "bodyHash": "abeb2137f14f1973cb5949a7ea52daf3d9cb22e85cc8d8abd7e0bbff114f1048",
+          "bodyFile": "fc59d09457cdc5b12b51a8d4-http2.body.txt",
+          "error": "h2_status_403"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.amazon.com/gp/help/customer/display.html?ie=UTF8&nodeId=GFUSWPZP368LFFA9",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "4359e8a94e5f765be743436f",
+      "url": "https://docs.base.org/docs/cookie-policy/",
+      "durationMs": 3791,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:28:45.289Z",
+          "status": 404,
+          "ok": false,
+          "finalUrl": "https://docs.base.org/docs/cookie-policy",
+          "drift": false,
+          "durationMs": 384,
+          "validators": {
+            "vary": "accept, accept-encoding, User-Agent",
+            "cacheControl": "no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0",
+            "serverDate": "Sun, 22 Nov 2026 06:28:44 GMT"
+          },
+          "bodyBytes": 136243,
+          "bodyHash": "471022928d0713e564a6c3405f43b0d2387136a58852526b28c333d31162c732",
+          "bodyFile": "4359e8a94e5f765be743436f-direct.body.txt",
+          "error": "http_404"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:28:47.194Z",
+          "status": 404,
+          "ok": false,
+          "finalUrl": "https://docs.base.org/docs/cookie-policy",
+          "drift": false,
+          "durationMs": 402,
+          "bodyBytes": 136243,
+          "bodyHash": "471022928d0713e564a6c3405f43b0d2387136a58852526b28c333d31162c732",
+          "bodyFile": "4359e8a94e5f765be743436f-http2.body.txt",
+          "error": "h2_status_404"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://docs.base.org/docs/cookie-policy/",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "546bec401451d4f339d5ddc4",
+      "url": "https://www.binance.com/en/terms",
+      "durationMs": 3027,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:28:45.918Z",
+          "status": 202,
+          "ok": false,
+          "finalUrl": "https://www.binance.com/en/terms",
+          "drift": false,
+          "durationMs": 8,
+          "validators": {
+            "cacheControl": "no-store, max-age=0",
+            "serverDate": "Sun, 22 Nov 2026 06:28:45 GMT"
+          },
+          "bodyBytes": 2105,
+          "bodyHash": "fce2e3e69277197dc1815608a121aa68f6773a40a1598bf6521156e420384f58",
+          "bodyFile": "546bec401451d4f339d5ddc4-direct.body.txt",
+          "error": "http_202"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:28:47.436Z",
+          "status": 202,
+          "ok": false,
+          "finalUrl": "https://www.binance.com/en/terms",
+          "drift": false,
+          "durationMs": 18,
+          "bodyBytes": 2105,
+          "bodyHash": "d069130119078b79a6f840a8a04efd4906d51c5f19b14bef4472864ea7979bc6",
+          "bodyFile": "546bec401451d4f339d5ddc4-http2.body.txt",
+          "error": "h2_202_pending"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.binance.com/en/terms",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "253f02541fc6c42e8fed8a56",
+      "url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=202119380",
+      "durationMs": 3342,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:28:46.473Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://www.amazon.com/gp/help/customer/display.html?nodeId=202119380",
+          "drift": false,
+          "durationMs": 158,
+          "validators": {
+            "vary": "User-Agent,Accept-Encoding",
+            "cacheControl": "no-cache",
+            "serverDate": "Sun, 22 Nov 2026 06:28:46 GMT"
+          },
+          "bodyBytes": 2296,
+          "bodyHash": "34c92fb4c6351b94e5cc16f68bb483b0fcda57ee7c43887214005b87d1888d3a",
+          "bodyFile": "253f02541fc6c42e8fed8a56-direct.body.txt",
+          "error": "http_403"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:28:48.155Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://www.amazon.com/gp/help/customer/display.html?nodeId=202119380",
+          "drift": false,
+          "durationMs": 182,
+          "bodyBytes": 2319,
+          "bodyHash": "abeb2137f14f1973cb5949a7ea52daf3d9cb22e85cc8d8abd7e0bbff114f1048",
+          "bodyFile": "253f02541fc6c42e8fed8a56-http2.body.txt",
+          "error": "h2_status_403"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.amazon.com/gp/help/customer/display.html?nodeId=202119380",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "4705a0a7bcd3a60948a8dddb",
+      "url": "https://blockworks.co/trust-ethics",
+      "durationMs": 3064,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:28:50.236Z",
+          "durationMs": 39,
+          "error": "host_drift"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:28:51.761Z",
+          "status": 301,
+          "ok": false,
+          "finalUrl": "https://blockworks.co/trust-ethics",
+          "drift": false,
+          "durationMs": 25,
+          "bodyBytes": 0,
+          "bodyHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bodyFile": null,
+          "error": "host_drift"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://blockworks.co/trust-ethics",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "f2cbf04cfd069911fcf9c05a",
+      "url": "https://bolt.eu/en/legal/ie/privacy-for-drivers/",
+      "durationMs": 3308,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:28:50.595Z",
+          "status": 308,
+          "ok": false,
+          "finalUrl": "https://bolt.eu/en/privacy/privacy-for-drivers/",
+          "drift": false,
+          "durationMs": 158,
+          "validators": {
+            "vary": "RSC, Next-Router-State-Tree, Next-Router-Prefetch, Next-Action, Accept-Encoding, Origin",
+            "cacheControl": "s-maxage=14400, stale-while-revalidate",
+            "serverDate": "Sun, 22 Nov 2026 06:28:50 GMT"
+          },
+          "bodyBytes": 196843,
+          "bodyHash": "2a98d3adaf0041e12de4c7955630a9f682776a36d6424399d51d202dc63b0950",
+          "bodyFile": "f2cbf04cfd069911fcf9c05a-direct.body.txt",
+          "error": "http_308"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:28:52.243Z",
+          "status": 308,
+          "ok": false,
+          "finalUrl": "https://bolt.eu/en/privacy/privacy-for-drivers/",
+          "drift": false,
+          "durationMs": 145,
+          "bodyBytes": 196843,
+          "bodyHash": "c3529355b3794972ffadd39ae72c6354ec632bd6725b061108e7b16e5d1e223f",
+          "bodyFile": "f2cbf04cfd069911fcf9c05a-http2.body.txt",
+          "error": "h2_status_308"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://bolt.eu/en/legal/ie/privacy-for-drivers/",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "b3c6d1b39ef6b623b0ca6f21",
+      "url": "https://www.amazon.com/gp/help/customer/display.html/ref=hp_left_v4_sib?ie=UTF8&nodeId=GX7NJQ4ZB8MHFRNJ",
+      "durationMs": 3354,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:28:51.324Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://www.amazon.com/gp/help/customer/display.html/ref=hp_left_v4_sib?ie=UTF8&nodeId=GX7NJQ4ZB8MHFRNJ",
+          "drift": false,
+          "durationMs": 167,
+          "validators": {
+            "vary": "User-Agent,Accept-Encoding",
+            "cacheControl": "no-cache",
+            "serverDate": "Sun, 22 Nov 2026 06:28:51 GMT"
+          },
+          "bodyBytes": 2296,
+          "bodyHash": "34c92fb4c6351b94e5cc16f68bb483b0fcda57ee7c43887214005b87d1888d3a",
+          "bodyFile": "b3c6d1b39ef6b623b0ca6f21-direct.body.txt",
+          "error": "http_403"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:28:53.010Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://www.amazon.com/gp/help/customer/display.html/ref=hp_left_v4_sib?ie=UTF8&nodeId=GX7NJQ4ZB8MHFRNJ",
+          "drift": false,
+          "durationMs": 184,
+          "bodyBytes": 2319,
+          "bodyHash": "abeb2137f14f1973cb5949a7ea52daf3d9cb22e85cc8d8abd7e0bbff114f1048",
+          "bodyFile": "b3c6d1b39ef6b623b0ca6f21-http2.body.txt",
+          "error": "h2_status_403"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.amazon.com/gp/help/customer/display.html/ref=hp_left_v4_sib?ie=UTF8&nodeId=GX7NJQ4ZB8MHFRNJ",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "562f0fd36b2d5dc83fc38e93",
+      "url": "https://blockworks.co/privacy-policy",
+      "durationMs": 3050,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:28:54.782Z",
+          "durationMs": 19,
+          "error": "host_drift"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:28:56.313Z",
+          "status": 301,
+          "ok": false,
+          "finalUrl": "https://blockworks.co/privacy-policy",
+          "drift": false,
+          "durationMs": 31,
+          "bodyBytes": 0,
+          "bodyHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bodyFile": null,
+          "error": "host_drift"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://blockworks.co/privacy-policy",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "19d3021363a03ff28eb0fe91",
+      "url": "https://bolt.eu/en/legal/ie/terms-for-drivers/",
+      "durationMs": 3219,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:28:55.347Z",
+          "status": 308,
+          "ok": false,
+          "finalUrl": "https://bolt.eu/en/legal/terms-for-drivers/",
+          "drift": false,
+          "durationMs": 102,
+          "validators": {
+            "vary": "RSC, Next-Router-State-Tree, Next-Router-Prefetch, Next-Action, Accept-Encoding, Origin",
+            "cacheControl": "s-maxage=14400, stale-while-revalidate",
+            "serverDate": "Sun, 22 Nov 2026 06:28:55 GMT"
+          },
+          "bodyBytes": 196806,
+          "bodyHash": "b52283277c8b3bebec898e3dd90c4249677543696c73f700c0dde6f2d93e6627",
+          "bodyFile": "19d3021363a03ff28eb0fe91-direct.body.txt",
+          "error": "http_308"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:28:56.962Z",
+          "status": 308,
+          "ok": false,
+          "finalUrl": "https://bolt.eu/en/legal/terms-for-drivers/",
+          "drift": false,
+          "durationMs": 113,
+          "bodyBytes": 196806,
+          "bodyHash": "5fda695439d7ffb2fd2293033002a0700c68c17daa9aff1c6f65d71d5496d58b",
+          "bodyFile": "19d3021363a03ff28eb0fe91-http2.body.txt",
+          "error": "h2_status_308"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://bolt.eu/en/legal/ie/terms-for-drivers/",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "4ef1a9e56ee4be9a218af7e1",
+      "url": "https://www.amazon.com/gp/help/customer/display.html/ref=hp_left_v4_sib?ie=UTF8&nodeId=201909000",
+      "durationMs": 3339,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:28:56.172Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://www.amazon.com/gp/help/customer/display.html/ref=hp_left_v4_sib?ie=UTF8&nodeId=201909000",
+          "drift": false,
+          "durationMs": 161,
+          "validators": {
+            "vary": "User-Agent,Accept-Encoding",
+            "cacheControl": "no-cache",
+            "serverDate": "Sun, 22 Nov 2026 06:28:56 GMT"
+          },
+          "bodyBytes": 2296,
+          "bodyHash": "34c92fb4c6351b94e5cc16f68bb483b0fcda57ee7c43887214005b87d1888d3a",
+          "bodyFile": "4ef1a9e56ee4be9a218af7e1-direct.body.txt",
+          "error": "http_403"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:28:57.850Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://www.amazon.com/gp/help/customer/display.html/ref=hp_left_v4_sib?ie=UTF8&nodeId=201909000",
+          "drift": false,
+          "durationMs": 177,
+          "bodyBytes": 2319,
+          "bodyHash": "abeb2137f14f1973cb5949a7ea52daf3d9cb22e85cc8d8abd7e0bbff114f1048",
+          "bodyFile": "4ef1a9e56ee4be9a218af7e1-http2.body.txt",
+          "error": "h2_status_403"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.amazon.com/gp/help/customer/display.html/ref=hp_left_v4_sib?ie=UTF8&nodeId=201909000",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "a48a406e3bb5135e86d82b41",
+      "url": "https://bolt.eu/en/legal/ie/privacy-for-riders/",
+      "durationMs": 3244,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:29:00.096Z",
+          "status": 308,
+          "ok": false,
+          "finalUrl": "https://bolt.eu/en/privacy/privacy-for-riders/",
+          "drift": false,
+          "durationMs": 131,
+          "validators": {
+            "vary": "RSC, Next-Router-State-Tree, Next-Router-Prefetch, Next-Action, Accept-Encoding, Origin",
+            "cacheControl": "s-maxage=14400, stale-while-revalidate",
+            "serverDate": "Sun, 22 Nov 2026 06:29:00 GMT"
+          },
+          "bodyBytes": 196853,
+          "bodyHash": "bab5be97c8011e2fda567b07cda21f75457d8efbb62e683050b228e2af419414",
+          "bodyFile": "a48a406e3bb5135e86d82b41-direct.body.txt",
+          "error": "http_308"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:29:01.707Z",
+          "status": 308,
+          "ok": false,
+          "finalUrl": "https://bolt.eu/en/privacy/privacy-for-riders/",
+          "drift": false,
+          "durationMs": 109,
+          "bodyBytes": 196853,
+          "bodyHash": "5530106d3f5a263a4f030e21217d43665691cdde5069ce92fd7d0e0b01c6d8a5",
+          "bodyFile": "a48a406e3bb5135e86d82b41-http2.body.txt",
+          "error": "h2_status_308"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://bolt.eu/en/legal/ie/privacy-for-riders/",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "94e24dabd2f164ef7004b0db",
+      "url": "https://www.warnermediaprivacy.com/policycenter/b2c/en-row/",
+      "durationMs": 4047,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:28:59.922Z",
+          "durationMs": 607,
+          "error": "host_drift"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:29:01.861Z",
+          "status": 301,
+          "ok": false,
+          "finalUrl": "https://www.warnermediaprivacy.com/policycenter/b2c/en-row/",
+          "drift": false,
+          "durationMs": 438,
+          "bodyBytes": 0,
+          "bodyHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bodyFile": null,
+          "error": "host_drift"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.warnermediaprivacy.com/policycenter/b2c/en-row/",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "0506aa726273a8600418688b",
+      "url": "https://www.wildskymedia.com/privacy-policy/",
+      "durationMs": 3350,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:29:01.061Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://wildskymedia.com/",
+          "drift": true,
+          "durationMs": 211,
+          "validators": {
+            "vary": "accept-encoding",
+            "cacheControl": "public, max-age=0, must-revalidate",
+            "serverDate": "Sun, 22 Nov 2026 06:29:01 GMT"
+          },
+          "bodyBytes": 18138,
+          "bodyHash": "ebc160bc190c5af498c4881b7c0baf713981c8ad8a55d2c556e040e86fd1e34b",
+          "bodyFile": "0506aa726273a8600418688b-direct.body.txt",
+          "error": ""
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:29:02.700Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://wildskymedia.com/",
+          "drift": true,
+          "durationMs": 137,
+          "bodyBytes": 18138,
+          "bodyHash": "ebc160bc190c5af498c4881b7c0baf713981c8ad8a55d2c556e040e86fd1e34b",
+          "bodyFile": "0506aa726273a8600418688b-http2.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.wildskymedia.com/privacy-policy/",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "1b625905b93b3dd6e7608654",
+      "url": "https://clients.cdiscount.com/simple/cgv.aspx",
+      "durationMs": 1851,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:29:05.068Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://www.cdiscount.com/cgv.html",
+          "drift": false,
+          "durationMs": 205,
+          "validators": {
+            "cacheControl": "private, max-age=0, no-store, no-cache, must-revalidate, post-check=0, pre-check=0",
+            "serverDate": "Sun, 22 Nov 2026 06:29:05 GMT"
+          },
+          "bodyBytes": 12915,
+          "bodyHash": "48a69b81425fb50d1943348cb34969df8572027b79e9136f7b4c22f13b67c4a8",
+          "bodyFile": "1b625905b93b3dd6e7608654-direct.body.txt",
+          "error": "http_403"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:29:06.707Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://www.cdiscount.com/cgv.html",
+          "drift": false,
+          "durationMs": 139,
+          "bodyBytes": 14233,
+          "bodyHash": "72d263439399f2beac2ba086017d3cc7df966f08942cf1464f4c7d3d3657a2ff",
+          "bodyFile": "1b625905b93b3dd6e7608654-http2.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://clients.cdiscount.com/simple/cgv.aspx",
+          "state": "held",
+          "extraction": "rejected",
+          "reason": "extraction_size_out_of_bounds"
+        }
+      ]
+    },
+    {
+      "id": "5a69d8c484ddaac7ad326140",
+      "url": "https://bolt.eu/en/legal/ie/terms-for-riders/",
+      "durationMs": 3220,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:29:04.810Z",
+          "status": 308,
+          "ok": false,
+          "finalUrl": "https://bolt.eu/en/legal/terms-for-riders/",
+          "drift": false,
+          "durationMs": 101,
+          "validators": {
+            "vary": "RSC, Next-Router-State-Tree, Next-Router-Prefetch, Next-Action, Accept-Encoding, Origin",
+            "cacheControl": "s-maxage=14400, stale-while-revalidate",
+            "serverDate": "Sun, 22 Nov 2026 06:29:04 GMT"
+          },
+          "bodyBytes": 197629,
+          "bodyHash": "adaa4f7e3f5df202afc352a719b46ecebcca9be2fe96d65dbd559c87450d16ca",
+          "bodyFile": "5a69d8c484ddaac7ad326140-direct.body.txt",
+          "error": "http_308"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:29:06.427Z",
+          "status": 308,
+          "ok": false,
+          "finalUrl": "https://bolt.eu/en/legal/terms-for-riders/",
+          "drift": false,
+          "durationMs": 114,
+          "bodyBytes": 197629,
+          "bodyHash": "a71d3fd6189f93cce864507f3ee632069e3cd14adbd612f0dfa9d6c9529c8a0a",
+          "bodyFile": "5a69d8c484ddaac7ad326140-http2.body.txt",
+          "error": "h2_status_308"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://bolt.eu/en/legal/ie/terms-for-riders/",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "e775ba208468c85a28189e5c",
+      "url": "https://www.wildskymedia.com/terms-of-service/",
+      "durationMs": 3276,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:29:05.772Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://wildskymedia.com/",
+          "drift": true,
+          "durationMs": 69,
+          "validators": {
+            "vary": "accept-encoding",
+            "cacheControl": "public, max-age=0, must-revalidate",
+            "serverDate": "Sun, 22 Nov 2026 06:29:05 GMT"
+          },
+          "bodyBytes": 18138,
+          "bodyHash": "ebc160bc190c5af498c4881b7c0baf713981c8ad8a55d2c556e040e86fd1e34b",
+          "bodyFile": "e775ba208468c85a28189e5c-direct.body.txt",
+          "error": ""
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:29:07.478Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://wildskymedia.com/",
+          "drift": true,
+          "durationMs": 205,
+          "bodyBytes": 18138,
+          "bodyHash": "ebc160bc190c5af498c4881b7c0baf713981c8ad8a55d2c556e040e86fd1e34b",
+          "bodyFile": "e775ba208468c85a28189e5c-http2.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.wildskymedia.com/terms-of-service/",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "8ba6733c1f7c791c45491a4f",
+      "url": "https://www.cdiscount.com/vie-privee-et-cookies.html",
+      "durationMs": 1576,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:29:09.454Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://www.cdiscount.com/vie-privee-et-cookies.html",
+          "drift": false,
+          "durationMs": 24,
+          "validators": {
+            "cacheControl": "private, max-age=0, no-store, no-cache, must-revalidate, post-check=0, pre-check=0",
+            "serverDate": "Sun, 22 Nov 2026 06:29:09 GMT"
+          },
+          "bodyBytes": 12915,
+          "bodyHash": "42bb5b9f83d09ba89019f7b4970d58a6c75b4fa1dcbd32aa524ff26666369f45",
+          "bodyFile": "8ba6733c1f7c791c45491a4f-direct.body.txt",
+          "error": "http_403"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:29:10.997Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://www.cdiscount.com/vie-privee-et-cookies.html",
+          "drift": false,
+          "durationMs": 43,
+          "bodyBytes": 14233,
+          "bodyHash": "d2936a53f9dc93a4b93213ff83270623cc08c60251ee8d178cc6ce65c2c02659",
+          "bodyFile": "8ba6733c1f7c791c45491a4f-http2.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.cdiscount.com/vie-privee-et-cookies.html",
+          "state": "held",
+          "extraction": "rejected",
+          "reason": "extraction_size_out_of_bounds"
+        }
+      ]
+    },
+    {
+      "id": "e11c2434a36c21e80da63233",
+      "url": "https://i2.cdscdn.com/resources/imagesok/cgu/mkp/cgu_acheteurs_mp_cdiscount.pdf",
+      "durationMs": 3195,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:29:08.348Z",
+          "durationMs": 131,
+          "error": "unsupported_content_type:image/gif"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:29:09.911Z",
+          "status": 200,
+          "ok": false,
+          "finalUrl": "https://i2.cdscdn.com/noimage.gif",
+          "drift": false,
+          "durationMs": 63,
+          "bodyBytes": 0,
+          "bodyHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bodyFile": null,
+          "error": "unsupported_content_type:image/gif"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://i2.cdscdn.com/resources/imagesok/cgu/mkp/cgu_acheteurs_mp_cdiscount.pdf",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "d25bee115a4c309066b3161d",
+      "url": "https://www.google.com/chrome/privacy/?hl=en_GB",
+      "durationMs": 1605,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:29:14.064Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://www.google.com/chrome/privacy/?hl=en_GB",
+          "drift": false,
+          "durationMs": 1557,
+          "validators": {
+            "lastModified": "Tue, 17 Nov 2026 20:00:00 GMT",
+            "vary": "Accept-Encoding, Sec-Ch-Ua-Full-Version-List, Sec-Ch-Ua-Platform, Sec-Ch-Ua-Platform-Version, Sec-CH-Prefers-Reduced-Motion",
+            "cacheControl": "no-cache, must-revalidate",
+            "serverDate": "Sun, 22 Nov 2026 06:29:14 GMT"
+          },
+          "bodyBytes": 132762,
+          "bodyHash": "2dd6871c010c7e4e161d7df9715fe04a53c1d39cd3017a95a6df834556d53dc3",
+          "bodyFile": "d25bee115a4c309066b3161d-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.google.com/chrome/privacy/?hl=en_GB",
+          "state": "held",
+          "extraction": "rejected",
+          "reason": "source_block_or_soft_404"
+        }
+      ]
+    },
+    {
+      "id": "a11df90ae3ba512f2c013f67",
+      "url": "https://www.coinbase.com/legal/privacy",
+      "durationMs": 3075,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:29:12.962Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://www.coinbase.com/legal/privacy",
+          "drift": false,
+          "durationMs": 48,
+          "validators": {
+            "vary": "accept-encoding",
+            "serverDate": "Sun, 22 Nov 2026 06:29:12 GMT"
+          },
+          "bodyBytes": 6160,
+          "bodyHash": "03a13df06117c06ae0aeea4560d503beec9a6383bb56f2b285b09522abfadb47",
+          "bodyFile": "a11df90ae3ba512f2c013f67-direct.body.txt",
+          "error": "http_403"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:29:14.487Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://www.coinbase.com/legal/privacy",
+          "drift": false,
+          "durationMs": 25,
+          "bodyBytes": 6032,
+          "bodyHash": "2c891d41cf3976c64b1f47586733284a5c19fe29bd30e242b2d7638fa88cd3dd",
+          "bodyFile": "a11df90ae3ba512f2c013f67-http2.body.txt",
+          "error": "h2_status_403"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.coinbase.com/legal/privacy",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "0e5c2d767f6eda333cf57d21",
+      "url": "https://www.google.com/glass/termsofuse/",
+      "durationMs": 3043,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:29:15.626Z",
+          "status": 404,
+          "ok": false,
+          "finalUrl": "https://www.google.com/glass/termsofuse/",
+          "drift": false,
+          "durationMs": 13,
+          "validators": {
+            "serverDate": "Sun, 22 Nov 2026 06:29:15 GMT"
+          },
+          "bodyBytes": 1578,
+          "bodyHash": "bc546fa85ffe029208ce43e9c77bfa7386f5e3c5a5f0016edab729d7f2895f1b",
+          "bodyFile": "0e5c2d767f6eda333cf57d21-direct.body.txt",
+          "error": "http_404"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:29:17.155Z",
+          "status": 404,
+          "ok": false,
+          "finalUrl": "https://www.google.com/glass/termsofuse/",
+          "drift": false,
+          "durationMs": 28,
+          "bodyBytes": 1578,
+          "bodyHash": "bc546fa85ffe029208ce43e9c77bfa7386f5e3c5a5f0016edab729d7f2895f1b",
+          "bodyFile": "0e5c2d767f6eda333cf57d21-http2.body.txt",
+          "error": "h2_status_404"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.google.com/glass/termsofuse/",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "12f5c3c329c165376b4be757",
+      "url": "https://www.coinbase.com/legal/user_agreement/ireland_europe",
+      "durationMs": 3047,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:29:17.514Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://www.coinbase.com/legal/user_agreement/ireland_europe",
+          "drift": false,
+          "durationMs": 24,
+          "validators": {
+            "vary": "accept-encoding",
+            "serverDate": "Sun, 22 Nov 2026 06:29:17 GMT"
+          },
+          "bodyBytes": 6269,
+          "bodyHash": "a047a3006e7cab4b68b1e3fa59c120daa28f296ffb7257195a656cf365b6345b",
+          "bodyFile": "12f5c3c329c165376b4be757-direct.body.txt",
+          "error": "http_403"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:29:19.037Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://www.coinbase.com/legal/user_agreement/ireland_europe",
+          "drift": false,
+          "durationMs": 22,
+          "bodyBytes": 6119,
+          "bodyHash": "d076d52cc0f3eaa46f08deb5691496f55efa4510ac0106f3bd7b638cff01febc",
+          "bodyFile": "12f5c3c329c165376b4be757-http2.body.txt",
+          "error": "h2_status_403"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.coinbase.com/legal/user_agreement/ireland_europe",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "855afd9d644168f2cc3278fc",
+      "url": "https://www.google.com/gmail/about/policy/?hl=en_GB",
+      "durationMs": 3037,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:29:20.169Z",
+          "status": 404,
+          "ok": false,
+          "finalUrl": "https://www.google.com/gmail/about/policy/?hl=en_GB",
+          "drift": false,
+          "durationMs": 12,
+          "validators": {
+            "serverDate": "Sun, 22 Nov 2026 06:29:20 GMT"
+          },
+          "bodyBytes": 1589,
+          "bodyHash": "0fdbb2e306f929fe4c4058bdbed304c12af9f804d6356b2e88fc7e09c6c1a49d",
+          "bodyFile": "855afd9d644168f2cc3278fc-direct.body.txt",
+          "error": "http_404"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:29:21.693Z",
+          "status": 404,
+          "ok": false,
+          "finalUrl": "https://www.google.com/gmail/about/policy/?hl=en_GB",
+          "drift": false,
+          "durationMs": 23,
+          "bodyBytes": 1589,
+          "bodyHash": "0fdbb2e306f929fe4c4058bdbed304c12af9f804d6356b2e88fc7e09c6c1a49d",
+          "bodyFile": "855afd9d644168f2cc3278fc-http2.body.txt",
+          "error": "h2_status_404"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.google.com/gmail/about/policy/?hl=en_GB",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "1d1662c5380182dc858284e0",
+      "url": "https://www.coindesk.com/ethics/",
+      "durationMs": 48,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:29:24.742Z",
+          "status": 429,
+          "ok": false,
+          "finalUrl": "https://www.coindesk.com/ethics/",
+          "drift": false,
+          "durationMs": 47,
+          "validators": {
+            "vary": "Accept-Encoding",
+            "cacheControl": "private, no-store, max-age=0",
+            "serverDate": "Sun, 22 Nov 2026 06:29:24 GMT"
+          },
+          "bodyBytes": 25091,
+          "bodyHash": "2a12cc59a0c69fb0bd41a0ba53c177b3f21db51cd4193eb2b4f79c15c1cca275",
+          "bodyFile": "1d1662c5380182dc858284e0-direct.body.txt",
+          "error": "http_429"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.coindesk.com/ethics/",
+          "state": "unavailable",
+          "reason": "origin_backoff"
+        }
+      ]
+    },
+    {
+      "id": "25ebcc81dff8a9dca517ec10",
+      "url": "https://www.coinbase.com/legal/cookie",
+      "durationMs": 3046,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:29:22.060Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://www.coinbase.com/legal/cookie",
+          "drift": false,
+          "durationMs": 22,
+          "validators": {
+            "vary": "accept-encoding",
+            "serverDate": "Sun, 22 Nov 2026 06:29:22 GMT"
+          },
+          "bodyBytes": 6157,
+          "bodyHash": "c41eb6859245741c96628cc54fad78b6322e9027cf272bb202963c09e23649bc",
+          "bodyFile": "25ebcc81dff8a9dca517ec10-direct.body.txt",
+          "error": "http_403"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:29:23.584Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://www.coinbase.com/legal/cookie",
+          "drift": false,
+          "durationMs": 24,
+          "bodyBytes": 6008,
+          "bodyHash": "0f012078714730bf0b06ebbcda90ec181efaee5aa980aa9782e0bdb151570c14",
+          "bodyFile": "25ebcc81dff8a9dca517ec10-http2.body.txt",
+          "error": "h2_status_403"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.coinbase.com/legal/cookie",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "4bdd0fc1be4f85b958188948",
+      "url": "https://www.coindesk.com/privacy/",
+      "durationMs": 0,
+      "attempts": [],
+      "scopes": [
+        {
+          "source": "https://www.coindesk.com/privacy/",
+          "state": "unavailable",
+          "reason": "origin_backoff"
+        }
+      ]
+    },
+    {
+      "id": "3370acd10a0d3ea49fe34647",
+      "url": "https://www.coindesk.com/terms/",
+      "durationMs": 0,
+      "attempts": [],
+      "scopes": [
+        {
+          "source": "https://www.coindesk.com/terms/",
+          "state": "unavailable",
+          "reason": "origin_backoff"
+        }
+      ]
+    },
+    {
+      "id": "14686c55592c3bbe5522073b",
+      "url": "https://about.couchsurfing.com/about/privacy-policy/",
+      "durationMs": 3076,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:29:26.634Z",
+          "durationMs": 48,
+          "error": "host_drift"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:29:28.161Z",
+          "status": 302,
+          "ok": false,
+          "finalUrl": "https://about.couchsurfing.com/about/privacy-policy/",
+          "drift": false,
+          "durationMs": 27,
+          "bodyBytes": 0,
+          "bodyHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bodyFile": null,
+          "error": "host_drift"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://about.couchsurfing.com/about/privacy-policy/",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "80f92fd76d1145dd6f7a3913",
+      "url": "https://www.crunchyroll.com/tos/",
+      "durationMs": 539,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:29:29.780Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://www.crunchyroll.com/tos/",
+          "drift": false,
+          "durationMs": 533,
+          "validators": {
+            "lastModified": "Thu, 19 Nov 2026 16:17:27 GMT",
+            "vary": "Accept-Encoding",
+            "serverDate": "Sun, 22 Nov 2026 06:29:29 GMT"
+          },
+          "bodyBytes": 15680,
+          "bodyHash": "f0196f584dcef1c9053fae534762e3122356a200659b708954a396f733272442",
+          "bodyFile": "80f92fd76d1145dd6f7a3913-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.crunchyroll.com/tos/",
+          "state": "held",
+          "extraction": "rejected",
+          "reason": "extraction_size_out_of_bounds"
+        }
+      ]
+    },
+    {
+      "id": "b66d9d5432aaebb20bed70f4",
+      "url": "https://about.couchsurfing.com/about/terms-of-use/",
+      "durationMs": 3038,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:29:31.173Z",
+          "durationMs": 9,
+          "error": "host_drift"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:29:32.700Z",
+          "status": 302,
+          "ok": false,
+          "finalUrl": "https://about.couchsurfing.com/about/terms-of-use/",
+          "drift": false,
+          "durationMs": 26,
+          "bodyBytes": 0,
+          "bodyHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bodyFile": null,
+          "error": "host_drift"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://about.couchsurfing.com/about/terms-of-use/",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "63f3ae08672bbd98b6d76aba",
+      "url": "https://www.dailymail.co.uk/home/article-7759273/Privacy-Cookies-Policy-Policy.html",
+      "durationMs": 3086,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:29:31.333Z",
+          "durationMs": 47,
+          "error": "host_drift"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:29:32.871Z",
+          "status": 301,
+          "ok": false,
+          "finalUrl": "https://www.dailymail.co.uk/home/article-7759273/Privacy-Cookies-Policy-Policy.html",
+          "drift": false,
+          "durationMs": 38,
+          "bodyBytes": 0,
+          "bodyHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bodyFile": null,
+          "error": "host_drift"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.dailymail.co.uk/home/article-7759273/Privacy-Cookies-Policy-Policy.html",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "b394f14f5ebc6592e3a1f9c2",
+      "url": "https://www.bahn.com/en/privacy/privacy-customer",
+      "durationMs": 3150,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:29:35.817Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://www.bahn.com/en/privacy/privacy-customer",
+          "drift": false,
+          "durationMs": 114,
+          "validators": {
+            "cacheControl": "max-age=0",
+            "serverDate": "Sun, 22 Nov 2026 06:29:35 GMT"
+          },
+          "bodyBytes": 405,
+          "bodyHash": "28b8b038220e42eb32f7cfe038800a5cc28e2a37d806362427338f6a5c7f1bd4",
+          "bodyFile": "b394f14f5ebc6592e3a1f9c2-direct.body.txt",
+          "error": "http_403"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:29:37.352Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://www.bahn.com/en/privacy/privacy-customer",
+          "drift": false,
+          "durationMs": 33,
+          "bodyBytes": 405,
+          "bodyHash": "4b1fcdb863c286aa474e1d6a5b4840aa78ffd0b9a9b9c426f32ab9ee80a7415f",
+          "bodyFile": "b394f14f5ebc6592e3a1f9c2-http2.body.txt",
+          "error": "h2_status_403"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.bahn.com/en/privacy/privacy-customer",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "87d9718a7a67a219d63259e2",
+      "url": "https://www.dailymail.co.uk/home/article-1388146/Terms.html",
+      "durationMs": 3061,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:29:35.892Z",
+          "durationMs": 20,
+          "error": "host_drift"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:29:37.433Z",
+          "status": 301,
+          "ok": false,
+          "finalUrl": "https://www.dailymail.co.uk/home/article-1388146/Terms.html",
+          "drift": false,
+          "durationMs": 39,
+          "bodyBytes": 0,
+          "bodyHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bodyFile": null,
+          "error": "host_drift"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.dailymail.co.uk/home/article-1388146/Terms.html",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "1194259d7dea8144d95a0d53",
+      "url": "https://www.bahn.com/en/terms-of-use/customer-accounts-terms-of-use",
+      "durationMs": 3074,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:29:40.383Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://www.bahn.com/en/terms-of-use/customer-accounts-terms-of-use",
+          "drift": false,
+          "durationMs": 30,
+          "validators": {
+            "cacheControl": "max-age=0",
+            "serverDate": "Sun, 22 Nov 2026 06:29:40 GMT"
+          },
+          "bodyBytes": 444,
+          "bodyHash": "26dfed9595d8d12e09eb90fe74b6da050eeeac9db82d1756fda55369cb090881",
+          "bodyFile": "1194259d7dea8144d95a0d53-direct.body.txt",
+          "error": "http_403"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:29:41.925Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://www.bahn.com/en/terms-of-use/customer-accounts-terms-of-use",
+          "drift": false,
+          "durationMs": 41,
+          "bodyBytes": 444,
+          "bodyHash": "692593c9cf128ef701439dd1e92c7b32046448df4c497e7cedac6e3cb9c0ac7e",
+          "bodyFile": "1194259d7dea8144d95a0d53-http2.body.txt",
+          "error": "h2_status_403"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.bahn.com/en/terms-of-use/customer-accounts-terms-of-use",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "64135059f85bffafc4541e60",
+      "url": "https://about.deviantart.com/policy/privacy/",
+      "durationMs": 3052,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:29:40.466Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://about.deviantart.com/policy/privacy/",
+          "drift": false,
+          "durationMs": 32,
+          "validators": {
+            "serverDate": "Sun, 22 Nov 2026 06:29:40 GMT"
+          },
+          "bodyBytes": 919,
+          "bodyHash": "1f81bd4f44d84cd699e5a247d544c6a052606fa55eeea0edc86f09833a5676a5",
+          "bodyFile": "64135059f85bffafc4541e60-direct.body.txt",
+          "error": "http_403"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:29:41.986Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://about.deviantart.com/policy/privacy/",
+          "drift": false,
+          "durationMs": 20,
+          "bodyBytes": 919,
+          "bodyHash": "edaac0e2424843b9c2c040779685e7bcf06e71eef9d02e0544efdddee3237df0",
+          "bodyFile": "64135059f85bffafc4541e60-http2.body.txt",
+          "error": "h2_status_403"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://about.deviantart.com/policy/privacy/",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "1549957e0124a964383bad40",
+      "url": "https://about.deviantart.com/policy/service/",
+      "durationMs": 3029,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:29:44.995Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://about.deviantart.com/policy/service/",
+          "drift": false,
+          "durationMs": 7,
+          "validators": {
+            "serverDate": "Sun, 22 Nov 2026 06:29:44 GMT"
+          },
+          "bodyBytes": 919,
+          "bodyHash": "efc6787bbad7f8398f8471ff0b04761c601b56bb501ca3b9ce2ba5bc63d83c41",
+          "bodyFile": "1549957e0124a964383bad40-direct.body.txt",
+          "error": "http_403"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:29:46.517Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://about.deviantart.com/policy/service/",
+          "drift": false,
+          "durationMs": 21,
+          "bodyBytes": 919,
+          "bodyHash": "d91018a7bc1294064be9536f650857ab1cff03e0843d462b3f34de5e813cb1b6",
+          "bodyFile": "1549957e0124a964383bad40-http2.body.txt",
+          "error": "h2_status_403"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://about.deviantart.com/policy/service/",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "95630d244106e5d89d1f8305",
+      "url": "https://dune.com/privacy",
+      "durationMs": 3082,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:29:49.560Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://dune.com/privacy",
+          "drift": false,
+          "durationMs": 41,
+          "validators": {
+            "cacheControl": "private, max-age=0, no-store, no-cache, must-revalidate, post-check=0, pre-check=0",
+            "serverDate": "Sun, 22 Nov 2026 06:29:49 GMT"
+          },
+          "bodyBytes": 6019,
+          "bodyHash": "61dcdbd81320a64581214c906c5be0817c319804f3239d99cec5bfd7a17e5ddd",
+          "bodyFile": "95630d244106e5d89d1f8305-direct.body.txt",
+          "error": "http_403"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:29:51.100Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://dune.com/privacy",
+          "drift": false,
+          "durationMs": 38,
+          "bodyBytes": 6019,
+          "bodyHash": "381f6a7c4b61a71c06d8376e42001dba88f121792b9c0e58788b95d9e0cd58b8",
+          "bodyFile": "95630d244106e5d89d1f8305-http2.body.txt",
+          "error": "h2_status_403"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://dune.com/privacy",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "0bf7df2bd2c0fa86f27e1b35",
+      "url": "https://www.chayn.co/policies/privacy-policy",
+      "durationMs": 43012,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:29:30.489Z",
+          "durationMs": 20009,
+          "error": "The operation was aborted"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:29:51.991Z",
+          "status": 0,
+          "ok": false,
+          "finalUrl": "https://www.chayn.co/policies/privacy-policy",
+          "drift": false,
+          "durationMs": 20001,
+          "bodyBytes": 0,
+          "bodyHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bodyFile": null,
+          "error": "h2_timeout"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.chayn.co/policies/privacy-policy",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "fd762ba7aa413eced0b3cbae",
+      "url": "https://dune.com/terms",
+      "durationMs": 3058,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:29:54.124Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://dune.com/terms",
+          "drift": false,
+          "durationMs": 22,
+          "validators": {
+            "cacheControl": "private, max-age=0, no-store, no-cache, must-revalidate, post-check=0, pre-check=0",
+            "serverDate": "Sun, 22 Nov 2026 06:29:54 GMT"
+          },
+          "bodyBytes": 6019,
+          "bodyHash": "7f80575c895a9bd95915758a25e070241727e049cc4b631d3a3b28fc2e9b0516",
+          "bodyFile": "fd762ba7aa413eced0b3cbae-direct.body.txt",
+          "error": "http_403"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:29:55.659Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://dune.com/terms",
+          "drift": false,
+          "durationMs": 35,
+          "bodyBytes": 6019,
+          "bodyHash": "3d62736bebec3efd2a41bded41fc46f3ec718699c1ab42684bad0c94701d8d12",
+          "bodyFile": "fd762ba7aa413eced0b3cbae-http2.body.txt",
+          "error": "h2_status_403"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://dune.com/terms",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "e42066c6ac83880ad57b5ccd",
+      "url": "https://en-gb.facebook.com/policies/live",
+      "durationMs": 665,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:29:59.136Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://en-gb.facebook.com/policies/live",
+          "drift": false,
+          "durationMs": 474,
+          "validators": {
+            "vary": "Accept-Encoding",
+            "cacheControl": "private, no-cache, no-store, must-revalidate",
+            "serverDate": "Sun, 22 Nov 2026 06:29:58 GMT"
+          },
+          "bodyBytes": 458993,
+          "bodyHash": "5f6a597ea4a89f1f4636f82aac9fb018cdef8c5f649d74253610ee5a63ac0e38",
+          "bodyFile": "e42066c6ac83880ad57b5ccd-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://en-gb.facebook.com/policies/live",
+          "state": "held",
+          "extraction": "rejected",
+          "reason": "extraction_size_out_of_bounds"
+        }
+      ]
+    },
+    {
+      "id": "03bd17118b7f66facbb8140f",
+      "url": "https://feddit.de/legal",
+      "durationMs": 3250,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:30:00.970Z",
+          "status": 404,
+          "ok": false,
+          "finalUrl": "https://feddit.de/legal",
+          "drift": false,
+          "durationMs": 125,
+          "validators": {
+            "vary": "Accept-Encoding",
+            "serverDate": "Sun, 22 Nov 2026 06:30:00 GMT"
+          },
+          "bodyBytes": 990,
+          "bodyHash": "cf0119489c104c928fafba379536f1a01b5f26ddb6bde4d346b3314aebd9382c",
+          "bodyFile": "03bd17118b7f66facbb8140f-direct.body.txt",
+          "error": "http_404"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:30:02.595Z",
+          "status": 404,
+          "ok": false,
+          "finalUrl": "https://feddit.de/legal",
+          "drift": false,
+          "durationMs": 123,
+          "bodyBytes": 990,
+          "bodyHash": "cf0119489c104c928fafba379536f1a01b5f26ddb6bde4d346b3314aebd9382c",
+          "bodyFile": "03bd17118b7f66facbb8140f-http2.body.txt",
+          "error": "h2_status_404"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://feddit.de/legal",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "ea46c23ce365f39bb4f27bd1",
+      "url": "https://www.forbes.com/privacy/english/",
+      "durationMs": 371,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:30:05.666Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://www.forbes.com/privacy/english/",
+          "drift": false,
+          "durationMs": 69,
+          "validators": {
+            "etag": "W/\"6a3ae013-22739\"",
+            "lastModified": "Tue, 23 Jun 2026 19:35:47 GMT",
+            "vary": "x-malcolm, X-is-US-DPA, X-is-OPT-IN-JURISDICTION, X-is-STRICT-US-DPA, X-is-US, X-Device, x-backend, canary, X-Is-Ad-Light, is-vwo-enabled",
+            "cacheControl": "max-age=31536000, public",
+            "serverDate": "Sun, 22 Nov 2026 06:30:05 GMT",
+            "age": "274754"
+          },
+          "bodyBytes": 141113,
+          "bodyHash": "5833a08ba4f82d1fa2c3f306a1d6d2d2b8067e5a71a28424f1e6d590ff725e3c",
+          "bodyFile": "ea46c23ce365f39bb4f27bd1-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.forbes.com/privacy/english/#1a05e1630610",
+          "state": "held",
+          "extraction": "rejected",
+          "reason": "extraction_size_out_of_bounds"
+        }
+      ]
+    },
+    {
+      "id": "bf15a1e96e36117e345ed4ec",
+      "url": "https://www.freetaxusa.com/privacy",
+      "durationMs": 3260,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:30:07.604Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://www.freetaxusa.com/privacy",
+          "drift": false,
+          "durationMs": 132,
+          "validators": {
+            "serverDate": "Sun, 22 Nov 2026 06:30:07 GMT"
+          },
+          "bodyBytes": 144263,
+          "bodyHash": "5845fa4828472667b72bed73efc2c5895da1d8e3c1980e71f06bc33ebc4d3b32",
+          "bodyFile": "bf15a1e96e36117e345ed4ec-direct.body.txt",
+          "error": "http_403"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:30:09.232Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://www.freetaxusa.com/privacy",
+          "drift": false,
+          "durationMs": 126,
+          "bodyBytes": 144135,
+          "bodyHash": "a7650605cb8e0f104d179c71b63b9b7eec72753cf9750a59e1ba6707725f4aaa",
+          "bodyFile": "bf15a1e96e36117e345ed4ec-http2.body.txt",
+          "error": "h2_status_403"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.freetaxusa.com/privacy",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "36d0572bed18122ab85c3d18",
+      "url": "https://www.freetaxusa.com/terms",
+      "durationMs": 3165,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:30:12.270Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://www.freetaxusa.com/terms",
+          "drift": false,
+          "durationMs": 37,
+          "validators": {
+            "serverDate": "Sun, 22 Nov 2026 06:30:12 GMT"
+          },
+          "bodyBytes": 144257,
+          "bodyHash": "fea92aaa7f351934313416ce0c7c60582548227b76d6ba047f31b1f0da2a239e",
+          "bodyFile": "36d0572bed18122ab85c3d18-direct.body.txt",
+          "error": "http_403"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:30:13.896Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://www.freetaxusa.com/terms",
+          "drift": false,
+          "durationMs": 123,
+          "bodyBytes": 144129,
+          "bodyHash": "7205a4bc5dba36602e4fce919da47d1b5c2c48b8916b7935c7ab5caa25fe2cb3",
+          "bodyFile": "36d0572bed18122ab85c3d18-http2.body.txt",
+          "error": "h2_status_403"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.freetaxusa.com/terms",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "2d279cc53e6b0cc673d42694",
+      "url": "https://www.gartner.com/en/about/policies/privacy",
+      "durationMs": 3102,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:30:16.944Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://www.gartner.com/en/about/policies/privacy",
+          "drift": false,
+          "durationMs": 45,
+          "validators": {
+            "vary": "accept-encoding",
+            "serverDate": "Sun, 22 Nov 2026 06:30:16 GMT"
+          },
+          "bodyBytes": 10554,
+          "bodyHash": "f74043f1f22e947b17cef7e0bdd3919460a74b219596872cd90a4a4cfb5623f8",
+          "bodyFile": "2d279cc53e6b0cc673d42694-direct.body.txt",
+          "error": "http_403"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:30:18.499Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://www.gartner.com/en/about/policies/privacy",
+          "drift": false,
+          "durationMs": 53,
+          "bodyBytes": 10426,
+          "bodyHash": "b1dc3016b39aaa0cb5f279396b4cfe6b6790c797065dea3e417103425abd853e",
+          "bodyFile": "2d279cc53e6b0cc673d42694-http2.body.txt",
+          "error": "h2_status_403"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.gartner.com/en/about/policies/privacy",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "9921828f6350f2c3731d3b8f",
+      "url": "https://www.gartner.com/en/about/policies/terms-of-use",
+      "durationMs": 3064,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:30:21.537Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://www.gartner.com/en/about/policies/terms-of-use",
+          "drift": false,
+          "durationMs": 33,
+          "validators": {
+            "vary": "accept-encoding",
+            "serverDate": "Sun, 22 Nov 2026 06:30:21 GMT"
+          },
+          "bodyBytes": 10590,
+          "bodyHash": "20dd5e762a5aa9f552106e78504abc09614e90d3ff4bc557ee47bd0e99d6a74d",
+          "bodyFile": "9921828f6350f2c3731d3b8f-direct.body.txt",
+          "error": "http_403"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:30:23.066Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://www.gartner.com/en/about/policies/terms-of-use",
+          "drift": false,
+          "durationMs": 28,
+          "bodyBytes": 10462,
+          "bodyHash": "8387773dee7e4b42e87d0951fa1c1651565bfc9bfcc60f2a172f228e3ce6402b",
+          "bodyFile": "9921828f6350f2c3731d3b8f-http2.body.txt",
+          "error": "h2_status_403"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.gartner.com/en/about/policies/terms-of-use",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "beb5a2f3f99b027ad1d6accf",
+      "url": "https://www.donkey.bike/privacy-policy/",
+      "durationMs": 43004,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:30:04.931Z",
+          "durationMs": 20002,
+          "error": "The operation was aborted"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:30:26.432Z",
+          "status": 0,
+          "ok": false,
+          "finalUrl": "https://www.donkey.bike/privacy-policy/",
+          "drift": false,
+          "durationMs": 20001,
+          "bodyBytes": 0,
+          "bodyHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bodyFile": null,
+          "error": "h2_timeout"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.donkey.bike/privacy-policy/",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "a22a6d32a8b071be79d612a0",
+      "url": "https://help.glassdoor.com/s/article/Community-Guidelines?language=en_US",
+      "durationMs": 3100,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:30:26.126Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://help.glassdoor.com/s/article/Community-Guidelines?language=en_US",
+          "drift": false,
+          "durationMs": 56,
+          "validators": {
+            "vary": "accept-encoding",
+            "serverDate": "Sun, 22 Nov 2026 06:30:26 GMT"
+          },
+          "bodyBytes": 12315,
+          "bodyHash": "ec73e8bf5e3aef9893979407c735b510ab6c1fbc12e2ade29fe86a73f9e6a723",
+          "bodyFile": "a22a6d32a8b071be79d612a0-direct.body.txt",
+          "error": "http_403"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:30:27.668Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://help.glassdoor.com/s/article/Community-Guidelines?language=en_US",
+          "drift": false,
+          "durationMs": 41,
+          "bodyBytes": 12187,
+          "bodyHash": "6355739972fbdb0dc75e740302fd4a069e19aa2fca728b206fc1cf9866e3e1f3",
+          "bodyFile": "a22a6d32a8b071be79d612a0-http2.body.txt",
+          "error": "h2_status_403"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://help.glassdoor.com/s/article/Community-Guidelines?language=en_US",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "1674b9a870c3677afcfb97a1",
+      "url": "https://gofile.io/privacy",
+      "durationMs": 62,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:30:30.727Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://gofile.io/privacy",
+          "drift": false,
+          "durationMs": 56,
+          "validators": {
+            "etag": "W/\"d4f-TssJW19G5zHXYb2TNW+/4PyANHs\"",
+            "cacheControl": "no-cache",
+            "serverDate": "Sun, 22 Nov 2026 06:30:30 GMT"
+          },
+          "bodyBytes": 3407,
+          "bodyHash": "585ccf7bd8b0802895258eb3d204b0dd4bd36c3fd25e5f0e6f35323eba56b705",
+          "bodyFile": "1674b9a870c3677afcfb97a1-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://gofile.io/privacy",
+          "state": "held",
+          "extraction": "rejected",
+          "reason": "extraction_size_out_of_bounds"
+        }
+      ]
+    },
+    {
+      "id": "33c854b7af3fcb25f78af5c4",
+      "url": "https://gofile.io/terms",
+      "durationMs": 21,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:30:32.250Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://gofile.io/terms",
+          "drift": false,
+          "durationMs": 15,
+          "validators": {
+            "etag": "W/\"d4f-TssJW19G5zHXYb2TNW+/4PyANHs\"",
+            "cacheControl": "no-cache",
+            "serverDate": "Sun, 22 Nov 2026 06:30:32 GMT"
+          },
+          "bodyBytes": 3407,
+          "bodyHash": "585ccf7bd8b0802895258eb3d204b0dd4bd36c3fd25e5f0e6f35323eba56b705",
+          "bodyFile": "33c854b7af3fcb25f78af5c4-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://gofile.io/terms",
+          "state": "held",
+          "extraction": "rejected",
+          "reason": "extraction_size_out_of_bounds"
+        }
+      ]
+    },
+    {
+      "id": "0df88df2bdd9c3b19cbb6813",
+      "url": "https://www.glassdoor.com/about/terms/",
+      "durationMs": 3075,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:30:29.478Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://www.glassdoor.com/about/terms/",
+          "drift": false,
+          "durationMs": 44,
+          "validators": {
+            "vary": "accept-encoding",
+            "serverDate": "Sun, 22 Nov 2026 06:30:29 GMT"
+          },
+          "bodyBytes": 12157,
+          "bodyHash": "713e8a2a237b23f037975a9bbf68523c6e28981d9ffa34b4325a447795e3027a",
+          "bodyFile": "0df88df2bdd9c3b19cbb6813-direct.body.txt",
+          "error": "http_403"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:30:31.008Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://www.glassdoor.com/about/terms/",
+          "drift": false,
+          "durationMs": 30,
+          "bodyBytes": 12008,
+          "bodyHash": "6a1f83379221eb909c732b31968c6acd33437cead97867af27ef15e1c7fa537a",
+          "bodyFile": "0df88df2bdd9c3b19cbb6813-http2.body.txt",
+          "error": "h2_status_403"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.glassdoor.com/about/terms/",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "1885d37b01aceb2967ebcdbc",
+      "url": "https://play.google.com/intl/ALL_en/about/developer-distribution-agreement.html",
+      "durationMs": 3054,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:30:34.038Z",
+          "durationMs": 28,
+          "error": "host_drift"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:30:35.563Z",
+          "status": 302,
+          "ok": false,
+          "finalUrl": "https://play.google.com/intl/ALL_en/about/developer-distribution-agreement.html",
+          "drift": false,
+          "durationMs": 24,
+          "bodyBytes": 0,
+          "bodyHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bodyFile": null,
+          "error": "host_drift"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://play.google.com/intl/ALL_en/about/developer-distribution-agreement.html",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "bb8a5ba301e358f1863782c3",
+      "url": "https://developer.android.com/distribute/marketing-tools/brand-guidelines",
+      "durationMs": 3863,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:30:34.181Z",
+          "durationMs": 423,
+          "error": "host_drift"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:30:36.121Z",
+          "status": 302,
+          "ok": false,
+          "finalUrl": "https://developer.android.com/oauth2authorize?return_url=https%3A%2F%2Fdeveloper.android.com%2Fdistribute%2Fmarketing-tools%2Fbrand-guidelines&prompt=none&auto_signin=True&scopes=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdeveloperprofiles+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdeveloperprofiles.award+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdevprofiles.full_control.firstparty",
+          "drift": false,
+          "durationMs": 440,
+          "bodyBytes": 0,
+          "bodyHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bodyFile": null,
+          "error": "host_drift"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://developer.android.com/distribute/marketing-tools/brand-guidelines",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "761b6f7c5ace1e7ef8992eb8",
+      "url": "https://exponential.com/documents/publisher-code-of-conduct/?wpdmdl=17753",
+      "durationMs": 43004,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:30:14.993Z",
+          "durationMs": 20001,
+          "error": "The operation was aborted"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:30:36.495Z",
+          "status": 0,
+          "ok": false,
+          "finalUrl": "https://exponential.com/documents/publisher-code-of-conduct/?wpdmdl=17753",
+          "drift": false,
+          "durationMs": 20001,
+          "bodyBytes": 0,
+          "bodyHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bodyFile": null,
+          "error": "h2_timeout"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://exponential.com/documents/publisher-code-of-conduct/?wpdmdl=17753",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "8119b33c09ed08350c69b885",
+      "url": "https://www.grammarly.com/privacy-policy",
+      "durationMs": 3233,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:30:39.244Z",
+          "durationMs": 122,
+          "error": "host_drift"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:30:40.854Z",
+          "status": 301,
+          "ok": false,
+          "finalUrl": "https://www.grammarly.com/privacy-policy",
+          "drift": false,
+          "durationMs": 109,
+          "bodyBytes": 0,
+          "bodyHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bodyFile": null,
+          "error": "host_drift"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.grammarly.com/privacy-policy",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "0a378e4e261197d71bdf570c",
+      "url": "https://support.google.com/googleplay/android-developer/answer/11044265?hl=en-IE",
+      "durationMs": 3790,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:30:38.863Z",
+          "durationMs": 298,
+          "error": "too_many_redirects"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:30:40.854Z",
+          "status": 0,
+          "ok": false,
+          "finalUrl": "https://support.google.com/?hl=en-IE",
+          "drift": true,
+          "durationMs": 490,
+          "bodyBytes": 0,
+          "bodyHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bodyFile": null,
+          "error": "too_many_redirects"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://support.google.com/googleplay/android-developer/answer/11044265?hl=en-IE",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "578ac92471fa94b5bf9eeecb",
+      "url": "https://hsr.hoyoverse.com/en-us/company/privacy",
+      "durationMs": 322,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:30:44.174Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://hsr.hoyoverse.com/en-us/company/privacy",
+          "drift": false,
+          "durationMs": 317,
+          "validators": {
+            "etag": "W/\"6783e6a340b9e4a93c9396d9c0b4cb05\"",
+            "lastModified": "Tue, 25 Aug 2026 22:57:39 GMT",
+            "vary": "Origin,Accept-Encoding",
+            "cacheControl": "max-age=300,s-maxage=86400",
+            "serverDate": "Sat, 21 Nov 2026 20:59:55 GMT",
+            "age": "34248"
+          },
+          "bodyBytes": 8927,
+          "bodyHash": "7ca065d83fa6c49db55b5a63c92c5faa09236dfd2773b70a0fbf40a3827eb702",
+          "bodyFile": "578ac92471fa94b5bf9eeecb-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://hsr.hoyoverse.com/en-us/company/privacy",
+          "state": "held",
+          "extraction": "rejected",
+          "reason": "extraction_size_out_of_bounds"
+        }
+      ]
+    },
+    {
+      "id": "b085bf775aaaebc0190d5be7",
+      "url": "https://hsr.hoyoverse.com/en-us/company/terms",
+      "durationMs": 183,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:30:45.857Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://hsr.hoyoverse.com/en-us/company/terms",
+          "drift": false,
+          "durationMs": 178,
+          "validators": {
+            "etag": "W/\"6783e6a340b9e4a93c9396d9c0b4cb05\"",
+            "lastModified": "Tue, 25 Aug 2026 22:57:39 GMT",
+            "vary": "Origin,Accept-Encoding",
+            "cacheControl": "max-age=300,s-maxage=86400",
+            "serverDate": "Sun, 22 Nov 2026 01:35:33 GMT",
+            "age": "17712"
+          },
+          "bodyBytes": 8927,
+          "bodyHash": "7ca065d83fa6c49db55b5a63c92c5faa09236dfd2773b70a0fbf40a3827eb702",
+          "bodyFile": "b085bf775aaaebc0190d5be7-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://hsr.hoyoverse.com/en-us/company/terms",
+          "state": "held",
+          "extraction": "rejected",
+          "reason": "extraction_size_out_of_bounds"
+        }
+      ]
+    },
+    {
+      "id": "190ef478dfc2fe1d5752ec49",
+      "url": "https://support.guilded.gg/hc/en-us/articles/360052815873-Community-Guidelines",
+      "durationMs": 3083,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:30:43.908Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://support.guilded.gg/hc/en-us/articles/360052815873-Community-Guidelines",
+          "drift": false,
+          "durationMs": 51,
+          "validators": {
+            "serverDate": "Sun, 22 Nov 2026 06:30:43 GMT"
+          },
+          "bodyBytes": 6255,
+          "bodyHash": "0eedb57a9f71b236698caf6caeb66abf5b5eab2eb58e542878662e67bd192052",
+          "bodyFile": "190ef478dfc2fe1d5752ec49-direct.body.txt",
+          "error": "http_403"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:30:45.438Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://support.guilded.gg/hc/en-us/articles/360052815873-Community-Guidelines",
+          "drift": false,
+          "durationMs": 29,
+          "bodyBytes": 6105,
+          "bodyHash": "7581adee07a3e076b68d47da996a2d2c18411aea76c775f5733b5bfa7a3c3da3",
+          "bodyFile": "190ef478dfc2fe1d5752ec49-http2.body.txt",
+          "error": "h2_status_403"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://support.guilded.gg/hc/en-us/articles/360052815873-Community-Guidelines",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "92ecd8ab6801b44b6c4ec91b",
+      "url": "https://help.instagram.com/477434105621119",
+      "durationMs": 3756,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:30:47.751Z",
+          "durationMs": 388,
+          "error": "host_drift"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:30:49.619Z",
+          "status": 301,
+          "ok": false,
+          "finalUrl": "https://help.instagram.com/477434105621119",
+          "drift": false,
+          "durationMs": 368,
+          "bodyBytes": 0,
+          "bodyHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bodyFile": null,
+          "error": "host_drift"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://help.instagram.com/477434105621119",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "74f724caf88eb4636803aba2",
+      "url": "https://support.guilded.gg/hc/en-us/articles/360039235054-Privacy",
+      "durationMs": 3061,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:30:48.472Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://support.guilded.gg/hc/en-us/articles/360039235054-Privacy",
+          "drift": false,
+          "durationMs": 31,
+          "validators": {
+            "serverDate": "Sun, 22 Nov 2026 06:30:48 GMT"
+          },
+          "bodyBytes": 6194,
+          "bodyHash": "7ed9c8eb2e4dc58bf10466218e1c36f5fe3f55a30c0799d0664893524003fb34",
+          "bodyFile": "74f724caf88eb4636803aba2-direct.body.txt",
+          "error": "http_403"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:30:50.002Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://support.guilded.gg/hc/en-us/articles/360039235054-Privacy",
+          "drift": false,
+          "durationMs": 30,
+          "bodyBytes": 6066,
+          "bodyHash": "03f2ab10801eced945451cae8fc34f380118ca0732292d6006392a261ff5a02d",
+          "bodyFile": "74f724caf88eb4636803aba2-http2.body.txt",
+          "error": "h2_status_403"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://support.guilded.gg/hc/en-us/articles/360039235054-Privacy",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "2a5d4e524a1c82a45d6c967f",
+      "url": "https://help.instagram.com/494561080557017",
+      "durationMs": 1039,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:30:53.455Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://help.instagram.com/494561080557017",
+          "drift": false,
+          "durationMs": 835,
+          "validators": {
+            "vary": "Accept-Encoding",
+            "cacheControl": "private, no-cache, no-store, must-revalidate",
+            "serverDate": "Sun, 22 Nov 2026 06:30:52 GMT"
+          },
+          "bodyBytes": 525447,
+          "bodyHash": "a01c2c4be9dfebd26cf488e6d8973a1e1f655a7ccc0d674aca2ec5448bb2ec11",
+          "bodyFile": "2a5d4e524a1c82a45d6c967f-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://help.instagram.com/494561080557017",
+          "state": "held",
+          "extraction": "rejected",
+          "reason": "extraction_size_out_of_bounds"
+        }
+      ]
+    },
+    {
+      "id": "e20a3fb155336ffb80cac60b",
+      "url": "https://help.instagram.com/581066165581870",
+      "durationMs": 1008,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:30:56.042Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://help.instagram.com/581066165581870",
+          "drift": false,
+          "durationMs": 880,
+          "validators": {
+            "vary": "Accept-Encoding",
+            "cacheControl": "private, no-cache, no-store, must-revalidate",
+            "serverDate": "Sun, 22 Nov 2026 06:30:55 GMT"
+          },
+          "bodyBytes": 572913,
+          "bodyHash": "42efe5b0b8ecc576e877d55b45d628a398e4ba59031a6b7344f586b9de3b4562",
+          "bodyFile": "e20a3fb155336ffb80cac60b-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://help.instagram.com/581066165581870",
+          "state": "held",
+          "extraction": "rejected",
+          "reason": "extraction_size_out_of_bounds"
+        }
+      ]
+    },
+    {
+      "id": "0ef1b7eff96f9b3d9d6bcf75",
+      "url": "https://support.guilded.gg/hc/en-us/articles/360039728313-Terms-of-Use",
+      "durationMs": 3166,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:30:53.031Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://support.guilded.gg/hc/en-us/articles/360039728313-Terms-of-Use",
+          "drift": false,
+          "durationMs": 27,
+          "validators": {
+            "serverDate": "Sun, 22 Nov 2026 06:30:53 GMT"
+          },
+          "bodyBytes": 6209,
+          "bodyHash": "65aead421f9f0afa212e8742e254e47abc323d5946a0a9ed745958043238bb1a",
+          "bodyFile": "0ef1b7eff96f9b3d9d6bcf75-direct.body.txt",
+          "error": "http_403"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:30:54.561Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://support.guilded.gg/hc/en-us/articles/360039728313-Terms-of-Use",
+          "drift": false,
+          "durationMs": 30,
+          "bodyBytes": 6081,
+          "bodyHash": "745ab224a2fadae5da2e3375a4b66072d1553840cb9e177289f4f137e071f177",
+          "bodyFile": "0ef1b7eff96f9b3d9d6bcf75-http2.body.txt",
+          "error": "h2_status_403"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://support.guilded.gg/hc/en-us/articles/360039728313-Terms-of-Use",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "0d7ebc7e133377b46752fcbd",
+      "url": "https://interstellarlab.com/legal/privacy-policy",
+      "durationMs": 101,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:30:57.772Z",
+          "status": 429,
+          "ok": false,
+          "finalUrl": "https://interstellarlab.com/legal/privacy-policy",
+          "drift": false,
+          "durationMs": 101,
+          "validators": {
+            "vary": "Accept-Encoding",
+            "cacheControl": "private, no-store, max-age=0",
+            "serverDate": "Sun, 22 Nov 2026 06:30:57 GMT"
+          },
+          "bodyBytes": 25091,
+          "bodyHash": "2ae8e8f694879f010193faaf9bbcb26f2f536b72b21f390347406301570f647e",
+          "bodyFile": "0d7ebc7e133377b46752fcbd-direct.body.txt",
+          "error": "http_429"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://interstellarlab.com/legal/privacy-policy",
+          "state": "unavailable",
+          "reason": "origin_backoff"
+        }
+      ]
+    },
+    {
+      "id": "5baea185ea55fc1e54196f45",
+      "url": "https://privacycenter.instagram.com/policy/",
+      "durationMs": 1957,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:30:59.242Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://privacycenter.instagram.com/policy/",
+          "drift": false,
+          "durationMs": 1571,
+          "validators": {
+            "vary": "Accept-Encoding",
+            "cacheControl": "private, no-cache, no-store, must-revalidate",
+            "serverDate": "Sun, 22 Nov 2026 06:30:58 GMT"
+          },
+          "bodyBytes": 1145476,
+          "bodyHash": "6ebbcc4817a3e1acd7b78cfb321399295105f2dbaec50cc484b2a2d94c6200d9",
+          "bodyFile": "5baea185ea55fc1e54196f45-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://privacycenter.instagram.com/policy/",
+          "state": "held",
+          "extraction": "rejected",
+          "reason": "extraction_size_out_of_bounds"
+        }
+      ]
+    },
+    {
+      "id": "9c8b8515b903524b477e36cd",
+      "url": "https://kbin.social/privacy-policy",
+      "durationMs": 3031,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:30:59.659Z",
+          "durationMs": 29,
+          "error": "dns_lookup_failed"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:31:01.160Z",
+          "status": 0,
+          "ok": false,
+          "finalUrl": "https://kbin.social/privacy-policy",
+          "drift": false,
+          "durationMs": 1,
+          "bodyBytes": 0,
+          "bodyHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bodyFile": null,
+          "error": "dns_lookup_failed"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://kbin.social/privacy-policy",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "c586efb7f23efc5b5795148f",
+      "url": "https://kbin.social/terms",
+      "durationMs": 3002,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:31:04.162Z",
+          "durationMs": 0,
+          "error": "dns_lookup_failed"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:31:05.663Z",
+          "status": 0,
+          "ok": false,
+          "finalUrl": "https://kbin.social/terms",
+          "drift": false,
+          "durationMs": 0,
+          "bodyBytes": 0,
+          "bodyHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bodyFile": null,
+          "error": "dns_lookup_failed"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://kbin.social/terms",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "adbd2466a4febf937e9a73ab",
+      "url": "https://www.kraken.com/en-us/legal",
+      "durationMs": 346,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:31:08.791Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://www.kraken.com/legal",
+          "drift": false,
+          "durationMs": 125,
+          "validators": {
+            "lastModified": "Sunday, 22-Nov-2026 01:16:27 UTC",
+            "vary": "Accept-Encoding, Origin",
+            "cacheControl": "max-age=300, public, stale-if-error=604800, stale-while-revalidate=86400",
+            "serverDate": "Sun, 22 Nov 2026 06:31:08 GMT",
+            "age": "18880"
+          },
+          "bodyBytes": 608784,
+          "bodyHash": "675f4ad24c06cdf9bd266c8b87fc0451e2a875ab2a516b1a31a2536e9bf23127",
+          "bodyFile": "adbd2466a4febf937e9a73ab-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.kraken.com/en-us/legal#complete-tos",
+          "state": "held",
+          "extraction": "rejected",
+          "reason": "extraction_size_out_of_bounds"
+        }
+      ]
+    },
+    {
+      "id": "546fe5c86d2f56edb307daf2",
+      "url": "https://terms.line.me/line_rules/?lang=en",
+      "durationMs": 6933,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:31:13.941Z",
+          "durationMs": 3427,
+          "error": "host_drift"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:31:15.946Z",
+          "status": 0,
+          "ok": false,
+          "finalUrl": "https://line.me/en/terms/policy/",
+          "drift": false,
+          "durationMs": 503,
+          "bodyBytes": 0,
+          "bodyHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bodyFile": null,
+          "error": "h2_connect_failed"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://terms.line.me/line_rules/?lang=en",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "b6c4367c4b2e23acdab3b5a0",
+      "url": "https://www.librarything.com/privacy",
+      "durationMs": 3079,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:31:18.987Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://www.librarything.com/privacy",
+          "drift": false,
+          "durationMs": 40,
+          "validators": {
+            "cacheControl": "private, max-age=0, no-store, no-cache, must-revalidate, post-check=0, pre-check=0",
+            "serverDate": "Sun, 22 Nov 2026 06:31:18 GMT"
+          },
+          "bodyBytes": 7413,
+          "bodyHash": "23c91f3e18e322cac08d7c7e14df2c841362be8c1abff6ff0e80e80278668511",
+          "bodyFile": "b6c4367c4b2e23acdab3b5a0-direct.body.txt",
+          "error": "http_403"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:31:20.525Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://www.librarything.com/privacy",
+          "drift": false,
+          "durationMs": 36,
+          "bodyBytes": 7413,
+          "bodyHash": "0e66b61aab6d8f77cbe3326c94959b0450c0acedeb0981671eb3539736d767f6",
+          "bodyFile": "b6c4367c4b2e23acdab3b5a0-http2.body.txt",
+          "error": "h2_status_403"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.librarything.com/privacy",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "ce19a6b6f2b179535a7c4674",
+      "url": "https://exponential.com/privacy/",
+      "durationMs": 43136,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:30:59.630Z",
+          "durationMs": 20134,
+          "error": "The operation was aborted"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:31:21.131Z",
+          "status": 0,
+          "ok": false,
+          "finalUrl": "https://exponential.com/privacy/",
+          "drift": false,
+          "durationMs": 20001,
+          "bodyBytes": 0,
+          "bodyHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bodyFile": null,
+          "error": "h2_timeout"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://exponential.com/privacy/",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "4c8ee10581401538f6fcb77c",
+      "url": "https://corp.lingualeo.com/terms-of-use-en/",
+      "durationMs": 3134,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:31:23.614Z",
+          "durationMs": 86,
+          "error": "connect ECONNREFUSED 158.160.152.74:443"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:31:25.161Z",
+          "status": 0,
+          "ok": false,
+          "finalUrl": "https://corp.lingualeo.com/terms-of-use-en/",
+          "drift": false,
+          "durationMs": 46,
+          "bodyBytes": 0,
+          "bodyHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bodyFile": null,
+          "error": "h2_connect_failed"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://corp.lingualeo.com/terms-of-use-en/",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "578d8ad0412cc7569b8b54ae",
+      "url": "https://www.lyft.com/privacy",
+      "durationMs": 3058,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:31:24.170Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://www.lyft.com/privacy",
+          "drift": false,
+          "durationMs": 38,
+          "validators": {
+            "serverDate": "Sun, 22 Nov 2026 06:31:24 GMT"
+          },
+          "bodyBytes": 919,
+          "bodyHash": "64ef6c100df6f8f095b17a9935800fc4a26e92d84798d68374aaf05201781610",
+          "bodyFile": "578d8ad0412cc7569b8b54ae-direct.body.txt",
+          "error": "http_403"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:31:25.689Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://www.lyft.com/privacy",
+          "drift": false,
+          "durationMs": 18,
+          "bodyBytes": 919,
+          "bodyHash": "d9b84a7a5326a04774a7fd45c15e6d2fac69d3ef3ab42955ee009dc2f2c380f5",
+          "bodyFile": "578d8ad0412cc7569b8b54ae-http2.body.txt",
+          "error": "h2_status_403"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.lyft.com/privacy",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "a312c951f6b519e3507505ba",
+      "url": "https://www.mailjet.com/legal/dpa/",
+      "durationMs": 3417,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:31:28.415Z",
+          "durationMs": 252,
+          "error": "host_drift"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:31:30.078Z",
+          "status": 301,
+          "ok": false,
+          "finalUrl": "https://www.mailjet.com/legal/dpa/",
+          "drift": false,
+          "durationMs": 162,
+          "bodyBytes": 0,
+          "bodyHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bodyFile": null,
+          "error": "host_drift"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.mailjet.com/legal/dpa/",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "213ae6154638ebdbcd471cf9",
+      "url": "https://www.lyft.com/terms",
+      "durationMs": 3023,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:31:28.695Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://www.lyft.com/terms",
+          "drift": false,
+          "durationMs": 5,
+          "validators": {
+            "serverDate": "Sun, 22 Nov 2026 06:31:28 GMT"
+          },
+          "bodyBytes": 919,
+          "bodyHash": "869a677a814888d89a4ee187286abb2f829b5f31270ee34de6e28f90753f3ed4",
+          "bodyFile": "213ae6154638ebdbcd471cf9-direct.body.txt",
+          "error": "http_403"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:31:30.212Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://www.lyft.com/terms",
+          "drift": false,
+          "durationMs": 17,
+          "bodyBytes": 919,
+          "bodyHash": "06104fb25d6d5a203eaf71467bea8f2961943ee58638c9116d498030c75a3824",
+          "bodyFile": "213ae6154638ebdbcd471cf9-http2.body.txt",
+          "error": "h2_status_403"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.lyft.com/terms",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "4186212a99f542693513ded6",
+      "url": "https://kimcartoon.li/Message/PrivacyPolicy",
+      "durationMs": 31417,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:31:16.265Z",
+          "durationMs": 15133,
+          "error": "dns_lookup_failed"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:31:31.048Z",
+          "status": 0,
+          "ok": false,
+          "finalUrl": "https://kimcartoon.li/Message/PrivacyPolicy",
+          "drift": false,
+          "durationMs": 13283,
+          "bodyBytes": 0,
+          "bodyHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bodyFile": null,
+          "error": "dns_lookup_failed"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://kimcartoon.li/Message/PrivacyPolicy",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "9c41867d6c07dc6a361f1703",
+      "url": "https://uk.match.com/pages/misc/privacy",
+      "durationMs": 3064,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:31:33.257Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://uk.match.com/pages/misc/privacy",
+          "drift": false,
+          "durationMs": 43,
+          "validators": {
+            "cacheControl": "private, max-age=0, no-store, no-cache, must-revalidate, post-check=0, pre-check=0",
+            "serverDate": "Sun, 22 Nov 2026 06:31:33 GMT"
+          },
+          "bodyBytes": 4545,
+          "bodyHash": "3ea28e359ba90408cbd857729c7b46a0b644e0310606fccadf4e9c19eedf510a",
+          "bodyFile": "9c41867d6c07dc6a361f1703-direct.body.txt",
+          "error": "http_403"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:31:34.778Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://uk.match.com/pages/misc/privacy",
+          "drift": false,
+          "durationMs": 20,
+          "bodyBytes": 4545,
+          "bodyHash": "890787890516eb183f988bb1c78e43d5b2e22f997187d0223c61d4b89b92b729",
+          "bodyFile": "9c41867d6c07dc6a361f1703-http2.body.txt",
+          "error": "h2_status_403"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://uk.match.com/pages/misc/privacy",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "e220bc2d10b3340594159c82",
+      "url": "https://help.meetup.com/hc/en-us/articles/360044422391",
+      "durationMs": 3112,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:31:34.126Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://help.meetup.com/hc/en-us/articles/360044422391",
+          "drift": false,
+          "durationMs": 77,
+          "validators": {
+            "serverDate": "Sun, 22 Nov 2026 06:31:34 GMT"
+          },
+          "bodyBytes": 6146,
+          "bodyHash": "119b3d0919e203e093bb0c397d4c1fdde26ecbe87536aec6f43c734404e3e66a",
+          "bodyFile": "e220bc2d10b3340594159c82-direct.body.txt",
+          "error": "http_403"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:31:35.660Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://help.meetup.com/hc/en-us/articles/360044422391",
+          "drift": false,
+          "durationMs": 32,
+          "bodyBytes": 6018,
+          "bodyHash": "fdf701f0ce38842d5d494fc1bc76614cb236b0edc09e521912c06abca4023082",
+          "bodyFile": "e220bc2d10b3340594159c82-http2.body.txt",
+          "error": "h2_status_403"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://help.meetup.com/hc/en-us/articles/360044422391",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "e7674bac5d2a5121f4aab7d8",
+      "url": "https://www.mailjet.com/legal/privacy-policy/cookies/",
+      "durationMs": 5322,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:31:34.630Z",
+          "status": 404,
+          "ok": false,
+          "finalUrl": "https://www.mailjet.com/legal/privacy-policy/cookies/",
+          "drift": false,
+          "durationMs": 1549,
+          "validators": {
+            "vary": "Accept-Encoding",
+            "cacheControl": "no-cache, must-revalidate, max-age=0, no-store, private",
+            "serverDate": "Sun, 22 Nov 2026 06:31:34 GMT"
+          },
+          "bodyBytes": 224757,
+          "bodyHash": "7dc73c8a48cd5312e68a023b276e755d683abd126f2cb421c0780641485749ed",
+          "bodyFile": "e7674bac5d2a5121f4aab7d8-direct.body.txt",
+          "error": "http_404"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:31:36.900Z",
+          "status": 404,
+          "ok": false,
+          "finalUrl": "https://www.mailjet.com/legal/privacy-policy/cookies/",
+          "drift": false,
+          "durationMs": 769,
+          "bodyBytes": 224757,
+          "bodyHash": "14d0f99c07837cca73b614d27545f63d8a8f3c09a2627b4f0a8cc5481a2a232b",
+          "bodyFile": "e7674bac5d2a5121f4aab7d8-http2.body.txt",
+          "error": "h2_status_404"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.mailjet.com/legal/privacy-policy/cookies/",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "af9d2a17500f0f9ec01d1331",
+      "url": "https://uk.match.com/pages/misc/cge",
+      "durationMs": 3038,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:31:37.792Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://uk.match.com/pages/misc/cge",
+          "drift": false,
+          "durationMs": 12,
+          "validators": {
+            "cacheControl": "private, max-age=0, no-store, no-cache, must-revalidate, post-check=0, pre-check=0",
+            "serverDate": "Sun, 22 Nov 2026 06:31:37 GMT"
+          },
+          "bodyBytes": 4545,
+          "bodyHash": "bdd2942c84e9379d264e816269f30e82036a65c81617813bb151ceea5152d5a0",
+          "bodyFile": "af9d2a17500f0f9ec01d1331-direct.body.txt",
+          "error": "http_403"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:31:39.317Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://uk.match.com/pages/misc/cge",
+          "drift": false,
+          "durationMs": 24,
+          "bodyBytes": 4545,
+          "bodyHash": "f56557204baf51c3b635c4daf9b11c197e795987b11d062a6739c2228145f17b",
+          "bodyFile": "af9d2a17500f0f9ec01d1331-http2.body.txt",
+          "error": "h2_status_403"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://uk.match.com/pages/misc/cge",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "0890c85cfc3f26776fd1ebab",
+      "url": "https://help.meetup.com/hc/en-us/articles/360027447252",
+      "durationMs": 3059,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:31:38.689Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://help.meetup.com/hc/en-us/articles/360027447252",
+          "drift": false,
+          "durationMs": 28,
+          "validators": {
+            "serverDate": "Sun, 22 Nov 2026 06:31:38 GMT"
+          },
+          "bodyBytes": 6146,
+          "bodyHash": "95363afa284fdbf45307463e035f558339a5a2aaf34c627ee55b17e63ec1f4fa",
+          "bodyFile": "0890c85cfc3f26776fd1ebab-direct.body.txt",
+          "error": "http_403"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:31:40.220Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://help.meetup.com/hc/en-us/articles/360027447252",
+          "drift": false,
+          "durationMs": 31,
+          "bodyBytes": 6018,
+          "bodyHash": "4221a0ad8f003571102faf317586215515091065a70b8c8f17c84d807072c310",
+          "bodyFile": "0890c85cfc3f26776fd1ebab-http2.body.txt",
+          "error": "h2_status_403"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://help.meetup.com/hc/en-us/articles/360027447252",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "f11e5b9cc72c14f751cea69a",
+      "url": "https://www.mouthshut.com/help/privacy.php",
+      "durationMs": 3082,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:31:39.958Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://www.mouthshut.com/help/privacy.php",
+          "drift": false,
+          "durationMs": 53,
+          "validators": {
+            "serverDate": "Sun, 22 Nov 2026 06:31:39 GMT"
+          },
+          "bodyBytes": 6127,
+          "bodyHash": "2d36ebb2963cd6d6b0d79fce01726af95d2fa0ca239f179f8cda6b880a9fc519",
+          "bodyFile": "f11e5b9cc72c14f751cea69a-direct.body.txt",
+          "error": "http_403"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:31:41.487Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://www.mouthshut.com/help/privacy.php",
+          "drift": false,
+          "durationMs": 29,
+          "bodyBytes": 5999,
+          "bodyHash": "d155f36e55bc4fa83a9f2d13632fce2ac72c06c7f134411f00b894dc04a56d6f",
+          "bodyFile": "f11e5b9cc72c14f751cea69a-http2.body.txt",
+          "error": "h2_status_403"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.mouthshut.com/help/privacy.php",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "f6b28db62e2048862228bdaa",
+      "url": "https://www.mouthshut.com/help/tos.php",
+      "durationMs": 3079,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-22T06:31:44.518Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://www.mouthshut.com/help/tos.php",
+          "drift": false,
+          "durationMs": 30,
+          "validators": {
+            "serverDate": "Sun, 22 Nov 2026 06:31:44 GMT"
+          },
+          "bodyBytes": 6115,
+          "bodyHash": "9861bf757fe20ec9fc871f0f20f598b87a226200e60ecf18a46b0ea9a73ca750",
+          "bodyFile": "f6b28db62e2048862228bdaa-direct.body.txt",
+          "error": "http_403"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-22T06:31:46.066Z",
+          "status": 403,
+          "ok": false,
+          "finalUrl": "https://www.mouthshut.com/help/tos.php",
+          "drift": false,
+          "durationMs": 46,
+          "bodyBytes": 5987,
+          "bodyHash": "90f6b9a2761a7d73b8399c8ed333844288e216cfa8bb31ac02926a4365cf3181",
+          "bodyFile": "f6b28db62e2048862228bdaa-http2.body.txt",
+          "error": "h2_status_403"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.mouthshut.com/help/tos.php",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,650 @@
+{
+  "files": 161,
+  "matched": 161,
+  "checks": [
+    {
+      "file": "b6bd617099cd8579eb61df3e-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "87c9526a37054d6e2919443f-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "87c9526a37054d6e2919443f-http2.body.txt",
+      "matched": true
+    },
+    {
+      "file": "8ea525fd5e6cf7b5fbe3f973-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "98504fb750669afe06a00b0d-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "98504fb750669afe06a00b0d-http2.body.txt",
+      "matched": true
+    },
+    {
+      "file": "8bd561539c7f417595b1e9fe-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "fe628a15c82f674f8ccd06f8-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "fe628a15c82f674f8ccd06f8-http2.body.txt",
+      "matched": true
+    },
+    {
+      "file": "f950a7cb1016338ec5aff5fb-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "f950a7cb1016338ec5aff5fb-http2.body.txt",
+      "matched": true
+    },
+    {
+      "file": "04854b503562685de6cf3c69-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "04854b503562685de6cf3c69-http2.body.txt",
+      "matched": true
+    },
+    {
+      "file": "e1596d3189142e2258f6e782-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "e1596d3189142e2258f6e782-http2.body.txt",
+      "matched": true
+    },
+    {
+      "file": "5c1f3d1186e2293fc3c8a325-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "5c1f3d1186e2293fc3c8a325-http2.body.txt",
+      "matched": true
+    },
+    {
+      "file": "5c587de6aa6aeaae1f61acd2-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "5c587de6aa6aeaae1f61acd2-http2.body.txt",
+      "matched": true
+    },
+    {
+      "file": "6788afd864005a63ab2decdb-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "6788afd864005a63ab2decdb-http2.body.txt",
+      "matched": true
+    },
+    {
+      "file": "563567805b6ac24e0fbf1153-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "563567805b6ac24e0fbf1153-http2.body.txt",
+      "matched": true
+    },
+    {
+      "file": "d99c8df7541b61ffd5227ce8-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "9ffc5723b0a4ed864ccfd294-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "489b280c8cbf9f2ac7d780ae-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "03055e6f896c91829d7b9032-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "03055e6f896c91829d7b9032-http2.body.txt",
+      "matched": true
+    },
+    {
+      "file": "52de32e375e7b1bbcc101882-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "9343242cf2e8257a8aa06d05-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "f8113d0b79fd50736c93c4e1-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "f8113d0b79fd50736c93c4e1-http2.body.txt",
+      "matched": true
+    },
+    {
+      "file": "faaa3c847d90068b8e78b7c7-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "faaa3c847d90068b8e78b7c7-http2.body.txt",
+      "matched": true
+    },
+    {
+      "file": "82328f077ce637bbe5e392d3-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "82328f077ce637bbe5e392d3-http2.body.txt",
+      "matched": true
+    },
+    {
+      "file": "9f54f9b314fceb4e974861d2-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "d7a6f8210dcdd62d579ac508-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "d7a6f8210dcdd62d579ac508-http2.body.txt",
+      "matched": true
+    },
+    {
+      "file": "b8ca89862b2b3dbba02318af-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "b8ca89862b2b3dbba02318af-http2.body.txt",
+      "matched": true
+    },
+    {
+      "file": "210283a1080718a09328a995-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "692f3b4239fbfcf08f3fd8d6-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "c4837ad74f70363b8a3cc888-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "c4837ad74f70363b8a3cc888-http2.body.txt",
+      "matched": true
+    },
+    {
+      "file": "90acf7542347e865444be2ac-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "90acf7542347e865444be2ac-http2.body.txt",
+      "matched": true
+    },
+    {
+      "file": "d6e1908a61f3965291851f9e-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "9938bdceee6a3c2aa97df7ab-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "1f1309fc5af4ac71fe965a18-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "1f1309fc5af4ac71fe965a18-http2.body.txt",
+      "matched": true
+    },
+    {
+      "file": "5994060ef53527244d1eecae-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "5994060ef53527244d1eecae-http2.body.txt",
+      "matched": true
+    },
+    {
+      "file": "2eb1a6f26429e3b72022a559-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "2eb1a6f26429e3b72022a559-http2.body.txt",
+      "matched": true
+    },
+    {
+      "file": "03a08e5f26b7443df60e850e-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "03a08e5f26b7443df60e850e-http2.body.txt",
+      "matched": true
+    },
+    {
+      "file": "fc59d09457cdc5b12b51a8d4-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "fc59d09457cdc5b12b51a8d4-http2.body.txt",
+      "matched": true
+    },
+    {
+      "file": "4359e8a94e5f765be743436f-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "4359e8a94e5f765be743436f-http2.body.txt",
+      "matched": true
+    },
+    {
+      "file": "546bec401451d4f339d5ddc4-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "546bec401451d4f339d5ddc4-http2.body.txt",
+      "matched": true
+    },
+    {
+      "file": "253f02541fc6c42e8fed8a56-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "253f02541fc6c42e8fed8a56-http2.body.txt",
+      "matched": true
+    },
+    {
+      "file": "f2cbf04cfd069911fcf9c05a-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "f2cbf04cfd069911fcf9c05a-http2.body.txt",
+      "matched": true
+    },
+    {
+      "file": "b3c6d1b39ef6b623b0ca6f21-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "b3c6d1b39ef6b623b0ca6f21-http2.body.txt",
+      "matched": true
+    },
+    {
+      "file": "19d3021363a03ff28eb0fe91-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "19d3021363a03ff28eb0fe91-http2.body.txt",
+      "matched": true
+    },
+    {
+      "file": "4ef1a9e56ee4be9a218af7e1-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "4ef1a9e56ee4be9a218af7e1-http2.body.txt",
+      "matched": true
+    },
+    {
+      "file": "a48a406e3bb5135e86d82b41-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "a48a406e3bb5135e86d82b41-http2.body.txt",
+      "matched": true
+    },
+    {
+      "file": "0506aa726273a8600418688b-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "0506aa726273a8600418688b-http2.body.txt",
+      "matched": true
+    },
+    {
+      "file": "1b625905b93b3dd6e7608654-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "1b625905b93b3dd6e7608654-http2.body.txt",
+      "matched": true
+    },
+    {
+      "file": "5a69d8c484ddaac7ad326140-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "5a69d8c484ddaac7ad326140-http2.body.txt",
+      "matched": true
+    },
+    {
+      "file": "e775ba208468c85a28189e5c-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "e775ba208468c85a28189e5c-http2.body.txt",
+      "matched": true
+    },
+    {
+      "file": "8ba6733c1f7c791c45491a4f-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "8ba6733c1f7c791c45491a4f-http2.body.txt",
+      "matched": true
+    },
+    {
+      "file": "d25bee115a4c309066b3161d-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "a11df90ae3ba512f2c013f67-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "a11df90ae3ba512f2c013f67-http2.body.txt",
+      "matched": true
+    },
+    {
+      "file": "0e5c2d767f6eda333cf57d21-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "0e5c2d767f6eda333cf57d21-http2.body.txt",
+      "matched": true
+    },
+    {
+      "file": "12f5c3c329c165376b4be757-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "12f5c3c329c165376b4be757-http2.body.txt",
+      "matched": true
+    },
+    {
+      "file": "855afd9d644168f2cc3278fc-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "855afd9d644168f2cc3278fc-http2.body.txt",
+      "matched": true
+    },
+    {
+      "file": "1d1662c5380182dc858284e0-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "25ebcc81dff8a9dca517ec10-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "25ebcc81dff8a9dca517ec10-http2.body.txt",
+      "matched": true
+    },
+    {
+      "file": "80f92fd76d1145dd6f7a3913-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "b394f14f5ebc6592e3a1f9c2-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "b394f14f5ebc6592e3a1f9c2-http2.body.txt",
+      "matched": true
+    },
+    {
+      "file": "1194259d7dea8144d95a0d53-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "1194259d7dea8144d95a0d53-http2.body.txt",
+      "matched": true
+    },
+    {
+      "file": "64135059f85bffafc4541e60-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "64135059f85bffafc4541e60-http2.body.txt",
+      "matched": true
+    },
+    {
+      "file": "1549957e0124a964383bad40-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "1549957e0124a964383bad40-http2.body.txt",
+      "matched": true
+    },
+    {
+      "file": "95630d244106e5d89d1f8305-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "95630d244106e5d89d1f8305-http2.body.txt",
+      "matched": true
+    },
+    {
+      "file": "fd762ba7aa413eced0b3cbae-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "fd762ba7aa413eced0b3cbae-http2.body.txt",
+      "matched": true
+    },
+    {
+      "file": "e42066c6ac83880ad57b5ccd-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "03bd17118b7f66facbb8140f-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "03bd17118b7f66facbb8140f-http2.body.txt",
+      "matched": true
+    },
+    {
+      "file": "ea46c23ce365f39bb4f27bd1-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "bf15a1e96e36117e345ed4ec-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "bf15a1e96e36117e345ed4ec-http2.body.txt",
+      "matched": true
+    },
+    {
+      "file": "36d0572bed18122ab85c3d18-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "36d0572bed18122ab85c3d18-http2.body.txt",
+      "matched": true
+    },
+    {
+      "file": "2d279cc53e6b0cc673d42694-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "2d279cc53e6b0cc673d42694-http2.body.txt",
+      "matched": true
+    },
+    {
+      "file": "9921828f6350f2c3731d3b8f-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "9921828f6350f2c3731d3b8f-http2.body.txt",
+      "matched": true
+    },
+    {
+      "file": "a22a6d32a8b071be79d612a0-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "a22a6d32a8b071be79d612a0-http2.body.txt",
+      "matched": true
+    },
+    {
+      "file": "1674b9a870c3677afcfb97a1-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "33c854b7af3fcb25f78af5c4-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "0df88df2bdd9c3b19cbb6813-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "0df88df2bdd9c3b19cbb6813-http2.body.txt",
+      "matched": true
+    },
+    {
+      "file": "578ac92471fa94b5bf9eeecb-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "b085bf775aaaebc0190d5be7-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "190ef478dfc2fe1d5752ec49-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "190ef478dfc2fe1d5752ec49-http2.body.txt",
+      "matched": true
+    },
+    {
+      "file": "74f724caf88eb4636803aba2-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "74f724caf88eb4636803aba2-http2.body.txt",
+      "matched": true
+    },
+    {
+      "file": "2a5d4e524a1c82a45d6c967f-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "e20a3fb155336ffb80cac60b-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "0ef1b7eff96f9b3d9d6bcf75-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "0ef1b7eff96f9b3d9d6bcf75-http2.body.txt",
+      "matched": true
+    },
+    {
+      "file": "0d7ebc7e133377b46752fcbd-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "5baea185ea55fc1e54196f45-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "adbd2466a4febf937e9a73ab-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "b6c4367c4b2e23acdab3b5a0-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "b6c4367c4b2e23acdab3b5a0-http2.body.txt",
+      "matched": true
+    },
+    {
+      "file": "578d8ad0412cc7569b8b54ae-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "578d8ad0412cc7569b8b54ae-http2.body.txt",
+      "matched": true
+    },
+    {
+      "file": "213ae6154638ebdbcd471cf9-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "213ae6154638ebdbcd471cf9-http2.body.txt",
+      "matched": true
+    },
+    {
+      "file": "9c41867d6c07dc6a361f1703-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "9c41867d6c07dc6a361f1703-http2.body.txt",
+      "matched": true
+    },
+    {
+      "file": "e220bc2d10b3340594159c82-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "e220bc2d10b3340594159c82-http2.body.txt",
+      "matched": true
+    },
+    {
+      "file": "e7674bac5d2a5121f4aab7d8-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "e7674bac5d2a5121f4aab7d8-http2.body.txt",
+      "matched": true
+    },
+    {
+      "file": "af9d2a17500f0f9ec01d1331-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "af9d2a17500f0f9ec01d1331-http2.body.txt",
+      "matched": true
+    },
+    {
+      "file": "0890c85cfc3f26776fd1ebab-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "0890c85cfc3f26776fd1ebab-http2.body.txt",
+      "matched": true
+    },
+    {
+      "file": "f11e5b9cc72c14f751cea69a-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "f11e5b9cc72c14f751cea69a-http2.body.txt",
+      "matched": true
+    },
+    {
+      "file": "f6b28db62e2048862228bdaa-direct.body.txt",
+      "matched": true
+    },
+    {
+      "file": "f6b28db62e2048862228bdaa-http2.body.txt",
+      "matched": true
+    }
+  ]
+}
