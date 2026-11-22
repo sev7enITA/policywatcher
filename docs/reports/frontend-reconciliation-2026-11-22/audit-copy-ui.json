@@ -111,5 +111,11 @@
       "pageErrors": []
     }
   ],
-  "failures": []
+  "failures": [],
+  "harnessCleanup": {
+    "allAssertionsCompleted": true,
+    "receiptSavedBeforeCleanup": true,
+    "nodeRunnerRequiredTermination": true,
+    "reason": "Runner remained alive after saving all 12 results; no Chrome child remained. Own local runner and server terminated. No natural process-exit result is claimed."
+  }
 }
