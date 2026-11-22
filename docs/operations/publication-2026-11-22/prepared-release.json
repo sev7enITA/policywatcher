@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "preparedAt": "2026-11-22T16:01:37.225385+00:00",
-  "state": "prepared_not_published",
+  "state": "SUPERSEDED_HOLD_DO_NOT_DEPLOY",
   "productVersion": "5.6.0",
   "publicSourceRevision": "557554cc2707d3739337ed92fe0c99ed58587751",
   "publicSourceBranch": "codex/release-56-completeness-public",
@@ -58,5 +58,7 @@
     "Exact private Preview r3 restored and invariant checks passed",
     "Same stable archive verified in production"
   ],
-  "independentInventoryFollowup": "New user-requested granular/attachment follow-up is separate from this frozen public package; no future results are included."
+  "independentInventoryFollowup": "New user-requested granular/attachment follow-up is separate from this frozen public package; no future results are included.",
+  "reason": "Stable npm prebuild profile stale after 5.6 lockfile metadata; previous direct Next build did not exercise guard",
+  "replacementPreparation": "independent-inventory-publication.json"
 }

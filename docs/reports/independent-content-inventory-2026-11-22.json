@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-11-22T16:22:20.773244+00:00",
+  "state": "local_private_candidate_verified_public_package_awaiting_final_checks_not_published",
+  "codeCheckpoint": "7f2b1e84ad0bc8cbd9545d5a4d4027b25d549312",
+  "pullRequest": "https://github.com/sev7enITA/policywatcher/pull/84",
+  "includedPriorPR": 83,
+  "merged": false,
+  "implementationHash": "3b67995d1476c762bc2cb45996461bc92efaaac47aa0873dcce3d58609219e63",
+  "applicationTests": {
+    "passed": 1842,
+    "skipped": 14,
+    "filesPassed": 221,
+    "filesSkipped": 3,
+    "network": "OS-denied TCP/IP"
+  },
+  "fullPrivatePackageBuild": "passed_in_clean_isolated_copy",
+  "targetedLint": "passed",
+  "criticalTestTypeScript": "passed",
+  "mutationControls": [
+    {
+      "mutation": "v1-publication-bypass",
+      "exitCode": 1,
+      "expectedFailureObserved": true,
+      "test": "version 1 block-only reference"
+    },
+    {
+      "mutation": "link-census-bypass",
+      "exitCode": 1,
+      "expectedFailureObserved": true,
+      "test": "holds a new or changed link"
+    }
+  ],
+  "modelChallenge": {
+    "qwenInitialCompatible": "no_final_answer_reasoning_budget_exhausted",
+    "qwenNative": "partial_response_at_output_cap",
+    "glm4Compatible": "completed_response",
+    "modelExecutedTests": false,
+    "glm53MaxClaimed": false,
+    "geminiClaimed": false
+  },
+  "publicPackage": {
+    "state": "prepared_pending_fresh_local_build_not_published",
+    "sourceRevision": "411a415f5e898a83ee9aca9fc979e843125bb18a",
+    "stableBranch": "codex/release-56-completeness-public",
+    "archive": "PolicyWatcher-5.6.0-hostinger-2026-11-22-independent-inventory-methodology-diary.zip",
+    "sha256": "0cc3e1a430bdbd1b73b6a35f2f3206c776ce393bde49065e2b94359a675e78a6",
+    "changedFilesComparedWithPrevious56": [
+      "release-manifest.json",
+      "src/app/methodology/confidence/page.tsx",
+      "src/app/engine-6-preview/page.tsx",
+      "src/lib/extractionProfile.generated.json"
+    ],
+    "unchangedFiles": 1067,
+    "files": 1071,
+    "originalArchiveSha256": "416cc4fea3691fb1024366434b5656361ac4b7ea2fc16fba27c0308a08ee58d0",
+    "newPrivateEngineCodeIncluded": false,
+    "scannerLogicUnchanged": true,
+    "stableExtractionProfile": {
+      "before": "e717f5728a2a0bbd1a078708282e0cf8fec1fc5e126ffeda57c86ee989d8d9c4",
+      "after": "fcc7f2145af676a4973bcdcba82a6701176cca950b949c2563043733b1d70062",
+      "reason": "Only root lockfile version metadata advanced to 5.6; all seven extraction-source digests unchanged",
+      "flagsChanged": false,
+      "baselineAdoptionPerformed": false
+    },
+    "privateCandidateRevision": "7f2b1e84ad0bc8cbd9545d5a4d4027b25d549312",
+    "privateCandidateTests": {
+      "passed": 1842,
+      "skipped": 14
+    },
+    "hostedActionsPerformed": false,
+    "stableExpectedTables": 35,
+    "stableExpectedMigrations": 19,
+    "manifest": {
+      "product": "PolicyWatcher",
+      "version": "5.6.0",
+      "releaseName": "Chatbot Policy Watch",
+      "sourceRevision": "411a415f5e898a83ee9aca9fc979e843125bb18a",
+      "sourceState": "clean",
+      "sourceStateDigest": null,
+      "builtAt": "2026-11-22T16:21:26.121607Z",
+      "target": "Hostinger Next.js source deployment",
+      "startupCommand": "npm start",
+      "startupFile": "server.js",
+      "databaseIncluded": false,
+      "artifactLabel": "independent-inventory-methodology-diary"
+    }
+  },
+  "hostedActionsPerformed": false,
+  "realSourceCompletenessQualified": false,
+  "daily500FullPipelineQualified": false
+}

@@ -1,0 +1,34 @@
+{
+  "sourceRevision": "411a415f5e898a83ee9aca9fc979e843125bb18a",
+  "archive": "PolicyWatcher-5.6.0-hostinger-2026-11-22-independent-inventory-methodology-diary.zip",
+  "sha256": "0cc3e1a430bdbd1b73b6a35f2f3206c776ce393bde49065e2b94359a675e78a6",
+  "files": 1071,
+  "unchangedFiles": 1067,
+  "changedFilesComparedWithPrevious56": [
+    "release-manifest.json",
+    "src/app/methodology/confidence/page.tsx",
+    "src/app/engine-6-preview/page.tsx",
+    "src/lib/extractionProfile.generated.json"
+  ],
+  "scannerLogicUnchanged": true,
+  "stableExtractionProfile": {
+    "before": "e717f5728a2a0bbd1a078708282e0cf8fec1fc5e126ffeda57c86ee989d8d9c4",
+    "after": "fcc7f2145af676a4973bcdcba82a6701176cca950b949c2563043733b1d70062",
+    "reason": "Only root lockfile version metadata advanced to 5.6; all seven extraction-source digests unchanged",
+    "flagsChanged": false,
+    "baselineAdoptionPerformed": false
+  },
+  "state": "prepared_pending_fresh_build_and_compiled_checks_not_published",
+  "productVersion": "5.6.0",
+  "newPrivateEngineCodeIncluded": false,
+  "privateCandidatePR": 84,
+  "stableTables": 35,
+  "stableMigrations": 19,
+  "hostedActionsPerformed": false,
+  "requiredSequence": [
+    "Fresh observed deployment state and Preview database snapshot",
+    "Exact package verified in staging",
+    "Exact private r3 and protected data restored and verified",
+    "Same public package verified in production"
+  ]
+}
