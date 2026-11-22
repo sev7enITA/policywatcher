@@ -1,0 +1,397 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://policywatcher.online/schemas/insight-ir/0.1.0",
+  "title": "PolicyWatcher InsightIR observation-only MVP",
+  "type": "object",
+  "properties": {
+    "schemaVersion": {
+      "const": "0.1.0"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740991
+    },
+    "visibility": {
+      "const": "public"
+    },
+    "provenance": {
+      "type": "object",
+      "properties": {
+        "producer": {
+          "const": "PolicyWatcher"
+        },
+        "adapterVersion": {
+          "const": "0.1.0"
+        }
+      },
+      "required": [
+        "producer",
+        "adapterVersion"
+      ],
+      "additionalProperties": false
+    },
+    "source": {
+      "type": "object",
+      "properties": {
+        "policyId": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "scopeId": {
+          "type": "string",
+          "pattern": "^policywatcher:policy:[0-9a-f-]{36}$"
+        },
+        "publicUrl": {
+          "type": "string",
+          "format": "uri",
+          "maxLength": 2048
+        },
+        "jurisdiction": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "policyId",
+        "scopeId",
+        "publicUrl",
+        "jurisdiction"
+      ],
+      "additionalProperties": false
+    },
+    "times": {
+      "type": "object",
+      "properties": {
+        "observedAt": {
+          "type": "string",
+          "format": "date-time",
+          "maxLength": 24
+        },
+        "publishedAt": {
+          "type": "string",
+          "format": "date-time",
+          "maxLength": 24
+        },
+        "effectiveAt": {
+          "const": null
+        }
+      },
+      "required": [
+        "observedAt",
+        "publishedAt",
+        "effectiveAt"
+      ],
+      "additionalProperties": false
+    },
+    "snapshots": {
+      "type": "object",
+      "properties": {
+        "before": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "version": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 9007199254740991
+                },
+                "capturedAt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "maxLength": 24
+                },
+                "textSha256": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$"
+                },
+                "representation": {
+                  "const": "normalized-text"
+                },
+                "offsetEncoding": {
+                  "const": "utf-16-code-units"
+                },
+                "extractorVersion": {
+                  "const": null
+                }
+              },
+              "required": [
+                "version",
+                "capturedAt",
+                "textSha256",
+                "representation",
+                "offsetEncoding",
+                "extractorVersion"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "after": {
+          "type": "object",
+          "properties": {
+            "version": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            },
+            "capturedAt": {
+              "type": "string",
+              "format": "date-time",
+              "maxLength": 24
+            },
+            "textSha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            "representation": {
+              "const": "normalized-text"
+            },
+            "offsetEncoding": {
+              "const": "utf-16-code-units"
+            },
+            "extractorVersion": {
+              "const": null
+            }
+          },
+          "required": [
+            "version",
+            "capturedAt",
+            "textSha256",
+            "representation",
+            "offsetEncoding",
+            "extractorVersion"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "before",
+        "after"
+      ],
+      "additionalProperties": false
+    },
+    "claims": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "kind": {
+            "const": "inferred"
+          },
+          "category": {
+            "enum": [
+              "data-use",
+              "retention",
+              "licensing",
+              "screening"
+            ]
+          },
+          "statement": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000
+          },
+          "value": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "const": "text"
+              },
+              "value": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2000
+              }
+            },
+            "required": [
+              "type",
+              "value"
+            ],
+            "additionalProperties": false
+          },
+          "evidence": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "side": {
+                  "enum": [
+                    "before",
+                    "after"
+                  ]
+                },
+                "start": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "end": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "quote": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 240
+                },
+                "quoteSha256": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$"
+                },
+                "textSha256": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$"
+                }
+              },
+              "required": [
+                "side",
+                "start",
+                "end",
+                "quote",
+                "quoteSha256",
+                "textSha256"
+              ],
+              "additionalProperties": false
+            },
+            "maxItems": 2
+          }
+        },
+        "required": [
+          "id",
+          "kind",
+          "category",
+          "statement",
+          "value",
+          "evidence"
+        ],
+        "additionalProperties": false
+      },
+      "maxItems": 20,
+      "minItems": 1
+    },
+    "quality": {
+      "type": "object",
+      "properties": {
+        "identity": {
+          "const": "not_verified"
+        },
+        "completeness": {
+          "const": "unqualified"
+        },
+        "language": {
+          "const": "not_verified"
+        },
+        "freshness": {
+          "const": "not_verified"
+        },
+        "semanticVerification": {
+          "const": "not_verified"
+        }
+      },
+      "required": [
+        "identity",
+        "completeness",
+        "language",
+        "freshness",
+        "semanticVerification"
+      ],
+      "additionalProperties": false
+    },
+    "review": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "const": "required"
+        },
+        "approved": {
+          "const": false
+        }
+      },
+      "required": [
+        "status",
+        "approved"
+      ],
+      "additionalProperties": false
+    },
+    "decision": {
+      "type": "object",
+      "properties": {
+        "state": {
+          "const": "indeterminate"
+        },
+        "executionAuthorized": {
+          "const": false
+        }
+      },
+      "required": [
+        "state",
+        "executionAuthorized"
+      ],
+      "additionalProperties": false
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "legacy_unanchored",
+          "source_completeness_unqualified",
+          "semantic_verification_not_performed",
+          "effective_date_unknown",
+          "source_metadata_not_verified",
+          "quote_rejected",
+          "quote_ambiguous",
+          "private_before_omitted",
+          "extractor_version_not_recorded",
+          "source_qualifications_not_proven",
+          "source_url_scope_redacted"
+        ]
+      },
+      "maxItems": 11,
+      "uniqueItems": true
+    },
+    "contentDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "id",
+    "revision",
+    "visibility",
+    "provenance",
+    "source",
+    "times",
+    "snapshots",
+    "claims",
+    "quality",
+    "review",
+    "decision",
+    "warnings",
+    "contentDigest"
+  ],
+  "additionalProperties": false
+}

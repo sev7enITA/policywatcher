@@ -1,0 +1,51 @@
+{
+  "schemaVersion": "1.0.0",
+  "date": "2026-11-22",
+  "scope": "Local public read-only export and trusted-caller draft sidecar MVP",
+  "nodeTestsPassed": 20,
+  "applicationTestsPassed": 48,
+  "newApplicationTests": 33,
+  "existingApplicationRegressions": 15,
+  "compiledRouteChecksPassed": 15,
+  "regressionMutationsDetected": 2,
+  "osNetworkDeniedForTests": true,
+  "build": {
+    "nextVersion": "16.4.6",
+    "passed": true,
+    "packageLockSha256": "57689b0b8e73dca45234fdbab3ad27e7a4d89a206b2e9ebf6486fcf641587abb",
+    "sourceCopyUsed": true,
+    "isolatedSyntheticDatabase": true
+  },
+  "glm53Max": {
+    "completed": false,
+    "reason": "Trusted RPC service is not configured: sky",
+    "promptPrepared": true
+  },
+  "delivery": {
+    "candidateBranch": "codex/policy-as-code-mvp-20261122",
+    "productionDeployed": false,
+    "privatePreviewChanged": false,
+    "corporateRuntimeChanged": false
+  },
+  "executionAuthorized": false,
+  "boundaries": [
+    "Unsigned digests do not authenticate origin or validate legal truth.",
+    "Storage tenant partitions are not an authenticated multi-user service.",
+    "No private export, live enterprise import, OPA evaluation or operational activation.",
+    "No new completeness or 500-policy/day qualification."
+  ],
+  "evidenceSha256": {
+    "offline-receipt.json": "0b538a3ce0707be6028ec4b5499fe6e41c4d9b0a0f9ac01d2fc02c4d76c88e4f",
+    "network-denial.log": "8db0a18cd7ed8c5df6905d866ed7f6f900b0cdbe5b3e3bf6d17bcf7ea98a4bbf",
+    "contract-and-adversarial.log": "b23906a76d3ed5f9ff1b99c1a8c458eb55289cf081880f064ee07b046229ef64",
+    "export-api-roundtrip.log": "c9873fd5b671af6f4857c2b75227e37aae66d55f2bec341aa334875416cfd40f",
+    "mutation-receipt.json": "2921eac127aa5d310c6e816c4f9eb31190a5c78469dbd894f9b5d2e438ce4f54",
+    "unicode-display-mutant.log": "919d401207e55dc16caacab781f2218a2933c99b3b1d7a11b100b33244bd0955",
+    "quote-prefix-mutant.log": "2d010fde97d8ee9167e2b85ca8adf7de972111e939a7d53e12d9d91185b2fb2f",
+    "independent-schema.log": "18106b1438a56c1ff4beb82bd458a33f2df880e97fe4e491b3d2dd7552c8b4ed",
+    "build-aligned.log": "45ea1c85718178b22b6d5724534d452b4cd6edb25104cf0af6275944fc000afa",
+    "standalone-receipt.json": "03a886702c9ccc335add0942e31a2dcfda11b89581eb73993d56a66a9e0daaa6",
+    "test-typecheck.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "lint-final.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}
