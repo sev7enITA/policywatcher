@@ -1,0 +1,41 @@
+{
+  "state": "staging_accepted_private_restore_pending_production_not_deployed",
+  "sourceIntegration": {
+    "headRefOid": "8dffd33890c74eec370ecf9b05218bc51f4eaa3b",
+    "mergeCommit": {
+      "oid": "7bee80a5a8f4aaa349534ea4e5d89a4b51d0b4f4"
+    },
+    "mergedAt": "2026-11-22T08:21:04Z",
+    "state": "MERGED",
+    "url": "https://github.com/sev7enITA/policywatcher/pull/79"
+  },
+  "stableSource": "c748807518b546f4e59b8fb4012003e8c4f2f6dd",
+  "stableArchive": "PolicyWatcher-5.5.0-hostinger-2026-11-22-held129-rendering-reviewed-diary.zip",
+  "stableArchiveSha256": "b83059c3275df511ce267ea08c28a3c064b267219e98b4247c44e55cdf48b49a",
+  "stagingDeployment": "01a20226-68c2-70fe-93f4-6eeb83393ba3",
+  "stagingVerification": {
+    "operationalPassed": 12,
+    "ENITChecksPassed": 20,
+    "sourceHashesMatched": 531,
+    "nativeVisualObserved": true
+  },
+  "privateRestore": {
+    "state": "original_archive_upload_prepared_settings_edited_no_successful_submission_observed",
+    "deployment": null,
+    "requiredArchiveSha256": "e82ff8ff3fe33275e62475054889cdaf97f1a12d7442bb0ca6d42ec30cf99341",
+    "expectedImplementation": "84085328fffc7b22fac33cc2cbe150120c540b75deda59d3b207c32b768a9a00",
+    "lastDataCheck": "integrity_ok_47_application_tables_22_migrations_zero_active_tasks",
+    "publication": false,
+    "notifications": false
+  },
+  "production": {
+    "state": "unchanged_previous_published_archive",
+    "newDeployment": null,
+    "previousArchiveSha256": "64050939c9207aa0b8b080bf04c7005288e2e2f4ca313f89b562e01d014fca07"
+  },
+  "remaining": "Browser concurrency with LinkedIn and native-control timeouts; user coordination requested. Restore exact private r3, verify preserved data and reports, then promote same stable archive and verify production.",
+  "visualEvidenceDigests": {
+    "staging-native-diary.png": "03c6dc3f67734287fac8c79fc30c4807c020399e1e80d13813edb71f134224f0",
+    "staging-native-results.png": "d10ee277a70af0ee17a376144d64f43cb086b6725dccf280385f5493f8895c34"
+  }
+}
