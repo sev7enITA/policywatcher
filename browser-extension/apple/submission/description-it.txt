@@ -1,0 +1,18 @@
+PolicyWatcher per Safari ti aiuta a trasformare una notifica su nuove informative privacy, condizioni, cookie, IA o regole di uso accettabile in un punto di partenza strutturato per consultare le evidenze pubbliche.
+
+COME FUNZIONA
+Apri una notifica pubblica in Safari, richiama PolicyWatcher e leggi l’informativa. L’estensione esamina localmente il testo selezionato o visibile. Controlla organizzazione, dominio mittente, link ufficiale ripulito, categorie e date prima di scegliere se inviare gli indizi.
+
+COME LEGGERE IL RISULTATO
+PolicyWatcher può mostrare confronti revisionati disponibili, indicare che un’organizzazione è monitorata senza un confronto pubblicato oppure indirizzare una fonte mancante alla revisione umana. Una notifica è un indizio, non dimostra una modifica della policy. Una prima baseline non prova un cambiamento storico.
+
+CONFINI DI PRIVACY
+La richiesta strutturata non include testo grezzo, indirizzi email, destinatari, oggetto, allegati, screenshot o fingerprint del contenuto. L’estensione richiede analisi temporanea della scheda attiva, scripting e accesso all’API canonica di PolicyWatcher. Non usa API della casella di posta, SDK di analytics o permessi di cronologia. Controlla i campi prima dell’invio e non usare comunicazioni riservate. Informativa e conservazione lato server sono descritte nella privacy policy.
+
+RICERCA PUBBLICA
+Il sito usa PolicyWatcher stabile 5.5.0. Engine 6 Preview è un ambiente amministrativo distinto con risultati privati: l’estensione non lo seleziona né lo attiva. Sul sito trovi architettura, evidenze di ricerca e limiti espliciti.
+
+PREVIEW SVILUPPATORI
+Questa build 0.1.0 è in preparazione per TestFlight. Restano necessari collaudo Safari e su dispositivo, firma del publisher e revisione Apple. Non è ancora disponibile su App Store. Questa descrizione è una bozza da revisionare prima dell’invio.
+
+PolicyWatcher offre evidenze informative, non consulenza legale, certificazione di conformità o garanzia di rilevare ogni modifica.

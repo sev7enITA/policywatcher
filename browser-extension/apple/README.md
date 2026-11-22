@@ -16,6 +16,19 @@ The command uses Apple's installed `safari-web-extension-packager` with `--ios-o
 
 Outputs include a source-project ZIP, simulator `.app`, unsigned device `.xcarchive`, build logs and `receipt.json` containing the source revision, exact input hashes and distribution limits. The minimum container OS is iOS 17.0; the generated project supports iPhone and iPad. The unsigned device archive cannot be installed by ordinary users or uploaded as a signed release. Simulator compilation does not establish functional Safari compatibility.
 
+## Bounded functional checks and submission kit
+
+The containing app was installed/launched in a dedicated iPhone Duo simulator (iOS27.1). A screenshot verifies initial English onboarding rendering, not Safari extension behavior. The installed runtime supports no iPad device type. The four native-handler XCTest cases run on macOS and check that JSON dictionaries/strings/arrays are not read or echoed. Six worker tests run actual packaged JavaScript against stub browser/fetch APIs. These are deliberately separate from real Safari enablement, injection or live query evidence.
+
+```sh
+swift test --package-path browser-extension/apple --scratch-path /absolute/new/swift-build
+node scripts/test-safari-runtime-contract.mjs --runtime-dir '/path/to/PolicyWatcher Extension.appex'
+python3 scripts/validate-safari-submission-kit.py
+python3 scripts/smoke-safari-ios-simulator.py --app '/path/to/PolicyWatcher.app' --output /absolute/new/evidence
+```
+
+The [submission preparation kit](submission/README.md) contains EN/IT draft metadata, review notes, TestFlight copy, privacy proposals, signing/export guidance, screenshot requirements, API review and a QA matrix. It has not been submitted to Apple. Publisher privacy, signing and real-browser/device gates remain open.
+
 The source project has two explicit bundle identifiers:
 
 - Host app: `online.policywatcher.safari`

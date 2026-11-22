@@ -1,0 +1,33 @@
+{
+  "state": "publisher_inputs_pending_not_submitted",
+  "platform": "iOS",
+  "primaryLanguageCandidate": "en",
+  "bundleIdentifierCandidate": "online.policywatcher.safari",
+  "extensionBundleIdentifierCandidate": "online.policywatcher.safari.Extension",
+  "sellerLegalIdentity": null,
+  "appleDeveloperTeam": null,
+  "activeExistingMembershipVerified": false,
+  "bundleOwnershipVerified": false,
+  "appStoreConnectAppId": null,
+  "uniqueSku": null,
+  "copyrightOwner": null,
+  "regionsAndPriceApproved": false,
+  "euTraderOrNonTraderDeclaration": null,
+  "reviewContact": { "firstName": null, "lastName": null, "phone": null, "email": null },
+  "appAccountRequired": false,
+  "demoAccount": null,
+  "ageAndContentDraft": {
+    "assignedAgeRating": null,
+    "advertisingInReviewedClient": false,
+    "inAppPurchasesInReviewedClient": false,
+    "gamblingOrMedicalFeaturesInReviewedClient": false,
+    "publicUserGeneratedContentPlatform": false,
+    "unrestrictedInAppWebBrowser": false,
+    "contextToReview": "Safari acts on pages the user already opened; reviewed structured inquiries can be stored privately for source review. This is not a platform publishing arbitrary user posts. Publisher must answer the current Apple questionnaire."
+  },
+  "privacyDeclarations": "draft_in_privacy-answers.md_requires_server_log_provider_confirmation",
+  "exportCompliance": "publisher_review_required_platform_https_only_in_reviewed_client",
+  "testFlight": { "uploadedBuildId": null, "internalDistributionEnabled": false, "externalReviewApproved": false, "testerInvitationsSent": false },
+  "appStore": { "submitted": false, "approved": false, "publicListingUrl": null },
+  "signingOrAccountActionsPerformedByThisKit": false
+}

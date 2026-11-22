@@ -1,0 +1,56 @@
+Building for debugging...
+[Constructing description]
+[Planning deferred tasks]
+[1 / 52]
+[28 / 52]
+[29 / 53] PolicyWatcherNative
+[39 / 118]
+[42 / 118]
+[46 / 118]
+[50 / 118]
+[53 / 118]
+[59 / 118]
+[61 / 118]
+[64 / 118]
+[69 / 118]
+[72 / 118]
+[74 / 118]
+[75 / 118]
+[84 / 118]
+[86 / 118]
+[87 / 118]
+[90 / 118]
+[91 / 118]
+[94 / 118] PolicyWatcherNative
+[102 / 118] PolicyWatcherNative
+[108 / 119] PolicyWatcherNativeTests-product
+[110 / 127]
+[112 / 127]
+[113 / 127]
+[116 / 127] PolicyWatcherNativeTests-product
+[121 / 127] PolicyWatcherNativeTests-product
+[123 / 127] PolicyWatcherNativeTests-product
+[124 / 127] PolicyWatcherNativeTests-product
+[126 / 127] PolicyWatcherNativeTests-product
+Build complete! (12,05 sec)
+Test Suite 'All tests' started at 2026-11-22 04:08:27.492.
+Test Suite 'PolicyWatcherNativeTests.xctest' started at 2026-11-22 04:08:27.500.
+Test Suite 'HandlerTests' started at 2026-11-22 04:08:27.500.
+Test Case '-[PolicyWatcherNativeTests.HandlerTests testArrayMessageIsNotReadOrEchoed]' started.
+Test Case '-[PolicyWatcherNativeTests.HandlerTests testArrayMessageIsNotReadOrEchoed]' passed (0.003 seconds).
+Test Case '-[PolicyWatcherNativeTests.HandlerTests testEmptyContextCompletesOnce]' started.
+Test Case '-[PolicyWatcherNativeTests.HandlerTests testEmptyContextCompletesOnce]' passed (0.000 seconds).
+Test Case '-[PolicyWatcherNativeTests.HandlerTests testJsonDictionaryIsNotReadOrEchoed]' started.
+Test Case '-[PolicyWatcherNativeTests.HandlerTests testJsonDictionaryIsNotReadOrEchoed]' passed (0.000 seconds).
+Test Case '-[PolicyWatcherNativeTests.HandlerTests testStringMessageIsNotReadOrEchoed]' started.
+Test Case '-[PolicyWatcherNativeTests.HandlerTests testStringMessageIsNotReadOrEchoed]' passed (0.000 seconds).
+Test Suite 'HandlerTests' passed at 2026-11-22 04:08:27.504.
+	 Executed 4 tests, with 0 failures (0 unexpected) in 0.003 (0.004) seconds
+Test Suite 'PolicyWatcherNativeTests.xctest' passed at 2026-11-22 04:08:27.504.
+	 Executed 4 tests, with 0 failures (0 unexpected) in 0.003 (0.004) seconds
+Test Suite 'All tests' passed at 2026-11-22 04:08:27.504.
+	 Executed 4 tests, with 0 failures (0 unexpected) in 0.003 (0.012) seconds
+◇ Test run started.
+↳ Testing Library Version: 2403
+↳ Target Platform: arm64e-apple-macos14.0
+✔ Test run with 0 tests in 0 suites passed after 0.001 seconds.

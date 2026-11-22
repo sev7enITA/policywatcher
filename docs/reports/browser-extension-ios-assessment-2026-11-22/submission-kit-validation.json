@@ -1,0 +1,15 @@
+{
+  "status": "draft_metadata_validated_offline_not_submitted",
+  "locales": [
+    {
+      "locale": "en",
+      "metadataFieldsChecked": 8,
+      "keywordUtf8Bytes": 75
+    },
+    {
+      "locale": "it",
+      "metadataFieldsChecked": 8,
+      "keywordUtf8Bytes": 78
+    }
+  ]
+}
