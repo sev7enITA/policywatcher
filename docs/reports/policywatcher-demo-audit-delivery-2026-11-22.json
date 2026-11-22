@@ -1,0 +1,148 @@
+{
+  "recordedAt": "2026-11-22T04:51:32.710746+00:00",
+  "sourcePublication": {
+    "pullRequest": {
+      "headRefOid": "453ed06755804f84df7e620c0b02ad5e22d2d0c6",
+      "mergeCommit": {
+        "oid": "8244c53eebc5055021d3ed250fd49fb56d8ddcd1"
+      },
+      "mergedAt": "2026-11-22T04:36:55Z",
+      "state": "MERGED",
+      "url": "https://github.com/sev7enITA/policywatcher/pull/77"
+    },
+    "checks": [
+      {
+        "link": "https://github.com/sev7enITA/policywatcher/runs/137095740257",
+        "name": "CodeQL",
+        "state": "SUCCESS"
+      },
+      {
+        "link": "https://github.com/sev7enITA/policywatcher/actions/runs/44985520660/job/137095110788",
+        "name": "Lint, build, and dataset assurance",
+        "state": "SUCCESS"
+      },
+      {
+        "link": "https://github.com/sev7enITA/policywatcher/actions/runs/44985520628/job/137095110539",
+        "name": "Sonar quality gate",
+        "state": "SUCCESS"
+      },
+      {
+        "link": "https://github.com/sev7enITA/policywatcher/actions/runs/44985520607/job/137095110458",
+        "name": "Analyze JavaScript and TypeScript",
+        "state": "SUCCESS"
+      },
+      {
+        "link": "https://github.com/sev7enITA/policywatcher/actions/runs/44985520622/job/137095110540",
+        "name": "Vitest critical-control coverage",
+        "state": "SUCCESS"
+      },
+      {
+        "link": "https://github.com/sev7enITA/policywatcher/actions/runs/44985520660/job/137095110582",
+        "name": "PostgreSQL schema and runtime portability",
+        "state": "SUCCESS"
+      }
+    ]
+  },
+  "iosDeveloperPublication": {
+    "releaseUrl": "https://github.com/sev7enITA/policywatcher/releases/tag/safari-ios-0.1.0-build1-preview",
+    "publishedAt": "2026-11-22T04:37:57Z",
+    "tag": "safari-ios-0.1.0-build1-preview",
+    "sourceIntegration": "8244c53eebc5055021d3ed250fd49fb56d8ddcd1",
+    "prerelease": true,
+    "draft": false,
+    "appStore": false,
+    "testFlight": false,
+    "ordinaryUnsignedDeviceInstall": false,
+    "assets": [
+      {
+        "name": "PolicyWatcher-Safari-iOS-0.1.0-build1-device-unsigned.zip",
+        "bytes": 4585085,
+        "sha256": "1f6aebabcc87463e9a4995f9e0d1579e80fe27141e3db64546cb1e4ecdb42982",
+        "publicUrl": "https://github.com/sev7enITA/policywatcher/releases/download/safari-ios-0.1.0-build1-preview/PolicyWatcher-Safari-iOS-0.1.0-build1-device-unsigned.zip",
+        "publicDownloadMatches": true,
+        "githubDigestMatches": true
+      },
+      {
+        "name": "PolicyWatcher-Safari-iOS-0.1.0-build1-review-kit.zip",
+        "bytes": 337379,
+        "sha256": "6f5aee749d16ad9036d78448441ae41c273aa7d2f3ac9d90adac7e3e90c3f5bc",
+        "publicUrl": "https://github.com/sev7enITA/policywatcher/releases/download/safari-ios-0.1.0-build1-preview/PolicyWatcher-Safari-iOS-0.1.0-build1-review-kit.zip",
+        "publicDownloadMatches": true,
+        "githubDigestMatches": true
+      },
+      {
+        "name": "PolicyWatcher-Safari-iOS-0.1.0-build1-simulator.zip",
+        "bytes": 3644968,
+        "sha256": "aee04645a7a0a79e8c2963471f4fb9e96cc9561f51ffada5ac2404f80889257d",
+        "publicUrl": "https://github.com/sev7enITA/policywatcher/releases/download/safari-ios-0.1.0-build1-preview/PolicyWatcher-Safari-iOS-0.1.0-build1-simulator.zip",
+        "publicDownloadMatches": true,
+        "githubDigestMatches": true
+      },
+      {
+        "name": "PolicyWatcher-Safari-iOS-0.1.0-build1-source.zip",
+        "bytes": 760605,
+        "sha256": "2f12b196dff78ba6760f9fe64c947852adfd540ff781f499907c4b104c5a10b4",
+        "publicUrl": "https://github.com/sev7enITA/policywatcher/releases/download/safari-ios-0.1.0-build1-preview/PolicyWatcher-Safari-iOS-0.1.0-build1-source.zip",
+        "publicDownloadMatches": true,
+        "githubDigestMatches": true
+      },
+      {
+        "name": "release-metadata.json",
+        "bytes": 4755,
+        "sha256": "43548b3bcdb87f4aaba2e21711dbd8d506eb260dcc72dcaa3a7612d8fa168889",
+        "publicUrl": "https://github.com/sev7enITA/policywatcher/releases/download/safari-ios-0.1.0-build1-preview/release-metadata.json",
+        "publicDownloadMatches": true,
+        "githubDigestMatches": true
+      },
+      {
+        "name": "SHA256SUMS.txt",
+        "bytes": 564,
+        "sha256": "295f2083487474237cd00ea3c017b328777cbd1d1d87929cdcdf1e51e4464566",
+        "publicUrl": "https://github.com/sev7enITA/policywatcher/releases/download/safari-ios-0.1.0-build1-preview/SHA256SUMS.txt",
+        "publicDownloadMatches": true,
+        "githubDigestMatches": true
+      }
+    ]
+  },
+  "stableWebsite": {
+    "state": "prepared_not_deployed",
+    "sourceRevision": "6efa016a4489ecacb202465393391ed004b576fa",
+    "sourceState": "clean",
+    "archive": "PolicyWatcher-5.5.0-hostinger-2026-11-22-demo-audit-ios-kit.zip",
+    "sha256": "3b0d8476d94955260ccaaa76b9b320ee19aad1f65e96e46e8cff88fefc55af8b",
+    "artifactTypecheckExit": 0,
+    "offlinePublicTests": 213,
+    "protectedRuntimeChanges": 0,
+    "supersedesPreparedArchive": "c8d35b5c2fb16f8f667f651d8ce7e37077205084ecc96993ae624fd83790ac20",
+    "lastActuallyPublishedArchive": "64050939c9207aa0b8b080bf04c7005288e2e2f4ca313f89b562e01d014fca07",
+    "deploymentStarted": false
+  },
+  "renderer": {
+    "candidateVersion": "1.2.1",
+    "runtimeSource": "3276336aedff3923a21cbf642e1f303ea53efd8b",
+    "localArchiveSha256": "ca3a96c560b6f3300e4e46fc43541e30e0087443731e3e9b500915be2ab53095",
+    "remoteUpgradePerformed": false,
+    "lastReadinessObservedVersion": "1.2.0",
+    "realChromiumAndVpsPromotionQualified": false
+  },
+  "privatePreview": {
+    "changedByDelivery": false,
+    "implementation": "84085328fffc7b22fac33cc2cbe150120c540b75deda59d3b207c32b768a9a00",
+    "exactRestoreArchiveSha256": "e82ff8ff3fe33275e62475054889cdaf97f1a12d7442bb0ca6d42ec30cf99341",
+    "lastReadOnlyObservation": "2026-11-22T03:48:35.476212+00:00",
+    "selectedHashesUnchanged": 14,
+    "savedReports": 3,
+    "activeTasks": 0,
+    "publication": false,
+    "notifications": false
+  },
+  "pendingGates": [
+    "Mac unlock and a coordinated Hostinger browser session for stable staging, exact private r3 restoration and production verification",
+    "Controllable Simulator frontend or properly authorized physical-device path for real Safari QA",
+    "Publisher/team/bundle ownership, signing and final privacy declarations before Apple submission",
+    "Real Chromium isolated renderer staging, resource limits and upgrade/rollback verification before VPS promotion",
+    "Independent source completeness, live semantic accuracy and500 successful daily full-pipeline completions"
+  ],
+  "newPaidResourceOrServiceEnrollment": false,
+  "qualificationPassed": false
+}

@@ -1,5 +1,7 @@
 # Browser extension and Safari iOS assessment, 22 November 2026
 
+Delivery update,22 November: [unsigned developer artifacts are now published on GitHub](https://github.com/sev7enITA/policywatcher/releases/tag/safari-ios-0.1.0-build1-preview). Six public downloads match their local and server digests. This does not change Safari, signing or Apple qualification; preparation-time statements below are retained. [Publication receipt](policywatcher-demo-audit-delivery-2026-11-22.md).
+
 A concrete **Safari iOS developer candidate 0.1.0 (1)** now builds for the simulator and as an unsigned device archive. Its eleven shared runtime files match browser extension **3.8.3.3 / 3.8.3 Beta 3** byte for byte. **It is not available on the App Store and the unsigned device archive is not installable by ordinary users.** Actual Safari and physical-device behavior remain untested. [Build receipt](browser-extension-ios-assessment-2026-11-22/ios-build-receipt.json) and [assessment summary](browser-extension-ios-assessment-2026-11-22/summary.json).
 
 ## Existing extension and online product

@@ -1,5 +1,7 @@
 # PolicyWatcher - audit per la dimostrazione del 22 novembre 2026
 
+**Aggiornamento di consegna:** codice e audit sono integrati in main tramite la PR #77, con sei controlli CI superati; il kit iOS non firmato è ora pubblicato e verificato su GitHub. Il nuovo pacchetto del sito è pronto ma non ancora distribuito; renderer remoto e Apple restano consegne separate. [Ricevuta e stato effettivo](policywatcher-demo-audit-delivery-2026-11-22.md).
+
 **Esito: dimostrazione dei controlli e dei rapporti esistenti consentita entro i limiti delle prove raccolte. Due P1 del renderer sono stati riprodotti localmente; il servizio remoto resta 1.2.0 e richiede una correzione verificata prima di una prova di carico. Non qualificati completezza delle fonti, accuratezza semantica dell’intera pipeline e 500 policy completate al giorno.** Questo è un assessment mirato di codice, controlli, dati operativi e interfacce: non un pentest né una certificazione del prodotto.
 
 ## Identità e stato di consegna
@@ -13,7 +15,7 @@
 | Companion Chromium | Versione indipendente 3.8.3 Beta 3, manifest 3.8.3.3; nessun nuovo runtime Chromium imposto dal numero Engine 6 |
 | Safari iOS | Candidato per sviluppatori 0.1.0 (1), non firmato, non disponibile su App Store/TestFlight |
 
-Il diario del 21 novembre è stato pubblicato durante questa sessione. La prima verifica visiva ha poi evidenziato una dateline ancora al 16 novembre: errore conservato e corretto nel codice. La correzione dateline ha superato staging e r3 è stata ripristinata. La riconciliazione più ampia di Atlas/roadmap/EN/IT e il nuovo audit sono **preparati, non ancora dichiarati pubblicati**. La ricevuta conclusiva di consegna registrerà gli effettivi deployment e la verifica dopo pubblicazione, senza confondere ZIP o staging con produzione.
+Il diario del 21 novembre è stato pubblicato durante questa sessione. La prima verifica visiva ha poi evidenziato una dateline ancora al 16 novembre: errore conservato e corretto nel codice. La correzione dateline ha superato staging e r3 è stata ripristinata. La riconciliazione più ampia di Atlas/roadmap/EN/IT è preparata per il dominio, non ancora distribuita. Codice e audit sono pubblici su GitHub; ciò non aggiorna automaticamente il sito. La ricevuta conclusiva di consegna registrerà gli effettivi deployment e la verifica dopo pubblicazione, senza confondere ZIP o staging con produzione.
 
 ## Cosa abbiamo verificato
 
