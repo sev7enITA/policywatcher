@@ -2,7 +2,7 @@
   "schemaVersion": "1.0.0",
   "date": "2026-11-22",
   "candidateBranch": "codex/source-completeness-controls-20261122",
-  "implementationHash": "eaf3dacbbe6f8230d35639d1c3402c8d021020f5e624243ae45b88034a47e1dd",
+  "implementationHash": "618197e6dfd2f28f0a9b081b0798ea0f8e19ef89cae26812613ea94a4c1aae75",
   "applicationTestsPassed": 1802,
   "applicationTestsSkipped": 14,
   "scopedTestsIncludedInFullTotal": {
@@ -40,9 +40,17 @@
     "glm4-compatible-receipt.json": "88dfbb4b6f7cab3c1b60f40a74b0f3cf7eacc138b28a2dca6d85547ccb7e5058",
     "final-code-review-receipts.json": "c1bdc4298036d88dbebf0f7093a8b0877453e407aef6ee088175fe49fb2daa1b",
     "browser-receipt.json": "722b31c2b5491de818479e56a861040a4a342923bd5bb155a4d9f9475b155396",
-    "full-tests-release56.log": "cbf511bc0119b158dd1272258ddbe77702a7d3cb6091e50da85e2db823d56a38"
+    "full-tests-release56.log": "cbf511bc0119b158dd1272258ddbe77702a7d3cb6091e50da85e2db823d56a38",
+    "full-tests-profile-final.log": "0d873757adad311d235036d47653684318d431a0ec25756acd96f7b8963dd3ea"
   },
   "preMergeApplicationTestsPassed": 1801,
   "productVersion": "5.6.0",
-  "concurrentReleaseReconciled": "afa8d72"
+  "concurrentReleaseReconciled": "afa8d72",
+  "ciInitialFailure": {
+    "head": "b6121b1",
+    "passedChecks": 5,
+    "cause": "generated extraction profile stale in package prebuild",
+    "correction": "regenerated extraction profile then dependent engine manifest",
+    "guardsDisabled": false
+  }
 }

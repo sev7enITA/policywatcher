@@ -7,7 +7,8 @@ const sourceUrl = 'https://example.org/terms#service';
 const middle = 'A critical middle clause prohibits commercial resale without written approval.';
 const repeated = 'The supplier retains responsibility for the defined service.';
 const terminal = 'Contact the independent service owner for further information.';
-const fullText = ['# Sample Terms', '## Use', middle, repeated, repeated, '- Review the applicable service scope.', '## Fees', '| Plan | Amount |', '| Standard | 100 |', '| Premium | 200 |', '## Empty', '## Contact', terminal].join('\n\n');
+const sectionBody = 'This required section contains a separately reviewed substantive obligation.';
+const fullText = ['# Sample Terms', '## Use', middle, repeated, repeated, '- Review the applicable service scope.', '## Fees', '| Plan | Amount |', '| Standard | 100 |', '| Premium | 200 |', '## Empty', sectionBody, '## Contact', terminal].join('\n\n');
 const sha = (s: string) => createHash('sha256').update(s).digest('hex');
 function unit(kind: CoverageUnit['kind'], section: string[], text: string, occurrences = 1): CoverageUnit {
   return { kind, section, textSha256: sha(normalizeCoverageUnit(text)), occurrences };
@@ -24,13 +25,13 @@ function reference(): ReviewedCoverageInventory {
       unit('paragraph', ['Sample Terms', 'Use'], middle), unit('paragraph', ['Sample Terms', 'Use'], repeated, 2),
       unit('list', ['Sample Terms', 'Use'], '- Review the applicable service scope.'), unit('heading', ['Sample Terms', 'Fees'], '## Fees'),
       unit('table', ['Sample Terms', 'Fees'], '| Plan | Amount |'), unit('table', ['Sample Terms', 'Fees'], '| Standard | 100 |'), unit('table', ['Sample Terms', 'Fees'], '| Premium | 200 |'),
-      unit('heading', ['Sample Terms', 'Empty'], '## Empty'), unit('heading', ['Sample Terms', 'Contact'], '## Contact'),
+      unit('heading', ['Sample Terms', 'Empty'], '## Empty'), unit('paragraph', ['Sample Terms', 'Empty'], sectionBody), unit('heading', ['Sample Terms', 'Contact'], '## Contact'),
       unit('paragraph', ['Sample Terms', 'Contact'], terminal)],
   };
   return { ...body, inventorySha256: coverageInventoryDigest(body) };
 }
 function contract(inventory?: ReviewedCoverageInventory): SourceContract {
-  return { schemaVersion: 1, sourceUrl, titleAliases: ['Sample Terms'], requiredHeadings: ['Use', 'Contact'], terminalText: terminal,
+  return { schemaVersion: 1, sourceUrl, titleAliases: ['Sample Terms'], requiredHeadings: ['Use', 'Empty', 'Contact'], terminalText: terminal,
     language: 'en', minimumChars: 100, maximumChars: 500_000, preferredTransport: 'direct', reviewedAt: '2026-11-22T10:05:00Z',
     reviewNote: 'Synthetic scoped source contract for coverage tests.', ...(inventory ? { completenessInventory: inventory } : {}) };
 }
@@ -82,17 +83,20 @@ describe('reviewed source inventory coverage', () => {
   });
   it('matches every group and occurrence without claiming universal completeness', () => {
     const a = assess(); expect(a.eligible).toBe(true); expect(a.completeness).toBe('matched_reviewed_reference');
-    expect(a.coverage).toMatchObject({ state: 'matched_reviewed_reference', expectedUnits: 13, observedUnits: 13, expectedGroups: 12, observedGroups: 12, missingUnits: 0, unexpectedUnits: 0, reasons: [] });
+    expect(a.coverage).toMatchObject({ state: 'matched_reviewed_reference', expectedUnits: 14, observedUnits: 14, expectedGroups: 13, observedGroups: 13, missingUnits: 0, unexpectedUnits: 0, reasons: [] });
     expect(publicationCoverageSatisfied(a)).toBe(true);
   });
   it.each([
     ['middle clause', fullText.replace(middle + '\n\n', '')],
     ['duplicate paragraph', fullText.replace(repeated + '\n\n', '')],
     ['table row', fullText.replace('| Premium | 200 |\n\n', '')],
-    ['empty section', fullText.replace('## Empty\n\n', '')],
+    ['empty section', fullText.replace(sectionBody + '\n\n', '')],
     ['required heading', fullText.replace('## Use\n\n', '')],
     ['terminal text', fullText.replace(terminal, '')],
-  ])('holds missing %s even when heading and terminal heuristics are otherwise satisfied', (_name, text) => {
+  ])('holds missing %s even when heading and terminal heuristics are otherwise satisfied', (name, text) => {
+    if (['middle clause', 'duplicate paragraph', 'table row', 'empty section'].includes(name)) {
+      expect(assessDocument(structureDocument(text), contract(), sourceUrl, 'en').eligible).toBe(true);
+    }
     const a = assess(text); expect(a.eligible).toBe(false); expect(a.coverage.state).toBe('mismatch');
     expect(a.coverage.missingUnits).toBeGreaterThan(0); expect(publicationCoverageSatisfied(a)).toBe(false);
   });

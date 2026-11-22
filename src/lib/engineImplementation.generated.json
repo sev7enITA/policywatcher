@@ -355,7 +355,7 @@
     ],
     [
       "src/lib/extractionProfile.generated.json",
-      "ed817c4e29d7d67b08f7e7c0bfa082dc1d88c94cf45ab48dfdc1c0b7ee432538"
+      "5759a0493b01ebaca77cb3716437a55bbcb474365aa6b760a781e0275306d180"
     ],
     [
       "src/lib/extractionProfile.ts",
@@ -494,5 +494,5 @@
       "9a58ee8a17ae157f8639415c9a07249dcfd7f46d9b8371d9592eb8e460e56005"
     ]
   ],
-  "hash": "eaf3dacbbe6f8230d35639d1c3402c8d021020f5e624243ae45b88034a47e1dd"
+  "hash": "618197e6dfd2f28f0a9b081b0798ea0f8e19ef89cae26812613ea94a4c1aae75"
 }
