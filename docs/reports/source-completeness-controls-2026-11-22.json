@@ -1,0 +1,56 @@
+{
+  "schemaVersion": "1.0.0",
+  "date": "2026-11-22",
+  "candidateBranch": "codex/source-completeness-controls-20261122",
+  "implementationHash": "618197e6dfd2f28f0a9b081b0798ea0f8e19ef89cae26812613ea94a4c1aae75",
+  "applicationTestsPassed": 1802,
+  "applicationTestsSkipped": 14,
+  "scopedTestsIncludedInFullTotal": {
+    "referenceCoverage": 18,
+    "transportIntegrity": 25,
+    "isolatedWorkflow": 7,
+    "adminAuditAndBoundary": 4,
+    "methodologyLocale": 3,
+    "existingAdaptedEngineSuite": 156
+  },
+  "localModelFinalResponses": 4,
+  "additionalSelectedSourceReview": "Ornith1.0 35B",
+  "nativeGlm53MaxReviewClaimed": false,
+  "sourceCompletenessQualified": false,
+  "referenceOriginVerified": false,
+  "real500PolicyCapacityQualified": false,
+  "productionEngineQualified": false,
+  "productionDeployed": false,
+  "hostedPreviewChanged": false,
+  "stableContentOnly": {
+    "source": "5c6b6e6af68a21c1f80b5d87e4edd14b9e5115c4",
+    "sha256": "671fbd44b4f6d6fb0ccbb68170fb02a5b8bf15d9f1db36a63b29d778ebaf2952",
+    "state": "SUPERSEDED_HOLD_DO_NOT_DEPLOY_5_5",
+    "httpChecks": 24,
+    "schemaChecks": 1,
+    "changedFiles": 5,
+    "unchangedProtectedRuntimeFiles": 388
+  },
+  "evidenceSha256": {
+    "full-tests-delivery.log": "68062390494e94ec342187f413a78676a3a9207ee5c270850412226949878d4d",
+    "lint-delivery.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "test-typecheck-delivery.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "build-delivery.log": "abad2f1cd2992825163822381b3e71490f9211b81afcd8ce9c0af08b77dba098",
+    "native-review-receipts.json": "08b4b173d5c79a835df4793e999356432fd5ab2675060a8b0a8d19d7517de951",
+    "glm4-compatible-receipt.json": "88dfbb4b6f7cab3c1b60f40a74b0f3cf7eacc138b28a2dca6d85547ccb7e5058",
+    "final-code-review-receipts.json": "c1bdc4298036d88dbebf0f7093a8b0877453e407aef6ee088175fe49fb2daa1b",
+    "browser-receipt.json": "722b31c2b5491de818479e56a861040a4a342923bd5bb155a4d9f9475b155396",
+    "full-tests-release56.log": "cbf511bc0119b158dd1272258ddbe77702a7d3cb6091e50da85e2db823d56a38",
+    "full-tests-profile-final.log": "0d873757adad311d235036d47653684318d431a0ec25756acd96f7b8963dd3ea"
+  },
+  "preMergeApplicationTestsPassed": 1801,
+  "productVersion": "5.6.0",
+  "concurrentReleaseReconciled": "afa8d72",
+  "ciInitialFailure": {
+    "head": "b6121b1",
+    "passedChecks": 5,
+    "cause": "generated extraction profile stale in package prebuild",
+    "correction": "regenerated extraction profile then dependent engine manifest",
+    "guardsDisabled": false
+  }
+}

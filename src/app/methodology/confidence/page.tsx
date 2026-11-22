@@ -1,5 +1,3 @@
-'use client';
-
 /**
  * @file page.tsx (Methodology & Confidence)
  *
@@ -7,7 +5,7 @@
  * double-checking ingestion cascade, AI constraints, and known limitations.
  * Exposes the GRC/auditing telemetry logic to ensure transparency and accountability.
  */
-import { useState } from 'react';
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import {
   ArrowLeft,
@@ -23,6 +21,9 @@ import Footer from '@/components/Footer';
 import PublicHeader from '@/components/PublicHeader';
 import { DOCUMENT_SCOPE_METHODOLOGY } from '@/lib/documentScopeCopy';
 import { POLICYWATCHER_VERSION } from '@/lib/release';
+import { languageAlternates, localizedPublicPath, publicLanguage, withSocialMetadata } from '@/lib/seo';
+
+type Props = { searchParams: Promise<{ lang?: string | string[] }> };
 
 const translationContent = {
   en: {
@@ -38,6 +39,41 @@ const translationContent = {
     // Cards / Sections
     sections: [
       { icon: Scale, title: DOCUMENT_SCOPE_METHODOLOGY.en.title, desc: DOCUMENT_SCOPE_METHODOLOGY.en.intro, bullets: DOCUMENT_SCOPE_METHODOLOGY.en.bullets },
+      {
+        icon: Eye,
+        title: "Four separate questions about the evidence",
+        desc: "A successful download, a matching fingerprint, a completed transaction and a convincing explanation answer different questions. None is a universal certificate:",
+        bullets: [
+          "Download integrity: which response was retained, from which source and when? A SHA-256 match detects changes to that retained representation; it does not prove that the origin supplied the whole policy.",
+          "Extraction coverage: which clauses, repeated passages, table rows and section contents survived extraction? Compare them with a separately reviewed source reference, bound to the exact document scope and language.",
+          "Transaction atomicity: did the baseline, change and queued event commit together? An all-or-nothing database transaction prevents a partial local update; it does not validate the acquired content or prove notification delivery.",
+          "Interpretation: do exact before/after passages support the proposed meaning? Quotation matching is distinct from semantic review. Uncertainty and missing context require review rather than an invented answer."
+        ]
+      },
+      {
+        icon: ShieldCheck,
+        title: "Completeness controls under local verification",
+        desc: "The 22 November audit found a blind spot in the earlier heading-and-terminal contract: four of six deliberately incomplete synthetic documents were accepted. This is a targeted counterexample set, not an error rate for real policies.",
+        bullets: [
+          "The new candidate compares an inventory of every structured block: block kind, section path, text digest and occurrence count. It targets missing middle clauses, lost repeated passages, missing table rows and emptied sections.",
+          "The reference must be reviewed against the official source, with document scope and language recorded. An inventory generated from the same unverified extraction cannot independently establish completeness.",
+          "A match covers only that reviewed reference and representation. Unloaded content, attachments or clauses already absent from the reference remain possible blind spots.",
+          "A genuine source change requires a fresh reviewed reference; it must not be silently accepted by rebuilding the inventory from the changed extraction.",
+          "Missing or mismatched reviewed inventory may be retained for private observation, but must remain held at the candidate Engine 6 publication boundary. Final test evidence is being recorded; hosted r3 Preview and frozen candidate 050af19 are separate implementations."
+        ]
+      },
+      {
+        icon: Eye,
+        title: "Responsible AI: inspect, question and correct",
+        desc: "Transparency means exposing what was observed, what was inferred and what remains unresolved. Human oversight needs usable evidence and the ability to withhold or correct an output:",
+        bullets: [
+          "Follow the version trail: source scope and language, capture timestamp, retained representation, extraction and model versions where recorded, citations and the review decision.",
+          "Read unknown, unavailable and incomplete as limitations, not as zero risk or a successful check. Model agreement alone does not establish truth.",
+          "Preserve failed attempts and superseded conclusions when correcting a result. A new reference or implementation needs its own verification; earlier campaign evidence is not automatically transferable.",
+          "Keep private captures, reviewer metadata, credentials and customer context behind their access boundaries. Public explanations should disclose evidence limits without exposing private material.",
+          "Use NIST AI RMF and OECD AI Principles as public design references for risk management, transparency, traceability and human oversight. Their inclusion is not certification, endorsement or a finding of legal compliance."
+        ]
+      },
       {
         icon: Scale,
         title: '1. Informational mapping and scope',
@@ -76,7 +112,7 @@ const translationContent = {
       {
         icon: Cpu,
         title: '3. AI Analysis & LLM Constraints',
-        desc: 'Automated reviews are processed using Google Gemini models. To prevent hallucination and ensure auditability, the AI is subject to strict engineering constraints:',
+        desc: 'Automated reviews use configured AI models, including Google Gemini. Model outputs can be wrong; engineering constraints reduce unsupported claims and preserve a review trail rather than guaranteeing accuracy:',
         bullets: [
           'Direct grounding: summaries and bullet points are generated from the retrieved/versioned text record being analysed.',
           'No unsupported filling: prompts instruct the model to return "Not Specified" or "Unavailable" when the document does not support a field or KPI.',
@@ -150,6 +186,8 @@ const translationContent = {
     ],
 
     // Footer notice
+    referencesTitle: 'Public design references',
+    referenceBoundary: 'Free primary sources for these design principles; no certification or endorsement is claimed.',
     disclaimerTitle: 'Verification Required',
     disclaimerText: 'Always verify policy states against the provider source pages. Corporate counsel and GRC teams should conduct independent human reviews before drawing legal compliance conclusions.'
   },
@@ -166,6 +204,41 @@ const translationContent = {
     // Cards / Sections
     sections: [
       { icon: Scale, title: DOCUMENT_SCOPE_METHODOLOGY.it.title, desc: DOCUMENT_SCOPE_METHODOLOGY.it.intro, bullets: DOCUMENT_SCOPE_METHODOLOGY.it.bullets },
+      {
+        icon: Eye,
+        title: "Quattro domande distinte sulle evidenze",
+        desc: "Un download riuscito, un hash coincidente, una transazione conclusa e una spiegazione convincente rispondono a domande diverse. Nessuno di questi elementi è un certificato universale:",
+        bullets: [
+          "Integrità del download: quale risposta è stata conservata, da quale fonte e quando? Un hash SHA-256 rileva modifiche alla rappresentazione conservata; non prova che l’origine abbia fornito l’intera policy.",
+          "Copertura dell’estrazione: quali clausole, passaggi ripetuti, righe di tabella e contenuti di sezione sono stati conservati? Occorre confrontarli con un riferimento della fonte revisionato separatamente, legato all’esatto ambito documentale e alla lingua.",
+          "Atomicità della transazione: baseline, modifica ed evento in coda sono stati salvati insieme? Una transazione tutto-o-niente evita aggiornamenti locali parziali; non valida il contenuto acquisito e non dimostra la consegna della notifica.",
+          "Interpretazione: i passaggi esatti prima e dopo supportano il significato proposto? La corrispondenza delle citazioni è distinta dalla revisione semantica. Incertezza e contesto mancante richiedono revisione, non risposte inventate."
+        ]
+      },
+      {
+        icon: ShieldCheck,
+        title: "Controlli di completezza in verifica locale",
+        desc: "L’audit del 22 novembre ha individuato un limite del precedente contratto basato su intestazioni e termine atteso: accettava quattro documenti sintetici intenzionalmente incompleti su sei. È un insieme mirato di controesempi, non il tasso di errore delle policy reali.",
+        bullets: [
+          "Il nuovo candidato confronta un inventario di ogni blocco strutturato: tipo, percorso della sezione, hash del testo e numero di occorrenze. Mira a rilevare clausole centrali mancanti, ripetizioni perse, righe di tabella assenti e sezioni svuotate.",
+          "Il riferimento deve essere revisionato rispetto alla fonte ufficiale, registrando ambito documentale e lingua. Un inventario generato dalla stessa estrazione non verificata non dimostra indipendentemente la completezza.",
+          "Una corrispondenza riguarda soltanto quel riferimento e quella rappresentazione. Contenuti non caricati, allegati o clausole già assenti dal riferimento restano possibili punti ciechi.",
+          "Una modifica autentica della fonte richiede un nuovo riferimento revisionato; non va accettata silenziosamente rigenerando l’inventario dall’estrazione modificata.",
+          "Un inventario revisionato assente o non corrispondente può essere conservato come osservazione privata, ma deve restare sospeso al confine di pubblicazione del candidato Engine 6. Le prove finali sono in raccolta; Preview r3 online e candidato congelato 050af19 restano implementazioni distinte."
+        ]
+      },
+      {
+        icon: Eye,
+        title: "IA responsabile: ispezionare, contestare e correggere",
+        desc: "Trasparenza significa distinguere osservazioni, inferenze e questioni irrisolte. La supervisione umana richiede evidenze utilizzabili e la possibilità di sospendere o correggere un risultato:",
+        bullets: [
+          "Seguire le versioni: ambito e lingua della fonte, data della cattura, rappresentazione conservata, versioni di estrazione e modello quando registrate, citazioni e decisione di revisione.",
+          "Leggere ignoto, non disponibile e incompleto come limiti, non come rischio zero o controllo riuscito. L’accordo fra modelli non stabilisce da solo la verità.",
+          "Conservare tentativi falliti e conclusioni superate quando si corregge un risultato. Nuovi riferimenti o implementazioni richiedono verifiche proprie; le prove di campagne precedenti non si trasferiscono automaticamente.",
+          "Mantenere catture private, metadati dei revisori, credenziali e contesto del cliente entro i rispettivi confini di accesso. Le spiegazioni pubbliche devono chiarire i limiti senza esporre materiale riservato.",
+          "Usare NIST AI RMF e principi OCSE sull’IA come riferimenti pubblici di progettazione per rischi, trasparenza, tracciabilità e supervisione umana. Citarli non significa certificazione, endorsement o conformità giuridica accertata."
+        ]
+      },
       {
         icon: Scale,
         title: '1. Mappatura informativa e ambito',
@@ -204,7 +277,7 @@ const translationContent = {
       {
         icon: Cpu,
         title: '3. Analisi IA e Limiti dei Modelli (LLM)',
-        desc: 'Le analisi automatiche sono elaborate con modelli Google Gemini. Per ridurre il rischio di allucinazioni e migliorare la verificabilità, l\'IA è soggetta a rigidi vincoli:',
+        desc: 'Le analisi automatiche usano modelli IA configurati, tra cui Google Gemini. Gli output possono essere errati: i vincoli ingegneristici riducono le affermazioni non supportate e conservano una traccia revisionabile, senza garantire accuratezza:',
         bullets: [
           'Ancoraggio diretto: riassunti e punti chiave sono generati dal record testuale recuperato/versionato.',
           'Nessun riempimento non supportato: i prompt chiedono al modello di restituire "Non specificato" o "Non disponibile" quando il documento non supporta un campo o KPI.',
@@ -275,13 +348,26 @@ const translationContent = {
     ],
 
     // Footer notice
+    referencesTitle: 'Riferimenti pubblici di progettazione',
+    referenceBoundary: 'Fonti primarie gratuite per questi principi; nessuna certificazione o approvazione dichiarata.',
     disclaimerTitle: 'Verifica Necessaria',
     disclaimerText: 'Verificare sempre lo stato delle policy sulle pagine sorgente del provider. Team legali e GRC dovrebbero effettuare revisioni umane indipendenti prima di trarre conclusioni di conformità.'
   }
 };
 
-export default function MethodologyConfidence() {
-  const [lang, setLang] = useState<'en' | 'it'>('en');
+export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
+  const lang = publicLanguage((await searchParams).lang);
+  return withSocialMetadata({
+    title: lang === 'it' ? 'Metodologia delle evidenze | PolicyWatcher' : 'Evidence methodology | PolicyWatcher',
+    description: lang === 'it'
+      ? 'Integrità, copertura, transazioni e interpretazione: controlli distinti, riferimenti revisionati, supervisione umana e limiti espliciti.'
+      : 'Integrity, coverage, transactions and interpretation: separate controls, reviewed references, human oversight and explicit limits.',
+    alternates: languageAlternates('/methodology/confidence', lang),
+  }, lang);
+}
+
+export default async function MethodologyConfidence({ searchParams }: Props) {
+  const lang = publicLanguage((await searchParams).lang);
   const t = translationContent[lang];
 
   return (
@@ -289,16 +375,16 @@ export default function MethodologyConfidence() {
       <PublicHeader current="methodology" lang={lang} />
       <header className={styles.header}>
         <div className={styles.headerContent}>
-          <Link href="/" className={styles.backBtn}>
+          <Link href={localizedPublicPath('/', lang)} className={styles.backBtn}>
             <ArrowLeft size={16} />
             <span>{t.backHome}</span>
           </Link>
-          <button 
-            onClick={() => setLang((l) => (l === 'en' ? 'it' : 'en'))}
+          <Link
+            href={localizedPublicPath('/methodology/confidence', lang === 'en' ? 'it' : 'en')}
             className={styles.langToggle}
           >
             {t.langLabel}
-          </button>
+          </Link>
         </div>
       </header>
 
@@ -344,6 +430,14 @@ export default function MethodologyConfidence() {
           </div>
           <p>{t.disclaimerText}</p>
         </div>
+        <section className={styles.card} aria-labelledby="responsible-ai-references">
+          <h2 id="responsible-ai-references">{t.referencesTitle}</h2>
+          <p className={styles.cardDesc}>{t.referenceBoundary}</p>
+          <ul className={styles.bulletList}>
+            <li><a href="https://www.nist.gov/itl/ai-risk-management-framework" target="_blank" rel="noopener noreferrer">NIST AI Risk Management Framework</a></li>
+            <li><a href="https://www.oecd.org/en/topics/ai-principles.html" target="_blank" rel="noopener noreferrer">OECD AI Principles</a></li>
+          </ul>
+        </section>
       </main>
 
       <Footer lang={lang} />

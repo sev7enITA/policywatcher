@@ -9,6 +9,7 @@ import { digest, structureDocument, compareDocuments, assessDocument, parseSourc
 import { validateClaims, validateVerification, validateModelPair, engineModelPair, modelEvidence, CLAIM_SCHEMA, type AnalysisInput, type ClaimSet, type AnalysisProvider } from '../engine/claims';
 import type { CaptureBody, Observation } from '../engine/acquisition';
 import type { TaskInput } from '../engine/store';
+import { coverageInventoryDigest, coverageScopeId, observedCoverageUnits, observedCoverageSequenceDigest, type ReviewedCoverageInventory } from '../engine/coverage';
 
 const dir = mkdtempSync(join(tmpdir(), 'pw-engine-v6-'));
 const url = `file:${join(dir, 'engine.db')}`;
@@ -42,12 +43,33 @@ async function capture(text = newText, notModified = false): Promise<Observation
   return { artifactId: await store.putArtifact(body), observedAt: new Date().toISOString(), source: 'direct', httpStatus: notModified ? 304 : 200,
     finalUrl: fixtureUrl, notModified, eligible: true, reasons: [], diagnostics: [] };
 }
-async function seed(suffix = '', sourceUrl = fixtureUrl) {
+/** Synthetic reviewed reference authored before acquisition; not a live completeness claim.
+ * Parser-specific inventory oracles are independently hand-authored in sourceCoverage.test.ts.
+ */
+function fixtureInventory(sourceUrl: string, referenceText: string): ReviewedCoverageInventory {
+  const scope = { sourceUrl, language: 'en' as const, referenceVersion: 'synthetic-authored-reference-v1' };
+  const body: Omit<ReviewedCoverageInventory, 'inventorySha256'> = {
+    schemaVersion: 1, scope, scopeId: coverageScopeId(scope),
+    reference: { method: 'manual_reference', url: 'https://example.test/authored-engine-fixture', sha256: digest(referenceText),
+      capturedAt: '2026-10-31T00:00:00.000Z', reviewedAt: '2026-10-31T00:05:00.000Z',
+      reviewNote: 'Synthetic authored reference for offline control-flow tests, not independent real-source qualification.' },
+    units: observedCoverageUnits(structureDocument(referenceText)),
+    sequenceSha256: observedCoverageSequenceDigest(structureDocument(referenceText)),
+  };
+  return { ...body, inventorySha256: coverageInventoryDigest(body) };
+}
+async function installFixtureReference(policyId: string, referenceText: string) {
+  const row = await database.engineSourceContract.findUniqueOrThrow({ where: { policyId } });
+  const current = JSON.parse(row.contractJson) as SourceContract;
+  const contractJson = JSON.stringify({ ...current, completenessInventory: fixtureInventory(current.sourceUrl, referenceText) });
+  await database.engineSourceContract.update({ where: { policyId }, data: { contractJson, contractHash: digest(contractJson) } });
+}
+async function seed(suffix = '', sourceUrl = fixtureUrl, referenceText = newText) {
   const company = await database.company.create({ data: { name: `Fixture${suffix}`, slug: `fixture${suffix}`, website: 'https://example.com', industry: 'Technology' } });
   const policy = await database.policy.create({ data: { companyId: company.id, name: 'Privacy Policy', type: 'privacy', url: sourceUrl,
     currentHash: digest(oldText), currentText: oldText, lastCheckDate: new Date(0), lastSuccessfulCheckDate: new Date(0), ingestionMethod: 'Direct Scrape',
     snapshots: { create: { version: 1, text: oldText, hash: digest(oldText), publicEvidence: true } } } });
-  const contractJson = JSON.stringify({ ...contract, sourceUrl });
+  const contractJson = JSON.stringify({ ...contract, sourceUrl, completenessInventory: fixtureInventory(sourceUrl, referenceText) });
   await database.engineSourceContract.create({ data: { policyId: policy.id, contractJson, contractHash: digest(contractJson), reviewedBy: 'fixture-admin' } });
   await database.extractionBaseline.create({ data: { policyId: policy.id, baselineHash: policy.currentHash, profileHash: store.engineExtractionProfileHash(sourceUrl),
     inputHash: digest(oldText), input: oldText, sourceUrl, capturedAt: new Date() } });
@@ -750,7 +772,9 @@ describe('adjudicated Gemini and GLM review regressions', () => {
   });
   it('requires explicit approval of an extractor replay and publishes no provider-change event', async () => {
     const p = await seed();
-    const html = `<html lang="en"><main><h1>Privacy Policy</h1><h2>Data use</h2><p>We respond to support questions within 30 days.</p><h2>Contact</h2><p>${contract.terminalText}</p></main></html>`;
+    // The authored historical HTML contains 60 days; a legacy extractor stored the wrong 30-day baseline.
+    // Both the current capture and corrected replay must match the new reviewed 60-day inventory.
+    const html = `<html lang="en"><main><h1>Privacy Policy</h1><h2>Data use</h2><p>We respond to support questions within 60 days.</p><h2>Contact</h2><p>${contract.terminalText}</p></main></html>`;
     await database.extractionBaseline.update({ where: { policyId: p.id }, data: { profileHash: 'legacy-profile', input: html, inputHash: digest(html) } });
     await run('replay-review'); await drain();
     const review = await database.engineReview.findFirstOrThrow();
@@ -761,11 +785,23 @@ describe('adjudicated Gemini and GLM review regressions', () => {
     expect((await database.extractionBaseline.findUniqueOrThrow({ where: { policyId: p.id } })).profileHash).toBe(store.engineExtractionProfileHash(fixtureUrl));
     expect((await database.engineReview.findUniqueOrThrow({ where: { id: review.id } })).status).toBe('approved');
   });
+  it('requires a rebaseline when the reviewed current inventory does not cover the historical parser replay', async () => {
+    // A new reference for current 60-day text must not retroactively qualify historical 30-day evidence.
+    const p = await seed();
+    const html = `<html lang="en"><main><h1>Privacy Policy</h1><h2>Data use</h2><p>We respond to support questions within 30 days.</p><h2>Contact</h2><p>${contract.terminalText}</p></main></html>`;
+    await database.extractionBaseline.update({ where: { policyId: p.id }, data: { profileHash: 'legacy-profile', input: html, inputHash: digest(html) } });
+    await run('replay-reference-mismatch'); await drain();
+    const review = await database.engineReview.findFirstOrThrow();
+    expect(review.reasonsJson).toContain('parser_upgrade_rebaseline_required');
+    await expect(pipeline.approveReview(review.id, 'Approval cannot supply a missing historical reviewed reference.', 'fixture-admin')).rejects.toThrow('review_hard_gate_unresolved');
+    expect(await database.policyChange.count()).toBe(0); expect(await database.engineOutbox.count()).toBe(0);
+    expect((await database.extractionBaseline.findUniqueOrThrow({ where: { policyId: p.id } })).profileHash).toBe('legacy-profile');
+  });
   it('requests two new baseline captures when reviewed UI cannot replay historical HTML', async () => {
     const p = await seed();
     const html = `<html lang="en"><main><h1>Privacy Policy</h1><h2>Data use</h2><p>We respond to support questions within 60 days.</p><h2>Contact</h2><p>${contract.terminalText}</p><div id="ui" aria-hidden="true"><p>${'Current interface metadata, outside the policy. '.repeat(4)}</p></div></main></html>`;
     const $ = load(html);
-    const reviewed = parseSourceContract({ ...contract, reviewedExclusions: [{ selector: '#ui', htmlSha256: digest($.html($('#ui'))), purpose: 'non_document_ui', reviewNote: 'Reviewed the exact unrelated interface metadata.' }] });
+    const reviewed = parseSourceContract({ ...contract, completenessInventory: fixtureInventory(fixtureUrl, newText), reviewedExclusions: [{ selector: '#ui', htmlSha256: digest($.html($('#ui'))), purpose: 'non_document_ui', reviewNote: 'Reviewed the exact unrelated interface metadata.' }] });
     const contractJson = JSON.stringify(reviewed);
     await database.engineSourceContract.update({ where: { policyId: p.id }, data: { contractJson, contractHash: digest(contractJson) } });
     const oldHtml = html.replaceAll('Current interface', 'Historical interface').replace('60 days', '30 days');
@@ -835,7 +871,7 @@ describe('adjudicated Gemini and GLM review regressions', () => {
     expect((await database.engineOutbox.findFirstOrThrow()).status).toBe('failed');
   });
   it('requires two fresh observations for an explicit source migration even when the text hash is identical', async () => {
-    const p = await seed(); await database.policy.update({ where: { id: p.id }, data: { sourceMigrationPending: true } });
+    const p = await seed('', fixtureUrl, oldText); await database.policy.update({ where: { id: p.id }, data: { sourceMigrationPending: true } });
     await run('migration-same-first'); await drain({ acquire: async () => capture(oldText) });
     expect((await database.policy.findUniqueOrThrow({ where: { id: p.id } })).sourceMigrationPending).toBe(true);
     await readySecond(p.id); await run('migration-same-second'); await drain({ acquire: async () => capture(oldText) });
@@ -886,6 +922,7 @@ describe('final review isolation and history regressions', () => {
     const p = await seed(); await database.extractionBaseline.delete({ where: { policyId: p.id } });
     await run('obsolete-first'); await drain();
     await database.enginePolicyState.update({ where: store.stateKey(p.id, 'publish'), data: { nextDueAt: new Date(0) } });
+    await installFixtureReference(p.id, oldText);
     await database.engineOrigin.updateMany({ data: { nextAllowedAt: new Date(0) } }); await run('obsolete-second'); await drain({ acquire: async () => capture(oldText) });
     expect(await database.engineReview.count({ where: { status: 'pending' } })).toBe(0);
     expect((await database.policy.findUniqueOrThrow({ where: { id: p.id } })).dataStatus).toBe('Available');
@@ -913,7 +950,7 @@ describe('operational release regressions', () => {
     expect((await database.engineRun.findUniqueOrThrow({ where: { id: runToCancel.id } })).status).toBe('cancelled');
   });
   it('approves a confirmed formatting baseline without announcing a provider change', async () => {
-    const p = await seed(); const formatting = oldText.replace('## Data use', '### Data use');
+    const formatting = oldText.replace('## Data use', '### Data use'); const p = await seed('', fixtureUrl, formatting);
     await run('formatting-first'); await drain({ acquire: async () => capture(formatting) });
     await readySecond(p.id); await run('formatting-second'); await drain({ acquire: async () => capture(formatting) });
     const review = await database.engineReview.findFirstOrThrow({ where: { status: 'pending' } });
@@ -1163,6 +1200,7 @@ describe('r4 memo invalidation and terminal isolation', () => {
     await readySecond(p.id, 'observe'); await run('invalidate-second', 'observe'); await drain();
     const firstState = await database.enginePolicyState.findUniqueOrThrow({ where: store.stateKey(p.id, 'observe') });
     const updated = newText.replace('60 days', '90 days');
+    await installFixtureReference(p.id, updated);
     await readySecond(p.id, 'observe'); await run('invalidate-third', 'observe'); await drain({ acquire: async () => capture(updated) });
     expect(analysis.analyze).toHaveBeenCalledTimes(1);
     await readySecond(p.id, 'observe'); await run('invalidate-fourth', 'observe'); await drain({ acquire: async () => capture(updated) });

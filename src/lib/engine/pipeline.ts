@@ -6,6 +6,7 @@ import { db } from '../db';
 import { dualWriteCanonicalPolicyGraph } from '../documentEvidenceSync';
 import { acquire, assessCapture, extractEngineBody, saveRepresentation, type Observation, type CaptureBody } from './acquisition';
 import { digest, structureDocument, compareDocuments, ENGINE_SCHEMA } from './document';
+import { publicationCoverageSatisfied } from './coverage';
 import { assertChannelWorkerContext, type ChannelMetadata } from '../scanChannels';
 import { assertHostedPreviewContext, isHostedPreview } from '../hostedPreview';
 import { compareCapturedExtraction } from './comparison';
@@ -31,6 +32,11 @@ export interface EngineDependencies {
 const defaults: EngineDependencies = { acquire, analysis: liveAnalysis };
 const clearCandidate = { candidateHash: null, candidateArtifactId: null, candidateRunId: null,
   candidateObservedAt: null, candidateProfileHash: null };
+
+function requirePublicationCoverage(body: CaptureBody, input: TaskInput) {
+  const assessment = assessCapture(body, input.contract, input.sourceUrl);
+  if (!publicationCoverageSatisfied(assessment)) throw new Error('source_coverage_not_qualified');
+}
 
 function assessmentKey(input: TaskInput, policyId: string, contentHash: string, observation: Observation) {
   return digest(JSON.stringify([implementation.hash, input.mode, policyId, input.baselineHash, input.scopeHash,
@@ -115,11 +121,13 @@ async function hold(lease: Lease, observation: Observation, reasons: string[], c
 }
 
 async function anchor(tx: Tx, policyId: string, input: TaskInput, body: CaptureBody, observation: Observation) {
+  requirePublicationCoverage(body, input);
   const data = { baselineHash: body.document.hash, profileHash: input.profileHash, inputHash: digest(body.html),
     input: body.html, sourceUrl: input.sourceUrl, capturedAt: new Date(observation.observedAt) };
   await tx.extractionBaseline.upsert({ where: { policyId }, create: { policyId, ...data }, update: data });
 }
 async function baseline(tx: Tx, policy: Policy, input: TaskInput, body: CaptureBody, observation: Observation) {
+  requirePublicationCoverage(body, input);
   const latest = await tx.policySnapshot.findFirst({ where: { policyId: policy.id }, orderBy: { version: 'desc' } });
   const snapshot = await tx.policySnapshot.create({ data: { policyId: policy.id, version: (latest?.version || 0) + 1,
     text: body.document.text, hash: body.document.hash, sourceUrl: policy.url, requestedUrl: input.sourceUrl,
@@ -138,6 +146,13 @@ async function evaluate(lease: Lease, input: TaskInput) {
     notModified: false, eligible: false, reasons: ['acquisition_failed'], diagnostics: [] };
   if (!observation.eligible || !observation.artifactId) return hold(lease, observation, observation.reasons);
   const body = await readArtifact<CaptureBody>(observation.artifactId);
+  // A legacy contract may support private observation, never public qualification.
+  // Recompute from the frozen artifact instead of trusting a persisted eligible flag.
+  const assessment = assessCapture(body, input.contract, input.sourceUrl);
+  if (!assessment.eligible) return hold(lease, observation, assessment.reasons);
+  if (input.mode === 'publish' && !publicationCoverageSatisfied(assessment)) {
+    return hold(lease, observation, ['source_coverage_not_qualified']);
+  }
   const policy = await db.policy.findUniqueOrThrow({ where: { id: lease.policyId! } });
   if (policy.currentHash !== lease.expectedBaselineHash || policyScopeHash(policy) !== input.scopeHash) return hold(lease, observation, ['engine_context_changed']);
   if (body.document.hash === policy.currentHash && !policy.sourceMigrationPending) {
@@ -251,6 +266,7 @@ async function analysisInput(checkpoint: Checkpoint): Promise<AnalysisInput> {
 }
 
 async function publish(tx: Tx, policy: Policy, input: TaskInput, checkpoint: Checkpoint, taskId: string, body: CaptureBody) {
+  requirePublicationCoverage(body, input);
   const claims = checkpoint.analysis!.value.claims;
   const previous = await tx.policySnapshot.findFirst({ where: { policyId: policy.id, hash: policy.currentHash, publicEvidence: true }, orderBy: { version: 'desc' } });
   if (!previous) throw new Error('public_old_snapshot_missing');
@@ -326,6 +342,9 @@ async function processTask(lease: Lease, dependencies: EngineDependencies) {
   if (Date.now() - Date.parse(checkpoint.observation.observedAt) > 2 * DAILY_MS) reasons.push('evidence_stale');
   if (reasons.length) return hold(lease, checkpoint.observation, reasons, checkpoint, true);
   const body = await readArtifact<CaptureBody>(checkpoint.observation.artifactId!);
+  if (input.mode === 'publish' && !publicationCoverageSatisfied(assessCapture(body, input.contract, input.sourceUrl))) {
+    return hold(lease, checkpoint.observation, ['source_coverage_not_qualified'], checkpoint, true);
+  }
   await fenced(lease, async tx => {
     const policy = await currentPolicy(tx, lease, input);
     const shouldPublish = await publicationMode(tx, lease.runId);
@@ -404,6 +423,7 @@ export async function approveReview(id: string, note: string, actor: string) {
   if (!payload.checkpoint || reasons.some(r => r !== 'high_impact_review_required')) throw new Error('review_hard_gate_unresolved');
   const evidence = await analysisInput(payload.checkpoint);
   const body = await readArtifact<CaptureBody>(payload.checkpoint.observation.artifactId!);
+  requirePublicationCoverage(body, payload.input);
   const validated = validateClaims(payload.checkpoint.analysis?.value, evidence);
   if (!validated.claims || validated.reasons.length || validateVerification(payload.checkpoint.verification?.value, validated.claims).length
     || validateModelPair(payload.checkpoint.analysis?.receipt, payload.checkpoint.verification?.receipt).length
@@ -433,7 +453,7 @@ async function approveBaselineReview(review: { id: string; taskId: string }, pay
   const replay = Boolean(checkpoint.baselineCandidateArtifactId);
   const body = await readArtifact<CaptureBody>(checkpoint.baselineCandidateArtifactId || checkpoint.observation.artifactId!);
   if (body.document.hash !== digest(body.document.text)) throw new Error('artifact_integrity_failure');
-  if (!assessCapture(body, payload.input.contract, payload.input.sourceUrl).eligible) throw new Error('review_hard_gate_unresolved');
+  if (!publicationCoverageSatisfied(assessCapture(body, payload.input.contract, payload.input.sourceUrl))) throw new Error('review_hard_gate_unresolved');
   if (Date.now() - Date.parse(checkpoint.observation.observedAt) > 2 * DAILY_MS || (!replay && !checkpoint.confirmation)) throw new Error('review_hard_gate_unresolved');
   return db.$transaction(async tx => {
     const task = await tx.engineTask.findUniqueOrThrow({ where: { id: review.taskId } });
