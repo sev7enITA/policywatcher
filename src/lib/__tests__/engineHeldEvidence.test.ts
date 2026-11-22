@@ -13,8 +13,11 @@ describe('untrusted capture quarantine boundary', () => {
     const body = '<script>throw new Error("never_execute")</script>\u0000network evidence';
     const file = join(directory,bodyName); const receipt = await writeQuarantinedEvidence(directory,bodyName,body);
     expect(await readFile(file,'utf8')).toBe(body); expect(receipt.sha256).toBe(sha(body));
-    expect(receipt.trust).toBe('untrusted_quarantined_evidence'); expect((await stat(file)).mode & 0o777).toBe(0o600);
-    await expect(writeQuarantinedEvidence(directory,bodyName,'replacement')).rejects.toThrow(); expect(await readFile(file,'utf8')).toBe(body);
+    expect(receipt.trust).toBe('untrusted_quarantined_evidence');
+    await expect(writeQuarantinedEvidence(directory,bodyName,'replacement')).rejects.toThrow();
+    expect(await readFile(file,'utf8')).toBe(body);
+    // Observe the final permissions after all attempted writes; no stat-then-write sequence.
+    expect((await stat(file)).mode & 0o777).toBe(0o600);
   });
   it.each(['payload.js','payload.php','page.html','../report.json','../../public/report.json'])('rejects remote-selected executable or escaping name %s', async name => {
     await expect(writeQuarantinedEvidence(directory,name,'payload')).rejects.toThrow('quarantine');
