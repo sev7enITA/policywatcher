@@ -5,7 +5,9 @@ set -euo pipefail
 
 APP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 EXTENSION_DIR="${APP_DIR}/browser-extension"
-OUTPUT_DIR="${1:-${APP_DIR}/artifacts/extensions}"
+OUTPUT_INPUT="${1:-${APP_DIR}/artifacts/extensions}"
+mkdir -p "${OUTPUT_INPUT}"
+OUTPUT_DIR="$(cd "${OUTPUT_INPUT}" && pwd)"
 VERSION="$(sed -n "s/.*POLICYWATCHER_BROWSER_EXTENSION_VERSION = '\([^']*\)'.*/\1/p" "${APP_DIR}/src/lib/release.ts")"
 EXTENSION_VERSION="$(node -p "require('${EXTENSION_DIR}/manifest.json').version")"
 EXTENSION_DISPLAY_VERSION="$(node -p "require('${EXTENSION_DIR}/manifest.json').version_name")"
@@ -39,10 +41,8 @@ if find "${STAGING_DIR}" -type l -print -quit | grep -q .; then
   echo "Extension staging contains a symbolic link." >&2
   exit 1
 fi
-if rg -n "https?://" "${STAGING_DIR}" -g '*.js' | rg -v "https://www\.policywatcher\.online" >/dev/null; then
-  echo "Extension JavaScript contains an unapproved remote origin." >&2
-  exit 1
-fi
+# Runtime origins are checked by validate-browser-extension.mjs above.
+# Do not add a separate www-only grep: the reviewed API uses the canonical apex host.
 
 mkdir -p "${OUTPUT_DIR}"
 chrome_name="PolicyWatcher-Browser-Extension-${VERSION}-chrome-${DATE_STAMP}.zip"

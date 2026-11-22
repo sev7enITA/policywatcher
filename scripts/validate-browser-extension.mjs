@@ -63,7 +63,10 @@ const scripts = ['popup.js', 'service-worker.js'].map((file) => ({ file, source:
 for (const { file, source } of scripts) {
   assert(!/\b(?:eval|Function)\s*\(/.test(source), `${file} contains dynamic code execution`);
   assert(!/\.innerHTML\s*=|insertAdjacentHTML|document\.write\s*\(/.test(source), `${file} contains unsafe HTML rendering`);
-  assert(!/https?:\/\/(?!policywatcher\.online)/.test(source), `${file} contains an unapproved network origin`);
+  for (const raw of source.match(/https?:\/\/[^\s'"`<>)]*/g) || []) {
+    const url = new URL(raw);
+    assert(url.origin === 'https://policywatcher.online' && !url.username && !url.password, `${file} contains an unapproved network origin`);
+  }
 }
 
 const popup = read('popup.js');
