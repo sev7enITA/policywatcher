@@ -20,9 +20,10 @@ import {
   pressKitGlossary,
   pressKitRegistryEvents,
   pressKitReleases,
+  releaseLabels,
   type PressKitLocale,
 } from '@/lib/pressKit';
-import { localizedPublicPath } from '@/lib/seo';
+import { localizedPublicPath, publicNavigationPath } from '@/lib/seo';
 import { recordPressMetric } from '@/lib/pressMetrics';
 import styles from './pressKit.module.css';
 
@@ -134,7 +135,7 @@ export default function NewsroomPageClient({ view, releaseSlug, initialLang = 'e
     : view === 'reference'
       ? [t.referenceLabel, t.referenceTitle, t.referenceLead]
       : view === 'release-detail' && selectedRelease
-        ? [`${selectedRelease.category} / ${selectedRelease.displayVersion}`, selectedRelease.title[lang], selectedRelease.summary[lang]]
+        ? [`${releaseLabels[selectedRelease.category][lang]} / ${selectedRelease.displayVersion}`, selectedRelease.title[lang], selectedRelease.summary[lang]]
         : [t.releasesLabel, t.releasesTitle, t.releasesLead];
 
   return (
@@ -149,7 +150,7 @@ export default function NewsroomPageClient({ view, releaseSlug, initialLang = 'e
           </div>
           <div className={styles.subpageTools}>
             {view === 'releases' || view === 'release-detail' ? <a className={styles.subpageBack} href={localizedPublicPath(`/press-kit/releases${releaseSlug ? `/${releaseSlug}` : ''}`, lang === 'en' ? 'it' : 'en')} hrefLang={lang === 'en' ? 'it' : 'en'}><Languages size={15} />{t.switchLanguage}</a> : <button type="button" onClick={() => setLang(lang === 'en' ? 'it' : 'en')}><Languages size={15} />{t.switchLanguage}</button>}
-            <Link className={styles.subpageBack} href="/press-kit"><ArrowLeft size={14} />{t.back}</Link>
+            <Link className={styles.subpageBack} href={localizedPublicPath('/press-kit', lang)}><ArrowLeft size={14} />{t.back}</Link>
           </div>
         </section>
 
@@ -157,11 +158,11 @@ export default function NewsroomPageClient({ view, releaseSlug, initialLang = 'e
           <section className={styles.subpageList} aria-label={t.releasesLabel}>
             {pressKitReleases.map((release) => (
               <article key={release.slug}>
-                <header><span>{release.displayVersion} · {release.category}</span><time dateTime={release.datePublished}>{release.datePublished}</time></header>
+                <header><span>{release.displayVersion} · {releaseLabels[release.category][lang]}</span><time dateTime={release.datePublished}>{release.datePublished}</time></header>
                 <h2>{release.title[lang]}</h2>
                 <p>{release.summary[lang]}</p>
                 <dl className={styles.releaseMeta}>
-                  <div><dt>{t.releaseStatus}</dt><dd>{release.status === 'research' ? (lang === 'it' ? 'Ricerca sperimentale' : 'Experimental research') : release.status}</dd></div>
+                  <div><dt>{t.releaseStatus}</dt><dd>{releaseLabels[release.status][lang]}</dd></div>
                   <div><dt>{t.modified}</dt><dd>{release.dateModified}</dd></div>
                 </dl>
                 <Link className={styles.subpageAction} href={localizedPublicPath(`/press-kit/releases/${release.slug}`, lang)}>{t.openRelease}<ArrowRight size={14} /></Link>
@@ -174,10 +175,10 @@ export default function NewsroomPageClient({ view, releaseSlug, initialLang = 'e
           <section className={styles.subpageList} aria-label={selectedRelease.title[lang]}>
             <article>
               <dl className={styles.releaseMeta}>
-                <div><dt>{t.releaseStatus}</dt><dd>{selectedRelease.status === 'research' ? (lang === 'it' ? 'Ricerca sperimentale' : 'Experimental research') : selectedRelease.status}</dd></div>
+                <div><dt>{t.releaseStatus}</dt><dd>{releaseLabels[selectedRelease.status][lang]}</dd></div>
                 <div><dt>{t.published}</dt><dd>{selectedRelease.datePublished}</dd></div>
                 <div><dt>{t.modified}</dt><dd>{selectedRelease.dateModified}</dd></div>
-                <div><dt>{t.category}</dt><dd>{selectedRelease.category}</dd></div>
+                <div><dt>{t.category}</dt><dd>{releaseLabels[selectedRelease.category][lang]}</dd></div>
               </dl>
               <h2>{t.changes}</h2>
               <ol className={styles.subpageChanges}>{selectedRelease.changes.map((change, index) => <li key={change.en}><span>{String(index + 1).padStart(2, '0')}</span>{change[lang]}</li>)}</ol>
@@ -186,7 +187,7 @@ export default function NewsroomPageClient({ view, releaseSlug, initialLang = 'e
               <h2>{t.boundaries}</h2>
               <ul className={styles.subpageChanges}>{selectedRelease.boundaries.map((boundary, index) => <li key={boundary.en}><span>{String(index + 1).padStart(2, '0')}</span>{boundary[lang]}</li>)}</ul>
               <h2>{t.evidence}</h2>
-              <div className={styles.formatList}>{selectedRelease.evidenceLinks.map((link) => <Link key={link.href} href={link.href}>{link.label[lang]}<ExternalLink size={12} /></Link>)}</div>
+              <div className={styles.formatList}>{selectedRelease.evidenceLinks.map((link) => <Link key={link.href} href={publicNavigationPath(link.href, lang)}>{link.label[lang]}<ExternalLink size={12} /></Link>)}</div>
             </article>
           </section>
         )}

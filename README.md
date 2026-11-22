@@ -20,7 +20,7 @@
   <img src="https://img.shields.io/badge/React-19-61dafb" alt="React 19" />
   <img src="https://img.shields.io/badge/TypeScript-5-3178c6" alt="TypeScript" />
   <img src="https://img.shields.io/badge/Gemini-2.5%20Flash-4285f4" alt="Gemini 2.5 Flash" />
-  <img src="https://img.shields.io/badge/Web%20release-5.5.0%20Engine%206%20Preview-146c6a" alt="PolicyWatcher 5.5.0 Engine 6 Preview" />
+  <img src="https://img.shields.io/badge/Web%20release-5.6.0%20Chatbot%20Policy%20Watch-146c6a" alt="PolicyWatcher 5.6.0 Chatbot Policy Watch" />
   <img src="https://img.shields.io/badge/Browser%20Extension-3.8.3%20Beta%203-b45309" alt="Browser Extension 3.8.3 Beta 3" />
 </p>
 
@@ -40,6 +40,8 @@
 The [bilingual press kit](https://policywatcher.online/press-kit) includes dated PDF and text fact sheets, screenshots and editorial ZIPs. The [press register](https://policywatcher.online/press) links to the original Economy Magazine and Fortune Italia articles. For the private engine trials and their limitations, see the [17 November research update](https://policywatcher.online/press-kit/releases/engine-six-progress-november-2026?lang=en).
 
 ## Current service and Engine 6 Preview
+
+**22 November 2026.** [Release 5.6.0](CHANGELOG.md) records six-hour server checks of chatbot policy sources and six new public snapshots for Kimi, Qwen Studio and Grok.
 
 **16 November 2026.** The public product runs stable 5.5.0. Administrators use the separate hosted r3 Preview. The r4 implementation in this repository is awaiting qualification. The [reconciliation and ten-source diary](docs/reports/engine-v6-reconciliation-2026-11-16.md) links each observed outcome to its scope.
 
@@ -103,7 +105,7 @@ The new bilingual [For you journey](https://policywatcher.online/per-te) helps c
 
 This is a product major release; the additive public citizen feed keeps the existing v1 API contract. The Android companion shares the citizen model and has a locally compiled development APK; store publication and physical-device acceptance are separate milestones. See [release notes](docs/releases/policywatcher-5.0.0-github-release.md) and [validation](docs/citizen-experience-validation.md).
 
-The dashboard changelog, release archive, Site Atlas and Feature Atlas share the current 5.5.0 product release identity. Engine 6.0 is a separate experimental scanner version. Earlier version labels identify first delivery; browser extensions and native companions have independent release cycles. See the [5.2.0 validation](docs/reports/adaptive-acquisition-release-2026-10-26/validation.md) and the [historical page consistency audit](docs/reports/v5-page-consistency-2026-10-06/README.md).
+The dashboard changelog, release archive, Site Atlas and Feature Atlas share the current 5.6.0 product release identity. Engine 6.0 is a separate experimental scanner version. Earlier version labels identify first delivery; browser extensions and native companions have independent release cycles. See the [5.2.0 validation](docs/reports/adaptive-acquisition-release-2026-10-26/validation.md) and the [historical page consistency audit](docs/reports/v5-page-consistency-2026-10-06/README.md).
 
 ### Historical release 4.0.0 Beta 3 AI Discoverability and Citation Readiness Highlights
 

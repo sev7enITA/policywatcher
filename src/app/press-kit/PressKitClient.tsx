@@ -55,6 +55,7 @@ import {
   pressKitFacts,
   pressKitPackages,
   pressKitReleases,
+  releaseLabels,
   type PressKitLocale,
 } from '@/lib/pressKit';
 import { recordPressMetric } from '@/lib/pressMetrics';
@@ -428,10 +429,10 @@ export default function PressKitClient({ lang }: { lang: PressKitLocale }) {
           {pressKitReleases.slice(0, 1).map((release) => (
             <div className={styles.releaseLayout} key={release.slug}>
               <article className={styles.releaseCard}>
-                <header><span>{release.displayVersion} · {release.category}</span><time dateTime={release.datePublished}>{release.datePublished}</time></header>
+                <header><span>{release.displayVersion} · {releaseLabels[release.category][lang]}</span><time dateTime={release.datePublished}>{release.datePublished}</time></header>
                 <h3>{release.title[lang]}</h3>
                 <p>{release.summary[lang]}</p>
-                <dl className={styles.releaseMeta}><div><dt>{t.status}</dt><dd>{release.status === 'research' ? (lang === 'it' ? 'Ricerca sperimentale' : 'Experimental research') : release.status}</dd></div><div><dt>{t.lastVerified}</dt><dd>{release.dateModified}</dd></div></dl>
+                <dl className={styles.releaseMeta}><div><dt>{t.status}</dt><dd>{releaseLabels[release.status][lang]}</dd></div><div><dt>{t.lastVerified}</dt><dd>{release.dateModified}</dd></div></dl>
                 <Link className={styles.releaseLink} href={`/press-kit/releases/${release.slug}${lang === 'it' ? '?lang=it' : ''}`}>{lang === 'en' ? 'Read release record' : 'Leggi record release'}<ArrowRight size={13} /></Link>
               </article>
               <aside className={styles.releaseIndex} aria-label={lang === 'it' ? 'Risultati documentati' : 'Recorded findings'}><span>{lang === 'it' ? 'Risultati documentati' : 'Recorded findings'}</span><ul>{release.changes.slice(0, 5).map((change, index) => <li key={change.en}><span>{String(index + 1).padStart(2, '0')}</span>{change[lang]}</li>)}</ul></aside>

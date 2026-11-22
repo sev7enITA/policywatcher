@@ -58,7 +58,7 @@ describe('public release consistency', () => {
     const newestResearch = pressKitReleases.filter(release => release.status === 'research')
       .sort((a, b) => b.datePublished.localeCompare(a.datePublished))[0];
     expect(latestResearchUpdate).toBe(newestResearch);
-    expect(pressKitReleases[0]).toBe(newestResearch);
+    expect(pressKitReleases[0].status).toBe('current');
     expect(html).toContain(newestResearch.title[lang]);
     expect(html).toContain(`dateTime="${newestResearch.datePublished}"`);
     expect(html).toContain(`/press-kit/releases/${newestResearch.slug}?lang=${lang}`);
@@ -70,8 +70,8 @@ describe('public release consistency', () => {
   it('publishes the newest research through the same JSON feed registry', async () => {
     const { GET } = await import('@/app/press-kit/feed.json/route');
     const feed = await GET().json();
-    expect(feed.items[0].title).toBe(latestResearchUpdate.title.en);
-    expect(feed.items[0].url.endsWith(`/press-kit/releases/${latestResearchUpdate.slug}`)).toBe(true);
+    expect(feed.items[0].title).toBe(pressKitReleases[0].title.en);
+    expect(feed.items[0].url.endsWith(`/press-kit/releases/${pressKitReleases[0].slug}`)).toBe(true);
     expect(feed.items.some((item: { title: string }) => item.title === previewResearchUpdate.title.en)).toBe(true);
   });
 
@@ -82,7 +82,7 @@ describe('public release consistency', () => {
     expect(html).toContain(POLICYWATCHER_RELEASE_CHANNEL_LABEL);
     expect(html.indexOf(POLICYWATCHER_VERSION)).toBeLessThan(html.indexOf('Historical release · 5.2.0') >= 0 ? html.indexOf('Historical release · 5.2.0') : html.indexOf('Release storica · 5.2.0'));
     expect(html).toContain(lang === 'it' ? 'Release storica' : 'Historical release');
-    expect(html).toContain(lang === 'it' ? 'Engine 6 è un’opzione sperimentale' : 'Engine 6 is an experimental option');
+    expect(html).toContain(lang === 'it' ? 'Gli avvisi agli iscritti' : 'Subscriber alerts');
     expect(html).toContain(`lang=${lang}`);
     expect(html).not.toMatch(/Current Beta|Q3 2026|Q4 2026|KPI Compliance Matrix/);
     expect(html).toContain('<dialog');

@@ -98,9 +98,9 @@ describe('public press kit', () => {
       distribution: { provider: string; repository: string; revision: string };
       packages: Array<{ locale: string; filename: string; href: string; distribution: string; bytes: number; sha256: string }>;
     };
-    expect(packageManifest.release).toBe(POLICYWATCHER_VERSION);
+    expect(packageManifest.release).toBe('5.5.0'); // Immutable 20 November press edition.
     expect(packageManifest.currentProductRelease).toBe(POLICYWATCHER_VERSION);
-    expect(pressKitPackages.every(pressPackage => pressPackage.version === POLICYWATCHER_VERSION)).toBe(true);
+    expect(pressKitPackages.every(pressPackage => pressPackage.version === packageManifest.release)).toBe(true);
     expect(pressKitPackages.every(pressPackage => pressPackage.generatedAt === buildPressKitPayload().generatedAt)).toBe(true);
     expect(packageManifest.distribution).toMatchObject({
       provider: 'github-repository',
