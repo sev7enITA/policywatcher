@@ -121,14 +121,14 @@ describe('policy inquiry security and admin wiring', () => {
     expect(client).toContain('Apply the QA gate before publication');
     // The detailed disclosure appears only after notice input; preserve its guarded link wiring.
     expect(client).toContain("<Link href={localizedPublicPath('/privacy', lang)}>{t.privacyDetails}</Link>");
-    expect(client).toContain('href="/methodology/confidence"');
+    expect(client).toContain("href={localizedPublicPath('/methodology/confidence', lang)}");
     const { default: Page } = await import('@/app/what-changed/page');
     for (const lang of ['en', 'it'] as const) {
       const html = renderToStaticMarkup(await Page({ searchParams: Promise.resolve({ lang }) }));
       const query = lang === 'it' ? '?lang=it' : '';
       expect(html).toContain(`href="/privacy${query}"`);
-      // This legacy methodology route toggles language locally and has no query-selected language.
-      expect(html).toContain('href="/methodology/confidence"');
+      // The methodology now selects language in server-rendered URL state.
+      expect(html).toContain(`href="/methodology/confidence${query}"`);
       expect(html).toContain(lang === 'it' ? 'Verifica di una notifica' : 'Policy notice verification');
     }
     expect(client).not.toContain('className={styles.rail}');

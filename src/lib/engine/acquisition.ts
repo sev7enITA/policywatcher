@@ -1,19 +1,22 @@
 import { load } from 'cheerio';
 import type { AnyNode } from 'domhandler';
-import { acquireEngineTransport, hasLiveHostDrift, hasLivePathDrift, extractPolicyText, detectBlockPage, detectSoft404, type TransportResult } from '../scraper';
+import { acquireEngineTransport, hasLiveHostDrift, hasLivePathDrift, extractPolicyText, detectBlockPage, detectSoft404, type TransportResult, type TransportProof } from '../scraper';
 import { db } from '../db';
 import { digest, normalized, structureDocument, assessDocument, type SourceContract, type StructuredDocument } from './document';
 import { DAILY_MS, putArtifact, readArtifact, type TaskInput, type Tx } from './store';
+import type { CoverageReceipt } from './coverage';
 
 export interface CaptureBody {
   html: string; document: StructuredDocument; language?: string;
+  transportProof?: TransportProof;
   extraction?: { retainedDisclosureIds: string[]; retainedDocumentHeaders: number; restoredTitleFromDom: boolean; retainedUnstructuredRuns?: number; issues?: Array<{ reason: string; target: string | null; chars: number }>;
     reviewedExclusionHash?: string; appliedExclusions?: Array<{ selector: string; htmlSha256: string; reviewNote: string }> };
 }
 export interface Observation {
   artifactId: string | null; observedAt: string; source: string; httpStatus: number; finalUrl: string;
   notModified: boolean; eligible: boolean; reasons: string[]; retryAfterMs?: number;
-  diagnostics: Array<{ source: string; status: number; reason: string }>;
+  coverage?: CoverageReceipt; transportProof?: TransportProof;
+  diagnostics: Array<{ source: string; status: number; reason: string; transportProof?: TransportProof }>;
   cache?: { key: string; etag: string | null; lastModified: string | null; profileHash: string };
 }
 /** Called only inside a fenced baseline/unchanged commit, never for an unconfirmed candidate. */
@@ -269,25 +272,31 @@ export async function acquire(input: TaskInput, transport: Transport = acquireEn
       }
       const assessment = assessCapture(cachedBody, input.contract, input.sourceUrl);
       return { artifactId: cached.artifactId, observedAt, source, httpStatus: 304, finalUrl, notModified: true,
+        coverage: assessment.coverage, transportProof: result.transportProof,
         eligible: assessment.eligible, reasons: assessment.reasons, cache: { key, etag: cached.etag, lastModified: cached.lastModified, profileHash: input.profileHash },
         diagnostics: [...diagnostics, { source, status: 304, reason: 'cached_representation_revalidated' }] };
     }
-    if (!result.ok) { diagnostics.push({ source, status: result.status, reason: 'transport_rejected' }); continue; }
+    if (!result.ok) { diagnostics.push({ source, status: result.status, reason: 'transport_rejected', transportProof: result.transportProof }); continue; }
     let body: CaptureBody;
     try { body = extractEngineBody(result.html, input.sourceUrl, result.validators?.contentLanguage, input.contract); }
-    catch { diagnostics.push({ source, status: result.status, reason: 'extraction_rejected' }); continue; }
+    catch { diagnostics.push({ source, status: result.status, reason: 'extraction_rejected', transportProof: result.transportProof }); continue; }
+    if (result.transportProof) body.transportProof = result.transportProof;
     const artifactId = await putArtifact(body);
     const assessment = assessCapture(body, input.contract, input.sourceUrl);
-    diagnostics.push({ source, status: result.status, reason: assessment.eligible ? 'contract_satisfied' : assessment.reasons.join(',') });
+    diagnostics.push({ source, status: result.status, reason: assessment.eligible
+      ? assessment.coverage.state === 'matched_reviewed_reference' ? 'reviewed_reference_matched' : 'legacy_contract_only_coverage_unknown'
+      : assessment.reasons.join(',') });
     // A successful HTTP response with incomplete identity/coverage triggers the next transport.
     if (!assessment.eligible && source !== order[order.length - 1]) {
       lastCandidate = { artifactId, observedAt, source, httpStatus: result.status, finalUrl, notModified: false,
+        coverage: assessment.coverage, transportProof: result.transportProof,
         eligible: false, reasons: assessment.reasons, diagnostics };
       continue;
     }
     const cache = assessment.eligible && source === 'direct' && cacheable(result, input.sourceUrl)
       ? { key, etag: result.validators?.etag || null, lastModified: result.validators?.lastModified || null, profileHash: input.profileHash } : undefined;
     return { artifactId, observedAt, source, httpStatus: result.status, finalUrl, notModified: false,
+      coverage: assessment.coverage, transportProof: result.transportProof,
       eligible: assessment.eligible, reasons: assessment.reasons, diagnostics, cache };
   }
   if (lastCandidate) return { ...lastCandidate, diagnostics };

@@ -187,7 +187,7 @@
     ],
     [
       "src/app/api/admin/engine/route.ts",
-      "336a5064338c67a8ecd7a5b0c4a077e897884ed513f0b3a96f125e78073bcbb1"
+      "c92c64c1f59feafa22de1f53046234526faf051a484dc255b9927405b4d7018f"
     ],
     [
       "src/app/api/cron/check-all/route.ts",
@@ -299,7 +299,7 @@
     ],
     [
       "src/lib/engine/acquisition.ts",
-      "3c9a10042a0e3fce802f651088c2bfaff495463e290b9276f8025aa2108149bd"
+      "8168963fa2c3ce0a47757459d052313f625d12ec3ebdda37c27a5dd2e3ea35ce"
     ],
     [
       "src/lib/engine/channelReports.ts",
@@ -318,12 +318,16 @@
       "92e450217f0c2de005f865334732d1bdbaf531c2e0d07eab5880253785d0d5cd"
     ],
     [
+      "src/lib/engine/coverage.ts",
+      "5d428b68e35fc0da7b48f42803393067100d14f2aa0648083c0d0811be3d9dff"
+    ],
+    [
       "src/lib/engine/document.ts",
-      "6543f9d0d2c768510a140b19e8d5191c7c90f7730062ef696f1e3471a4893540"
+      "bf74a28ce38b188cb9e7fc6dd90182edc42b6b2aaafd5884ca1770b0c82fe0d8"
     ],
     [
       "src/lib/engine/failures.ts",
-      "1a7d7ba69e35061e462b84b12046f6484102a4b3733257ed8f95e32d17bf0a46"
+      "22561a1923338b8246087d3743b6896302a036d0e9a2e417863ac30847d13d57"
     ],
     [
       "src/lib/engine/hostedWorker.ts",
@@ -335,7 +339,7 @@
     ],
     [
       "src/lib/engine/pipeline.ts",
-      "a79154289a2fb97137cb570ef898ec4c4d856ef68be6f49bf64dfa8e9793e075"
+      "b4960da26cd4fd6c08f9fe4b14c84e1ed245e716d986db8a3135263e62b6880f"
     ],
     [
       "src/lib/engine/qualification.ts",
@@ -451,11 +455,11 @@
     ],
     [
       "src/lib/scraper.ts",
-      "74ea02d0e563307105110c2b595ecb4635855103e0bd69f3aca9d5fbf47f8a45"
+      "6b4424fedc5627e58dccb337947f83254365180974af0fb94f7bc93cd988bef3"
     ],
     [
       "src/lib/seo.ts",
-      "658cd5e3080b7904080db92ceaa09eda42fccb54085d8a813b23ca7cb3496b01"
+      "8feb2b6f1e6daf03fd61fb7630be1846d13d53e0ee133650597f5d2600720c3d"
     ],
     [
       "src/lib/siteOrigin.ts",
@@ -490,5 +494,5 @@
       "9a58ee8a17ae157f8639415c9a07249dcfd7f46d9b8371d9592eb8e460e56005"
     ]
   ],
-  "hash": "1832fcbfe1bc668b88f55da44e94e05abf3cc12ae7cea9228eea4be1003fd5d4"
+  "hash": "f76fafab10713274f72c82872c502017e85c0561b79f1b172dc112090b50d948"
 }

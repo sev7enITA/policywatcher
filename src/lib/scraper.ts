@@ -142,6 +142,7 @@ const inflateAsync = promisify(inflate);
 const brotliDecompressAsync = promisify(brotliDecompress);
 
 function responseLength(headers: http.IncomingHttpHeaders): number | null {
+  if (Array.isArray(headers['content-length']) && headers['content-length'].length !== 1) return null;
   const raw = Array.isArray(headers['content-length'])
     ? headers['content-length'][0]
     : headers['content-length'];
@@ -168,6 +169,7 @@ async function decodeBoundedResponseBytes(
   }
   try {
     const encoding = contentEncoding.trim().toLowerCase();
+    if (!['', 'identity', 'gzip', 'deflate', 'br'].includes(encoding)) throw new Error('unsupported_content_encoding');
     const decoded = encoding === 'gzip'
       ? await gunzipAsync(buffer, { maxOutputLength })
       : encoding === 'deflate'
@@ -199,35 +201,113 @@ export async function decodeBoundedDocumentBody(buffer: Buffer, encoding: string
   return bytes.toString('utf8');
 }
 
-export async function readBoundedFetchBody(
+export interface TransportProof {
+  schemaVersion: 1;
+  scope: 'origin_response' | 'archive_response' | 'renderer_api_response';
+  protocol: 'http1' | 'http2' | 'fetch';
+  byteRepresentation: 'encoded' | 'decoded';
+  declaredContentLength: number | null;
+  receivedBytes: number;
+  streamEnd: 'observed' | 'not_observed';
+  framing: 'complete' | 'incomplete' | 'unknown';
+  lengthCheck: 'matched' | 'mismatch' | 'not_declared' | 'not_comparable';
+  decoding: 'completed' | 'failed' | 'not_applied';
+  /** Framing and byte parity do not establish source or legal-document completeness. */
+  entityCompleteness: 'not_proven';
+}
+
+export class TransportIntegrityError extends Error {
+  constructor(message: string, public readonly transportProof: TransportProof, public readonly httpStatus = 0) {
+    super(message);
+    this.name = 'TransportIntegrityError';
+  }
+}
+
+function makeTransportProof(protocol: TransportProof['protocol'], declared: number | null,
+  receivedBytes: number, streamEnd: boolean, framing: TransportProof['framing'],
+  decoding: TransportProof['decoding'] = 'not_applied', comparable = true,
+  scope: TransportProof['scope'] = 'origin_response'): TransportProof {
+  return { schemaVersion: 1, scope, protocol, byteRepresentation: protocol === 'fetch' ? 'decoded' : 'encoded',
+    declaredContentLength: declared, receivedBytes, streamEnd: streamEnd ? 'observed' : 'not_observed', framing,
+    lengthCheck: !comparable || !streamEnd ? 'not_comparable' : declared === null ? 'not_declared'
+      : declared === receivedBytes ? 'matched' : 'mismatch', decoding, entityCompleteness: 'not_proven' };
+}
+
+interface FetchBodyOptions {
+  scope?: TransportProof['scope'];
+  /** Only for an explicitly requested, bounded whole WARC record; not a policy-document range. */
+  expectedByteRange?: { start: number; end: number };
+}
+
+export async function readBoundedFetchBodyWithProof(
   response: Response,
   maxBytes = MAX_NETWORK_RESPONSE_BYTES,
-): Promise<Buffer> {
-  const declaredLength = Number(response.headers.get('content-length') || '0');
-  if (Number.isFinite(declaredLength) && declaredLength > maxBytes) {
-    throw new Error('response_body_too_large');
+  options: FetchBodyOptions = {},
+): Promise<{ body: Buffer; transportProof: TransportProof }> {
+  const rawLength = response.headers.get('content-length');
+  const declaredLength = responseLength({ 'content-length': rawLength ?? undefined });
+  const encoded = Boolean(response.headers.get('content-encoding')?.trim()
+    && response.headers.get('content-encoding')?.trim().toLowerCase() !== 'identity');
+  const bodyless = [204, 304].includes(response.status);
+  const comparable = !encoded && !bodyless;
+  let receivedBytes = 0;
+  let ended = false;
+  const proof = (framing: TransportProof['framing'], decoding: TransportProof['decoding'] = 'not_applied') =>
+    makeTransportProof('fetch', declaredLength, receivedBytes, ended, framing, decoding, comparable,
+      options.scope ?? 'origin_response');
+  const fail = (token: string) => new TransportIntegrityError(token, proof('incomplete'), response.status);
+  const rejectBody = async (token: string): Promise<never> => {
+    await response.body?.cancel(token).catch(() => undefined);
+    throw fail(token);
+  };
+  if (rawLength !== null && declaredLength === null) return rejectBody('invalid_content_length');
+  if (declaredLength !== null && declaredLength > maxBytes) return rejectBody('response_body_too_large');
+  const range = options.expectedByteRange;
+  if (range && response.status !== 206) return rejectBody('response_range_not_honored');
+  if (response.status === 206) {
+    // Common Crawl requests one known WARC record by range. An unsolicited policy range is never accepted.
+    const parts = /^bytes (\d+)-(\d+)\/(\d+|\*)$/.exec(response.headers.get('content-range') ?? '');
+    if (!range || encoded || !Number.isSafeInteger(range.start) || !Number.isSafeInteger(range.end)
+      || range.start < 0 || range.end < range.start || range.end - range.start + 1 > maxBytes
+      || !parts || Number(parts[1]) !== range.start || Number(parts[2]) !== range.end
+      || (parts[3] !== '*' && (!Number.isSafeInteger(Number(parts[3])) || Number(parts[3]) <= range.end))) {
+      return rejectBody('http_206_partial_response');
+    }
   }
-  if (!response.body) return Buffer.alloc(0);
-
+  if (!response.body) {
+    ended = true;
+    if (comparable && declaredLength !== null && declaredLength !== 0) throw fail('response_length_mismatch');
+    return { body: Buffer.alloc(0), transportProof: proof('unknown') };
+  }
   const reader = response.body.getReader();
   const chunks: Buffer[] = [];
-  let receivedBytes = 0;
   try {
     while (true) {
       const { done, value } = await reader.read();
-      if (done) break;
+      if (done) { ended = true; break; }
       const chunk = Buffer.from(value);
       receivedBytes += chunk.byteLength;
       if (receivedBytes > maxBytes) {
         await reader.cancel('response_body_too_large').catch(() => undefined);
-        throw new Error('response_body_too_large');
+        throw fail('response_body_too_large');
       }
       chunks.push(chunk);
     }
+    if (comparable && declaredLength !== null && declaredLength !== receivedBytes) throw fail('response_length_mismatch');
+    if (response.status === 206 && range && receivedBytes !== range.end - range.start + 1) throw fail('response_range_length_mismatch');
+  } catch (error) {
+    if (error instanceof TransportIntegrityError) throw error;
+    throw fail('response_stream_failed');
   } finally {
     reader.releaseLock();
   }
-  return Buffer.concat(chunks, receivedBytes);
+  // Fetch exposes decoded bytes. A stream end is observed, but raw framing/encoded byte parity is unavailable.
+  return { body: Buffer.concat(chunks, receivedBytes), transportProof: proof('unknown', 'completed') };
+}
+
+export async function readBoundedFetchBody(response: Response, maxBytes = MAX_NETWORK_RESPONSE_BYTES,
+  options: FetchBodyOptions = {}): Promise<Buffer> {
+  return (await readBoundedFetchBodyWithProof(response, maxBytes, options)).body;
 }
 
 // Operators may supply a current, truthful UA without changing code. The
@@ -459,6 +539,8 @@ export async function validateOutboundUrl(rawUrl: string): Promise<{ ok: true; u
    --------------------------------------------------------------- */
 
 export interface TransportResult {
+  /** Bounded transport facts; never proof of semantic/source completeness. */
+  transportProof?: TransportProof;
   ok: boolean;
   html: string;
   status: number;
@@ -500,7 +582,7 @@ export async function acquireEngineTransport(url: string, kind: 'direct' | 'http
       const retry = res.headers['retry-after'];
       const retryAfterMs = retry ? Math.min(86_400_000, Math.max(0, /^\d+$/.test(retry) ? Number(retry) * 1000 : Date.parse(retry) - Date.now())) : undefined;
       return { ok: res.status >= 200 && res.status < 300 && res.status !== 202, html: res.body, status: res.status,
-        finalUrl: destination.url, error: res.status === 200 ? '' : `http_${res.status}`,
+        finalUrl: destination.url, transportProof: res.transportProof, error: res.status === 200 ? '' : `http_${res.status}`,
         retryAfterMs: Number.isFinite(retryAfterMs) ? retryAfterMs : undefined,
         validators: { etag: res.headers.etag, lastModified: res.headers['last-modified'], vary: res.headers.vary,
           cacheControl: res.headers['cache-control'], contentLanguage: res.headers['content-language'], serverDate: res.headers.date, age: res.headers.age } };
@@ -641,9 +723,10 @@ function requestPinnedHttp(
   pinnedIp: string,
   headers: Record<string, string>,
   signal: AbortSignal
-): Promise<{ status: number; headers: http.IncomingHttpHeaders; body: string }> {
+): Promise<{ status: number; headers: http.IncomingHttpHeaders; body: string; transportProof: TransportProof }> {
   return new Promise((resolve, reject) => {
     let settled = false;
+    let activeResponseFailure: ((token: string) => void) | null = null;
     const rejectOnce = (error: Error) => {
       if (settled) return;
       settled = true;
@@ -672,44 +755,58 @@ function requestPinnedHttp(
     const req = transport.request(requestOptions, (res) => {
       const chunks: Buffer[] = [];
       let receivedBytes = 0;
+      let ended = false;
       const declaredLength = responseLength(res.headers);
+      const bodyless = [204, 304].includes(res.statusCode ?? 0);
+      const proof = (framing: TransportProof['framing'], decoding: TransportProof['decoding'] = 'not_applied') =>
+        makeTransportProof('http1', declaredLength, receivedBytes, ended, framing, decoding, !bodyless);
+      const fail = (token: string, decoding: TransportProof['decoding'] = 'not_applied') =>
+        rejectOnce(new TransportIntegrityError(token, proof('incomplete', decoding), res.statusCode || 0));
+      activeResponseFailure = fail;
+      // Attach all failure listeners before inspecting headers or destroying a response.
+      res.on('error', () => fail('response_stream_failed'));
+      res.on('aborted', () => fail('response_aborted'));
+      res.on('close', () => { if (!ended) fail('response_incomplete'); });
+      if (res.statusCode === 206) { fail('http_206_partial_response'); res.destroy(); return; }
+      if (res.headers['content-length'] !== undefined && declaredLength === null) {
+        fail('invalid_content_length'); res.destroy(); return;
+      }
       if (declaredLength !== null && declaredLength > MAX_NETWORK_RESPONSE_BYTES) {
-        res.destroy(new Error('response_body_too_large'));
-        rejectOnce(new Error('response_body_too_large'));
-        return;
+        fail('response_body_too_large'); res.destroy(); return;
       }
       res.on('data', (chunk: Buffer) => {
         if (settled) return;
         const boundedChunk = Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk);
         receivedBytes += boundedChunk.byteLength;
         if (receivedBytes > MAX_NETWORK_RESPONSE_BYTES) {
-          res.destroy(new Error('response_body_too_large'));
-          rejectOnce(new Error('response_body_too_large'));
-          return;
+          fail('response_body_too_large'); res.destroy(); return;
         }
         chunks.push(boundedChunk);
       });
       res.on('end', async () => {
+        ended = true;
         if (settled) return;
-        const buffer = Buffer.concat(chunks);
+        if (res.complete === false || res.aborted) { fail('response_incomplete'); return; }
+        if (!bodyless && declaredLength !== null && declaredLength !== receivedBytes) {
+          fail('response_length_mismatch'); return;
+        }
+        const buffer = Buffer.concat(chunks, receivedBytes);
         const encoding = (res.headers['content-encoding'] || '').toLowerCase();
         try {
           const body = await decodeBoundedDocumentBody(buffer, encoding, res.headers['content-type'] || '');
           if (settled) return;
           settled = true;
-          resolve({
-            status: res.statusCode || 0,
-            headers: res.headers,
-            body,
-          });
-        } catch (err) {
-          rejectOnce(err instanceof Error ? err : new Error('response_decode_failed'));
+          resolve({ status: res.statusCode || 0, headers: res.headers, body,
+            transportProof: proof(res.complete === true ? 'complete' : 'unknown', 'completed') });
+        } catch {
+          fail('response_decode_failed', 'failed');
         }
       });
     });
 
     req.on('error', (err) => {
-      rejectOnce(err);
+      if (activeResponseFailure) activeResponseFailure('request_failed');
+      else rejectOnce(err);
     });
 
     req.end();
@@ -820,6 +917,7 @@ async function fetchWithRetry(url: string): Promise<TransportResult> {
           return {
             ok: true,
             html,
+            transportProof: res.transportProof,
             status: res.status,
             finalUrl: requestUrl,
             error: '',
@@ -972,6 +1070,14 @@ async function requestWithHttp2(url: string, timeoutMs: number): Promise<Transpo
         let receivedBytes = 0;
         let contentType = '';
         let contentEncoding = '';
+        let declaredLength: number | null = null;
+        let ended = false;
+        const proof = (framing: TransportProof['framing'], decoding: TransportProof['decoding'] = 'not_applied') =>
+          makeTransportProof('http2', declaredLength, receivedBytes, ended, framing, decoding, ![204, 304].includes(statusCode));
+        const fail = (token: string, decoding: TransportProof['decoding'] = 'not_applied') => {
+          finish({ ok: false, html: '', status: statusCode, finalUrl: url, error: token,
+            transportProof: proof('incomplete', decoding) }, true);
+        };
 
         req.on('response', (hdrs) => {
           statusCode = hdrs[':status'] as number || 0;
@@ -984,12 +1090,11 @@ async function requestWithHttp2(url: string, timeoutMs: number): Promise<Transpo
           contentType = String(hdrs['content-type'] || '');
           contentEncoding = String(hdrs['content-encoding'] || '');
           const rawLength = hdrs['content-length'];
-          const declaredLength = typeof rawLength === 'string' && /^\d+$/.test(rawLength)
-            ? Number(rawLength)
-            : null;
+          declaredLength = responseLength({ 'content-length': typeof rawLength === 'string' ? rawLength : undefined });
+          if (rawLength !== undefined && declaredLength === null) { fail('h2_invalid_content_length'); req.close(); return; }
+          if (statusCode === 206) { fail('h2_206_partial_response'); req.close(); return; }
           if (declaredLength !== null && declaredLength > MAX_NETWORK_RESPONSE_BYTES) {
-            req.close();
-            finish({ ok: false, html: '', status: statusCode, finalUrl: url, error: 'h2_response_body_too_large' }, true);
+            fail('h2_response_body_too_large'); req.close();
           }
         });
 
@@ -997,38 +1102,42 @@ async function requestWithHttp2(url: string, timeoutMs: number): Promise<Transpo
           if (settled) return;
           receivedBytes += chunk.byteLength;
           if (receivedBytes > MAX_NETWORK_RESPONSE_BYTES) {
-            req.close();
-            finish({ ok: false, html: '', status: statusCode, finalUrl: url, error: 'h2_response_body_too_large' }, true);
+            fail('h2_response_body_too_large'); req.close();
             return;
           }
           chunks.push(chunk);
         });
 
         req.on('end', async () => {
+          ended = true;
           if (settled) return;
+          if (typeof req.rstCode === 'number' && req.rstCode !== 0) { fail('h2_response_incomplete'); return; }
+          if (![204, 304].includes(statusCode) && declaredLength !== null && declaredLength !== receivedBytes) {
+            fail('h2_response_length_mismatch'); return;
+          }
           // Concat buffers BEFORE decoding: chunk boundaries can split
           // multi-byte UTF-8 sequences and corrupt the text otherwise.
           let data: string;
           try {
             data = await decodeBoundedDocumentBody(Buffer.concat(chunks), contentEncoding, contentType);
           } catch (error) {
-            finish({ ok: false, html: '', status: statusCode, finalUrl: url, error: sanitizeLogText((error as Error).message) });
+            void error;
+            fail('h2_response_decode_failed', 'failed');
             return;
           }
           // Redirects with Location were handled before reading the body.
           if (statusCode === 202) {
-            finish({ ok: false, html: data, status: statusCode, finalUrl: url, error: 'h2_202_pending' });
+            finish({ ok: false, html: data, status: statusCode, finalUrl: url, error: 'h2_202_pending', transportProof: proof('complete', 'completed') });
           } else if (statusCode >= 200 && statusCode < 300 && data.length > 0) {
-            finish({ ok: true, html: data, status: statusCode, finalUrl: url, error: '' });
+            finish({ ok: true, html: data, status: statusCode, finalUrl: url, error: '', transportProof: proof('complete', 'completed') });
           } else {
-            finish({ ok: false, html: data, status: statusCode, finalUrl: url, error: `h2_status_${statusCode}` });
+            finish({ ok: false, html: data, status: statusCode, finalUrl: url, error: `h2_status_${statusCode}`, transportProof: proof('complete', 'completed') });
           }
         });
 
-        req.on('error', (err: Error) => {
-          console.warn(`[Scraper] HTTP/2 request error for ${parsed.hostname}: ${sanitizeLogText(err.message)}`);
-          finish({ ok: false, html: '', status: 0, finalUrl: url, error: 'h2_request_failed' }, true);
-        });
+        req.on('aborted', () => fail('h2_response_aborted'));
+        req.on('close', () => { if (!ended && !settled) fail('h2_response_incomplete'); });
+        req.on('error', () => fail('h2_request_failed'));
 
         req.end();
       });
@@ -1166,14 +1275,14 @@ export function stripArchiveScripts(html: string): string {
 
 /** Fetches and cleans a single Wayback Machine page. */
 async function fetchWaybackPage(rawUrl: string): Promise<TransportResult> {
+  let timeout: ReturnType<typeof setTimeout> | undefined;
   try {
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
+    timeout = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
     const res = await fetch(rawUrl, {
       signal: controller.signal,
       headers: { 'User-Agent': 'PolicyWatcher/3.1 (https://policywatcher.online)' },
     });
-    clearTimeout(timeout);
 
     if (!res.ok) {
       return { ok: false, html: '', status: res.status, finalUrl: rawUrl, error: `wayback_fetch_${res.status}` };
@@ -1192,6 +1301,8 @@ async function fetchWaybackPage(rawUrl: string): Promise<TransportResult> {
   } catch (err) {
     const e = err as Error;
     return { ok: false, html: '', status: 0, finalUrl: rawUrl, error: `wayback_page_error:${e.message}` };
+  } finally {
+    clearTimeout(timeout);
   }
 }
 
@@ -1246,7 +1357,11 @@ async function fetchWithRenderer(url: string): Promise<TransportResult> {
       };
     }
 
-    const payload = await res.json() as { html?: string; finalUrl?: string; status?: number };
+    const payload = JSON.parse((await readBoundedFetchBody(res, MAX_NETWORK_RESPONSE_BYTES,
+      { scope: 'renderer_api_response' })).toString('utf8')) as { html?: string; finalUrl?: string; status?: number };
+    if (payload.status === 206) {
+      return { ok: false, html: '', status: 206, finalUrl: payload.finalUrl || url, error: 'renderer_partial_response' };
+    }
     if (!payload.html) {
       return {
         ok: false,
@@ -1393,6 +1508,7 @@ async function fetchFromCommonCrawl(originalUrl: string, notBefore?: Date): Prom
     const controller3 = new AbortController();
     const timeout3 = setTimeout(() => controller3.abort(), 20_000);
     let warcRes: Response;
+    let warcBuf: Buffer;
     try {
       warcRes = await fetch(warc_url, {
         signal: controller3.signal,
@@ -1401,17 +1517,17 @@ async function fetchFromCommonCrawl(originalUrl: string, notBefore?: Date): Prom
           Range: `bytes=${offset}-${offset + length - 1}`,
         },
       });
+      if (warcRes.status !== 206) {
+        return { ok: false, html: '', status: warcRes.status, finalUrl: warc_url, error: `cc_warc_${warcRes.status}` };
+      }
+      // WARC records are individual gzip members. Require the exact indexed record range before decoding.
+      warcBuf = await readBoundedFetchBody(warcRes, MAX_NETWORK_RESPONSE_BYTES, {
+        scope: 'archive_response', expectedByteRange: { start: offset, end: offset + length - 1 },
+      });
     } finally {
       clearTimeout(timeout3);
     }
 
-    if (!warcRes.ok && warcRes.status !== 206) {
-      return { ok: false, html: '', status: warcRes.status, finalUrl: warc_url, error: `cc_warc_${warcRes.status}` };
-    }
-
-    // WARC records on data.commoncrawl.org are individually gzip-compressed:
-    // decompress BEFORE parsing (reading them as text yields binary garbage).
-    const warcBuf = await readBoundedFetchBody(warcRes);
     let warcData: string;
     try {
       warcData = await decodeBoundedResponseBody(warcBuf, 'gzip');
