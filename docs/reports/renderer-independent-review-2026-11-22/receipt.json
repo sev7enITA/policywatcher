@@ -1,0 +1,35 @@
+{
+  "checkedAt": "2026-11-22T04:03:06.038313+00:00",
+  "reviewedRuntimeCommit": "3276336aedff3923a21cbf642e1f303ea53efd8b",
+  "observedCheckoutHead": "f6b2d7a3572075ca4295c51d7bfd93d32c67762b",
+  "laterCommitScope": "documentation and retained receipts only; server/test source unchanged",
+  "serverSha256": "b61c479efaf91792d82103e7bc94c0486d1990be2f2a4f04b2cb4590e01e351f",
+  "nodeVersion": "v22.22.3",
+  "network": "OS denied except localhost binding/inbound/outbound",
+  "authorSuitesRerun": {
+    "passed": 28,
+    "files": [
+      "renderer/server.test.mjs",
+      "renderer/http.test.mjs",
+      "vps-agent/agent.test.mjs"
+    ]
+  },
+  "independentDefaultRenderProbes": {
+    "passed": 3,
+    "cases": [
+      "Slot remains reserved until context.close resolves",
+      "Client abort during navigation closes context; slot remains reserved until cleanup resolves",
+      "Disconnect during pending DNS validation never creates a late browser context"
+    ]
+  },
+  "verdict": "APPROVE for bounded admission and failed-launch recovery source fixes",
+  "newP0P1Findings": [],
+  "residualLimits": [
+    "Total render timer starts only after context.newPage; does not bound launch/context/page-creation/close RPCs end to end",
+    "Chromium/DNS/HTML controlled; no real Chromium operation, policy completeness, throughput, remote deployment, service upgrade or rollback observed",
+    "Admission counts authenticated body/DNS waits and cleanup, not active browser contexts alone"
+  ],
+  "authorBranchModified": false,
+  "remoteServiceChanged": false,
+  "liveVersionUnchanged": "1.2.0"
+}
