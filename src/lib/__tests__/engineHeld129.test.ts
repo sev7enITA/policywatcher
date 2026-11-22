@@ -16,8 +16,8 @@ describe('residual129 source identity and immutable evidence', () => {
     const result = deriveHeld129(catalogue, report.rows, cases);
     expect(result.rows).toHaveLength(129); expect(result.excluded).toHaveLength(4);
     expect(new Set(result.rows.map(row => new URL(row.retrievalUrl).origin)).size).toBe(69);
-    expect(result.excluded.filter(source => source.includes('mailjet.com'))).toHaveLength(3);
-    expect(result.excluded.filter(source => source.includes('tiktok.com'))).toHaveLength(1);
+    expect(result.excluded.filter(source => new URL(source).hostname === 'www.mailjet.com')).toHaveLength(3);
+    expect(result.excluded.filter(source => new URL(source).hostname === 'www.tiktok.com')).toHaveLength(1);
     expect(result.rows.every(row => row.languageExpectation === 'unknown')).toBe(true);
     expect(result.rows.filter(row => row.priorReason === 'transport_rejected')).toHaveLength(98);
     expect(result.rows.filter(row => row.priorReason === 'extraction_size_out_of_bounds')).toHaveLength(24);

@@ -1,14 +1,15 @@
 /** Selective rendered follow-up of a fresh129-scope static wave; never refetches direct/HTTP2. */
-import { readFile, writeFile, mkdir, appendFile } from 'node:fs/promises';
+import { readFile, mkdir } from 'node:fs/promises';
 import { resolve, join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { execFileSync } from 'node:child_process';
+import { writeQuarantinedEvidence, appendQuarantinedEvent } from './lib/held129-evidence';
 import { sha, deriveHeld129, bodyReceiptMatches, scopeReasons, renderDecision, type PriorEndpoint, assertFreshStaticWindow, verifyImplementationFiles, activeChallenge } from './lib/held129';
 const baselineFiles = ['catalogue', 'followup-report', 'case-results', 'context'];
 const expectedHashes = ['f5ce32a4d3772be90eaa0eaee2c9481124a1403b3b94408afc5f6c325f045e81', '4fb0a00029283f7ac7660c5cf77761a2e10f3c9c40696da448e2249d18e0e353', '58dbc54a104def16b9d4acb24ee58285c90e3e260449f2771fa444b8d16b4823', '54c987a55f494af04baef95c40d898d2f15070553363db7f2ca77e5f5c202de4'];
-const harnessFiles = ['scripts/engine-held129-recovery.ts', 'scripts/lib/held129.ts'];
+const harnessFiles = ['scripts/engine-held129-recovery.ts', 'scripts/lib/held129.ts', 'scripts/lib/held129-evidence.ts'];
 const boundary = 'Fresh129-scope static wave plus separate serial rendered follow-up. Earlier4 extractions remain held for completeness. No direct/HTTP2 refetch, model inference, contract approval, baseline, policy writes, publication, notification or500/day qualification.';
-const freshWrite = (file: string, value: unknown) => writeFile(file, JSON.stringify(value, null, 2) + '\n', { flag: 'wx' });
+const freshWrite = (directory: string, name: string, value: unknown) => writeQuarantinedEvidence(directory, name, JSON.stringify(value, null, 2) + '\n');
 function option(name: string) { const i = process.argv.indexOf(name); return i >= 0 ? process.argv[i + 1] : undefined; }
 async function fingerprints() { return Object.fromEntries(await Promise.all(harnessFiles.map(async file => [file, sha(await readFile(file))]))); }
 async function rendererConfig() {
@@ -74,9 +75,9 @@ export async function prepare(out: string) {
   const plan = { schema: 'pw-held129-render-followup-1', preparedAt: new Date().toISOString(), sourceCommit, implementation, harnessHashes: await fingerprints(), baselineHashes: expectedHashes,
     staticReportHash: sha(input.bytes), staticSourceCommit: input.report.sourceCommit, staticCatalogueHash: sha(input.catalogueBytes), rendererOrigin: renderer.origin, rendererEndpoint: renderer.url,
     excluded: derived.excluded, denominator: 129, origins: 69, maxRendered: 32, renderConcurrency: 1, pacingMs: 1500, maximumRunMs: 45 * 60_000, boundary, selections };
-  await mkdir(out, { recursive: false }); await freshWrite(join(out, 'plan.json'), plan);
-  await writeFile(join(out, 'plan.sha256'), sha(await readFile(join(out, 'plan.json'))) + '\n', { flag: 'wx' });
-  await freshWrite(join(out, 'static-body-audit.json'), { boundary: 'Only bodies bound to this fresh static report are considered; old16/21November DOM never supplies rendering signals.', rows: bodyAudit });
+  await mkdir(out, { recursive: false, mode: 0o700 }); await freshWrite(out, 'plan.json', plan);
+  await writeQuarantinedEvidence(out, 'plan.sha256', sha(await readFile(join(out, 'plan.json'))) + '\n');
+  await freshWrite(out, 'static-body-audit.json', { boundary: 'Only bodies bound to this fresh static report are considered; old16/21November DOM never supplies rendering signals.', rows: bodyAudit });
   console.log(JSON.stringify({ prepared: true, denominator: 129, selected: selections.filter(s => s.selected).length, planHash: sha(JSON.stringify(plan)), rendererConcurrent: 1, models: 0, publication: 0 }));
 }
 export async function run(out: string) {
@@ -90,7 +91,7 @@ export async function run(out: string) {
   for (const row of plan.selections) if (row.selected && sha(await readFile(join(input.folder, row.staticBodyFile))) !== row.staticBodyHash) throw Error('selected_static_body_changed');
   process.env.RENDERER_URL = renderer.url; process.env.RENDERER_SECRET = renderer.secret;
   for (const key of ['GEMINI_API_KEY', 'GOOGLE_API_KEY', 'OPENROUTER_API_KEY', 'OPENAI_API_KEY']) delete process.env[key];
-  await freshWrite(join(out, 'started.json'), { at: new Date().toISOString(), sourceCommit, planHash: sha(JSON.stringify(plan)), boundary });
+  await freshWrite(out, 'started.json', { at: new Date().toISOString(), sourceCommit, planHash: sha(JSON.stringify(plan)), boundary });
   const { acquireEngineTransport, hasLiveHostDrift, hasLivePathDrift, detectBlockPage, detectSoft404 } = await import('../src/lib/scraper');
   const { extractEngineBody } = await import('../src/lib/engine/acquisition'); const { db } = await import('../src/lib/db');
   const rows: Array<Record<string, unknown>> = []; const started = Date.now(); let attempts = 0, serviceHeld = false;
@@ -105,7 +106,7 @@ export async function run(out: string) {
           const result = await acquireEngineTransport(selection.source, 'rendered');
           const bodyFile = result.html ? `${selection.id}-rendered.body.txt` : null;
           if (Buffer.byteLength(result.html) > 6_000_000) throw Error('rendered_body_limit');
-          if (bodyFile) { await writeFile(join(out, bodyFile), result.html, { flag: 'wx' }); if (sha(await readFile(join(out, bodyFile))) !== sha(result.html)) throw Error('rendered_body_hash_verification_failed'); }
+          if (bodyFile) { await writeQuarantinedEvidence(out, bodyFile, result.html); if (sha(await readFile(join(out, bodyFile))) !== sha(result.html)) throw Error('rendered_body_hash_verification_failed'); }
           const drift = hasLiveHostDrift(selection.source, result.finalUrl, 'rendered') || hasLivePathDrift(selection.source, result.finalUrl, 'rendered');
           const blocked = result.html ? activeChallenge(result.html) || detectBlockPage(result.html) : null, soft404 = result.html ? detectSoft404(result.html) : false;
           Object.assign(row, { observedAt: new Date().toISOString(), status: result.status, ok: result.ok, finalUrl: result.finalUrl, bodyFile, bodyBytes: Buffer.byteLength(result.html), bodyHash: sha(result.html), bodyHashVerified: Boolean(bodyFile), bodyRepresentation: 'rendered_DOM_not_original_HTTP_or_PDF', validators: result.validators || {}, drift, blockReason: blocked, soft404, error: (result.error || '').replaceAll(renderer.secret, '[REDACTED]'), scopeReasons: result.html ? scopeReasons(selection.source, result.finalUrl, result.html) : [] });
@@ -116,20 +117,20 @@ export async function run(out: string) {
           else {
             try {
               const body = extractEngineBody(result.html, selection.source, result.validators?.contentLanguage);
-              const file = `${selection.id}-rendered.extraction.json`; await freshWrite(join(out, file), body);
+              const file = `${selection.id}-rendered.extraction.json`; await freshWrite(out, file, body);
               Object.assign(row, { extraction: 'completed', extractionFile: file, textHash: body.document.hash, textLength: body.document.text.length, blocks: body.document.blocks.length, observedLanguage: body.language || null, languageExpectation: 'unknown', extractionIssues: body.extraction?.issues || [], reason: 'extraction_observed_identity_language_completeness_unqualified' });
             } catch (error) { row.extraction = 'rejected'; row.reason = error instanceof Error ? error.message : 'extraction_failed'; }
           }
         } catch (error) { row.reason = (error instanceof Error ? error.message : 'render_failed').replaceAll(renderer.secret, '[REDACTED]'); }
         row.durationMs = Date.now() - began; row.completedAt = new Date().toISOString();
-        await freshWrite(join(out, `${selection.id}-rendered.receipt.json`), row);
+        await freshWrite(out, `${selection.id}-rendered.receipt.json`, row);
         await new Promise(done => setTimeout(done, plan.pacingMs));
       } else if (selection.selected) row.reason = serviceHeld ? 'not_attempted_renderer_service_backoff' : originsHeld.has(origin) ? 'not_attempted_origin_backoff' : rendererDenied.has(origin) ? 'not_attempted_renderer_domain_not_configured' : 'not_attempted_budget_or_deadline';
-      rows.push(row); await freshWrite(join(out, `${selection.id}.receipt.json`), row);
-      await appendFile(join(out, 'events.ndjson'), JSON.stringify({ at: new Date().toISOString(), completed: rows.length, denominator: 129, attempted: attempts, reason: row.reason }) + '\n');
+      rows.push(row); await freshWrite(out, `${selection.id}.receipt.json`, row);
+      await appendQuarantinedEvent(out, 'events.ndjson', JSON.stringify({ at: new Date().toISOString(), completed: rows.length, denominator: 129, attempted: attempts, reason: row.reason }) + '\n');
       console.log(JSON.stringify({ completed: rows.length, denominator: 129, attempted: attempts, extracted: rows.filter(r => r.extraction === 'completed').length, reason: row.reason }));
     }
-    await freshWrite(join(out, 'report.json'), { startedAt: new Date(started).toISOString(), completedAt: new Date().toISOString(), durationMs: Date.now() - started, sourceCommit, implementation, staticSourceCommit: plan.staticSourceCommit, staticReportHash: plan.staticReportHash, boundary, denominator: 129, origins: 69, completed: rows.length, selected: plan.selections.filter((s: { selected: boolean }) => s.selected).length, renderedAttempts: attempts, extractionObservedScopes: rows.filter(r => r.extraction === 'completed').length, fullyQualifiedScopes: 0, sourceCompletenessQualified: false, productionQualified: false, rows });
+    await freshWrite(out, 'report.json', { startedAt: new Date(started).toISOString(), completedAt: new Date().toISOString(), durationMs: Date.now() - started, sourceCommit, implementation, staticSourceCommit: plan.staticSourceCommit, staticReportHash: plan.staticReportHash, boundary, denominator: 129, origins: 69, completed: rows.length, selected: plan.selections.filter((s: { selected: boolean }) => s.selected).length, renderedAttempts: attempts, extractionObservedScopes: rows.filter(r => r.extraction === 'completed').length, fullyQualifiedScopes: 0, sourceCompletenessQualified: false, productionQualified: false, rows });
   } finally { await db.$disconnect(); }
 }
 export async function main() {
