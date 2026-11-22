@@ -12,7 +12,8 @@ type Policy = { id: string; name: string; url: string; retrievalUrl: string | nu
 type Task = { id: string; policyId: string | null; kind: string; stage: string; status: string; attempt: number; lastError: string | null; resultJson: string | null };
 type Run = { id: string; mode: string; status: string; selected: number; createdAt: string; tasks: Task[] };
 type Review = { status: string; mode: string; id: string; policyId: string; reasonsJson: string; createdAt: string };
-type Detail = { coverageAssessment?: { eligible: boolean; completeness: string; coverage: CoverageReceipt } | null; transportProof?: TransportProof | null; review: Review & { status: string }; payload: { observation?: { observedAt: string; source: string; httpStatus: number }; checkpoint?: { analysis?: { value: { claims: GroundedClaim[] } }; verification?: { value: Verification } } }; document?: StructuredDocument; oldDocument?: StructuredDocument; baselineCandidate?: StructuredDocument };
+type ReviewObservation = { observedAt: string; source: string; httpStatus: number };
+type Detail = { observation?: ReviewObservation | null; coverageAssessment?: { eligible: boolean; completeness: string; coverage: CoverageReceipt } | null; transportProof?: TransportProof | null; review: Review & { status: string }; payload: { observation?: { observedAt: string; source: string; httpStatus: number }; checkpoint?: { analysis?: { value: { claims: GroundedClaim[] } }; verification?: { value: Verification } } }; document?: StructuredDocument; oldDocument?: StructuredDocument; baselineCandidate?: StructuredDocument };
 type Status = { hostedPreview?: boolean; worker?: { active: boolean; leader?: { phase: string; lastHeartbeatAt: string; lastError: string | null } | null; error?: string | null } | null; implementationHash?: string | null; coverage?: { total: number; contracted: number; inventoryConfigured?: number; qualification?: string; verified: number; awaitingConfirmation: number }; enabled: boolean; publicationEnabled: boolean; schema: string; runs: Run[]; reviews: Review[]; policies: Policy[] };
 const fieldStyle = { width: '100%', padding: 10, margin: '6px 0 16px', background: 'var(--bg-secondary)', color: 'var(--text-main)', border: '1px solid var(--border-color)', borderRadius: 6 };
 const buttonStyle = { padding: '10px 16px', marginRight: 12, marginBottom: 12, cursor: 'pointer', borderRadius: 6, border: '1px solid #7089ae', background: '#203a5a', color: '#fff' };
@@ -116,6 +117,7 @@ export default function EngineWorkspace() {
     finally { setBusy(false); }
   }
   const selected = status?.policies.find(p => p.id === policyId);
+  const reviewObservation = reviewDetail?.observation ?? reviewDetail?.payload.observation;
   const reviewReasons: string[] = reviewDetail ? JSON.parse(reviewDetail.review.reasonsJson) : [];
   const needsRebaseline = reviewReasons.length === 1 && reviewReasons[0] === 'parser_upgrade_rebaseline_required';
   const reviewCoverage = reviewDetail?.coverageAssessment?.coverage;
@@ -178,7 +180,7 @@ export default function EngineWorkspace() {
         {reviewDetail && <div style={{ borderTop: '2px solid #7089ae', paddingTop: 20 }}>
           <h3>Frozen evidence and independent verification</h3>
           <p>{policyName(reviewDetail.review.policyId)} · {label(reviewDetail.review.status)}</p>
-          <p>Observation recorded {reviewDetail.payload.observation?.observedAt ? new Date(reviewDetail.payload.observation.observedAt).toLocaleString() : 'Not recorded'} · {reviewDetail.payload.observation?.source || 'No transport recorded'} · {reviewDetail.payload.observation?.httpStatus ? `HTTP ${reviewDetail.payload.observation.httpStatus}` : 'No HTTP response recorded'}</p>
+          <p>Observation recorded {reviewObservation?.observedAt ? new Date(reviewObservation.observedAt).toLocaleString() : 'Not recorded'} · {reviewObservation?.source || 'No transport recorded'} · {reviewObservation?.httpStatus ? `HTTP ${reviewObservation.httpStatus}` : 'No HTTP response recorded'}</p>
           {(reviewDetail.payload.checkpoint?.analysis?.value.claims || []).map(claim => <article key={claim.id} style={{ padding: 18, marginBottom: 16, background: 'var(--bg-secondary)', color: 'var(--text-main)', border: '1px solid var(--border-color)', borderRadius: 8 }}>
             <h4>{claim.textEn}</h4><p>{claim.textIt}</p><p>Impact {claim.impact}/10 · {label(claim.category)}</p>
             {claim.evidence.map((span, i) => <div key={i}><strong>{span.side === 'old' ? 'Previous version' : 'Captured version'}</strong><blockquote style={{ borderLeft: '3px solid #839bc0', paddingLeft: 14, whiteSpace: 'pre-wrap' }}>{span.quote}</blockquote></div>)}

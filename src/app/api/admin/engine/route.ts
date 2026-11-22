@@ -36,7 +36,7 @@ export async function GET(request: NextRequest) {
     const baselineCandidate = payload.checkpoint?.baselineCandidateArtifactId ? await readArtifact<{ document: unknown; extraction?: unknown }>(payload.checkpoint.baselineCandidateArtifactId) : null;
     const input = payload.input as TaskInput | undefined;
     const coverageAssessment = artifact && input ? assessCapture(artifact, input.contract, input.sourceUrl) : null;
-    return json({ review, payload, document: artifact?.document, extraction: artifact?.extraction, attachmentErrors: artifact?.attachmentErrors ?? [],
+    return json({ review, payload, observation: observation ?? null, document: artifact?.document, extraction: artifact?.extraction, attachmentErrors: artifact?.attachmentErrors ?? [],
       coverageAssessment, transportProof: observation?.transportProof ?? artifact?.transportProof ?? null,
       oldDocument, baselineCandidate: baselineCandidate?.document, baselineExtraction: baselineCandidate?.extraction });
   }

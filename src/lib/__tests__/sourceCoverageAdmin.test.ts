@@ -53,11 +53,11 @@ describe('terminal review evidence visibility', () => {
     vi.mocked(readArtifact).mockResolvedValue({ html: 'PRIVATE_RAW_HTML_CANARY', document: structureDocument(text), captureId: 'frozen-capture', language: 'en' }); });
   it('loads evidence retained only inside the terminal checkpoint without exposing raw HTML', async () => {
     findReview.mockResolvedValue({ id, payloadJson: JSON.stringify({ input: { sourceUrl: 'https://example.org/terms', contract: null },
-      checkpoint: { observation: { artifactId: 'retained-capture' } } }) });
+      checkpoint: { observation: { artifactId: 'retained-capture', observedAt: '2026-11-22T10:00:00Z', source: 'direct', httpStatus: 200 } } }) });
     const response = await GET(new NextRequest('https://example.org/api/admin/engine?reviewId=' + id));
     expect(response.status).toBe(200); expect(response.headers.get('cache-control')).toContain('no-store');
     expect(readArtifact).toHaveBeenCalledWith('retained-capture');
-    const body = await response.json(); expect(body.document.text).toBe(text); expect(body.coverageAssessment.eligible).toBe(false);
+    const body = await response.json(); expect(body.observation).toMatchObject({ artifactId: 'retained-capture', observedAt: '2026-11-22T10:00:00Z', source: 'direct', httpStatus: 200 }); expect(body.document.text).toBe(text); expect(body.coverageAssessment.eligible).toBe(false);
     expect(JSON.stringify(body)).not.toContain('PRIVATE_RAW_HTML_CANARY');
   });
   it('keeps an explicit current observation ahead of a historical checkpoint pointer', async () => {
