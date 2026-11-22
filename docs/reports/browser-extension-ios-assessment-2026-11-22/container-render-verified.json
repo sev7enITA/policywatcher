@@ -1,0 +1,43 @@
+{
+  "startedAt": "2026-11-22T03:24:35.985264+00:00",
+  "appBundleIdentifier": "online.policywatcher.safari",
+  "version": "0.1.0",
+  "build": "1",
+  "containingAppOnly": true,
+  "macSimulatorAppOpened": false,
+  "safariExtensionExecution": "not_executed",
+  "physicalDeviceExecution": "not_executed",
+  "status": "containing_app_onboarding_headings_observed",
+  "runtime": "iOS 27.1",
+  "deviceType": "iPhone Duo",
+  "dedicatedSimulatorId": "22038146-41D2-465B-9700-EF11AD97AFFE",
+  "renderSamples": [
+    {
+      "file": "display1-sample-1.png",
+      "elapsedAfterOcrCompilationSeconds": 7.09,
+      "sha256": "deab636617741d29f6f0b2c1cce997b5c82b971ccf14d2fd2691c0170f12f2e5",
+      "lines": [
+        "04:25",
+        "Safari . iPhone & iPad . PREVIEW",
+        "PolicyWatcher",
+        "Safari companion 0.1.0 (1) shared extension",
+        "3.8.3.3",
+        "Enable the extension",
+        "1. Open Settings and search for Safari.",
+        "2. Open Extensions, select PolicyWatcher",
+        "and enable it.",
+        "3. Open a public policy notice in Safari and",
+        "choose PolicyWatcher from the page",
+        "menu.",
+        "4. Read the disclosure, inspect locally and",
+        "review the structured fields before"
+      ],
+      "onboardingHeadingsDetected": true
+    }
+  ],
+  "screenshotSha256": "deab636617741d29f6f0b2c1cce997b5c82b971ccf14d2fd2691c0170f12f2e5",
+  "ocrScope": "Local Vision OCR; no remote model or upload.",
+  "limit": "Observed initial English onboarding only; no scrolling, link activation, Safari enablement/injection or live query is tested.",
+  "ownSimulatorShutdownExit": 0,
+  "completedAt": "2026-11-22T03:25:21.968519+00:00"
+}
