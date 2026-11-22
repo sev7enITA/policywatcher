@@ -325,7 +325,7 @@ export default function WhatChangedClient({ initialLang = 'en' }: { initialLang?
       <main className={styles.shell}>
       <header className={styles.header}>
         <p>{lang === 'it' ? 'Nessun account richiesto' : 'No account needed'}</p>
-        <nav aria-label={lang === 'it' ? 'Lingua della pagina' : 'Page language'}><button type="button" onClick={() => setLang(lang === 'it' ? 'en' : 'it')}><Languages size={16} /> {lang === 'it' ? 'English' : 'Italiano'}</button></nav>
+        <nav aria-label={lang === 'it' ? 'Lingua della pagina' : 'Page language'}><Link className={styles.languageSwitch} href={localizedPublicPath('/what-changed', lang === 'it' ? 'en' : 'it')} hrefLang={lang === 'it' ? 'en' : 'it'} replace scroll={false} onNavigate={() => setLang(lang === 'it' ? 'en' : 'it')}><Languages size={16} /> {lang === 'it' ? 'English' : 'Italiano'}</Link></nav>
       </header>
 
       <section className={styles.intro}>

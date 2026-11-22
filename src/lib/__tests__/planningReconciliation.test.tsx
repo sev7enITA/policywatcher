@@ -66,6 +66,8 @@ describe('planning page language and evidence handoff', () => {
       expect(html).toContain(`/browser-extension${lang === 'it' ? '?lang=it' : ''}`);
       expect((await generateMetadata(props)).alternates?.canonical).toBe(`https://policywatcher.online/what-changed${lang === 'it' ? '?lang=it' : ''}`);
       expect(publicRequestLanguage('/what-changed', lang)).toBe(lang);
+      expect(html).toContain(`href="/what-changed${lang === 'en' ? '?lang=it' : ''}"`);
+      expect(html).toContain(`hrefLang="${lang === 'en' ? 'it' : 'en'}"`);
     }
   });
 
@@ -102,6 +104,23 @@ describe('latest research distribution', () => {
     expect(previewResearchUpdate.datePublished).toBe('2026-11-07');
     expect(pressKitReleases).toContain(previewResearchUpdate);
     expect(latestResearchUpdate.boundaries.map(x => x.en).join(' ')).toContain('cannot be added');
+  });
+
+  it.each(['en', 'it'] as const)('labels the latest research paragraphs independently of an older release topic in %s', async lang => {
+    const { default: EnginePage } = await import('@/app/engine-6-preview/page');
+    const html = renderToStaticMarkup(await EnginePage({ searchParams: Promise.resolve({ lang }) }));
+    const section = html.match(/<section[^>]*id="latest-research"[\s\S]*?<\/section>/)?.[0];
+    expect(section).toBeDefined();
+    for (const number of [1, 2, 3]) expect(section).toContain(`<h3>${lang === 'it' ? 'Osservazione' : 'Observation'} ${number}</h3>`);
+    expect(section).toContain('133');
+    expect(section).toContain('129');
+    expect(section).toContain(lang === 'it' ? 'Superati 81 test mirati' : 'Eighty-one focused tests');
+    expect(section).toContain('HTTP2');
+    expect(section).not.toContain('r4 remediation');
+    expect(section).not.toContain('Passage recovery');
+    expect(section).not.toContain('Correzioni r4');
+    expect(section).not.toContain('Recupero dei passaggi');
+    expect(html).toContain('dateTime="2026-11-21"');
   });
 
   it('includes the same dated record in JSON feed, RSS, static detail routes and bilingual structured data', async () => {

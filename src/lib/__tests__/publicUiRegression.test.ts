@@ -1,5 +1,9 @@
 import { existsSync, readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
+import { createElement } from 'react';
+import { renderToStaticMarkup } from 'react-dom/server';
+import Footer from '@/components/Footer';
+import PublicHeader from '@/components/PublicHeader';
 import { POLICYWATCHER_VERSION } from '../release';
 import { FEATURE_ATLAS_CURRENT_RELEASE_ID, FEATURE_ATLAS_FEATURES, FEATURE_ATLAS_RELEASES } from '../featureAtlas';
 import { RELEASE_COLUMNS, RELEASE_IMPACT_ITEMS, RELEASE_IMPACT_UPDATED_AT } from '../releaseImpact';
@@ -8,9 +12,12 @@ import { TERMS_OF_USE, TERMS_STORAGE_KEY } from '../termsOfUse';
 const read = (path: string) => readFileSync(path, 'utf8');
 
 describe('public UI regression fixes', () => {
-  it('opens What Changed in English while retaining the language toggle', () => {
+  it('uses the URL-selected What Changed language while retaining its default and navigable language switch', () => {
     const source = read('src/app/what-changed/WhatChangedClient.tsx');
-    expect(source).toContain("useState<Lang>('en')");
+    expect(source).toContain("initialLang = 'en'");
+    expect(source).toContain('useState<Lang>(initialLang)');
+    expect(source).toContain("href={localizedPublicPath('/what-changed', lang === 'it' ? 'en' : 'it')}");
+    expect(source).toContain('replace scroll={false} onNavigate=');
     expect(source).toContain("setLang(lang === 'it' ? 'en' : 'it')");
   });
 
@@ -35,14 +42,14 @@ describe('public UI regression fixes', () => {
     const navigation = read('src/components/Navigation.tsx');
     const palette = read('src/components/CommandPalette.tsx');
     const header = read('src/components/PublicHeader.tsx');
-    const footer = read('src/components/Footer.tsx');
 
     expect(navigation).toContain("{ id: 'press-kit'");
     expect(navigation).toContain("href: '/press-kit'");
     expect(palette).toContain("id: 'act-press-kit'");
     expect(palette).toContain("window.location.href = '/press-kit'");
     expect(header).toContain("{ id: 'press-kit', href: '/press-kit'");
-    expect(footer).toContain('href="/press-kit"');
+    expect(renderToStaticMarkup(createElement(Footer, { lang: 'en' }))).toContain('href="/press-kit"');
+    expect(renderToStaticMarkup(createElement(Footer, { lang: 'it' }))).toContain('href="/press-kit?lang=it"');
   });
 
   it('publishes exact-change evidence packets without a public distribution desk', () => {
@@ -106,7 +113,8 @@ describe('public UI regression fixes', () => {
     const llms = read('src/app/llms.txt/route.ts');
 
     for (const source of [navigation, palette, header, footer, atlas, sitemap, llms]) expect(source).toContain('/en/associations');
-    for (const source of [navigation, palette, header, footer, sitemap, llms]) expect(source).toContain('/it/associazioni');
+    for (const source of [navigation, palette, footer, sitemap, llms]) expect(source).toContain('/it/associazioni');
+    expect(renderToStaticMarkup(createElement(PublicHeader, { current: 'associations', lang: 'it', lockLang: true }))).toContain('href="/it/associazioni"');
     expect(header).toContain("id: 'associations'");
     expect(palette).toContain("id: 'act-associations'");
   });
