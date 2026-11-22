@@ -2,8 +2,8 @@
   "schemaVersion": "1.0.0",
   "date": "2026-11-22",
   "candidateBranch": "codex/source-completeness-controls-20261122",
-  "implementationHash": "f76fafab10713274f72c82872c502017e85c0561b79f1b172dc112090b50d948",
-  "applicationTestsPassed": 1801,
+  "implementationHash": "eaf3dacbbe6f8230d35639d1c3402c8d021020f5e624243ae45b88034a47e1dd",
+  "applicationTestsPassed": 1802,
   "applicationTestsSkipped": 14,
   "scopedTestsIncludedInFullTotal": {
     "referenceCoverage": 18,
@@ -25,7 +25,7 @@
   "stableContentOnly": {
     "source": "5c6b6e6af68a21c1f80b5d87e4edd14b9e5115c4",
     "sha256": "671fbd44b4f6d6fb0ccbb68170fb02a5b8bf15d9f1db36a63b29d778ebaf2952",
-    "state": "prepared_not_staged_not_published",
+    "state": "SUPERSEDED_HOLD_DO_NOT_DEPLOY_5_5",
     "httpChecks": 24,
     "schemaChecks": 1,
     "changedFiles": 5,
@@ -39,6 +39,10 @@
     "native-review-receipts.json": "08b4b173d5c79a835df4793e999356432fd5ab2675060a8b0a8d19d7517de951",
     "glm4-compatible-receipt.json": "88dfbb4b6f7cab3c1b60f40a74b0f3cf7eacc138b28a2dca6d85547ccb7e5058",
     "final-code-review-receipts.json": "c1bdc4298036d88dbebf0f7093a8b0877453e407aef6ee088175fe49fb2daa1b",
-    "browser-receipt.json": "722b31c2b5491de818479e56a861040a4a342923bd5bb155a4d9f9475b155396"
-  }
+    "browser-receipt.json": "722b31c2b5491de818479e56a861040a4a342923bd5bb155a4d9f9475b155396",
+    "full-tests-release56.log": "cbf511bc0119b158dd1272258ddbe77702a7d3cb6091e50da85e2db823d56a38"
+  },
+  "preMergeApplicationTestsPassed": 1801,
+  "productVersion": "5.6.0",
+  "concurrentReleaseReconciled": "afa8d72"
 }

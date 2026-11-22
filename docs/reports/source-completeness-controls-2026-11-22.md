@@ -41,3 +41,9 @@ Git candidate, wiki update and stable content preparation are separate from host
 No staging/production upload, Preview restoration or fresh hosted database snapshot was performed. The desktop control service still reports `Trusted RPC service is not configured: sky`; publication must follow staging, a fresh Preview snapshot and exact r3 restoration/verification before production. Prepared artifacts are not online availability.
 
 Independent source-reference authenticity, attachments and non-text content, live complete-document qualification and 500 successful daily full-pipeline completions remain open. The main/public stable scanner remains a separate runtime. These changes create a new implementation identity requiring a new qualification cohort before any engine promotion.
+
+## Concurrent release reconciliation
+
+While this candidate was being prepared, PR82 advanced main to product5.6.0 (`afa8d72`). The first PR83 had a merge conflict in the generated implementation manifest, so no CI checks were scheduled. Main was merged preserving both releases and this candidate, and the manifest was regenerated rather than choosing either old hash. The combined offline suite passed **1,802 tests with14skipped** (the earlier1,801 run remains a separate checkpoint). A new5.6 build is recorded separately.
+
+All prepared5.5 web archives, including671fbd44, are now **SUPERSEDED/HOLD: DO NOT DEPLOY**. Their original receipts and bytes are preserved. A coherent5.6 public-content candidate is being prepared from the stable runtime plus the approved PR82 public-release changes; no private engine code is promoted with it. An unauthenticated release-manifest request returned404 and health returned401, so neither is accepted as current online version proof. No claim is made that5.6 is already deployed.
