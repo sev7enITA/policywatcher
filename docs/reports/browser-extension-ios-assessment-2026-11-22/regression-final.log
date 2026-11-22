@@ -1,0 +1,46 @@
+TAP version 13
+# Subtest: rejects unreviewed runtime origin https://policywatcher.online.evil.example/p
+ok 1 - rejects unreviewed runtime origin https://policywatcher.online.evil.example/p
+  ---
+  duration_ms: 58.94875
+  type: 'test'
+  ...
+# Subtest: rejects unreviewed runtime origin https://policywatcher.online@evil.example/p
+ok 2 - rejects unreviewed runtime origin https://policywatcher.online@evil.example/p
+  ---
+  duration_ms: 56.029375
+  type: 'test'
+  ...
+# Subtest: rejects unreviewed runtime origin https://user@policywatcher.online/p
+ok 3 - rejects unreviewed runtime origin https://user@policywatcher.online/p
+  ---
+  duration_ms: 55.190875
+  type: 'test'
+  ...
+# Subtest: rejects unreviewed runtime origin http://policywatcher.online/p
+ok 4 - rejects unreviewed runtime origin http://policywatcher.online/p
+  ---
+  duration_ms: 54.696
+  type: 'test'
+  ...
+# Subtest: rejects unreviewed runtime origin https://www.policywatcher.online/p
+ok 5 - rejects unreviewed runtime origin https://www.policywatcher.online/p
+  ---
+  duration_ms: 66.592958
+  type: 'test'
+  ...
+# Subtest: packages the canonical apex origin and emits only reviewed runtime resources
+ok 6 - packages the canonical apex origin and emits only reviewed runtime resources
+  ---
+  duration_ms: 686.918542
+  type: 'test'
+  ...
+1..6
+# tests 6
+# suites 0
+# pass 6
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1037.344625

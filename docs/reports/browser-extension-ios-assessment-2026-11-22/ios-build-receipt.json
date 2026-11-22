@@ -1,0 +1,69 @@
+{
+  "createdAt": "2026-11-22T02:57:39.453155+00:00",
+  "sourceRevision": "2e744255c5e2e8a82ba05ec81230ca1d5838c860",
+  "sharedExtensionVersion": "3.8.3.3",
+  "wrapperVersion": "0.1.0",
+  "wrapperBuild": "1",
+  "appBundleIdentifier": "online.policywatcher.safari",
+  "extensionBundleIdentifier": "online.policywatcher.safari.Extension",
+  "distribution": "local_unsigned_preview",
+  "signed": false,
+  "uploadedToApple": false,
+  "minimumContainerIos": "17.0",
+  "builds": {
+    "simulator": {
+      "status": "built_unsigned",
+      "app": "derived-simulator/Build/Products/Release-iphonesimulator/PolicyWatcher.app"
+    },
+    "device": {
+      "status": "archived_unsigned_not_installable",
+      "archive": "PolicyWatcher-Safari-0.1.0-build1-unsigned.xcarchive"
+    }
+  },
+  "bundleChecks": [
+    {
+      "target": "simulator",
+      "appMinimumOS": "17.0",
+      "extensionMinimumOS": "15.0",
+      "architectures": [
+        "x86_64",
+        "arm64"
+      ],
+      "runtimeHashesMatched": 11,
+      "noDocumentationOrSigningMaterial": true,
+      "executableSha256": "77ff3fdcfecad5c9cbc8ae591ce25d1e0479d8c8031600b35b2501cb4b920a0e"
+    },
+    {
+      "target": "device",
+      "appMinimumOS": "17.0",
+      "extensionMinimumOS": "15.0",
+      "architectures": [
+        "arm64"
+      ],
+      "runtimeHashesMatched": 11,
+      "noDocumentationOrSigningMaterial": true,
+      "executableSha256": "939d7e32061c73282b577100dc1afe7e9e249277f738ffbdabfc9c4d0a055853"
+    }
+  ],
+  "runtimeFiles": {
+    "manifest.json": "767e85196f4b2fc7dddedac32e9472b7cc6168ad92e0f363305adb3aac6e1674",
+    "popup.html": "26a9542a5c12fad0cc1a71ccfddc9af1628a1837f3e26298f1fa241df27cad8e",
+    "popup.css": "72e122cb669a7cc7ef8a8ff13d97974b630b658a50b78fe158a7731e402ccca7",
+    "popup.js": "6e33fab5aad30477870cd99154b41d7978d0613514c6765b9315e344ad5acbfd",
+    "service-worker.js": "fac2a313a99e211f09ce079542f72b9b8a5f6a254ed0971574b793b71a637524",
+    "_locales/en/messages.json": "d621460c3a2296ea6774a5a4d8919a412f23df5f50a17522c65a3a8b71d4569b",
+    "_locales/it/messages.json": "651ab8e74cbc7585f1b0a655fc73ef96e9b1d1477d2ef15355afdfdcba2082be",
+    "icons/icon-16.png": "7047784a24c67eed9e99a7053680a04d8396b2bce97e998036230b7a1081b2ca",
+    "icons/icon-32.png": "e7deb2c6d7fa337368ddfeb94c3c5c53d6ecd3399d120c21d6048fede767310a",
+    "icons/icon-48.png": "22b2189bc18ddf992c56e8279bd0dbc97eca3bf73a0af001e5bba7149e3cbbcf",
+    "icons/icon-128.png": "cad17884bc90c563a55ac46b1b378dae8eecd7abd3b98e1d03670d5f1b099214"
+  },
+  "packagerLogSha256": "46a5e2cbd959e0b8e60319629f1f184055a94216804b56d6d4ac91a8484d2592",
+  "sourceProjectZip": {
+    "file": "PolicyWatcher-Safari-iOS-0.1.0-build1-source.zip",
+    "sha256": "2f12b196dff78ba6760f9fe64c947852adfd540ff781f499907c4b104c5a10b4"
+  },
+  "functionalSafariTest": "not_executed",
+  "physicalDeviceTest": "not_executed",
+  "publicationBoundary": "No production or Engine 6 deployment changes; no source approval or scans."
+}

@@ -1,0 +1,9 @@
+
+ RUN  v4.1.9 /Users/fabriziodegni/Projects/PolicyWatcher-extensions-ios-20261122
+
+
+ Test Files  2 passed (2)
+      Tests  13 passed (13)
+   Start at  03:57:23
+   Duration  308ms (transform 124ms, setup 0ms, import 241ms, tests 77ms, environment 0ms)
+

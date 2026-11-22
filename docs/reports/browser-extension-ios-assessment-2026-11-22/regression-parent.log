@@ -1,0 +1,114 @@
+TAP version 13
+# Subtest: rejects unreviewed runtime origin https://policywatcher.online.evil.example/p
+not ok 1 - rejects unreviewed runtime origin https://policywatcher.online.evil.example/p
+  ---
+  duration_ms: 53.476084
+  type: 'test'
+  location: '/Users/fabriziodegni/Projects/PolicyWatcher-extensions-ios-20261122/scripts/test-browser-extension-origins.mjs:18:2'
+  failureType: 'testCodeFailure'
+  error: 'Expected "actual" to be strictly unequal to: 0'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 0
+  actual: 0
+  operator: 'notStrictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///Users/fabriziodegni/Projects/PolicyWatcher-extensions-ios-20261122/scripts/test-browser-extension-origins.mjs:22:11)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.start (node:internal/test_runner/test:944:17)
+    startSubtestAfterBootstrap (node:internal/test_runner/harness:296:17)
+  ...
+# Subtest: rejects unreviewed runtime origin https://policywatcher.online@evil.example/p
+not ok 2 - rejects unreviewed runtime origin https://policywatcher.online@evil.example/p
+  ---
+  duration_ms: 46.554084
+  type: 'test'
+  location: '/Users/fabriziodegni/Projects/PolicyWatcher-extensions-ios-20261122/scripts/test-browser-extension-origins.mjs:18:2'
+  failureType: 'testCodeFailure'
+  error: 'Expected "actual" to be strictly unequal to: 0'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 0
+  actual: 0
+  operator: 'notStrictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///Users/fabriziodegni/Projects/PolicyWatcher-extensions-ios-20261122/scripts/test-browser-extension-origins.mjs:22:11)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+# Subtest: rejects unreviewed runtime origin https://user@policywatcher.online/p
+ok 3 - rejects unreviewed runtime origin https://user@policywatcher.online/p
+  ---
+  duration_ms: 44.44875
+  type: 'test'
+  ...
+# Subtest: rejects unreviewed runtime origin http://policywatcher.online/p
+not ok 4 - rejects unreviewed runtime origin http://policywatcher.online/p
+  ---
+  duration_ms: 46.92475
+  type: 'test'
+  location: '/Users/fabriziodegni/Projects/PolicyWatcher-extensions-ios-20261122/scripts/test-browser-extension-origins.mjs:18:2'
+  failureType: 'testCodeFailure'
+  error: 'Expected "actual" to be strictly unequal to: 0'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 0
+  actual: 0
+  operator: 'notStrictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///Users/fabriziodegni/Projects/PolicyWatcher-extensions-ios-20261122/scripts/test-browser-extension-origins.mjs:22:11)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: rejects unreviewed runtime origin https://www.policywatcher.online/p
+ok 5 - rejects unreviewed runtime origin https://www.policywatcher.online/p
+  ---
+  duration_ms: 44.636042
+  type: 'test'
+  ...
+# Subtest: packages the canonical apex origin and emits only reviewed runtime resources
+not ok 6 - packages the canonical apex origin and emits only reviewed runtime resources
+  ---
+  duration_ms: 336.902125
+  type: 'test'
+  location: '/Users/fabriziodegni/Projects/PolicyWatcher-extensions-ios-20261122/scripts/test-browser-extension-origins.mjs:26:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Browser extension 3.8.3.3 validation passed (11 runtime files).
+    Extension JavaScript contains an unapproved remote origin.
+    
+    
+    1 !== 0
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 0
+  actual: 1
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///Users/fabriziodegni/Projects/PolicyWatcher-extensions-ios-20261122/scripts/test-browser-extension-origins.mjs:32:10)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+1..6
+# tests 6
+# suites 0
+# pass 2
+# fail 4
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 626.786292
