@@ -1,4 +1,4 @@
-# Engine 6 — the 129 remaining scopes and selective rendering, 22 November 2026
+# Engine 6 - the 129 remaining scopes and selective rendering, 22 November 2026
 
 **Fresh HTTP observation: 129/129 original scopes processed, zero new extractions. Source completeness and 500 fully verified policy completions per day remain unqualified.** This report preserves failed and suspended outcomes. The public stable scanner and the hosted private r3 are separate deployments.
 
@@ -51,6 +51,14 @@ The local orchestration process used the configured remote renderer in series, f
 
 All three saved DOM hashes match their receipts. These are browser DOM representations, not original response bytes or an independent complete-source oracle. The configured catalogue did not declare a reviewed expected language for these cases; observed English is not proof of satisfying such a contract. All three extractions remain held. **126 scopes still lack completed extraction; all 129 remain unqualified for independent completeness.** No aggregate 500-policy success rate is inferred. [Full render report](engine-v6-held129-rendering-2026-11-22/render-report.json), [DOM integrity](engine-v6-held129-rendering-2026-11-22/render-body-integrity.json).
 
+### Independent review of the three rendered representations
+
+A separate offline reviewer verified the DOM bytes, embedded HTML, text hashes, block counts and all UTF-16 block offsets for all three extractions. Four legal passages per document occur both in the inert DOM and extracted text. This is internal consistency, not independent source completeness. [Receipt](engine-v6-held129-rendering-2026-11-22/independent-render-receipt.json), [assessment](engine-v6-held129-rendering-2026-11-22/independent-render-assessment.md).
+
+All three contain the same **12 non-policy UI blocks**, including 11 language-picker blocks and one navigation/account block, at least **364 non-separator characters**. This is at least 2.46% of AI Terms, 8.73% of the addendum and 18.26% of Live Policies. These percentages measure observed added UI text; they are not accuracy or completeness scores. Existing extraction diagnostics retain ambiguous document scope and interactive controls. No text was rewritten to conceal contamination.
+
+The configured catalogue names the EU source **Data Processor Agreement**, while the rendered content identifies **Meta European Data Transfer Addendum**. This is not recovery of the full DPA or all incorporated Data Processing Terms. The AI Terms preamble points to separate regional conditions. All three remain held; no region, expected language or source contract was approved.
+
 ### Regression evidence
 
 The independent reviewer checked the exact final harness and all 16 selected HTTP bodies, with 25 offline guard tests passing. Root then ran the integrated guard and bilingual/public-page suites with TCP/IP denied by the operating system: 52 tests passed in four files. It approved only this bounded observational run. [Review receipt](engine-v6-held129-rendering-2026-11-22/final-review.json), [guard log](engine-v6-held129-rendering-2026-11-22/guard-tests.log).
@@ -87,3 +95,8 @@ Rendering and the final regression receipts above were executed. Git integration
 3. Improve diagnostics for missing fragments and explicit HTML refreshes; preserve the original scope rather than silently replacing it. The Forbes offline counterexample remains open.
 4. Stage and verify renderer 1.2.1 admission/launch recovery separately before testing concurrency. Serialization did not qualify or upgrade renderer 1.2.0.
 5. After those prerequisites, run a newly identified full-pipeline campaign with explicit expected documents, verification decisions and supervised-host metrics. Existing partial acquisition runs do not qualify 500 completed policies per day.
+
+
+## Post-observation hardening and CI failures retained
+
+The first CI run rejected a documentation em dash and reported two hostname-substring test warnings plus generic network-to-file writes in the research harness. The heading and URL assertions were corrected. Subsequent harness code confines writes to a private quarantine: explicit basename allowlist, regular directories without symlinks, exclusive no-follow0600 inodes, byte caps and read-back SHA256; its dependency is included in the harness fingerprint. Thirty-four offline guard/quarantine tests pass. This later code did not produce the live observations above; their source remains18606e9. CodeQL and the full CI outcome will be recorded after the new run. No alert was dismissed and no CI setting was weakened.

@@ -67,5 +67,12 @@
     "files": 4,
     "testsPassed": 52,
     "network": "OS-denied TCP/IP, TSX Unix IPC explicitly allowed"
+  },
+  "independentRenderedReview": {
+    "allThreeHashesAndOffsetsMatch": true,
+    "uiBlocksPerExtraction": 12,
+    "uiNonSeparatorCharacters": 364,
+    "sourceIdentityMismatch": "Catalogue Data Processor Agreement vs rendered European Data Transfer Addendum",
+    "allThreeRemainHeld": true
   }
 }

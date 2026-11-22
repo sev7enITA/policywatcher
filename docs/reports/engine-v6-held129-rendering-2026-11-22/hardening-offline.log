@@ -1,0 +1,61 @@
+
+ RUN  v4.1.9 /Users/fabriziodegni/Projects/PolicyWatcher-reconciliation-20261116
+
+ ✓ src/lib/__tests__/release.test.ts > release metadata > matches the package version and composes one build label 2ms
+ ✓ src/lib/__tests__/release.test.ts > release metadata > keeps current release surfaces connected to centralized metadata 1ms
+ ✓ src/lib/__tests__/release.test.ts > release metadata > keeps literal em dash characters out of tracked source and documentation 50ms
+ ✓ src/lib/__tests__/engineHeldEvidence.test.ts > untrusted capture quarantine boundary > preserves exact hostile HTML as nonexecutable private evidence with exclusive creation and roundtrip identity 12ms
+ ✓ src/lib/__tests__/engineHeldEvidence.test.ts > untrusted capture quarantine boundary > rejects remote-selected executable or escaping name payload.js 1ms
+ ✓ src/lib/__tests__/engineHeldEvidence.test.ts > untrusted capture quarantine boundary > rejects remote-selected executable or escaping name payload.php 1ms
+ ✓ src/lib/__tests__/engineHeldEvidence.test.ts > untrusted capture quarantine boundary > rejects remote-selected executable or escaping name page.html 1ms
+ ✓ src/lib/__tests__/engineHeldEvidence.test.ts > untrusted capture quarantine boundary > rejects remote-selected executable or escaping name ../report.json 1ms
+ ✓ src/lib/__tests__/engineHeldEvidence.test.ts > untrusted capture quarantine boundary > rejects remote-selected executable or escaping name ../../public/report.json 1ms
+ ✓ src/lib/__tests__/engineHeldEvidence.test.ts > untrusted capture quarantine boundary > refuses a leaf symlink and a symlinked campaign directory without changing the target 2ms
+ ✓ src/lib/__tests__/engineHeldEvidence.test.ts > untrusted capture quarantine boundary > rejects a world-readable output folder and oversize content before writing 2ms
+ ✓ src/lib/__tests__/engineHeldEvidence.test.ts > untrusted capture quarantine boundary > appends only a bounded private event journal and rejects symlink replacement 14ms
+ ✓ src/lib/__tests__/engineHeld129.test.ts > residual129 source identity and immutable evidence > derives the exact residual denominator without treating four earlier held extractions as qualified 3ms
+ ✓ src/lib/__tests__/engineHeld129.test.ts > residual129 source identity and immutable evidence > rejects duplicates and missing source-to-receipt associations 1ms
+ ✓ src/lib/__tests__/engineHeld129.test.ts > residual129 source identity and immutable evidence > rejects a body with an old matching filename but different bytes, and a matching body from the wrong window 0ms
+ ✓ src/lib/__tests__/engineHeld129.test.ts > residual129 source identity and immutable evidence > preserves selector/fragment evidence and never silently widens a missing fragment into a whole-page scope 5ms
+ ✓ src/lib/__tests__/engineHeld129.test.ts > positive rendering selection and refusal boundaries > selects a current JS shell after failed static extraction, never an already extracted document 4ms
+ ✓ src/lib/__tests__/engineHeld129.test.ts > positive rendering selection and refusal boundaries > recognizes a nonstandard application root and a script-only empty body, without treating ordinary substantive text plus analytics as a shell 3ms
+ ✓ src/lib/__tests__/engineHeld129.test.ts > positive rendering selection and refusal boundaries > does not use rendering to work around HTTP401 0ms
+ ✓ src/lib/__tests__/engineHeld129.test.ts > positive rendering selection and refusal boundaries > does not use rendering to work around HTTP403 0ms
+ ✓ src/lib/__tests__/engineHeld129.test.ts > positive rendering selection and refusal boundaries > does not use rendering to work around HTTP404 1ms
+ ✓ src/lib/__tests__/engineHeld129.test.ts > positive rendering selection and refusal boundaries > does not use rendering to work around HTTP410 0ms
+ ✓ src/lib/__tests__/engineHeld129.test.ts > positive rendering selection and refusal boundaries > does not use rendering to work around HTTP429 0ms
+ ✓ src/lib/__tests__/engineHeld129.test.ts > positive rendering selection and refusal boundaries > does not use rendering to work around HTTP451 0ms
+ ✓ src/lib/__tests__/engineHeld129.test.ts > positive rendering selection and refusal boundaries > does not use rendering to work around HTTP503 0ms
+ ✓ src/lib/__tests__/engineHeld129.test.ts > positive rendering selection and refusal boundaries > does not cross a captcha wall 0ms
+ ✓ src/lib/__tests__/engineHeld129.test.ts > positive rendering selection and refusal boundaries > does not cross a captcha_challenge wall 0ms
+ ✓ src/lib/__tests__/engineHeld129.test.ts > positive rendering selection and refusal boundaries > does not cross a access_denied wall 0ms
+ ✓ src/lib/__tests__/engineHeld129.test.ts > positive rendering selection and refusal boundaries > does not cross a consent_wall wall 0ms
+ ✓ src/lib/__tests__/engineHeld129.test.ts > positive rendering selection and refusal boundaries > does not cross a paywall_or_login wall 0ms
+ ✓ src/lib/__tests__/engineHeld129.test.ts > positive rendering selection and refusal boundaries > does not cross a maintenance wall 0ms
+ ✓ src/lib/__tests__/engineHeld129.test.ts > positive rendering selection and refusal boundaries > allows only a non-challenge interstitial without clicking, and holds drift/soft404/PDF 1ms
+ ✓ src/lib/__tests__/engineHeld129.test.ts > review-discovered false positives and source freeze > never treats an active AWS WAF token challenge as a JS app, including HTTP200 1ms
+ ✓ src/lib/__tests__/engineHeld129.test.ts > review-discovered false positives and source freeze > rejects stale, reversed and future static windows without simulating a live observation 0ms
+ ✓ src/lib/__tests__/engineHeld129.test.ts > review-discovered false positives and source freeze > detects an actual implementation edit even when HEAD and generated manifest hash are unchanged 13ms
+ ✓ src/lib/__tests__/engineHeld129.test.ts > permits only a same-provider HTTPS meta refresh as an observation, never automatic identity approval 3ms
+ ✓ src/lib/__tests__/engineHeld129.test.ts > does not confuse a shopping interstitial with an active validateCaptcha form 1ms
+ ✓ src/lib/__tests__/planningReconciliation.test.tsx > planning page language and evidence handoff > preserves Italian metadata, visible entry point and source boundaries on atlas 196ms
+ ✓ src/lib/__tests__/planningReconciliation.test.tsx > planning page language and evidence handoff > preserves Italian metadata, visible entry point and source boundaries on feature-atlas 145ms
+ ✓ src/lib/__tests__/planningReconciliation.test.tsx > planning page language and evidence handoff > preserves Italian metadata, visible entry point and source boundaries on roadmap 139ms
+ ✓ src/lib/__tests__/planningReconciliation.test.tsx > planning page language and evidence handoff > keeps the English canonical on atlas 0ms
+ ✓ src/lib/__tests__/planningReconciliation.test.tsx > planning page language and evidence handoff > keeps the English canonical on feature-atlas 0ms
+ ✓ src/lib/__tests__/planningReconciliation.test.tsx > planning page language and evidence handoff > keeps the English canonical on roadmap 0ms
+ ✓ src/lib/__tests__/planningReconciliation.test.tsx > planning page language and evidence handoff > advertises the actual Italian and English planning routes and new research detail in the sitemap 48ms
+ ✓ src/lib/__tests__/planningReconciliation.test.tsx > planning page language and evidence handoff > starts the notice-verification form in the URL-selected language and preserves the browser-extension handoff 72ms
+ ✓ src/lib/__tests__/planningReconciliation.test.tsx > planning page language and evidence handoff > preserves anchors and existing route language conventions without rewriting external or protected destinations 1ms
+ ✓ src/lib/__tests__/planningReconciliation.test.tsx > planning page language and evidence handoff > separates stable, deployed private and unqualified candidate states in en 1ms
+ ✓ src/lib/__tests__/planningReconciliation.test.tsx > planning page language and evidence handoff > separates stable, deployed private and unqualified candidate states in it 0ms
+ ✓ src/lib/__tests__/planningReconciliation.test.tsx > latest research distribution > retains the historical r3 record and distinguishes observation and publication dates 1ms
+ ✓ src/lib/__tests__/planningReconciliation.test.tsx > latest research distribution > labels the latest research paragraphs independently of an older release topic in en 50ms
+ ✓ src/lib/__tests__/planningReconciliation.test.tsx > latest research distribution > labels the latest research paragraphs independently of an older release topic in it 19ms
+ ✓ src/lib/__tests__/planningReconciliation.test.tsx > latest research distribution > includes the same dated record in JSON feed, RSS, static detail routes and bilingual structured data 87ms
+
+ Test Files  4 passed (4)
+      Tests  52 passed (52)
+   Start at  08:29:12
+   Duration  1.16s (transform 782ms, setup 0ms, import 935ms, tests 888ms, environment 0ms)
+
