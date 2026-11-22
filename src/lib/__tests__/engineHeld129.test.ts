@@ -1,6 +1,9 @@
 import { readFileSync } from 'node:fs';
+import { mkdtemp, mkdir, writeFile, rm } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 import { describe, it, expect } from 'vitest';
-import { sha, deriveHeld129, bodyReceiptMatches, renderDecision, scopeReasons } from '../../../scripts/lib/held129';
+import { sha, deriveHeld129, bodyReceiptMatches, renderDecision, scopeReasons, activeChallenge, assertFreshStaticWindow, verifyImplementationFiles } from '../../../scripts/lib/held129';
 const root = 'docs/reports/engine-v6-remote133-2026-11-21/';
 const catalogue = JSON.parse(readFileSync(root + 'catalogue.json', 'utf8')).rows;
 const report = JSON.parse(readFileSync(root + 'followup-report.json', 'utf8'));
@@ -61,4 +64,45 @@ describe('positive rendering selection and refusal boundaries', () => {
     expect(renderDecision({ ...input, soft404: true }).eligible).toBe(false);
     expect(renderDecision({ ...input, source: 'https://example.com/legal.pdf' }).eligible).toBe(false);
   });
+});
+
+describe('review-discovered false positives and source freeze', () => {
+  const waf = '<script src="https://abc.token.awswaf.com/a/challenge.js"></script><div id="challenge-container"></div><script>AwsWafIntegration.getToken()</script>';
+  it('never treats an active AWS WAF token challenge as a JS app, including HTTP200', () => {
+    expect(activeChallenge(waf)).toBe('aws_waf_active_challenge');
+    expect(renderDecision({ ...input, html: waf }).eligible).toBe(false);
+    expect(renderDecision({ ...input, status: 202, html: waf }).eligible).toBe(false);
+    expect(activeChallenge('<script src="https://abc.token.awswaf.com/a/challenge.js"></script><main>ordinary document</main>')).toBe(null);
+  });
+  it('rejects stale, reversed and future static windows without simulating a live observation', () => {
+    const now = Date.parse('2026-11-22T12:00:00Z');
+    expect(() => assertFreshStaticWindow('2026-11-22T10:00Z', '2026-11-22T11:00Z', now)).not.toThrow();
+    for (const [a,b] of [['2026-11-20T10:00Z','2026-11-20T11:00Z'],['2026-11-22T11:00Z','2026-11-22T10:00Z'],['2026-11-23T11:00Z','2026-11-23T12:00Z']]) expect(() => assertFreshStaticWindow(a,b,now)).toThrow('static_window');
+  });
+  it('detects an actual implementation edit even when HEAD and generated manifest hash are unchanged', async () => {
+    const folder = await mkdtemp(join(tmpdir(), 'pw-held129-freeze-'));
+    try {
+      await mkdir(join(folder,'src/lib'), { recursive:true }); await writeFile(join(folder,'source.ts'),'original');
+      const files = [['source.ts',sha('original')]];
+      await writeFile(join(folder,'src/lib/engineImplementation.generated.json'),JSON.stringify({ files, hash:sha(JSON.stringify(files)) }));
+      expect(await verifyImplementationFiles(folder)).toBe(sha(JSON.stringify(files)));
+      await writeFile(join(folder,'source.ts'),'changed but manifest untouched');
+      await expect(verifyImplementationFiles(folder)).rejects.toThrow('actual_implementation_changed');
+    } finally { await rm(folder,{recursive:true,force:true}); }
+  });
+});
+
+it('permits only a same-provider HTTPS meta refresh as an observation, never automatic identity approval', () => {
+  const html = (url: string) => '<meta http-equiv="refresh" content="0;url=' + url + '">';
+  expect(renderDecision({ ...input, html: html('/legal') })).toEqual({ eligible: true, reason: 'same_provider_refresh_observation_not_identity_approval' });
+  expect(renderDecision({ ...input, html: html('https://other.invalid/legal') }).eligible).toBe(false);
+  expect(renderDecision({ ...input, html: html('http://example.com/legal') }).eligible).toBe(false);
+  expect(renderDecision({ ...input, html: '<script src="/gatsby.js"></script><div id="___gatsby">' + 'navigation '.repeat(30) + '</div>' }).eligible).toBe(true);
+});
+
+it('does not confuse a shopping interstitial with an active validateCaptcha form', () => {
+  const html = '<main>Click the button below to continue shopping</main><form action="/errors_page/validateCaptcha"><button>Continue</button></form>';
+  expect(activeChallenge(html)).toBe('captcha_validation_form');
+  expect(renderDecision({ ...input, html, blocked: 'access_interstitial' }).eligible).toBe(false);
+  expect(activeChallenge('<script>const example="validateCaptcha";</script><main>ordinary document</main>')).toBe(null);
 });

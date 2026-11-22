@@ -3,7 +3,7 @@ import { readFile, writeFile, mkdir, appendFile } from 'node:fs/promises';
 import { resolve, join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { execFileSync } from 'node:child_process';
-import { sha, deriveHeld129, bodyReceiptMatches, scopeReasons, renderDecision, type PriorEndpoint } from './lib/held129';
+import { sha, deriveHeld129, bodyReceiptMatches, scopeReasons, renderDecision, type PriorEndpoint, assertFreshStaticWindow, verifyImplementationFiles } from './lib/held129';
 const baselineFiles = ['catalogue', 'followup-report', 'case-results', 'context'];
 const expectedHashes = ['f5ce32a4d3772be90eaa0eaee2c9481124a1403b3b94408afc5f6c325f045e81', '4fb0a00029283f7ac7660c5cf77761a2e10f3c9c40696da448e2249d18e0e353', '58dbc54a104def16b9d4acb24ee58285c90e3e260449f2771fa444b8d16b4823', '54c987a55f494af04baef95c40d898d2f15070553363db7f2ca77e5f5c202de4'];
 const harnessFiles = ['scripts/engine-held129-recovery.ts', 'scripts/lib/held129.ts'];
@@ -24,6 +24,9 @@ async function staticInputs() {
   const bytes = await readFile(join(folder, 'report.json')); const report = JSON.parse(bytes.toString());
   const catalogueBytes = await readFile(option('--catalogue') || ''); const catalogue = JSON.parse(catalogueBytes.toString());
   if (report.catalogueHash !== sha(catalogueBytes) || report.configuredPolicies !== 129 || report.retrievalScopes !== 129 || report.completedEndpoints !== 129 || report.rows.length !== 129 || !Number.isFinite(Date.parse(report.startedAt)) || !Number.isFinite(Date.parse(report.completedAt))) throw Error('fresh_static_report_not_complete_or_bound');
+  assertFreshStaticWindow(report.startedAt, report.completedAt);
+  const sources = report.rows.flatMap((r: PriorEndpoint) => r.scopes.map(s => s.source));
+  if (sources.length !== 129 || new Set(sources).size !== 129 || new Set(report.rows.map((r: PriorEndpoint) => r.url)).size !== 129) throw Error('static_scope_or_endpoint_duplicates');
   return { folder, bytes, report, catalogueBytes, catalogue };
 }
 export async function prepare(out: string) {
@@ -54,10 +57,11 @@ export async function prepare(out: string) {
           if (verified) {
             const html = bytes.toString(); const result = attempt as typeof attempt & { finalUrl?: string; ok?: boolean };
             const finalUrl = result.finalUrl || endpoint.url;
+            const sourceScope = scopeReasons(source.retrievalUrl, finalUrl, html);
             const decision = renderDecision({ status: attempt.status || 0, html, source: source.retrievalUrl,
               blocked: detectBlockPage(html), soft404: detectSoft404(html), extractionCompleted: false,
-              drift: hasLiveHostDrift(source.retrievalUrl, finalUrl, 'direct') || hasLivePathDrift(source.retrievalUrl, finalUrl, 'direct') });
-            Object.assign(row, { selected: decision.eligible, reason: decision.reason, staticBodyFile: attempt.bodyFile, staticBodyHash: attempt.bodyHash, staticObservedAt: attempt.observedAt });
+              drift: hasLiveHostDrift(source.retrievalUrl, finalUrl, 'direct') || hasLivePathDrift(source.retrievalUrl, finalUrl, 'direct') || sourceScope.some(r => ['path_identity_unreviewed', 'source_selector_drift'].includes(r)) });
+            Object.assign(row, { selected: decision.eligible, reason: decision.reason, staticScopeReasons: sourceScope, staticBodyFile: attempt.bodyFile, staticBodyHash: attempt.bodyHash, staticObservedAt: attempt.observedAt });
           } else row.reason = 'fresh_body_hash_or_window_mismatch';
         } catch { row.reason = 'fresh_body_missing_or_unreadable'; }
       }
@@ -65,10 +69,10 @@ export async function prepare(out: string) {
     selections.push(row);
   }
   let admitted = 0; for (const row of selections) if (row.selected && ++admitted > 32) { row.selected = false; row.reason = 'render_budget'; }
-  const implementation = JSON.parse(await readFile('src/lib/engineImplementation.generated.json', 'utf8')).hash;
+  const implementation = await verifyImplementationFiles();
   const sourceCommit = execFileSync('git', ['rev-parse', 'HEAD'], { encoding: 'utf8' }).trim();
   const plan = { schema: 'pw-held129-render-followup-1', preparedAt: new Date().toISOString(), sourceCommit, implementation, harnessHashes: await fingerprints(), baselineHashes: expectedHashes,
-    staticReportHash: sha(input.bytes), staticSourceCommit: input.report.sourceCommit, staticCatalogueHash: sha(input.catalogueBytes), rendererOrigin: renderer.origin,
+    staticReportHash: sha(input.bytes), staticSourceCommit: input.report.sourceCommit, staticCatalogueHash: sha(input.catalogueBytes), rendererOrigin: renderer.origin, rendererEndpoint: renderer.url,
     excluded: derived.excluded, denominator: 129, origins: 69, maxRendered: 32, renderConcurrency: 1, pacingMs: 1500, maximumRunMs: 45 * 60_000, boundary, selections };
   await mkdir(out, { recursive: false }); await freshWrite(join(out, 'plan.json'), plan);
   await writeFile(join(out, 'plan.sha256'), sha(await readFile(join(out, 'plan.json'))) + '\n', { flag: 'wx' });
@@ -80,9 +84,9 @@ export async function run(out: string) {
   const planBytes = await readFile(join(out, 'plan.json'));
   if (sha(planBytes) !== (await readFile(join(out, 'plan.sha256'), 'utf8')).trim()) throw Error('selection_manifest_changed');
   const plan = JSON.parse(planBytes.toString()); const input = await staticInputs(); const renderer = await rendererConfig();
-  const implementation = JSON.parse(await readFile('src/lib/engineImplementation.generated.json', 'utf8')).hash;
-  const sourceCommit = process.env.POLICYWATCHER_QA_SOURCE_REVISION || execFileSync('git', ['rev-parse', 'HEAD'], { encoding: 'utf8' }).trim();
-  if (plan.schema !== 'pw-held129-render-followup-1' || plan.denominator !== 129 || plan.selections.length !== 129 || plan.sourceCommit !== sourceCommit || plan.implementation !== implementation || plan.staticReportHash !== sha(input.bytes) || plan.staticCatalogueHash !== sha(input.catalogueBytes) || plan.rendererOrigin !== renderer.origin || JSON.stringify(plan.harnessHashes) !== JSON.stringify(await fingerprints())) throw Error('frozen_context_changed_new_cohort_required');
+  const implementation = await verifyImplementationFiles();
+  const sourceCommit = execFileSync('git', ['rev-parse', 'HEAD'], { encoding: 'utf8' }).trim();
+  if (plan.schema !== 'pw-held129-render-followup-1' || plan.denominator !== 129 || plan.selections.length !== 129 || plan.sourceCommit !== sourceCommit || plan.implementation !== implementation || plan.staticReportHash !== sha(input.bytes) || plan.staticCatalogueHash !== sha(input.catalogueBytes) || plan.rendererOrigin !== renderer.origin || plan.rendererEndpoint !== renderer.url || JSON.stringify(plan.harnessHashes) !== JSON.stringify(await fingerprints())) throw Error('frozen_context_changed_new_cohort_required');
   for (const row of plan.selections) if (row.selected && sha(await readFile(join(input.folder, row.staticBodyFile))) !== row.staticBodyHash) throw Error('selected_static_body_changed');
   process.env.RENDERER_URL = renderer.url; process.env.RENDERER_SECRET = renderer.secret;
   for (const key of ['GEMINI_API_KEY', 'GOOGLE_API_KEY', 'OPENROUTER_API_KEY', 'OPENAI_API_KEY']) delete process.env[key];
