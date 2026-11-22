@@ -455,7 +455,7 @@
     ],
     [
       "src/lib/seo.ts",
-      "79ea812d1a207d44766e7c253b0670353be8a9755a85fba7442e3a184d127b24"
+      "1c2af204f8b3ce125364260ccde24c6585d0f632149d29403d7542cde3258341"
     ],
     [
       "src/lib/siteOrigin.ts",
@@ -490,5 +490,5 @@
       "9a58ee8a17ae157f8639415c9a07249dcfd7f46d9b8371d9592eb8e460e56005"
     ]
   ],
-  "hash": "31d3d5b399b2f968226042564a889b3e0a86b68877d80d1bad4062d0ea7a8f40"
+  "hash": "11083baefcc414bd7db1eb0a46f922a5a742adefce01e3e037e812c66d56540a"
 }

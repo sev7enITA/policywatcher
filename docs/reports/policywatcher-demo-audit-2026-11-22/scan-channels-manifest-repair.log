@@ -1,0 +1,16 @@
+
+ RUN  v4.1.9 /Users/fabriziodegni/Projects/PolicyWatcher-reconciliation-20261116
+
+stdout | src/lib/__tests__/scanChannels.test.ts > manual stable and experimental channel boundary > runs explicit Stable despite preview enablement, remains silent and replays its request once
+[Cron] Starting check of 0 policies (limit=1).
+
+stdout | src/lib/__tests__/scanChannels.test.ts > manual stable and experimental channel boundary > runs explicit Stable despite preview enablement, remains silent and replays its request once
+[Cron] Check complete. Checked: 0, Unique sources: 0, Network retrievals: 0, Deduplicated: 0, Changed: 0, Confirmation pending: 0, Needing review: 0, Re-baselined: 0, Partial: 0, Unavailable: 0, Invalid: 0, Errors: 0
+
+··············
+
+ Test Files  1 passed (1)
+      Tests  14 passed (14)
+   Start at  04:37:26
+   Duration  1.98s (transform 253ms, setup 0ms, import 145ms, tests 1.74s, environment 0ms)
+
