@@ -160,3 +160,34 @@ negano l'accesso vanno preferiti endpoint ufficiali, feed o archivi ammessi.
 La readiness conferma solo che Chromium e la configurazione locale sono
 utilizzabili al momento del check. Non certifica la fonte resa, la continuita
 del servizio o l'assenza di percorsi di rete esterni al boundary di Playwright.
+
+## Candidato 1.2.1: ammissione atomica e recupero Chromium
+
+La versione 1.2.1 e un candidato locale, non un aggiornamento del servizio remoto.
+Riserva lo slot subito dopo autenticazione e selezione della rotta, prima delle
+attese su body o DNS. Una richiesta concorrente oltre il limite riceve 429 con
+Retry-After; i percorsi invalidi o falliti rilasciano lo slot in finally.
+Il body ha un timeout separato (408), un body eccessivo riceve 413 e la connessione
+viene chiusa. La validazione DNS e delimitata; una risposta client interrotta
+cancella il contesto render quando gia creato. Una launch Chromium fallita resta
+503 per quella richiesta e permette un nuovo tentativo; le promise concorrenti
+e gli eventi disconnected non cancellano un avvio piu recente.
+
+| Variabile | Default | Intervallo |
+|---|---|---|
+| `RENDER_BODY_TIMEOUT_MS` | `10000` | 1000-30000 ms |
+| `RENDER_DNS_TIMEOUT_MS` | `10000` | 1000-30000 ms |
+
+`MAX_CONCURRENCY` ora conta anche le richieste autenticate che stanno leggendo
+il body o validando il target. `active=capacity` e pressione di ammissione, non
+una misura di browser realmente impegnati. I test HTTP locali usano solo socket
+loopback con DNS, Chromium e output di rendering controllati. Non dimostrano
+capacita reale, accuratezza o completamento di 500 policy al giorno.
+
+```sh
+node --test renderer/server.test.mjs renderer/http.test.mjs vps-agent/agent.test.mjs
+```
+
+Prima di qualunque deploy: review del candidato e checksum, staging isolato con
+browser reale, prova di upgrade e rollback, verifica di timeout/risorse e solo
+poi promozione esplicita. Questa modifica non cambia il servizio live 1.2.0.

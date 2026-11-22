@@ -46,6 +46,8 @@ const TOTAL_TIMEOUT_MS = boundedInteger(process.env.RENDER_TOTAL_TIMEOUT_MS, 70_
 const MAX_CONCURRENCY = boundedInteger(process.env.MAX_CONCURRENCY, 3, 1, 12);
 const MAX_HTML_BYTES = boundedInteger(process.env.MAX_HTML_BYTES, 5_000_000, 100_000, 10_000_000);
 const MAX_BODY_BYTES = boundedInteger(process.env.MAX_BODY_BYTES, 16_384, 1_024, 65_536);
+const BODY_TIMEOUT_MS = boundedInteger(process.env.RENDER_BODY_TIMEOUT_MS, 10_000, 1_000, 30_000);
+const DNS_TIMEOUT_MS = boundedInteger(process.env.RENDER_DNS_TIMEOUT_MS, 10_000, 1_000, 30_000);
 const ALLOW_HTTP_TARGETS = process.env.RENDERER_ALLOW_HTTP === 'true';
 function isMainModule() {
   if (!process.argv[1]) return false;
@@ -69,7 +71,7 @@ export function parseUserAgentOverride(rawValue) {
 const USER_AGENT_CONFIGURATION = parseUserAgentOverride(process.env.RENDER_USER_AGENT);
 const USER_AGENT_OVERRIDE = USER_AGENT_CONFIGURATION.value;
 const STARTED_AT = new Date();
-const SERVICE_VERSION = '1.2.0';
+const SERVICE_VERSION = '1.2.1';
 
 export function parseAllowedDomains(rawValue) {
   if (!rawValue?.trim()) return [];
@@ -248,7 +250,8 @@ export async function validateTargetUrl(rawUrl, options = {}) {
   }
   try {
     const lookupFn = options.lookupFn ?? lookup;
-    const addresses = await lookupFn(parsed.hostname, { all: true, verbatim: false });
+    const addresses = await withTimeout(lookupFn(parsed.hostname, { all: true, verbatim: false }),
+      options.dnsTimeoutMs ?? DNS_TIMEOUT_MS, 'dns_lookup_timeout');
     if (addresses.some((entry) => isPrivateAddress(entry.address))) {
       return { ok: false, reason: 'blocked_private_address' };
     }
@@ -272,8 +275,6 @@ export async function validateBrowserRequestUrl(rawUrl, originalHost) {
 
 /* ---------------- Rendering ---------------- */
 
-let browserPromise = null;
-
 export function buildBrowserContextOptions(userAgentOverride = USER_AGENT_OVERRIDE) {
   return {
     ...(userAgentOverride ? { userAgent: userAgentOverride } : {}),
@@ -283,29 +284,51 @@ export function buildBrowserContextOptions(userAgentOverride = USER_AGENT_OVERRI
   };
 }
 
-async function getBrowser() {
-  if (!browserPromise) {
-    browserPromise = chromium.launch({
-      headless: true,
-      args: ['--no-sandbox', '--disable-dev-shm-usage'],
-    });
-    const browser = await browserPromise;
-    browser.on('disconnected', () => {
-      // Chromium crashed or was killed: relaunch lazily on the next request.
-      browserPromise = null;
-    });
-  }
-  return browserPromise;
+export function createBrowserGetter(launch = () => chromium.launch({
+  headless: true,
+  args: ['--no-sandbox', '--disable-dev-shm-usage'],
+})) {
+  let browserPromise = null;
+  const getBrowser = async function () {
+    if (!browserPromise) {
+      const pending = Promise.resolve().then(launch);
+      browserPromise = pending;
+      try {
+        const browser = await pending;
+        browser.on('disconnected', () => {
+          if (browserPromise === pending) browserPromise = null;
+        });
+        return browser;
+      } catch (error) {
+        // A stale waiter must not discard a newer launch attempt.
+        if (browserPromise === pending) browserPromise = null;
+        throw error;
+      }
+    }
+    return browserPromise;
+  };
+  getBrowser.close = async () => {
+    const pending = browserPromise;
+    browserPromise = null;
+    const browser = await pending?.catch(() => null);
+    await browser?.close().catch(() => {});
+  };
+  return getBrowser;
 }
 
-let active = 0;
+const getBrowser = createBrowserGetter();
 let accepting = true;
 
-async function renderPage(url) {
+async function renderPage(url, { signal } = {}) {
+  signal?.throwIfAborted();
   const browser = await getBrowser();
+  signal?.throwIfAborted();
   const context = await browser.newContext(buildBrowserContextOptions());
 
+  const cancelRender = () => { void context.close().catch(() => {}); };
+  signal?.addEventListener('abort', cancelRender, { once: true });
   try {
+    signal?.throwIfAborted();
     const page = await context.newPage();
     let totalTimedOut = false;
     const totalTimeout = setTimeout(() => {
@@ -367,6 +390,7 @@ async function renderPage(url) {
       clearTimeout(totalTimeout);
     }
   } finally {
+    signal?.removeEventListener('abort', cancelRender);
     await context.close().catch(() => {});
   }
 }
@@ -385,138 +409,194 @@ function send(res, code, body, requestId) {
   res.end(payload);
 }
 
-function readBody(req, limit = MAX_BODY_BYTES) {
+async function withTimeout(promise, milliseconds, reason) {
+  let timer;
+  try {
+    return await Promise.race([
+      promise,
+      new Promise((_, reject) => { timer = setTimeout(() => reject(new Error(reason)), milliseconds); }),
+    ]);
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+function readBody(req, limit = MAX_BODY_BYTES, timeoutMs = BODY_TIMEOUT_MS) {
   return new Promise((resolve, reject) => {
     let size = 0;
+    let settled = false;
     const chunks = [];
-    req.on('data', (chunk) => {
-      size += chunk.length;
-      if (size > limit) {
-        reject(new Error('body_too_large'));
-        req.destroy();
-        return;
+    const finish = (error) => {
+      if (settled) return;
+      settled = true;
+      clearTimeout(timer);
+      req.off('data', onData);
+      req.off('end', onEnd);
+      req.off('aborted', onAborted);
+      req.off('error', onError);
+      if (error) {
+        req.resume();
+        reject(error);
+      } else {
+        resolve(Buffer.concat(chunks).toString('utf8'));
       }
+    };
+    const onData = (chunk) => {
+      size += chunk.length;
+      if (size > limit) return finish(new Error('body_too_large'));
       chunks.push(chunk);
-    });
-    req.on('end', () => resolve(Buffer.concat(chunks).toString('utf8')));
-    req.on('error', reject);
+    };
+    const onEnd = () => finish();
+    const onAborted = () => finish(new Error('request_aborted'));
+    const onError = (error) => finish(error);
+    const timer = setTimeout(() => finish(new Error('request_body_timeout')), timeoutMs);
+    req.on('data', onData);
+    req.on('end', onEnd);
+    req.on('aborted', onAborted);
+    req.on('error', onError);
   });
 }
 
-const server = createServer(async (req, res) => {
-  const requestId = randomUUID();
-  if (req.method === 'GET' && req.url === '/healthz') {
-    return send(res, 200, {
-      ok: true,
-      service: 'policywatcher-renderer',
-      version: SERVICE_VERSION,
-    }, requestId);
-  }
-
-  // Health is intentionally public for process supervision. Every other
-  // renderer route crosses the service boundary and must authenticate before
-  // routing, so a caller-controlled path cannot select a weaker auth branch.
-  const auth = req.headers.authorization || '';
-  if (!isAuthorizedRequest(auth)) {
-    return send(res, 401, { error: 'unauthorized' }, requestId);
-  }
-
-  if (req.method === 'GET' && req.url === '/readyz') {
-    if (!accepting) return send(res, 503, { ok: false, state: 'draining' }, requestId);
-    try {
-      const browser = await getBrowser();
-      return send(res, browser.isConnected() ? 200 : 503, {
-        ok: browser.isConnected(),
+export function createRendererServer({
+  validateUrl = validateTargetUrl,
+  render = renderPage,
+  browser = getBrowser,
+  capacity = MAX_CONCURRENCY,
+  bodyTimeoutMs = BODY_TIMEOUT_MS,
+  validationTimeoutMs = DNS_TIMEOUT_MS,
+} = {}) {
+  let active = 0;
+  return createServer(async (req, res) => {
+    const requestId = randomUUID();
+    if (req.method === 'GET' && req.url === '/healthz') {
+      return send(res, 200, {
+        ok: true,
         service: 'policywatcher-renderer',
         version: SERVICE_VERSION,
-        state: browser.isConnected() ? 'ready' : 'browser_unavailable',
-        active,
-        capacity: MAX_CONCURRENCY,
-        secretRotation: PREVIOUS_SECRET ? 'overlap-active' : 'single-active',
-        targetAllowlistCount: TARGET_ALLOWED_DOMAINS.length,
-        subresourceAllowlistCount: SUBRESOURCE_ALLOWED_DOMAINS.length,
-        browserVersionMajor: browser.version().split('.')[0] || 'unknown',
-        userAgentMode: USER_AGENT_OVERRIDE ? 'operator-override' : 'browser-default',
-        uptimeSeconds: Math.round((Date.now() - STARTED_AT.getTime()) / 1000),
       }, requestId);
-    } catch {
-      return send(res, 503, { ok: false, state: 'browser_unavailable' }, requestId);
     }
-  }
 
-  if (req.method !== 'POST' || req.url !== '/render') {
-    return send(res, 404, { error: 'not_found' }, requestId);
-  }
-
-  if (!accepting) {
-    return send(res, 503, { error: 'renderer_draining' }, requestId);
-  }
-
-  if (active >= MAX_CONCURRENCY) {
-    res.setHeader('Retry-After', '5');
-    return send(res, 429, { error: 'renderer_busy' }, requestId);
-  }
-
-  let url;
-  try {
-    const body = JSON.parse(await readBody(req));
-    url = body?.url;
-  } catch {
-    return send(res, 400, { error: 'invalid_json' }, requestId);
-  }
-  if (typeof url !== 'string' || !url) {
-    return send(res, 400, { error: 'url_required' }, requestId);
-  }
-
-  const validation = await validateTargetUrl(url);
-  if (!validation.ok) {
-    let cleanValErr = 'render_failed';
-    if (validation.reason === 'blocked_private_hostname' || validation.reason === 'blocked_private_address') {
-      cleanValErr = 'blocked_private_ip';
-    } else if (validation.reason === 'blocked_url_credentials') {
-      cleanValErr = 'blocked_credentials';
-    } else if (validation.reason === 'dns_lookup_failed') {
-      cleanValErr = 'dns_lookup_failed';
-    } else if (validation.reason === 'blocked_unlisted_domain') {
-      cleanValErr = 'domain_not_allowed';
-    } else if (validation.reason === 'https_required') {
-      cleanValErr = 'https_required';
+    // Health is intentionally public for process supervision. Every other
+    // renderer route crosses the service boundary and must authenticate before
+    // routing, so a caller-controlled path cannot select a weaker auth branch.
+    const auth = req.headers.authorization || '';
+    if (!isAuthorizedRequest(auth)) {
+      return send(res, 401, { error: 'unauthorized' }, requestId);
     }
-    return send(res, 400, { error: cleanValErr }, requestId);
-  }
 
-  active++;
-  const started = Date.now();
-  const safeTarget = sanitizeTargetForLog(url);
-  try {
-    const result = await renderPage(url);
-    console.log(`[Renderer] OK ${requestId} ${safeTarget} -> ${result.status} (${result.html.length} bytes, ${Date.now() - started}ms)`);
-    return send(res, 200, result, requestId);
-  } catch (err) {
-    const msg = err.message || String(err);
-    console.error(`[Renderer] FAIL ${requestId} ${safeTarget}: ${err.name || 'Error'} ${msg.split('\n')[0].slice(0, 180)}`);
-
-    let cleanError = 'render_failed';
-    if (msg.startsWith('blocked_final_url:')) {
-      const subReason = msg.split(':')[1] || '';
-      if (subReason === 'blocked_private_hostname' || subReason === 'blocked_private_address') {
-        cleanError = 'blocked_private_ip';
-      } else {
-        cleanError = 'blocked_final_url';
+    if (req.method === 'GET' && req.url === '/readyz') {
+      if (!accepting) return send(res, 503, { ok: false, state: 'draining' }, requestId);
+      try {
+        const readyBrowser = await browser();
+        return send(res, readyBrowser.isConnected() ? 200 : 503, {
+          ok: readyBrowser.isConnected(),
+          service: 'policywatcher-renderer',
+          version: SERVICE_VERSION,
+          state: readyBrowser.isConnected() ? 'ready' : 'browser_unavailable',
+          active,
+          capacity,
+          secretRotation: PREVIOUS_SECRET ? 'overlap-active' : 'single-active',
+          targetAllowlistCount: TARGET_ALLOWED_DOMAINS.length,
+          subresourceAllowlistCount: SUBRESOURCE_ALLOWED_DOMAINS.length,
+          browserVersionMajor: readyBrowser.version().split('.')[0] || 'unknown',
+          userAgentMode: USER_AGENT_OVERRIDE ? 'operator-override' : 'browser-default',
+          uptimeSeconds: Math.round((Date.now() - STARTED_AT.getTime()) / 1000),
+        }, requestId);
+      } catch {
+        return send(res, 503, { ok: false, state: 'browser_unavailable' }, requestId);
       }
-    } else if (msg.includes('dns_lookup_failed')) {
-      cleanError = 'dns_lookup_failed';
-    } else if (msg.includes('timeout') || msg.includes('Timeout')) {
-      cleanError = 'renderer_timeout';
-    } else if (msg.includes('render_output_too_large')) {
-      cleanError = 'render_output_too_large';
     }
 
-    return send(res, 502, { error: cleanError }, requestId);
-  } finally {
-    active--;
-  }
-});
+    if (req.method !== 'POST' || req.url !== '/render') {
+      return send(res, 404, { error: 'not_found' }, requestId);
+    }
+
+    if (!accepting) {
+      return send(res, 503, { error: 'renderer_draining' }, requestId);
+    }
+
+    if (active >= capacity) {
+      res.setHeader('Retry-After', '5');
+      return send(res, 429, { error: 'renderer_busy' }, requestId);
+    }
+
+    // Reserve synchronously before body or DNS work: concurrent awaits cannot over-admit.
+    active++;
+    const started = Date.now();
+    const cancellation = new AbortController();
+    const cancel = () => cancellation.abort();
+    req.once('aborted', cancel);
+    res.once('close', cancel);
+    let safeTarget = 'unvalidated-target';
+    try {
+      let url;
+      try {
+        const body = JSON.parse(await readBody(req, MAX_BODY_BYTES, bodyTimeoutMs));
+        url = body?.url;
+      } catch (error) {
+        if (req.aborted || res.destroyed) return;
+        const timedOut = error.message === 'request_body_timeout';
+        const tooLarge = error.message === 'body_too_large';
+        if (timedOut || tooLarge) res.setHeader('Connection', 'close');
+        return send(res, timedOut ? 408 : tooLarge ? 413 : 400,
+          { error: timedOut ? 'request_body_timeout' : tooLarge ? 'body_too_large' : 'invalid_json' }, requestId);
+      }
+      if (typeof url !== 'string' || !url) {
+        return send(res, 400, { error: 'url_required' }, requestId);
+      }
+      const validation = await withTimeout(validateUrl(url), validationTimeoutMs, 'dns_lookup_timeout');
+      if (!validation.ok) {
+        let cleanValErr = 'render_failed';
+        if (validation.reason === 'blocked_private_hostname' || validation.reason === 'blocked_private_address') {
+          cleanValErr = 'blocked_private_ip';
+        } else if (validation.reason === 'blocked_url_credentials') {
+          cleanValErr = 'blocked_credentials';
+        } else if (validation.reason === 'dns_lookup_failed') {
+          cleanValErr = 'dns_lookup_failed';
+        } else if (validation.reason === 'blocked_unlisted_domain') {
+          cleanValErr = 'domain_not_allowed';
+        } else if (validation.reason === 'https_required') {
+          cleanValErr = 'https_required';
+        }
+        return send(res, 400, { error: cleanValErr }, requestId);
+      }
+
+      if (req.aborted || res.destroyed) return;
+      safeTarget = sanitizeTargetForLog(url);
+      const result = await render(url, { signal: cancellation.signal });
+      console.log(`[Renderer] OK ${requestId} ${safeTarget} -> ${result.status} (${result.html.length} bytes, ${Date.now() - started}ms)`);
+      return send(res, 200, result, requestId);
+    } catch (err) {
+      if (req.aborted || res.destroyed) return;
+      const msg = err.message || String(err);
+      console.error(`[Renderer] FAIL ${requestId} ${safeTarget}: ${err.name || 'Error'} ${msg.split('\n')[0].slice(0, 180)}`);
+
+      let cleanError = 'render_failed';
+      if (msg.startsWith('blocked_final_url:')) {
+        const subReason = msg.split(':')[1] || '';
+        if (subReason === 'blocked_private_hostname' || subReason === 'blocked_private_address') {
+          cleanError = 'blocked_private_ip';
+        } else {
+          cleanError = 'blocked_final_url';
+        }
+      } else if (msg.includes('dns_lookup_failed')) {
+        cleanError = 'dns_lookup_failed';
+      } else if (msg.includes('timeout') || msg.includes('Timeout')) {
+        cleanError = 'renderer_timeout';
+      } else if (msg.includes('render_output_too_large')) {
+        cleanError = 'render_output_too_large';
+      }
+
+      return send(res, 502, { error: cleanError }, requestId);
+    } finally {
+      req.off('aborted', cancel);
+      res.off('close', cancel);
+      active--;
+    }
+  });
+}
+
+const server = createRendererServer();
 
 if (IS_MAIN_MODULE) {
   server.listen(PORT, () => {
@@ -529,20 +609,14 @@ if (IS_MAIN_MODULE) {
   process.on('SIGTERM', async () => {
     accepting = false;
     server.close();
-    if (browserPromise) {
-      const browser = await browserPromise.catch(() => null);
-      await browser?.close().catch(() => {});
-    }
+    await getBrowser.close();
     process.exit(0);
   });
 
   process.on('SIGINT', async () => {
     accepting = false;
     server.close();
-    if (browserPromise) {
-      const browser = await browserPromise.catch(() => null);
-      await browser?.close().catch(() => {});
-    }
+    await getBrowser.close();
     process.exit(0);
   });
 }
