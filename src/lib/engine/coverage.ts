@@ -198,7 +198,10 @@ export function assessCoverage(document: StructuredDocument, inventory: unknown,
 }
 export function publicationCoverageSatisfied(assessment: { eligible: boolean; coverage?: CoverageReceipt }): boolean {
   return assessment.eligible && assessment.coverage?.state === 'matched_reviewed_reference'
-    && assessment.coverage.detail?.state === 'matched_reviewed_inventory';
+    && assessment.coverage.detail?.state === 'matched_reviewed_inventory'
+    // Claim analysis currently compares the parent document only. A complete
+    // attachment inventory must not silently authorize an unanalysed annex change.
+    && assessment.coverage.detail.expectedAttachments === 0;
 }
 
 

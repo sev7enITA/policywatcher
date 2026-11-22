@@ -103,6 +103,13 @@ describe('independent expected-content inventory', () => {
     expect(coverage.detail).toMatchObject({ state: 'matched_reviewed_inventory', expectedAttachments: 1, matchedAttachments: 1,
       attachments: [{ id: 'annex-1', state: 'matched', reasons: [] }] });
   });
+  it('keeps attachment-bearing policies observation-only until attachment change analysis is qualified', () => {
+    const coverage = assess(inventory(true), evidence());
+    expect(coverage.state).toBe('matched_reviewed_reference');
+    expect(coverage.detail.state).toBe('matched_reviewed_inventory');
+    expect(coverage.detail.matchedAttachments).toBe(1);
+    expect(publicationCoverageSatisfied({ eligible: true, coverage })).toBe(false);
+  });
   it.each([
     ['missing link', (e: CoverageEvidence) => { e.attachmentLinks = {}; }],
     ['duplicate link', (e: CoverageEvidence) => { e.attachmentLinks![attachmentUrl] = 2; }],

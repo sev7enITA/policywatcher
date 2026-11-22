@@ -12,7 +12,7 @@ The offline CLI checks actual retained reference bytes against declared digests 
 
 ## Executed local verification
 
-- Full application suite: **1,844 passed, 14 skipped**, 221 files passed and 3 skipped, with OS-denied TCP/IP and scoped Unix IPC for tooling.
+- Full application suite: **1,845 passed, 14 skipped**, 221 files passed and 3 skipped, with OS-denied TCP/IP and scoped Unix IPC for tooling.
 - Targeted checks cover granular counts, exact reference binding, changed links with unchanged visible text, missing candidate identity, self-reference IDs, missing/ambiguous attachments, wrong bytes/media/language, incomplete text, uncertain extraction, partial responses and unknown/renderer framing.
 - Isolated database/worker regression rejects a version 1 block-only reference before model execution, baseline refresh, public changes or outbox writes.
 - Offline authoring checks reject changed reference/attachment bytes and preserve existing drafts. No candidate content is learned during those checks.
@@ -52,3 +52,12 @@ The final stable public package is **ready for staging, not published**: source 
 Harness failures are preserved: deployment ZIPs omit test files and downloaded press-package fixtures, so regression tests used the matching stable source and verified local press fixtures outside the deployment archive; the public ZIP was not expanded to include those fixtures. The first HTTP/schema harness incorrectly expected migration metadata in a bootstrap database. The final schema control uses a separate pristine stable migration rehearsal. An initial absent-file migration error and a subsequent private-schema rehearsal from the wrong working directory are retained and excluded; the correctly scoped stable rehearsal is the 35-table/19-migration result. No hosted database was touched.
 
 The download handoff includes the exact ZIP, digest, standalone offline verifier, readiness receipt and staging/Preview-restoration/production sequence. It contains no credentials or private source captures. Old preparation archives and receipts remain available with explicit holds. Git, local build, wiki and public delivery remain separate states; no website publication is claimed.
+
+
+## Attachment interpretation publication boundary
+
+Final inspection identified a scope limit: the analyst/verifier currently compares parent documents, not attachment-only amendments. A newly reviewed annex must not be silently absorbed by an unchanged parent hash. Therefore all attachment-bearing version 2 contracts are observation-only, including when every declared byte/text/link reference matches. The UI and central publication guard refuse approval/publication until attachment change analysis and events are qualified. This changes no hosted state.
+
+The final local suite passed **1,845 tests, 14 skipped**; clean production build, lint, critical-test types and generated fingerprints passed again. A third mutation removed this publication-scope guard: the selected negative test failed; original source was restored. On preceding checkpoint `42548402313b65880757b5c5e04954a1f7bc5d11`, all six GitHub checks passed, including CodeQL after the filesystem-race fix. Final remote checks for the added attachment boundary are a separate checkpoint and cannot be inferred from that earlier green run.
+
+The pinned public ZIP remains the verified `c41b194f…` stable artifact: its diary preserves the completed 1,844-test checkpoint. The later 1,845-test private publication-boundary refinement is recorded here and in the wiki/download supplement; no private engine code is added to that public archive. This distinction preserves historical receipts rather than rewriting a validated artifact.

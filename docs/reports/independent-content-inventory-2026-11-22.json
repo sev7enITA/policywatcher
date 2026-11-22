@@ -1,14 +1,14 @@
 {
   "schemaVersion": 1,
   "recordedAt": "2026-11-22T16:22:20.773244+00:00",
-  "state": "local_verified_public_package_ready_remote_revalidation_pending_not_published",
+  "state": "local_verified_public_ready_final_attachment_guard_remote_checks_pending_not_published",
   "codeCheckpoint": "7f2b1e84ad0bc8cbd9545d5a4d4027b25d549312",
   "pullRequest": "https://github.com/sev7enITA/policywatcher/pull/84",
   "includedPriorPR": 83,
   "merged": false,
-  "implementationHash": "3b67995d1476c762bc2cb45996461bc92efaaac47aa0873dcce3d58609219e63",
+  "implementationHash": "3ca303abe693673a969ccf165e53880aca344d729d24f0848cce0f07116ed9c8",
   "applicationTests": {
-    "passed": 1844,
+    "passed": 1845,
     "skipped": 14,
     "filesPassed": 221,
     "filesSkipped": 3,
@@ -29,6 +29,12 @@
       "exitCode": 1,
       "expectedFailureObserved": true,
       "test": "holds a new or changed link"
+    },
+    {
+      "mutation": "attachment-publication-scope-bypass",
+      "exitCode": 1,
+      "expectedFailureObserved": true,
+      "sourceRestoredSha256": "251333f554cfe78eb16e03ddc974ea1e44394213a439a9e45f24ec12936626c3"
     }
   ],
   "modelChallenge": {
@@ -103,6 +109,13 @@
     "fixedWith": "single bounded no-follow descriptor and before/after descriptor metadata",
     "rulesDisabled": false,
     "alertsDismissed": false,
-    "remoteRevalidation": "pending"
+    "remoteRevalidation": "six checks passed on 4254840; final scope guard revalidation pending"
+  },
+  "attachmentBearingPublicationEnabled": false,
+  "attachmentChangeAnalysisQualified": false,
+  "previousVerifiedCI": {
+    "revision": "42548402313b65880757b5c5e04954a1f7bc5d11",
+    "allSixPassed": true,
+    "includesFinalAttachmentScopeGuard": false
   }
 }

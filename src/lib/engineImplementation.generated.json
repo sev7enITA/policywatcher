@@ -319,7 +319,7 @@
     ],
     [
       "src/lib/engine/coverage.ts",
-      "eb8c10153d390e535b2d8f4edd513d73335e1c097c01edb4d5fc0798f3e8674e"
+      "251333f554cfe78eb16e03ddc974ea1e44394213a439a9e45f24ec12936626c3"
     ],
     [
       "src/lib/engine/document.ts",
@@ -494,5 +494,5 @@
       "9a58ee8a17ae157f8639415c9a07249dcfd7f46d9b8371d9592eb8e460e56005"
     ]
   ],
-  "hash": "3b67995d1476c762bc2cb45996461bc92efaaac47aa0873dcce3d58609219e63"
+  "hash": "3ca303abe693673a969ccf165e53880aca344d729d24f0848cce0f07116ed9c8"
 }

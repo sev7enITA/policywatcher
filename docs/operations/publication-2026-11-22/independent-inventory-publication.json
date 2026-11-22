@@ -35,5 +35,7 @@
   "releaseAndSourceTestsPassed": 56,
   "compiledHttpControlsPassed": 28,
   "pristineMigrationRehearsalControlsPassed": 1,
-  "privateCandidateTestsPassed": 1844
+  "privateCandidateTestsPassed": 1845,
+  "publicDiarySnapshotTestsPassed": 1844,
+  "attachmentBearingPublicationEnabled": false
 }
