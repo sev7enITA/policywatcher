@@ -8,7 +8,7 @@
     "src/lib/acquisitionScope.ts": "e3cc3ec89c8f223af18ee6c9c62f1dae3b7cb59268ac30037f2338782abc38d9",
     "src/lib/adaptiveAcquisition/evidence.ts": "3d9750beaa201901934e14cda98e9a8258e253058a25902c91a28ca7408bb36f",
     "src/lib/adaptiveAcquisition/outcome.ts": "8e83e6a5891c3f062c228c72528bcf1203af8e05d445dce4e8b9980457d5d34f",
-    "package-lock.json": "57689b0b8e73dca45234fdbab3ad27e7a4d89a206b2e9ebf6486fcf641587abb"
+    "package-lock.json": "7b87b67a522bdfac749b57e807b18ee33d097a752d3a16380e252850dda5a494"
   },
-  "hash": "e717f5728a2a0bbd1a078708282e0cf8fec1fc5e126ffeda57c86ee989d8d9c4"
+  "hash": "fcc7f2145af676a4973bcdcba82a6701176cca950b949c2563043733b1d70062"
 }
