@@ -712,7 +712,7 @@ export const previewResearchUpdate: PressKitRelease = {
 export const engineSixDemoAuditUpdate: PressKitRelease = {
   slug: 'engine-six-demo-audit-november-2026', version: '5.5.0', displayVersion: 'Engine 6 research',
   datePublished: '2026-11-22', dateModified: '2026-11-22', status: 'research', category: 'confidence',
-  title: { en: 'Engine 6 audit: contract blind spots and an unsigned iOS candidate', it: 'Audit Engine 6: limiti dei contratti e candidato iOS non firmato' },
+  title: { en: 'Engine 6 audit: contract blind spots and an unsigned iOS candidate', it: 'Audit Engine 6: limiti dei contratti e candidato iOS per sviluppatori' },
   summary: {
     en: 'A controlled rerun on Git candidate c7deedb reconfirmed four of six incomplete synthetic documents still classified contract_satisfied. This tests the declared source contract, not the parser or live-source completeness. A separate Safari iOS developer candidate compiles unsigned; real Safari operation and Apple distribution remain unverified. Public stable 5.5.0 and private Preview r3 retain their separate roles.',
     it: 'Una riesecuzione circoscritta sul candidato Git c7deedb ha riconfermato quattro documenti sintetici incompleti su sei ancora classificati contract_satisfied. È una prova del contratto dichiarato della fonte, non del parser o della completezza di fonti reali. Un candidato Safari iOS per sviluppatori compila senza firma; funzionamento reale in Safari e distribuzione Apple restano da verificare. Stabile pubblica 5.5.0 e Preview privata r3 mantengono ruoli separati.',

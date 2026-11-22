@@ -1,0 +1,15 @@
+{
+  "scope": "Expanded frontend and copy/control wiring regressions only",
+  "tests": 256,
+  "suites": 13,
+  "network": "OS sandbox deny network*",
+  "typecheck": "passed",
+  "scopedEslint": "passed",
+  "diffCheck": "passed",
+  "negativeControls": {
+    "unlocalizedItalianDiary": "3 expected failing consumers",
+    "contrastiveEnglishSafariHeading": "1 expected failing unchanged headline guard"
+  },
+  "uiOrDeploymentPerformed": false,
+  "limits": "Disclosure link branch remains source-wiring checked; actual initial route links/headings are SSR checked in both languages. Existing methodology route initializes its own local language and ignores query language."
+}

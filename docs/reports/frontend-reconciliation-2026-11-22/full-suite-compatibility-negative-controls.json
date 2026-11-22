@@ -1,0 +1,18 @@
+{
+  "checkedAt": "2026-11-22T03:45:51.322098+00:00",
+  "network": "OS denied",
+  "rows": [
+    {
+      "mutation": "italian-diary",
+      "test": "src/lib/__tests__/planningReconciliation.test.tsx",
+      "expectedNonzeroExit": 1,
+      "sourceRestored": true
+    },
+    {
+      "mutation": "contrastive-heading",
+      "test": "src/lib/__tests__/publicClaimLanguage.test.ts",
+      "expectedNonzeroExit": 1,
+      "sourceRestored": true
+    }
+  ]
+}
