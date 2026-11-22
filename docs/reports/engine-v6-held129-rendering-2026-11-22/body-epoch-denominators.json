@@ -1,0 +1,31 @@
+{
+  "meaning": "Counts of saved attempt bodies, not policy counts. Separate epochs remain separate.",
+  "oldReferences": 165,
+  "newReferences": 161,
+  "differences": [
+    {
+      "source": "https://www.tiktok.com/legal/privacy-policy-eea",
+      "bodyReferences21": 1,
+      "bodyReferences22": 0,
+      "excludedPreviouslyExtracted": true
+    },
+    {
+      "source": "https://www.mailjet.com/legal/sending-policy/",
+      "bodyReferences21": 1,
+      "bodyReferences22": 0,
+      "excludedPreviouslyExtracted": true
+    },
+    {
+      "source": "https://www.mailjet.com/privacy-policy/",
+      "bodyReferences21": 1,
+      "bodyReferences22": 0,
+      "excludedPreviouslyExtracted": true
+    },
+    {
+      "source": "https://www.mailjet.com/legal/terms/",
+      "bodyReferences21": 1,
+      "bodyReferences22": 0,
+      "excludedPreviouslyExtracted": true
+    }
+  ]
+}

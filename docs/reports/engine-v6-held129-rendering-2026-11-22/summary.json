@@ -1,0 +1,78 @@
+{
+  "startedAt": "2026-11-22T06:27:38.309Z",
+  "completedAt": "2026-11-22T06:31:49.069Z",
+  "durationMs": 250760,
+  "sourceCommit": "c96b4f08fc93e6a35acb1acda30122f894f53a39",
+  "catalogueHash": "780a56d5fe71b6d99fe8b7baac5f88e387383d8428655755633e6b929ccf9f30",
+  "boundary": "Configured catalogue acquisition/extraction; 3 workers, one request per origin at a time, 1.5s pacing, origin held after 429/503. No models, renderer, contracts, production DB or delivery. Does not establish 500 qualified daily completions or full-pipeline host capacity.",
+  "runtime": {
+    "node": "v24.22.3",
+    "platform": "linux",
+    "architecture": "x64"
+  },
+  "configuredPolicies": 129,
+  "retrievalScopes": 129,
+  "httpEndpoints": 129,
+  "origins": 69,
+  "completedEndpoints": 129,
+  "attempts": 228,
+  "successfulEndpoints": 27,
+  "extractedScopes": 0,
+  "sourceCompletenessQualified": false,
+  "productionQualified": false,
+  "endpointDurationMs": {
+    "p50": 3079,
+    "p95": 7671
+  },
+  "publicationEnabled": false,
+  "notificationsEnabled": false,
+  "rendererRunState": "completed",
+  "modelReview": {
+    "provider": "GLM-5.3 Max via native ZCode",
+    "scope": "methodological review of supplied summary; no source or code execution by the model"
+  },
+  "sshOutputInterrupted": true,
+  "remoteCompletionIndependentlyVerified": true,
+  "bodyEpochsSeparate": true,
+  "rendering": {
+    "startedAt": "2026-11-22T06:57:54.028Z",
+    "completedAt": "2026-11-22T06:58:25.106Z",
+    "durationMs": 31078,
+    "sourceCommit": "18606e9a4826c39f244cd52d74f0c8f2c97912e9",
+    "implementation": "1832fcbfe1bc668b88f55da44e94e05abf3cc12ae7cea9228eea4be1003fd5d4",
+    "staticSourceCommit": "c96b4f08fc93e6a35acb1acda30122f894f53a39",
+    "staticReportHash": "70dc48766256de6e6fa9c1dd373b04f92d1ea0d30c168a53e122e77e8004ab9d",
+    "boundary": "Fresh129-scope static wave plus separate serial rendered follow-up. Earlier4 extractions remain held for completeness. No direct/HTTP2 refetch, model inference, contract approval, baseline, policy writes, publication, notification or500/day qualification.",
+    "denominator": 129,
+    "origins": 69,
+    "completed": 129,
+    "selected": 16,
+    "renderedAttempts": 11,
+    "extractionObservedScopes": 3,
+    "fullyQualifiedScopes": 0,
+    "sourceCompletenessQualified": false,
+    "productionQualified": false,
+    "planSha256": "aa9d1587c1b1fa7bac995be5bb826ef9f2d85bf4318a8ef4b87f81cc2b3cea2c"
+  },
+  "remainingWithoutExtraction": 126,
+  "remainingFullyUnqualified": 129,
+  "guardTests": 25,
+  "negativeRealBodies": {
+    "beforeReviewExit": 1,
+    "fixedExit": 0,
+    "network": "OS-denied TCP/IP; Unix TSX IPC allowed",
+    "bodies": 3
+  },
+  "offlineIntegration": {
+    "files": 4,
+    "testsPassed": 52,
+    "network": "OS-denied TCP/IP, TSX Unix IPC explicitly allowed"
+  },
+  "independentRenderedReview": {
+    "allThreeHashesAndOffsetsMatch": true,
+    "uiBlocksPerExtraction": 12,
+    "uiNonSeparatorCharacters": 364,
+    "sourceIdentityMismatch": "Catalogue Data Processor Agreement vs rendered European Data Transfer Addendum",
+    "allThreeRemainHeld": true
+  }
+}

@@ -1,0 +1,85 @@
+{
+  "checkedAt": "2026-11-22T06:53:32.335Z",
+  "scope": "Read-only inspection of saved22November fresh static bodies and initial offline selection preview; no live rendering or challenge interaction performed",
+  "staticReportSha256": "70dc48766256de6e6fa9c1dd373b04f92d1ea0d30c168a53e122e77e8004ab9d",
+  "initialSelected": 9,
+  "rows": [
+    {
+      "source": "https://advertising.amazon.com/resources/ad-policy/creative-acceptance",
+      "previewReason": "script_shell_after_static_failure",
+      "status": 200,
+      "ok": true,
+      "finalUrl": "https://advertising.amazon.com/help",
+      "bodyFile": "52de32e375e7b1bbcc101882-direct.body.txt",
+      "expectedHash": "557c5c131bfdeba91bf4963d34e8a35832c6592b16fabc5be86e06bb0adb6317",
+      "actualHash": "557c5c131bfdeba91bf4963d34e8a35832c6592b16fabc5be86e06bb0adb6317",
+      "hashMatches": true,
+      "observedAt": "2026-11-22T06:28:18.045Z",
+      "flags": [
+        "path_identity_unreviewed"
+      ]
+    },
+    {
+      "source": "https://www.amazon.co.uk/gp/help/customer/display.html/?nodeId=201909010&ref_=a20m_us_fnav_l_prvcy_gb",
+      "previewReason": "ordinary_interstitial_no_interaction",
+      "status": 200,
+      "ok": true,
+      "finalUrl": "https://www.amazon.co.uk/gp/help/customer/display.html/?nodeId=201909010&ref_=a20m_us_fnav_l_prvcy_gb",
+      "bodyFile": "9343242cf2e8257a8aa06d05-direct.body.txt",
+      "expectedHash": "1e5482688980458bf272a7e8179f2ab4ebb388990dceeddbace2c89c743aa518",
+      "actualHash": "1e5482688980458bf272a7e8179f2ab4ebb388990dceeddbace2c89c743aa518",
+      "hashMatches": true,
+      "observedAt": "2026-11-22T06:28:19.723Z",
+      "flags": [
+        "active_captcha_form"
+      ]
+    },
+    {
+      "source": "https://www.binance.com/en/privacy",
+      "previewReason": "script_shell_after_static_failure",
+      "status": 202,
+      "ok": false,
+      "finalUrl": "https://www.binance.com/en/privacy",
+      "bodyFile": "03a08e5f26b7443df60e850e-http2.body.txt",
+      "expectedHash": "3974a339eda20cb02eb51ec25fd013b69d22c010b2c51497eefd17b04e4ccfef",
+      "actualHash": "3974a339eda20cb02eb51ec25fd013b69d22c010b2c51497eefd17b04e4ccfef",
+      "hashMatches": true,
+      "observedAt": "2026-11-22T06:28:42.909Z",
+      "flags": [
+        "non_200_positive_selection",
+        "active_aws_waf_challenge"
+      ]
+    },
+    {
+      "source": "https://www.binance.com/en/terms",
+      "previewReason": "script_shell_after_static_failure",
+      "status": 202,
+      "ok": false,
+      "finalUrl": "https://www.binance.com/en/terms",
+      "bodyFile": "546bec401451d4f339d5ddc4-http2.body.txt",
+      "expectedHash": "d069130119078b79a6f840a8a04efd4906d51c5f19b14bef4472864ea7979bc6",
+      "actualHash": "d069130119078b79a6f840a8a04efd4906d51c5f19b14bef4472864ea7979bc6",
+      "hashMatches": true,
+      "observedAt": "2026-11-22T06:28:47.436Z",
+      "flags": [
+        "non_200_positive_selection",
+        "active_aws_waf_challenge"
+      ]
+    },
+    {
+      "source": "https://www.kraken.com/en-us/legal#complete-tos",
+      "previewReason": "script_shell_after_static_failure",
+      "status": 200,
+      "ok": true,
+      "finalUrl": "https://www.kraken.com/legal",
+      "bodyFile": "adbd2466a4febf937e9a73ab-direct.body.txt",
+      "expectedHash": "675f4ad24c06cdf9bd266c8b87fc0451e2a875ab2a516b1a31a2536e9bf23127",
+      "actualHash": "675f4ad24c06cdf9bd266c8b87fc0451e2a875ab2a516b1a31a2536e9bf23127",
+      "hashMatches": true,
+      "observedAt": "2026-11-22T06:31:08.791Z",
+      "flags": [
+        "path_identity_unreviewed"
+      ]
+    }
+  ]
+}

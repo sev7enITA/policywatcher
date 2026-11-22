@@ -1,0 +1,29 @@
+{
+  "module": "output/held129-20261122/selection-before-review.ts",
+  "results": [
+    {
+      "source": "https://www.binance.com/en/privacy",
+      "bodyHash": "3974a339eda20cb02eb51ec25fd013b69d22c010b2c51497eefd17b04e4ccfef",
+      "status": 202,
+      "eligible": true,
+      "reason": "script_shell_after_static_failure",
+      "guardPassed": false
+    },
+    {
+      "source": "https://www.binance.com/en/terms",
+      "bodyHash": "d069130119078b79a6f840a8a04efd4906d51c5f19b14bef4472864ea7979bc6",
+      "status": 202,
+      "eligible": true,
+      "reason": "script_shell_after_static_failure",
+      "guardPassed": false
+    },
+    {
+      "source": "https://www.amazon.co.uk/gp/help/customer/display.html/?nodeId=201909010&ref_=a20m_us_fnav_l_prvcy_gb",
+      "bodyHash": "1e5482688980458bf272a7e8179f2ab4ebb388990dceeddbace2c89c743aa518",
+      "status": 200,
+      "eligible": true,
+      "reason": "ordinary_interstitial_no_interaction",
+      "guardPassed": false
+    }
+  ]
+}

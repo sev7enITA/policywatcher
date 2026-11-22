@@ -1,0 +1,10 @@
+
+ RUN  v4.1.9 /Users/fabriziodegni/Projects/PolicyWatcher-engine129-selective-render-20261122
+
+·························
+
+ Test Files  1 passed (1)
+      Tests  25 passed (25)
+   Start at  07:56:37
+   Duration  291ms (transform 39ms, setup 0ms, import 155ms, tests 30ms, environment 0ms)
+

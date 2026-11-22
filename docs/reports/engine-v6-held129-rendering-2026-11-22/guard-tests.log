@@ -1,0 +1,34 @@
+
+ RUN  v4.1.9 /Users/fabriziodegni/Projects/PolicyWatcher-reconciliation-20261116
+
+ ✓ src/lib/__tests__/engineHeld129.test.ts > residual129 source identity and immutable evidence > derives the exact residual denominator without treating four earlier held extractions as qualified 3ms
+ ✓ src/lib/__tests__/engineHeld129.test.ts > residual129 source identity and immutable evidence > rejects duplicates and missing source-to-receipt associations 1ms
+ ✓ src/lib/__tests__/engineHeld129.test.ts > residual129 source identity and immutable evidence > rejects a body with an old matching filename but different bytes, and a matching body from the wrong window 0ms
+ ✓ src/lib/__tests__/engineHeld129.test.ts > residual129 source identity and immutable evidence > preserves selector/fragment evidence and never silently widens a missing fragment into a whole-page scope 5ms
+ ✓ src/lib/__tests__/engineHeld129.test.ts > positive rendering selection and refusal boundaries > selects a current JS shell after failed static extraction, never an already extracted document 4ms
+ ✓ src/lib/__tests__/engineHeld129.test.ts > positive rendering selection and refusal boundaries > recognizes a nonstandard application root and a script-only empty body, without treating ordinary substantive text plus analytics as a shell 2ms
+ ✓ src/lib/__tests__/engineHeld129.test.ts > positive rendering selection and refusal boundaries > does not use rendering to work around HTTP401 0ms
+ ✓ src/lib/__tests__/engineHeld129.test.ts > positive rendering selection and refusal boundaries > does not use rendering to work around HTTP403 0ms
+ ✓ src/lib/__tests__/engineHeld129.test.ts > positive rendering selection and refusal boundaries > does not use rendering to work around HTTP404 1ms
+ ✓ src/lib/__tests__/engineHeld129.test.ts > positive rendering selection and refusal boundaries > does not use rendering to work around HTTP410 0ms
+ ✓ src/lib/__tests__/engineHeld129.test.ts > positive rendering selection and refusal boundaries > does not use rendering to work around HTTP429 0ms
+ ✓ src/lib/__tests__/engineHeld129.test.ts > positive rendering selection and refusal boundaries > does not use rendering to work around HTTP451 0ms
+ ✓ src/lib/__tests__/engineHeld129.test.ts > positive rendering selection and refusal boundaries > does not use rendering to work around HTTP503 0ms
+ ✓ src/lib/__tests__/engineHeld129.test.ts > positive rendering selection and refusal boundaries > does not cross a captcha wall 0ms
+ ✓ src/lib/__tests__/engineHeld129.test.ts > positive rendering selection and refusal boundaries > does not cross a captcha_challenge wall 0ms
+ ✓ src/lib/__tests__/engineHeld129.test.ts > positive rendering selection and refusal boundaries > does not cross a access_denied wall 0ms
+ ✓ src/lib/__tests__/engineHeld129.test.ts > positive rendering selection and refusal boundaries > does not cross a consent_wall wall 0ms
+ ✓ src/lib/__tests__/engineHeld129.test.ts > positive rendering selection and refusal boundaries > does not cross a paywall_or_login wall 0ms
+ ✓ src/lib/__tests__/engineHeld129.test.ts > positive rendering selection and refusal boundaries > does not cross a maintenance wall 0ms
+ ✓ src/lib/__tests__/engineHeld129.test.ts > positive rendering selection and refusal boundaries > allows only a non-challenge interstitial without clicking, and holds drift/soft404/PDF 1ms
+ ✓ src/lib/__tests__/engineHeld129.test.ts > review-discovered false positives and source freeze > never treats an active AWS WAF token challenge as a JS app, including HTTP200 1ms
+ ✓ src/lib/__tests__/engineHeld129.test.ts > review-discovered false positives and source freeze > rejects stale, reversed and future static windows without simulating a live observation 0ms
+ ✓ src/lib/__tests__/engineHeld129.test.ts > review-discovered false positives and source freeze > detects an actual implementation edit even when HEAD and generated manifest hash are unchanged 5ms
+ ✓ src/lib/__tests__/engineHeld129.test.ts > permits only a same-provider HTTPS meta refresh as an observation, never automatic identity approval 2ms
+ ✓ src/lib/__tests__/engineHeld129.test.ts > does not confuse a shopping interstitial with an active validateCaptcha form 1ms
+
+ Test Files  1 passed (1)
+      Tests  25 passed (25)
+   Start at  07:56:31
+   Duration  316ms (transform 43ms, setup 0ms, import 178ms, tests 29ms, environment 0ms)
+

@@ -1,0 +1,775 @@
+{
+  "checkedAt": "2026-11-22T07:10:27.240Z",
+  "readOnly": true,
+  "reportSha256": "03c071f55150887ca83ce0e92d92053fda566a07cf7895177a11ee615b6bce40",
+  "reportSourceCommit": "18606e9a4826c39f244cd52d74f0c8f2c97912e9",
+  "reportImplementation": "1832fcbfe1bc668b88f55da44e94e05abf3cc12ae7cea9228eea4be1003fd5d4",
+  "counts": {
+    "selected": 16,
+    "renderAttempted": 11,
+    "successfulDomExtractions": 3,
+    "rejectedByAllowlist": 8,
+    "selectedButNotAttempted": 5
+  },
+  "allThreeBodyAndTextHashesVerified": true,
+  "newFullyQualified": 0,
+  "newIndependentCaptures": 0,
+  "independentNetworkRequests": 0,
+  "independentGuiActions": 0,
+  "reviews": [
+    {
+      "source": "https://www.facebook.com/legal/ai-terms",
+      "configuredCompany": "Meta",
+      "configuredDocumentName": "Meta AI Terms of Service",
+      "observedAt": "2026-11-22T06:57:59.167Z",
+      "finalUrl": "https://www.facebook.com/legal/ai-terms",
+      "bodyRepresentation": "rendered_DOM_not_original_HTTP_or_PDF",
+      "integrity": {
+        "bodySha256": "b53144b64c9dea489db7d3e136a3dd0d7dd7700b2a6c514a73734f3e86ff3f4b",
+        "bodyMatchesReport": true,
+        "bodyBytesMatch": true,
+        "extractionFileSha256": "b3037e52ed38672748bb7e85cc5e6e620c78ed294189c6c0e6b8fa2839b69be5",
+        "embeddedHtmlMatchesBody": true,
+        "textSha256": "52a8f06bbc9d8709658b4a0caa5bc87e95243810e752c59719da16c053f535a3",
+        "textMatchesReport": true,
+        "textMatchesDocumentHash": true,
+        "textLengthMatches": true,
+        "blockCountMatches": true,
+        "blockSlicesMatch": true,
+        "duplicateBlockTexts": 0
+      },
+      "domTitle": "Facebook",
+      "allTitleNodeTexts": [
+        "Facebook",
+        "Facebook"
+      ],
+      "observedHtmlLang": "en",
+      "extractionLanguage": "en",
+      "reportLanguage": "en",
+      "documentIdentityObserved": "Meta AIs Terms of Service",
+      "documentIdentityInExtractedText": true,
+      "documentIdentityLimit": "Region-selector preamble points to separate UK/Brazil/European terms; observed global text is not a verified jurisdiction-specific contract.",
+      "headingTexts": [],
+      "roots": [
+        {
+          "tag": "div",
+          "role": "main",
+          "id": null,
+          "textChars": 0,
+          "first": "",
+          "hasDocumentIdentity": false
+        },
+        {
+          "tag": "div",
+          "role": "main",
+          "id": null,
+          "textChars": 14647,
+          "first": "Our AI Terms are different depending on the region that you live inUnited Kingdom: The UK Meta AI's Terms of Service govern the use of ",
+          "hasDocumentIdentity": true
+        }
+      ],
+      "legalSamples": [
+        {
+          "fragment": "Our AI Terms are different depending on the region",
+          "inExtractedText": true,
+          "inInertDomVisibleText": true,
+          "extractedOffset": 0
+        },
+        {
+          "fragment": "These Terms of Service",
+          "inExtractedText": true,
+          "inInertDomVisibleText": true,
+          "extractedOffset": 514
+        },
+        {
+          "fragment": "By using AIs, you agree",
+          "inExtractedText": true,
+          "inInertDomVisibleText": true,
+          "extractedOffset": 882
+        },
+        {
+          "fragment": "Effective from 13 May 2026",
+          "inExtractedText": true,
+          "inInertDomVisibleText": true,
+          "extractedOffset": 14376
+        }
+      ],
+      "footerEvidence": [
+        {
+          "selector": "footer",
+          "text": "Privacy \u00b7 Imprint/terms \u00b7 Advertising \u00b7 Ad choices \u00b7 Cookies \u00b7 More",
+          "chars": 67,
+          "htmlSha256": "2284424a7a099e5a948a10e14d22444f22227b4cbe3df318eb52de5f2a16fb50"
+        },
+        {
+          "selector": "[role=\"contentinfo\"]",
+          "text": "Privacy \u00b7 Imprint/terms \u00b7 Advertising \u00b7 Ad choices \u00b7 Cookies \u00b7 More",
+          "chars": 67,
+          "htmlSha256": "2284424a7a099e5a948a10e14d22444f22227b4cbe3df318eb52de5f2a16fb50"
+        }
+      ],
+      "chromeContamination": {
+        "confirmed": true,
+        "blocks": 12,
+        "nonSeparatorCharsLowerBound": 364,
+        "percentOfFullExtractedChars": 2.46,
+        "identifiedBlocks": [
+          {
+            "id": "d35addffe8c04f0e82cf6758:0",
+            "start": 14404,
+            "end": 14416,
+            "text": "English (UK)"
+          },
+          {
+            "id": "c2e9cd9fc0cdeaceb6295aab:0",
+            "start": 14418,
+            "end": 14425,
+            "text": "\u0420\u0443\u0441\u0441\u043a\u0438\u0439"
+          },
+          {
+            "id": "4dd2a5bcea80176e81056b01:0",
+            "start": 14427,
+            "end": 14437,
+            "text": "\u0423\u043a\u0440\u0430\u0457\u043d\u0441\u044c\u043a\u0430"
+          },
+          {
+            "id": "1bfc6113e8763ea2d5648bd9:0",
+            "start": 14439,
+            "end": 14444,
+            "text": "Suomi"
+          },
+          {
+            "id": "c428a7cb0aab9c0b7bc1f0e1:0",
+            "start": 14446,
+            "end": 14452,
+            "text": "\u4e2d\u6587(\u7b80\u4f53)"
+          },
+          {
+            "id": "f7663e64d55d0f3fc6409aea:0",
+            "start": 14454,
+            "end": 14461,
+            "text": "Deutsch"
+          },
+          {
+            "id": "9ff835bd1ea00ea7a03f6a5e:0",
+            "start": 14463,
+            "end": 14470,
+            "text": "\u0627\u0644\u0639\u0631\u0628\u064a\u0629"
+          },
+          {
+            "id": "35db7ee0053c6e7131ca9834:0",
+            "start": 14472,
+            "end": 14478,
+            "text": "T\u00fcrk\u00e7e"
+          },
+          {
+            "id": "3b0e6ffceef70ff8d4a484f6:0",
+            "start": 14480,
+            "end": 14497,
+            "text": "Fran\u00e7ais (France)"
+          },
+          {
+            "id": "4f8354c0731938bbffbe7b07:0",
+            "start": 14499,
+            "end": 14506,
+            "text": "Espa\u00f1ol"
+          },
+          {
+            "id": "6e4c9e5c5a30ce1f53342023:0",
+            "start": 14508,
+            "end": 14526,
+            "text": "Portugu\u00eas (Brasil)"
+          },
+          {
+            "id": "f6c999245424562838e602e7:0",
+            "start": 14528,
+            "end": 14790,
+            "text": "Sign upLog inMessengerFacebook LiteVideoMeta PayMeta StoreMeta QuestRay-Ban MetaMeta AIMuseInstagramThreadsPrivacy PolicyPrivacy CentreAboutCreate adCreate PageDevelopersCareersCookiesAdChoicesImprint/termsHelpContact uploading and non-usersCancel contracts here"
+          }
+        ]
+      },
+      "allTextBlocksFoundInWhitespaceNormalizedInertDom": true,
+      "blocksNotDirectlyAnchoredAfterListMarkerNormalization": [],
+      "extractionIssuesRetained": [
+        {
+          "reason": "removed_document_content_unreviewed",
+          "target": "footer",
+          "chars": 67
+        },
+        {
+          "reason": "interactive_document_content_unreviewed",
+          "target": "div",
+          "chars": 12
+        },
+        {
+          "reason": "interactive_document_content_unreviewed",
+          "target": "div",
+          "chars": 7
+        },
+        {
+          "reason": "interactive_document_content_unreviewed",
+          "target": "div",
+          "chars": 10
+        },
+        {
+          "reason": "interactive_document_content_unreviewed",
+          "target": "div",
+          "chars": 5
+        },
+        {
+          "reason": "interactive_document_content_unreviewed",
+          "target": "div",
+          "chars": 6
+        },
+        {
+          "reason": "interactive_document_content_unreviewed",
+          "target": "div",
+          "chars": 7
+        },
+        {
+          "reason": "interactive_document_content_unreviewed",
+          "target": "div",
+          "chars": 7
+        },
+        {
+          "reason": "interactive_document_content_unreviewed",
+          "target": "div",
+          "chars": 6
+        },
+        {
+          "reason": "interactive_document_content_unreviewed",
+          "target": "div",
+          "chars": 17
+        },
+        {
+          "reason": "interactive_document_content_unreviewed",
+          "target": "div",
+          "chars": 7
+        },
+        {
+          "reason": "interactive_document_content_unreviewed",
+          "target": "div",
+          "chars": 18
+        },
+        {
+          "reason": "document_scope_ambiguous",
+          "target": null,
+          "chars": 0
+        }
+      ],
+      "decision": "hold_identity_scope_and_complete_text_review_required",
+      "completenessQualified": false,
+      "sourceContractApproved": false,
+      "aiProcessingVerified": false,
+      "publicationAllowed": false,
+      "limits": [
+        "Inert DOM consistency is not a source-completeness oracle or live browser replay.",
+        "Text exists and includes plausible legal passages, but navigation/language-picker contamination is present.",
+        "No original HTTP bytes or original PDF; these are rendered DOM snapshots."
+      ]
+    },
+    {
+      "source": "https://www.facebook.com/legal/EU_data_transfer_addendum",
+      "configuredCompany": "Facebook",
+      "configuredDocumentName": "Data Processor Agreement",
+      "observedAt": "2026-11-22T06:58:11.171Z",
+      "finalUrl": "https://www.facebook.com/legal/EU_data_transfer_addendum",
+      "bodyRepresentation": "rendered_DOM_not_original_HTTP_or_PDF",
+      "integrity": {
+        "bodySha256": "52b758decc5042f17798752241ed6c1718493c305c83493241f929d9b773c657",
+        "bodyMatchesReport": true,
+        "bodyBytesMatch": true,
+        "extractionFileSha256": "bb854b67a65a9e18eaf0610d73f6054fe7a81c8dc1c1cd73f7d1b882a956005a",
+        "embeddedHtmlMatchesBody": true,
+        "textSha256": "a4be37d56cab9f2fe4bb99dc2be290a2f52852d5dbe244e2c0798eb964155b87",
+        "textMatchesReport": true,
+        "textMatchesDocumentHash": true,
+        "textLengthMatches": true,
+        "blockCountMatches": true,
+        "blockSlicesMatch": true,
+        "duplicateBlockTexts": 0
+      },
+      "domTitle": "Facebook",
+      "allTitleNodeTexts": [
+        "Facebook",
+        "Facebook"
+      ],
+      "observedHtmlLang": "en",
+      "extractionLanguage": "en",
+      "reportLanguage": "en",
+      "documentIdentityObserved": "META EUROPEAN DATA TRANSFER ADDENDUM",
+      "documentIdentityInExtractedText": true,
+      "documentIdentityLimit": "Observed title/type is an EU data-transfer addendum; configured label Data Processor Agreement is broader. Do not describe this as the entire Data Processing Terms/DPA.",
+      "headingTexts": [],
+      "roots": [
+        {
+          "tag": "div",
+          "role": "main",
+          "id": null,
+          "textChars": 0,
+          "first": "",
+          "hasDocumentIdentity": false
+        },
+        {
+          "tag": "div",
+          "role": "main",
+          "id": null,
+          "textChars": 4174,
+          "first": "META EUROPEAN DATA TRANSFER ADDENDUM This European Data Transfer Addendum (\"Data Transfer Addendum\") is incorporated by reference into ",
+          "hasDocumentIdentity": true
+        }
+      ],
+      "legalSamples": [
+        {
+          "fragment": "META EUROPEAN DATA TRANSFER ADDENDUM",
+          "inExtractedText": true,
+          "inInertDomVisibleText": true,
+          "extractedOffset": 0
+        },
+        {
+          "fragment": "incorporated by reference into the Data Processing Terms",
+          "inExtractedText": true,
+          "inInertDomVisibleText": true,
+          "extractedOffset": 105
+        },
+        {
+          "fragment": "Meta Platforms, Inc. has certified",
+          "inExtractedText": true,
+          "inInertDomVisibleText": true,
+          "extractedOffset": 640
+        },
+        {
+          "fragment": "effective from 7 September 2023",
+          "inExtractedText": true,
+          "inInertDomVisibleText": true,
+          "extractedOffset": 3748
+        }
+      ],
+      "footerEvidence": [
+        {
+          "selector": "footer",
+          "text": "Privacy \u00b7 Imprint/terms \u00b7 Advertising \u00b7 Ad choices \u00b7 Cookies \u00b7 More",
+          "chars": 67,
+          "htmlSha256": "2284424a7a099e5a948a10e14d22444f22227b4cbe3df318eb52de5f2a16fb50"
+        },
+        {
+          "selector": "[role=\"contentinfo\"]",
+          "text": "Privacy \u00b7 Imprint/terms \u00b7 Advertising \u00b7 Ad choices \u00b7 Cookies \u00b7 More",
+          "chars": 67,
+          "htmlSha256": "2284424a7a099e5a948a10e14d22444f22227b4cbe3df318eb52de5f2a16fb50"
+        }
+      ],
+      "chromeContamination": {
+        "confirmed": true,
+        "blocks": 12,
+        "nonSeparatorCharsLowerBound": 364,
+        "percentOfFullExtractedChars": 8.73,
+        "identifiedBlocks": [
+          {
+            "id": "d35addffe8c04f0e82cf6758:0",
+            "start": 3782,
+            "end": 3794,
+            "text": "English (UK)"
+          },
+          {
+            "id": "c2e9cd9fc0cdeaceb6295aab:0",
+            "start": 3796,
+            "end": 3803,
+            "text": "\u0420\u0443\u0441\u0441\u043a\u0438\u0439"
+          },
+          {
+            "id": "4dd2a5bcea80176e81056b01:0",
+            "start": 3805,
+            "end": 3815,
+            "text": "\u0423\u043a\u0440\u0430\u0457\u043d\u0441\u044c\u043a\u0430"
+          },
+          {
+            "id": "1bfc6113e8763ea2d5648bd9:0",
+            "start": 3817,
+            "end": 3822,
+            "text": "Suomi"
+          },
+          {
+            "id": "c428a7cb0aab9c0b7bc1f0e1:0",
+            "start": 3824,
+            "end": 3830,
+            "text": "\u4e2d\u6587(\u7b80\u4f53)"
+          },
+          {
+            "id": "f7663e64d55d0f3fc6409aea:0",
+            "start": 3832,
+            "end": 3839,
+            "text": "Deutsch"
+          },
+          {
+            "id": "9ff835bd1ea00ea7a03f6a5e:0",
+            "start": 3841,
+            "end": 3848,
+            "text": "\u0627\u0644\u0639\u0631\u0628\u064a\u0629"
+          },
+          {
+            "id": "35db7ee0053c6e7131ca9834:0",
+            "start": 3850,
+            "end": 3856,
+            "text": "T\u00fcrk\u00e7e"
+          },
+          {
+            "id": "3b0e6ffceef70ff8d4a484f6:0",
+            "start": 3858,
+            "end": 3875,
+            "text": "Fran\u00e7ais (France)"
+          },
+          {
+            "id": "4f8354c0731938bbffbe7b07:0",
+            "start": 3877,
+            "end": 3884,
+            "text": "Espa\u00f1ol"
+          },
+          {
+            "id": "6e4c9e5c5a30ce1f53342023:0",
+            "start": 3886,
+            "end": 3904,
+            "text": "Portugu\u00eas (Brasil)"
+          },
+          {
+            "id": "f6c999245424562838e602e7:0",
+            "start": 3906,
+            "end": 4168,
+            "text": "Sign upLog inMessengerFacebook LiteVideoMeta PayMeta StoreMeta QuestRay-Ban MetaMeta AIMuseInstagramThreadsPrivacy PolicyPrivacy CentreAboutCreate adCreate PageDevelopersCareersCookiesAdChoicesImprint/termsHelpContact uploading and non-usersCancel contracts here"
+          }
+        ]
+      },
+      "allTextBlocksFoundInWhitespaceNormalizedInertDom": true,
+      "blocksNotDirectlyAnchoredAfterListMarkerNormalization": [],
+      "extractionIssuesRetained": [
+        {
+          "reason": "removed_document_content_unreviewed",
+          "target": "footer",
+          "chars": 67
+        },
+        {
+          "reason": "interactive_document_content_unreviewed",
+          "target": "div",
+          "chars": 12
+        },
+        {
+          "reason": "interactive_document_content_unreviewed",
+          "target": "div",
+          "chars": 7
+        },
+        {
+          "reason": "interactive_document_content_unreviewed",
+          "target": "div",
+          "chars": 10
+        },
+        {
+          "reason": "interactive_document_content_unreviewed",
+          "target": "div",
+          "chars": 5
+        },
+        {
+          "reason": "interactive_document_content_unreviewed",
+          "target": "div",
+          "chars": 6
+        },
+        {
+          "reason": "interactive_document_content_unreviewed",
+          "target": "div",
+          "chars": 7
+        },
+        {
+          "reason": "interactive_document_content_unreviewed",
+          "target": "div",
+          "chars": 7
+        },
+        {
+          "reason": "interactive_document_content_unreviewed",
+          "target": "div",
+          "chars": 6
+        },
+        {
+          "reason": "interactive_document_content_unreviewed",
+          "target": "div",
+          "chars": 17
+        },
+        {
+          "reason": "interactive_document_content_unreviewed",
+          "target": "div",
+          "chars": 7
+        },
+        {
+          "reason": "interactive_document_content_unreviewed",
+          "target": "div",
+          "chars": 18
+        },
+        {
+          "reason": "document_scope_ambiguous",
+          "target": null,
+          "chars": 0
+        }
+      ],
+      "decision": "hold_identity_scope_and_complete_text_review_required",
+      "completenessQualified": false,
+      "sourceContractApproved": false,
+      "aiProcessingVerified": false,
+      "publicationAllowed": false,
+      "limits": [
+        "Inert DOM consistency is not a source-completeness oracle or live browser replay.",
+        "Text exists and includes plausible legal passages, but navigation/language-picker contamination is present.",
+        "No original HTTP bytes or original PDF; these are rendered DOM snapshots."
+      ]
+    },
+    {
+      "source": "https://en-gb.facebook.com/policies/live",
+      "configuredCompany": "Facebook",
+      "configuredDocumentName": "Live Policy",
+      "observedAt": "2026-11-22T06:58:15.391Z",
+      "finalUrl": "https://en-gb.facebook.com/policies/live",
+      "bodyRepresentation": "rendered_DOM_not_original_HTTP_or_PDF",
+      "integrity": {
+        "bodySha256": "06bb339bd96c5d79c31adf9b06f3f31d4db55613ddd68f7095aeee3c4308ee8d",
+        "bodyMatchesReport": true,
+        "bodyBytesMatch": true,
+        "extractionFileSha256": "35fed7bfcc5f50fa239ce57c5b7c2cbf93768d77b5a9abe91a26a96dd1e2af84",
+        "embeddedHtmlMatchesBody": true,
+        "textSha256": "95bec492e949b033e2a7eb43e2f9d7b2c1539ba9409f938c7980e6f138f1e8e9",
+        "textMatchesReport": true,
+        "textMatchesDocumentHash": true,
+        "textLengthMatches": true,
+        "blockCountMatches": true,
+        "blockSlicesMatch": true,
+        "duplicateBlockTexts": 3
+      },
+      "domTitle": "Facebook",
+      "allTitleNodeTexts": [
+        "Facebook",
+        "Facebook"
+      ],
+      "observedHtmlLang": "en",
+      "extractionLanguage": "en",
+      "reportLanguage": "en",
+      "documentIdentityObserved": "Facebook Live Policies",
+      "documentIdentityInExtractedText": true,
+      "documentIdentityLimit": "Observed English text and host do not independently qualify legal identity, full current publisher scope or source completeness.",
+      "headingTexts": [],
+      "roots": [
+        {
+          "tag": "div",
+          "role": "main",
+          "id": null,
+          "textChars": 0,
+          "first": "",
+          "hasDocumentIdentity": false
+        },
+        {
+          "tag": "div",
+          "role": "main",
+          "id": null,
+          "textChars": 1990,
+          "first": "Facebook Live Policies1. OverviewUnderstanding our policiesThe following terms, as well as our Data Policy, Community Standards and Ter",
+          "hasDocumentIdentity": true
+        }
+      ],
+      "legalSamples": [
+        {
+          "fragment": "Facebook Live Policies",
+          "inExtractedText": true,
+          "inInertDomVisibleText": true,
+          "extractedOffset": 0
+        },
+        {
+          "fragment": "Understanding our policies",
+          "inExtractedText": true,
+          "inInertDomVisibleText": true,
+          "extractedOffset": 37
+        },
+        {
+          "fragment": "Pre-recorded content",
+          "inExtractedText": true,
+          "inInertDomVisibleText": true,
+          "extractedOffset": 839
+        },
+        {
+          "fragment": "Looping or static content",
+          "inExtractedText": true,
+          "inInertDomVisibleText": true,
+          "extractedOffset": 1288
+        }
+      ],
+      "footerEvidence": [
+        {
+          "selector": "footer",
+          "text": "Privacy \u00b7 Imprint/terms \u00b7 Advertising \u00b7 Ad choices \u00b7 Cookies \u00b7 More",
+          "chars": 67,
+          "htmlSha256": "2284424a7a099e5a948a10e14d22444f22227b4cbe3df318eb52de5f2a16fb50"
+        },
+        {
+          "selector": "[role=\"contentinfo\"]",
+          "text": "Privacy \u00b7 Imprint/terms \u00b7 Advertising \u00b7 Ad choices \u00b7 Cookies \u00b7 More",
+          "chars": 67,
+          "htmlSha256": "2284424a7a099e5a948a10e14d22444f22227b4cbe3df318eb52de5f2a16fb50"
+        }
+      ],
+      "chromeContamination": {
+        "confirmed": true,
+        "blocks": 12,
+        "nonSeparatorCharsLowerBound": 364,
+        "percentOfFullExtractedChars": 18.26,
+        "identifiedBlocks": [
+          {
+            "id": "d35addffe8c04f0e82cf6758:0",
+            "start": 1607,
+            "end": 1619,
+            "text": "English (UK)"
+          },
+          {
+            "id": "c2e9cd9fc0cdeaceb6295aab:0",
+            "start": 1621,
+            "end": 1628,
+            "text": "\u0420\u0443\u0441\u0441\u043a\u0438\u0439"
+          },
+          {
+            "id": "4dd2a5bcea80176e81056b01:0",
+            "start": 1630,
+            "end": 1640,
+            "text": "\u0423\u043a\u0440\u0430\u0457\u043d\u0441\u044c\u043a\u0430"
+          },
+          {
+            "id": "1bfc6113e8763ea2d5648bd9:0",
+            "start": 1642,
+            "end": 1647,
+            "text": "Suomi"
+          },
+          {
+            "id": "c428a7cb0aab9c0b7bc1f0e1:0",
+            "start": 1649,
+            "end": 1655,
+            "text": "\u4e2d\u6587(\u7b80\u4f53)"
+          },
+          {
+            "id": "f7663e64d55d0f3fc6409aea:0",
+            "start": 1657,
+            "end": 1664,
+            "text": "Deutsch"
+          },
+          {
+            "id": "9ff835bd1ea00ea7a03f6a5e:0",
+            "start": 1666,
+            "end": 1673,
+            "text": "\u0627\u0644\u0639\u0631\u0628\u064a\u0629"
+          },
+          {
+            "id": "35db7ee0053c6e7131ca9834:0",
+            "start": 1675,
+            "end": 1681,
+            "text": "T\u00fcrk\u00e7e"
+          },
+          {
+            "id": "3b0e6ffceef70ff8d4a484f6:0",
+            "start": 1683,
+            "end": 1700,
+            "text": "Fran\u00e7ais (France)"
+          },
+          {
+            "id": "4f8354c0731938bbffbe7b07:0",
+            "start": 1702,
+            "end": 1709,
+            "text": "Espa\u00f1ol"
+          },
+          {
+            "id": "6e4c9e5c5a30ce1f53342023:0",
+            "start": 1711,
+            "end": 1729,
+            "text": "Portugu\u00eas (Brasil)"
+          },
+          {
+            "id": "f6c999245424562838e602e7:0",
+            "start": 1731,
+            "end": 1993,
+            "text": "Sign upLog inMessengerFacebook LiteVideoMeta PayMeta StoreMeta QuestRay-Ban MetaMeta AIMuseInstagramThreadsPrivacy PolicyPrivacy CentreAboutCreate adCreate PageDevelopersCareersCookiesAdChoicesImprint/termsHelpContact uploading and non-usersCancel contracts here"
+          }
+        ]
+      },
+      "allTextBlocksFoundInWhitespaceNormalizedInertDom": true,
+      "blocksNotDirectlyAnchoredAfterListMarkerNormalization": [],
+      "extractionIssuesRetained": [
+        {
+          "reason": "removed_document_content_unreviewed",
+          "target": "footer",
+          "chars": 67
+        },
+        {
+          "reason": "interactive_document_content_unreviewed",
+          "target": "div",
+          "chars": 12
+        },
+        {
+          "reason": "interactive_document_content_unreviewed",
+          "target": "div",
+          "chars": 7
+        },
+        {
+          "reason": "interactive_document_content_unreviewed",
+          "target": "div",
+          "chars": 10
+        },
+        {
+          "reason": "interactive_document_content_unreviewed",
+          "target": "div",
+          "chars": 5
+        },
+        {
+          "reason": "interactive_document_content_unreviewed",
+          "target": "div",
+          "chars": 6
+        },
+        {
+          "reason": "interactive_document_content_unreviewed",
+          "target": "div",
+          "chars": 7
+        },
+        {
+          "reason": "interactive_document_content_unreviewed",
+          "target": "div",
+          "chars": 7
+        },
+        {
+          "reason": "interactive_document_content_unreviewed",
+          "target": "div",
+          "chars": 6
+        },
+        {
+          "reason": "interactive_document_content_unreviewed",
+          "target": "div",
+          "chars": 17
+        },
+        {
+          "reason": "interactive_document_content_unreviewed",
+          "target": "div",
+          "chars": 7
+        },
+        {
+          "reason": "interactive_document_content_unreviewed",
+          "target": "div",
+          "chars": 18
+        },
+        {
+          "reason": "document_scope_ambiguous",
+          "target": null,
+          "chars": 0
+        }
+      ],
+      "decision": "hold_identity_scope_and_complete_text_review_required",
+      "completenessQualified": false,
+      "sourceContractApproved": false,
+      "aiProcessingVerified": false,
+      "publicationAllowed": false,
+      "limits": [
+        "Inert DOM consistency is not a source-completeness oracle or live browser replay.",
+        "Text exists and includes plausible legal passages, but navigation/language-picker contamination is present.",
+        "No original HTTP bytes or original PDF; these are rendered DOM snapshots."
+      ]
+    }
+  ],
+  "reviewScriptSha256": "f0ecf18730e7d3094cbf9ba2d21cc7cfdf4395da4cdb88347be588a17e192ccf"
+}
