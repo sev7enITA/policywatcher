@@ -1,0 +1,16 @@
+{
+  "ownSimulatorOnly": [
+    {
+      "dataPath": "/Users/fabriziodegni/Library/Developer/CoreSimulator/Devices/22038146-41D2-465B-9700-EF11AD97AFFE/data",
+      "dataPathSize": 2323083264,
+      "logPath": "/Users/fabriziodegni/Library/Logs/CoreSimulator/22038146-41D2-465B-9700-EF11AD97AFFE",
+      "udid": "22038146-41D2-465B-9700-EF11AD97AFFE",
+      "lastUsedAt": "2026-11-22T04:27:34Z",
+      "isAvailable": true,
+      "logPathSize": 212992,
+      "deviceTypeIdentifier": "com.apple.CoreSimulator.SimDeviceType.iPhone-Duo",
+      "state": "Shutdown",
+      "name": "PolicyWatcher Safari QA 20261122-042436"
+    }
+  ]
+}
