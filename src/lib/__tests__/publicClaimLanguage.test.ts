@@ -1,5 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
+import { renderToStaticMarkup } from 'react-dom/server';
 
 const publicClaimSurfaces = [
   'README.md',
@@ -122,9 +123,6 @@ const requiredCurrentHeadlines = [
   ['src/components/ReleaseEvidencePulse.tsx', "headline: 'Release evidence'"],
   ['src/components/ReleaseImpactMap.tsx', 'Release impact details'],
   ['src/app/roadmap/RoadmapClient.tsx', 'Workspace configuration'],
-  ['src/app/roadmap/RoadmapClient.tsx', '<h1>Product roadmap</h1>'],
-  ['src/app/atlas/SiteAtlasClient.tsx', '<h1>Site map</h1>'],
-  ['src/app/atlas/SiteAtlasClient.tsx', '<h2>Route groups</h2>'],
   ['src/app/atlas/SiteAtlasClient.tsx', "title: 'Dashboard view settings'"],
   ['src/lib/publicSections.ts', "label: 'Core routes'"],
   ['src/lib/publicSections.ts', "label: 'Quality assurance'"],
@@ -137,7 +135,6 @@ const requiredCurrentHeadlines = [
   ['src/app/associazioni/AssociationsClient.tsx', "tr('Associazioni dei consumatori', 'Consumer associations')"],
   ['src/app/browser-extension/BrowserExtensionClient.tsx', "title: 'Link verification'"],
   ['src/app/collections/CollectionsClient.tsx', '<h1>Evidence collections</h1>'],
-  ['src/app/feature-atlas/FeatureAtlasClient.tsx', '<h1>Feature atlas</h1>'],
   ['src/app/trust/page.tsx', '<h1>Trust and quality controls</h1>'],
   ['src/app/knowledge/page.tsx', '<h1>Public policy records</h1>'],
   ['src/app/methodology/confidence/page.tsx', "title: 'Evidence methodology'"],
@@ -217,6 +214,23 @@ describe('public claim language', () => {
 
   it.each(requiredCurrentHeadlines)('%s keeps the approved heading "%s"', (file, headline) => {
     expect(readFileSync(file, 'utf8')).toContain(headline);
+  });
+
+  it.each([
+    ['roadmap', 'h1', 'Product roadmap', 'Roadmap del prodotto', () => import('@/app/roadmap/page')],
+    ['atlas', 'h1', 'Site map', 'Mappa del sito', () => import('@/app/atlas/page')],
+    ['atlas', 'h2', 'Route groups', 'Gruppi di percorsi', () => import('@/app/atlas/page')],
+    ['feature-atlas', 'h1', 'Feature atlas', 'Atlante delle funzioni', () => import('@/app/feature-atlas/page')],
+  ] as const)('renders approved bilingual %s headings and retains the claim guard', async (_path, tag, en, it, load) => {
+    const { default: Page } = await load();
+    for (const lang of ['en', 'it'] as const) {
+      const html = renderToStaticMarkup(await Page({ searchParams: Promise.resolve({ lang }) }));
+      expect(html).toContain(`<${tag}>${lang === 'it' ? it : en}</${tag}>`);
+      const headings = extractPromotionalHeadlines(html);
+      expect(headings).not.toMatch(/\b(?:not|without|non|senza)\b/i);
+      for (const prohibited of prohibitedClaims) expect(headings).not.toMatch(prohibited);
+      for (const removed of removedLegacyHeadlines) expect(headings).not.toMatch(removed);
+    }
   });
 
   it('keeps the Atlas route graph and integration hero functional', () => {
