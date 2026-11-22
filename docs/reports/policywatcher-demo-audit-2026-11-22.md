@@ -1,5 +1,7 @@
 # PolicyWatcher - audit per la dimostrazione del 22 novembre 2026
 
+**Aggiornamento di consegna:** codice e audit sono integrati in main tramite la PR #77, con sei controlli CI superati; il kit iOS non firmato è ora pubblicato e verificato su GitHub. Il nuovo pacchetto del sito è pronto ma non ancora distribuito; renderer remoto e Apple restano consegne separate. [Ricevuta e stato effettivo](policywatcher-demo-audit-delivery-2026-11-22.md).
+
 **Esito: dimostrazione dei controlli e dei rapporti esistenti consentita entro i limiti delle prove raccolte. Due P1 del renderer sono stati riprodotti localmente; il servizio remoto resta 1.2.0 e richiede una correzione verificata prima di una prova di carico. Non qualificati completezza delle fonti, accuratezza semantica dell’intera pipeline e 500 policy completate al giorno.** Questo è un assessment mirato di codice, controlli, dati operativi e interfacce: non un pentest né una certificazione del prodotto.
 
 ## Identità e stato di consegna
@@ -13,7 +15,7 @@
 | Companion Chromium | Versione indipendente 3.8.3 Beta 3, manifest 3.8.3.3; nessun nuovo runtime Chromium imposto dal numero Engine 6 |
 | Safari iOS | Candidato per sviluppatori 0.1.0 (1), non firmato, non disponibile su App Store/TestFlight |
 
-Il diario del 21 novembre è stato pubblicato durante questa sessione. La prima verifica visiva ha poi evidenziato una dateline ancora al 16 novembre: errore conservato e corretto nel codice. La correzione dateline ha superato staging e r3 è stata ripristinata. La riconciliazione più ampia di Atlas/roadmap/EN/IT e il nuovo audit sono **preparati, non ancora dichiarati pubblicati**. La ricevuta conclusiva di consegna registrerà gli effettivi deployment e la verifica dopo pubblicazione, senza confondere ZIP o staging con produzione.
+Il diario del 21 novembre è stato pubblicato durante questa sessione. La prima verifica visiva ha poi evidenziato una dateline ancora al 16 novembre: errore conservato e corretto nel codice. La correzione dateline ha superato staging e r3 è stata ripristinata. La riconciliazione più ampia di Atlas/roadmap/EN/IT è preparata per il dominio, non ancora distribuita. Codice e audit sono pubblici su GitHub; ciò non aggiorna automaticamente il sito. La ricevuta conclusiva di consegna registrerà gli effettivi deployment e la verifica dopo pubblicazione, senza confondere ZIP o staging con produzione.
 
 ## Cosa abbiamo verificato
 
@@ -21,7 +23,7 @@ Il diario del 21 novembre è stato pubblicato durante questa sessione. La prima 
 - **75 test frontend** ripetuti da un revisore indipendente; **83 test** dopo integrazione nel menu più ricco di main. Sono suite sovrapposte: non sommarle come prove indipendenti.
 - Rendering EN/IT e cambio lingua verificati su mobile/desktop; controlli negativi ripristinando link italiano e intestazioni errate falliscono. Atlas, feature atlas, roadmap e form conservano lingua, canonical e valori del modulo. Gli inventari tecnici storici rimasti in inglese sono dichiarati tali.
 - Produzione letta senza modifiche: API con 113 configurate, 113 con recuperi storici, 113 con evidenza di baseline, 112 pubbliche, 59 analizzate. Non sono misure di completezza corrente. Conteggi grezzi DB e filtri pubblici sono distinti nella [relazione tecnica](policywatcher-demo-audit-2026-11-22/assessment.md).
-- Hosting CloudLinux LVE e renderer rispondente rilevati: capacità dichiarata 3, zero lavori attivi alla lettura. Nessun render job eseguito e nessuna capacità 500/giorno dedotta dai 48 CPU/~376 GiB visibili del nodo condiviso.
+- Hosting CloudLinux LVE e renderer rispondente rilevati: capacità dichiarata 3, zero lavori attivi alla lettura. Nessun render job remoto eseguito e nessuna capacità 500/giorno dedotta dai 48 CPU/~376 GiB visibili del nodo condiviso.
 - Dopo manutenzione, r3 originale confermata con 3 rapporti salvati, 24 task completati e zero task attivi; evidenze preservate. I 48 confronti comprendono 47 tabelle applicative più ledger migrazioni; gli hash delle 14 tabelle di evidenza restano separati dallo stato operativo `EngineOrigin`.
 - GLM, Gemini/Orchestrator, Opus e LM Studio utilizzati **nelle app native**. Revisioni consultive e loro errori sono [documentati e giudicati](policywatcher-demo-audit-2026-11-22/model-review-adjudication.md), senza attribuire loro test non eseguiti.
 
@@ -108,7 +110,10 @@ Le successive modifiche a SEO e riepiloghi di release cambiano correttamente l�
 
 La discovery locale ha trovato quattro identità di firma valide, ma non ha selezionato un team, verificato la titolarità del bundle o esportato chiavi. I quindici record device noti/associati non equivalgono a dispositivi fisici connessi: nessun tunnel risultava attivo. Il successivo tentativo di prova Safari nel simulatore dedicato è stato fermato dal Mac bloccato; non viene contato come test Safari. Servono sblocco manuale, frontend Simulator disponibile e collaudo effettivo prima di aggiornare quella qualifica. [Sintesi senza dati personali](policywatcher-demo-audit-2026-11-22/apple-access-summary.json).
 
-La revisione indipendente dei due fix renderer approva il perimetro sorgente con28 test Node e tre probe distinti, mantenendo il timeout parziale e la mancanza di Chromium reale come limiti. [Review e riproduttore](renderer-independent-review-2026-11-22.md). Il pacchetto stabile finale è preparato da `1bb60c357519986ac46d93e87d8914eea0853abf`, SHA256 `c8d35b5c2fb16f8f667f651d8ce7e37077205084ecc96993ae624fd83790ac20`: non è un nuovo deployment. Il rilascio web segue staging, ripristino dell’esatta r3 privata e produzione sullo stesso ZIP, con ricevute dopo ogni fase.
+La revisione indipendente dei due fix renderer approva il perimetro sorgente con28 test Node e tre probe distinti, mantenendo il timeout parziale e la mancanza di Chromium reale come limiti. [Review e riproduttore](renderer-independent-review-2026-11-22.md). Un precedente pacchetto stabile era preparato da `1bb60c357519986ac46d93e87d8914eea0853abf`, SHA256 `c8d35b5c2fb16f8f667f651d8ce7e37077205084ecc96993ae624fd83790ac20`: non è un nuovo deployment. Il rilascio web segue staging, ripristino dell’esatta r3 privata e produzione sullo stesso ZIP, con ricevute dopo ogni fase.
 
 
 Esito finale del tentativo Safari: il frontend `Simulator.app` non è presente nel percorso Xcode selezionato né è emerso dalla ricerca circoscritta in `/Applications`. La CLI ha inoltre riportato `Data Migration Failed` nonostante exit0: non è un test riuscito. Il solo simulatore dedicato è stato riportato a Shutdown, senza attivazione estensione o invii. Lo sblocco del Mac è necessario per la GUI, ma non sostituisce un frontend Simulator raggiungibile. [Tentativo e limiti](policywatcher-demo-audit-2026-11-22/safari-gui-attempt/assessment.md).
+
+
+La successiva prova locale con Chromium149 reale ha verificato readiness200, un solo slot occupato,429 alla richiesta concorrente, render200 di una fonte IANA non-policy e active0 finale, con chiusura tramiteSIGTERM. Non è un test della VPS o della completezza di policy. [Ricevuta e limiti](renderer-real-chromium-2026-11-22.md).

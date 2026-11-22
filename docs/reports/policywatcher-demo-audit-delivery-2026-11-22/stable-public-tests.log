@@ -1,0 +1,10 @@
+
+ RUN  v4.1.9 /Users/fabriziodegni/Projects/PolicyWatcher-engine6-public-access
+
+·····················································································································································································································
+
+ Test Files  7 passed (7)
+      Tests  213 passed (213)
+   Start at  05:49:03
+   Duration  1.11s (transform 2.00s, setup 0ms, import 1.71s, tests 3.19s, environment 0ms)
+

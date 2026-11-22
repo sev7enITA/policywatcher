@@ -1,0 +1,6 @@
+{
+  "scope": "Exact prepared archive extracted outside historical working-tree output; installed dependencies only, OS network denied. No source file excluded beyond actual package contents.",
+  "sourceArchive": "PolicyWatcher-5.5.0-hostinger-2026-11-22-demo-audit-ios-kit.zip",
+  "exitCode": 0,
+  "initialWorkspaceFailure": "Existing ignored output/engine-qa-20261106/review-falsifier.ts imports an Engine module absent on stable. It is not included in the archive and was not deleted or edited."
+}
