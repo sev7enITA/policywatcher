@@ -1,4 +1,6 @@
 'use client';
+import WorkflowAuditNotice from '@/components/WorkflowAuditNotice';
+
 
 import Link from 'next/link';
 import { useMemo, useState, type CSSProperties } from 'react';
@@ -158,6 +160,7 @@ export default function SiteAtlasClient({ lang = 'en' }: { lang?: PlanningLangua
     <>
       <PublicHeader current="atlas" lang={lang} lockLang />
       <main className={styles.page} lang={lang}>
+        <WorkflowAuditNotice lang={lang} />
       <section className={styles.hero}>
         <nav className={styles.topbar} aria-label={tr('Atlas navigation', 'Navigazione dell’atlante')}>
           <Link href={local('/')} className={styles.backLink}>

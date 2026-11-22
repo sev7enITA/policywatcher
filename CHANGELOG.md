@@ -2,6 +2,8 @@
 
 ## 5.6.0 - Chatbot Policy Watch (2026-11-22)
 
+- Public workflow audit and atlas: seven diagrams, 109 code references and 28 gates. Five candidate issues corrected; 1,865 offline tests passed, 14 skipped, with six GitHub checks passing. The public documentation does not deploy the private engine; source completeness and 500 successful daily full-pipeline completions remain unqualified.
+
 - The server checks 32 chatbot policy documents across 11 platforms every six hours. On 22 November it retrieved 30. The two Perplexity documents returned HTTP 403 and remain pending.
 - Published first public snapshots of the terms and privacy notices for Kimi, Qwen Studio and Grok. A fresh comparison of the Meta AI Terms matched the stored version.
 - Reports sent to segnalazioni@policywatcher.online reach the curator on arrival. Subscriber alerts require a substantive change confirmed against the official source and two public versions. First snapshots do not trigger subscriber mail.

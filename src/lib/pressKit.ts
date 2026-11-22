@@ -882,6 +882,7 @@ export const chatbotPolicyWatchRelease: PressKitRelease = {
   title: { en: 'PolicyWatcher 5.6 monitors chatbot policies every six hours', it: 'PolicyWatcher 5.6 controlla le policy dei chatbot ogni sei ore' },
   summary: { en: 'The server checked 32 documents across 11 platforms on 22 November. It retrieved 30, including the terms and privacy notices for Kimi, Qwen Studio and Grok.', it: 'Il 22 novembre il server ha controllato 32 documenti di 11 piattaforme. Ne ha acquisiti 30, inclusi i termini e le informative privacy di Kimi, Qwen Studio e Grok.' },
   changes: [
+    { en: 'Public workflow atlas and dated audit: seven diagrams, 28 gates and five candidate fixes, with offline evidence and remaining qualification limits. This documentation does not deploy the experimental engine.', it: 'Atlante pubblico del workflow e audit datato: sette schemi, 28 gate e cinque correzioni del candidato, con prove offline e limiti di qualifica residui. La documentazione non distribuisce il motore sperimentale.' },
     { en: 'Six new public snapshots let readers inspect the terms and privacy wording for each of the three services. A fresh check of the Meta AI Terms matched the stored version.', it: 'Sei nuove copie pubbliche permettono di leggere i termini e le informative privacy dei tre servizi. Per Meta AI il confronto ha confermato i termini già archiviati.' },
     { en: 'Reports sent to segnalazioni@policywatcher.online reach the curator on arrival. The server checks the monitored documents every six hours.', it: 'Le segnalazioni inviate a segnalazioni@policywatcher.online arrivano subito al curatore. Il server ricontrolla i documenti ogni sei ore.' },
   ],
@@ -890,6 +891,7 @@ export const chatbotPolicyWatchRelease: PressKitRelease = {
     { en: 'Both Perplexity documents returned HTTP 403 during the 22 November check and remain pending. Engine 6 continues in private Preview.', it: 'Durante il controllo del 22 novembre i due documenti di Perplexity hanno restituito HTTP 403 e restano da verificare. Engine 6 prosegue nella Preview privata.' },
   ],
   evidenceLinks: [
+    { href: '/engine-6-preview#workflow-audit', label: { en: 'Workflow atlas and audit', it: 'Atlante del workflow e audit' } },
     { href: '/knowledge/companies/kimi', label: { en: 'Kimi documents', it: 'Documenti Kimi' } },
     { href: '/knowledge/companies/qwen', label: { en: 'Qwen Studio documents', it: 'Documenti Qwen Studio' } },
     { href: '/knowledge/companies/xai', label: { en: 'Grok documents', it: 'Documenti Grok' } },
@@ -897,8 +899,81 @@ export const chatbotPolicyWatchRelease: PressKitRelease = {
   ],
 };
 
+export const workflowConsistencyAuditUpdate: PressKitRelease = {
+  "slug": "engine-six-workflow-audit-november-2026",
+  "version": "5.6.0",
+  "displayVersion": "Engine 6 research",
+  "datePublished": "2026-11-22",
+  "dateModified": "2026-11-22",
+  "status": "research",
+  "category": "confidence",
+  "title": {
+    "en": "Engine 6 workflow audit: five fixes and a traceable atlas",
+    "it": "Audit del workflow Engine 6: cinque correzioni e un atlante tracciabile"
+  },
+  "summary": {
+    "en": "Inspect seven diagrams, an overview and 28 gates reconstructed from candidate code 3eabf9d. The controlled offline review corrected five reproduced issues; the public service retains its stable scanner.",
+    "it": "Esamina sette diagrammi, una panoramica e 28 gate ricostruiti dal codice candidato 3eabf9d. La revisione offline ha corretto cinque problemi riprodotti; il servizio pubblico mantiene lo scanner stabile."
+  },
+  "changes": [
+    {
+      "en": "Three separate agents reviewed control flow, evidence/admin consistency and diagrams. One P1 and four P2 issues were reproduced and corrected: base-URI link identity, bounded transport failure evidence, aggregate decoded attachment reservation, rebaseline eligibility and terminal observation display.",
+      "it": "Tre agenti separati hanno revisionato flusso, coerenza evidenze/admin e schemi. Riprodotti e corretti un P1 e quattro P2: identità dei link con base URI, prove limitate dei fallimenti di trasporto, riserva aggregata degli allegati decodificati, ammissibilità della rebaseline e visibilità dell’osservazione terminale."
+    },
+    {
+      "en": "The final suite passed 1,865 tests offline with 14 skipped. Five deliberate mutations made selected regression tests fail before source restoration. Six GitHub checks passed on code 3eabf9d and documentation caffc1a; focused reviewer reruns overlap the full total.",
+      "it": "La suite finale ha superato 1.865 test offline, con 14 saltati. Cinque mutazioni intenzionali hanno fatto fallire i test selezionati prima del ripristino. Sei controlli GitHub passati su codice 3eabf9d e documentazione caffc1a; le riesecuzioni dei revisori si sovrappongono al totale."
+    },
+    {
+      "en": "The public atlas provides SVG, PNG and Mermaid exports, 109 code references and separate Prisma-declared FK/application-reference diagrams. Browser checks covered keyboard interaction and 390 px mobile; regenerating the original atlas produced identical bytes.",
+      "it": "L’atlante pubblico offre esportazioni SVG, PNG e Mermaid, 109 riferimenti e viste separate di FK dichiarate in Prisma e riferimenti applicativi. Il browser è stato verificato con tastiera e su mobile a 390 px; la rigenerazione dell’atlante originale ha prodotto byte identici."
+    }
+  ],
+  "boundaries": [
+    {
+      "en": "These are local candidate tests and code diagrams, not a deployment of that engine or a live database certification. Attachment-bearing policies remain observation-only even with matching evidence. Origin/independence of the reference remain reviewer-attested.",
+      "it": "Sono test del candidato locale e schemi del codice, non la distribuzione di quel motore o una certificazione del database online. Le policy con allegati restano in sola osservazione anche con prove corrispondenti. Origine e indipendenza del riferimento restano attestate dal revisore."
+    },
+    {
+      "en": "Source completeness, general semantic accuracy and 500 successful daily full-pipeline completions remain unqualified. No new live-source observation was added. Free Nemotron/Particle and partial local Qwen advice was adjudicated; no Gemini or GLM 5.3 MAX response or external certification is claimed for this audit.",
+      "it": "Completezza delle fonti, accuratezza semantica generale e 500 completamenti giornalieri dell’intera pipeline restano da qualificare. Nessuna nuova osservazione live è stata aggiunta. Pareri gratuiti Nemotron/Particle e parere parziale Qwen locale revisionati; nessuna risposta Gemini o GLM 5.3 MAX o certificazione esterna è dichiarata per questo audit."
+    }
+  ],
+  "evidenceLinks": [
+    {
+      "href": "/engine-6-preview#workflow-audit",
+      "label": {
+        "en": "Interactive workflow atlas and downloads",
+        "it": "Atlante interattivo del workflow e download"
+      }
+    },
+    {
+      "href": "https://github.com/sev7enITA/policywatcher/blob/caffc1a/docs/reports/workflow-consistency-2026-11-22/README.md",
+      "label": {
+        "en": "Audit report and verification receipts",
+        "it": "Rapporto di audit e ricevute di verifica"
+      }
+    },
+    {
+      "href": "/engine-6-preview#validation",
+      "label": {
+        "en": "Dated research diary and historical limits",
+        "it": "Diario datato e limiti storici"
+      }
+    },
+    {
+      "href": "https://github.com/sev7enITA/policywatcher/wiki/Workflow-Consistency-Audit",
+      "label": {
+        "en": "Workflow consistency wiki",
+        "it": "Wiki della coerenza del workflow"
+      }
+    }
+  ]
+};
+
 export const pressKitReleases: PressKitRelease[] = [
   chatbotPolicyWatchRelease,
+  workflowConsistencyAuditUpdate,
   engineSixDemoAuditUpdate,
   engineSixRemoteFollowupUpdate,
   engineSixProgressUpdate,

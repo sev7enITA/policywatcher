@@ -1,0 +1,50 @@
+flowchart TD
+  Cron[Authenticated scheduler POST] -->|E01| Dispatch{Engine enabled?}
+  Dispatch -->|E02 no| Stable[Separate stable scanner]
+  Dispatch -->|E03 yes| Enqueue[Idempotent durable EngineRun]
+  Admin[Authenticated admin enqueue] -->|E04| Enqueue
+  Enqueue -->|E05| Fetch[Deduplicated fetch task queued]
+  Enqueue -->|E06| Policy[Per-policy task blocked on fetch]
+  Fetch -->|E07| Claim[CAS task lease and origin lease]
+  Claim -->|E08| Retrieve[Direct / HTTP2 / configured renderer]
+  Retrieve -->|E09| Capture[Extract parent; retain response finalUrl]
+  Capture -->|E10| Base[Resolve active XHTML base against finalUrl]
+  Base -->|E39 safe base| Links[Active document or unique-fragment link census]
+  Base -->|E40 unsafe or ambiguous base| Ineligible[Unresolved-base marker, no attachment fetch]
+  Links -->|E41 expected attachments| Attachments[Same-origin serial acquisition, shared decoded-byte reservation]
+  Links -->|E42 no expected attachments| Artifact[Persist private content-addressed artifact]
+  Attachments -->|E43 bytes, extraction or bounded error evidence| Artifact
+  Ineligible -->|E44 preserve failed evidence| Artifact
+  Artifact -->|E45| SourceChecks[Identity, structure, V2 inventory, links and attachments]
+  Retrieve -->|E46 integrity error| Proof[Whitelisted reason, status and sanitized proof]
+  Proof -->|E47 next root transport| Retrieve
+  Proof -->|E48 exhausted transports| FetchDone
+  SourceChecks -->|E11| FetchDone[Fetch task completed with observation]
+  FetchDone -->|E12| PolicyReady[Policy task queued]
+  PolicyReady -->|E13| Eval[Read integrity-checked artifact and recompute assessment]
+  Eval -->|E14 insufficient evidence| Hold[Review / observed record, task completed]
+  Eval -->|E15 publish mode only| PublishGate[V2 matched and zero expected attachments]
+  PublishGate -->|E16 failed| Hold
+  PublishGate -->|E17 satisfied| Compare
+  Eval -->|E18 observe mode| Compare{Current text hash unchanged?}
+  Compare -->|E19 yes| Unchanged[Verified unchanged / eligible 304 revalidation]
+  Unchanged -->|E20 publish mode only| Anchor[Refresh baseline anchor and cache]
+  Compare -->|E21 no| Context[Baseline integrity / parser profile context]
+  Context -->|E22 missing or changed profile| Hold
+  Context -->|E23 valid| Confirm{Second matching fresh response in another run?}
+  Confirm -->|E24 no| Candidate[Store candidate; complete task as confirmation pending]
+  Candidate -.->|E25 later due run, at least 1 hour| Enqueue
+  Confirm -->|E26 yes, initial baseline| Initial{Observe or publish?}
+  Initial -->|E27 observe| PrivateBaseline[Observed baseline ready; no public snapshot]
+  Initial -->|E28 publish| PublicBaseline[Snapshot and baseline; no change alert]
+  Confirm -->|E29 yes, changed baseline| Deltas[Compare structured parent-document blocks]
+  Deltas -->|E30 formatting only| Hold
+  Deltas -->|E31 changed| Analyze[Model analyst]
+  Analyze -->|E32 invalid claims or spans| Hold
+  Analyze -->|E33 valid grounded claims| Verify[Separate model verifier]
+  Verify -->|E34 invalid, unsupported, same model, high impact or stale| Hold
+  Verify -->|E35 all gates satisfied| Commit{Run mode}
+  Commit -->|E36 observe| PrivateClaims[Private inferred claim ledger; no public change or outbox]
+  Commit -->|E37 publish| PublicCommit[Atomic DB transaction: snapshot, change, ledger, optional canonical projection and outbox]
+  PublicCommit -->|E38 separately polled and notifications enabled| Notify[Outbox fanout and per-subscriber delivery]
+  Hold -->|E49 explicit authorized administrator GET| ReviewView[Effective observation DTO, original stored payload preserved]

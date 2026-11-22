@@ -1,0 +1,34 @@
+sequenceDiagram
+  participant Entry as Authenticated entry
+  participant DB as Database
+  participant W as Durable worker
+  participant Source as Policy origin / renderer
+  participant A as Analyst model
+  participant V as Verifier model
+  participant N as Outbox worker
+  participant SMTP as Mail provider
+  Entry->>DB: S01 enqueue run, fetch and blocked policy tasks
+  Entry-->>Entry: S02 202 accepted, no scan execution in request
+  W->>DB: S03 claim task / origin lease / hosted leader fencing
+  W->>Source: S04 bounded acquisition outside DB transaction
+  Source-->>W: S05 response or eligible 304; optional same-origin attachments
+  W->>DB: S06 immutable artifact + fetch result; queue policy dependent
+  W->>DB: S07 integrity read, assessment and candidate confirmation
+  Note over W,DB: Different run, same candidate/profile, 1 hour to 7 days; first task completes
+  W->>A: S08 analyze old/new parent evidence outside transaction
+  A-->>W: S09 claims, exact span validation
+  W->>DB: S10 checkpoint analyze-to-verify
+  W->>V: S11 verify grounded claims outside transaction
+  V-->>W: S12 verdicts + resolved identity
+  W->>DB: S13 commit checkpoint; revalidate gates
+  alt Observe or any hold
+    W->>DB: S14 private state/review/validated claim ledger; no public change
+  else Publish, zero expected attachments, all gates satisfied
+    rect rgb(225,240,235)
+      W->>DB: S15 one fenced transaction: CAS context, snapshot, baseline, change, claims, optional canonical projection and outbox, task completion
+    end
+    N->>DB: S16 separate claim and root fanout transaction
+    N->>SMTP: S17 per-recipient send outside publication transaction
+    SMTP-->>N: S18 acknowledgement
+    N->>DB: S19 mark delivered or retry under lease
+  end

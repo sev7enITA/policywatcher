@@ -13,6 +13,8 @@ ${POLICYWATCHER_VERSION} ${POLICYWATCHER_RELEASE_NAME}. ${chatbotPolicyWatchRele
 - [Feature inventory and limits](${POLICYWATCHER_ORIGIN}/feature-atlas)
 
 ## Preview research and evidence
+- [Workflow atlas, seven diagrams and audit receipts](${POLICYWATCHER_ORIGIN}/research/engine-workflow-20261122/index.html)
+- The workflow audit describes local candidate code 3eabf9d, not the deployed engine. 1,865 offline tests and six CI checks do not establish independent source completeness or 500 daily full-pipeline completions.
 - [Latest Engine 6 research update](${POLICYWATCHER_ORIGIN}/press-kit/releases/${latestResearchUpdate.slug})
 - [Engine 6 Preview r3 research update](${POLICYWATCHER_ORIGIN}/press-kit/releases/engine-six-preview-r3-evidence-update)
 - [Architecture, decision flow, entity relationships and measured limits](${POLICYWATCHER_ORIGIN}/engine-6-preview)

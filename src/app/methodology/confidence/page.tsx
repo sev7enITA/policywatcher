@@ -1,3 +1,4 @@
+import WorkflowAuditNotice from '@/components/WorkflowAuditNotice';
 /**
  * @file page.tsx (Methodology & Confidence)
  *
@@ -393,6 +394,7 @@ export default async function MethodologyConfidence({ searchParams }: Props) {
       </header>
 
       <main className={styles.main}>
+        <WorkflowAuditNotice lang={lang} />
         <div className={styles.heroSection}>
           <div className={styles.tagRow}>
             <ShieldCheck size={16} className={styles.tagIcon} />

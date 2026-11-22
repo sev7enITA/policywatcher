@@ -1,0 +1,22 @@
+{
+  "packageId": "policywatcher-workflow-documentation-20261122",
+  "codeCheckpoint": "3eabf9d8b420efb13debfcd8b6e378e81a2c4c61",
+  "applicationTests": {
+    "passed": 1865,
+    "skipped": 14
+  },
+  "diagramCount": 7,
+  "sourceIds": 109,
+  "gateRows": 28,
+  "copiedSvgCount": 8,
+  "copiedMermaidCount": 7,
+  "copiedPngCount": 1,
+  "relativeLinksVerified": true,
+  "remoteRuntimeResources": 0,
+  "localhostOrUserPaths": 0,
+  "immutableOriginalsPreserved": true,
+  "browserRenderingPerformedByPackager": false,
+  "hostingOrDeploymentPerformedByPackager": false,
+  "documentationPublicationIndependentOfEngineDeployment": true,
+  "receiptScope": "Static packaging checks; historical browser/build/model receipts remain separately scoped."
+}

@@ -1,4 +1,6 @@
 'use client';
+import WorkflowAuditNotice from '@/components/WorkflowAuditNotice';
+
 
 import Image from 'next/image';
 import Link from 'next/link';
@@ -985,6 +987,7 @@ export default function RoadmapClient({ lang = 'en' }: { lang?: PlanningLanguage
     <>
       <PublicHeader current="roadmap" lang={lang} lockLang />
       <main className={styles.page} lang={lang}>
+        <WorkflowAuditNotice lang={lang} />
       <nav className={styles.nav} aria-label="Roadmap navigation">
         <Link href={local('/')} className={styles.brand}>
           <Image src="/logo-mark.png" alt="" width={34} height={34} className={styles.brandMark} priority />

@@ -1,0 +1,21 @@
+{
+  "initial": {
+    "duplicateIds": [],
+    "activePanels": 1,
+    "panels": 10,
+    "svg": 8,
+    "gates": 28,
+    "findings": 5,
+    "externalResources": []
+  },
+  "mobile": {
+    "width": 390,
+    "scrollWidth": 390,
+    "overflow": 0
+  },
+  "tabsExercised": 10,
+  "scenarioChanges": true,
+  "nodeMouseAndKeyboard": true,
+  "zoom": true,
+  "hostedActions": false
+}

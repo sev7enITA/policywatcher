@@ -1,0 +1,48 @@
+{
+  "codeCheckpoint": "3eabf9d8b420efb13debfcd8b6e378e81a2c4c61",
+  "initialCheckpoint": "946fc9d526dc60cc6ca2af8422db09d361180155",
+  "applicationTests": {
+    "passed": 1865,
+    "skipped": 14
+  },
+  "independentFocusedReruns": {
+    "codeReviewer": {
+      "passed": 274,
+      "files": 8
+    },
+    "evidenceReviewer": {
+      "passed": 47,
+      "additionalFinalApi": 7
+    }
+  },
+  "negativeControls": 5,
+  "findingsCorrected": {
+    "P1": 1,
+    "P2": 4
+  },
+  "diagramSourceIds": 109,
+  "diagramMermaidCount": 7,
+  "renderedSvgViews": 8,
+  "gateRows": 28,
+  "declaredFkEdgesValidated": 16,
+  "models": {
+    "local": [
+      "qwen3.8-27b-uncensored"
+    ],
+    "cloud": [
+      "nvidia/nemotron-3-ultra-550b-a55b:free",
+      "particle-ai/particle-1:free"
+    ],
+    "cloudCalls": 4,
+    "cloudCostUsd": 0,
+    "initialCloudAnswers": "partial at output cap, preserved",
+    "focusedCloudAnswers": "completed, opinions adjudicated",
+    "modelExecutedTests": false,
+    "glm53MaxOrGeminiClaimed": false
+  },
+  "publicationPerformed": false,
+  "newQualificationDays": 0,
+  "liveSourcesCaptured": 0,
+  "fiveHundredPerDayQualified": false,
+  "scope": "source and controlled offline workflows; no deployed runtime audit, pentest or universal completeness certification"
+}

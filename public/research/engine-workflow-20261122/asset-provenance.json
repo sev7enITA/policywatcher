@@ -1,0 +1,314 @@
+{
+  "packageId": "policywatcher-workflow-documentation-20261122",
+  "codeCheckpoint": "3eabf9d8b420efb13debfcd8b6e378e81a2c4c61",
+  "documentationState": "public_documentation_artifact",
+  "engineCandidateDeployedByThisPackage": false,
+  "historicalReceiptPublicationFlagsPreserved": true,
+  "originalInputFilesUnmodified": true,
+  "sourceRoot": "repository documentation tree",
+  "sourceCopies": [
+    {
+      "source": "docs/architecture/engine-workflow-atlas/README.md",
+      "sourceSha256": "ef4664e26d0020d3aece9b15c445569f94d0f34983cf6177d5bddc5d4427c168",
+      "publishedPath": "interactive-it/README.md",
+      "transformations": [
+        "Relative publication links, public-scope path and documentation/engine delivery distinction; underlying historical receipts preserved."
+      ],
+      "publishedSha256": "88028948131b19c26c076515d8a7f49053a064f830c899d61bb54ae2d96ae20d"
+    },
+    {
+      "source": "docs/architecture/engine-workflow-atlas/application_references.dot",
+      "sourceSha256": "cb3fda9bcc78cdaf388862e0f4fb6e22bd3895914235b0e333213bf89bef31d5",
+      "publishedPath": "interactive-it/application_references.dot",
+      "transformations": [],
+      "publishedSha256": "cb3fda9bcc78cdaf388862e0f4fb6e22bd3895914235b0e333213bf89bef31d5"
+    },
+    {
+      "source": "docs/architecture/engine-workflow-atlas/application_references.mmd",
+      "sourceSha256": "090b2bc1683a0374384d892bb75d84a83ddd6dbe8d3055edd860eb703ab350a7",
+      "publishedPath": "interactive-it/application_references.mmd",
+      "transformations": [],
+      "publishedSha256": "090b2bc1683a0374384d892bb75d84a83ddd6dbe8d3055edd860eb703ab350a7"
+    },
+    {
+      "source": "docs/architecture/engine-workflow-atlas/application_references.svg",
+      "sourceSha256": "e44046e2b0a365578847d8ac8abb5f6116ce8148415f1b6ed3f2f08c56cd30e6",
+      "publishedPath": "interactive-it/application_references.svg",
+      "transformations": [],
+      "publishedSha256": "e44046e2b0a365578847d8ac8abb5f6116ce8148415f1b6ed3f2f08c56cd30e6"
+    },
+    {
+      "source": "docs/architecture/engine-workflow-atlas/declared_foreign_keys.dot",
+      "sourceSha256": "284a54df1d21ca188071ec6b5512b04bf9c5fb9c5fbbbc674eeb859eac40307b",
+      "publishedPath": "interactive-it/declared_foreign_keys.dot",
+      "transformations": [],
+      "publishedSha256": "284a54df1d21ca188071ec6b5512b04bf9c5fb9c5fbbbc674eeb859eac40307b"
+    },
+    {
+      "source": "docs/architecture/engine-workflow-atlas/declared_foreign_keys.mmd",
+      "sourceSha256": "e0d3c2321ad58916cb6d3a3551101b442cf118d57826790bc7b283a0a2199143",
+      "publishedPath": "interactive-it/declared_foreign_keys.mmd",
+      "transformations": [],
+      "publishedSha256": "e0d3c2321ad58916cb6d3a3551101b442cf118d57826790bc7b283a0a2199143"
+    },
+    {
+      "source": "docs/architecture/engine-workflow-atlas/declared_foreign_keys.svg",
+      "sourceSha256": "064c6bcaca7857e0c596bc93c926013f63fb4913e49e130fb8e42c74d6d06a7a",
+      "publishedPath": "interactive-it/declared_foreign_keys.svg",
+      "transformations": [],
+      "publishedSha256": "064c6bcaca7857e0c596bc93c926013f63fb4913e49e130fb8e42c74d6d06a7a"
+    },
+    {
+      "source": "docs/architecture/engine-workflow-atlas/end_to_end.dot",
+      "sourceSha256": "78c1bf38d281ce0412b3b44a7d9aa44e93426e81e2944e67ea99fe185f354b24",
+      "publishedPath": "interactive-it/end_to_end.dot",
+      "transformations": [],
+      "publishedSha256": "78c1bf38d281ce0412b3b44a7d9aa44e93426e81e2944e67ea99fe185f354b24"
+    },
+    {
+      "source": "docs/architecture/engine-workflow-atlas/end_to_end.mmd",
+      "sourceSha256": "bbb3a7a85231c2b54ea79150c6f69e87fc5ec89c8ab4ba1c727c6b92ee18aa3d",
+      "publishedPath": "interactive-it/end_to_end.mmd",
+      "transformations": [],
+      "publishedSha256": "bbb3a7a85231c2b54ea79150c6f69e87fc5ec89c8ab4ba1c727c6b92ee18aa3d"
+    },
+    {
+      "source": "docs/architecture/engine-workflow-atlas/end_to_end.svg",
+      "sourceSha256": "9980e4b3a1cbfad6d6e7b7644cd66048b7872b800b5b105a35bc7020337392bd",
+      "publishedPath": "interactive-it/end_to_end.svg",
+      "transformations": [],
+      "publishedSha256": "9980e4b3a1cbfad6d6e7b7644cd66048b7872b800b5b105a35bc7020337392bd"
+    },
+    {
+      "source": "docs/architecture/engine-workflow-atlas/index.html",
+      "sourceSha256": "1617069bb03095bd499f5f553f592a288f5a7e0fc73ee32bb6ed14d79b91012b",
+      "publishedPath": "interactive-it/index.html",
+      "transformations": [
+        "Publication label and local logo; executable script/style externalized; original IT UI, source data and reviewed diagrams retained."
+      ],
+      "publishedSha256": "d695dba0331ddbcb5768e2a232a95bf9cda2dec8def27a415043596beb16e5f1"
+    },
+    {
+      "source": "docs/architecture/engine-workflow-atlas/model.json",
+      "sourceSha256": "c736caf17b7fb27d7191ce6f58acebada1e93fdc460f2dd126f48818c076065c",
+      "publishedPath": "interactive-it/model.json",
+      "transformations": [],
+      "publishedSha256": "c736caf17b7fb27d7191ce6f58acebada1e93fdc460f2dd126f48818c076065c"
+    },
+    {
+      "source": "docs/architecture/engine-workflow-atlas/outbox_status.dot",
+      "sourceSha256": "4c5380cb01934b553b636327b727b37bb61b6332e0049ecb6bb27b3003894acb",
+      "publishedPath": "interactive-it/outbox_status.dot",
+      "transformations": [],
+      "publishedSha256": "4c5380cb01934b553b636327b727b37bb61b6332e0049ecb6bb27b3003894acb"
+    },
+    {
+      "source": "docs/architecture/engine-workflow-atlas/outbox_status.mmd",
+      "sourceSha256": "e98d00646a780c8ce90696f139c8d898c2de447a92fb697464916df0668c59e7",
+      "publishedPath": "interactive-it/outbox_status.mmd",
+      "transformations": [],
+      "publishedSha256": "e98d00646a780c8ce90696f139c8d898c2de447a92fb697464916df0668c59e7"
+    },
+    {
+      "source": "docs/architecture/engine-workflow-atlas/outbox_status.svg",
+      "sourceSha256": "6ed408b06d8f1c97bfedf0837b76f0f5c2a8160e28ee16c28339065565445adc",
+      "publishedPath": "interactive-it/outbox_status.svg",
+      "transformations": [],
+      "publishedSha256": "6ed408b06d8f1c97bfedf0837b76f0f5c2a8160e28ee16c28339065565445adc"
+    },
+    {
+      "source": "docs/architecture/engine-workflow-atlas/overview.dot",
+      "sourceSha256": "8fb6c1536bb4c861ca63c4352ac8e546fa480dd35a486704743f523745a0351b",
+      "publishedPath": "interactive-it/overview.dot",
+      "transformations": [],
+      "publishedSha256": "8fb6c1536bb4c861ca63c4352ac8e546fa480dd35a486704743f523745a0351b"
+    },
+    {
+      "source": "docs/architecture/engine-workflow-atlas/overview.png",
+      "sourceSha256": "afceb46300004e938bba7cda2f9f61f69cd810ff7fdd767c60bbad367188388c",
+      "publishedPath": "interactive-it/overview.png",
+      "transformations": [],
+      "publishedSha256": "afceb46300004e938bba7cda2f9f61f69cd810ff7fdd767c60bbad367188388c"
+    },
+    {
+      "source": "docs/architecture/engine-workflow-atlas/overview.svg",
+      "sourceSha256": "60804bd14f5a1c7c85702ebe76f0a8147101bdb4ac99f19e445a7d237c4bfc91",
+      "publishedPath": "interactive-it/overview.svg",
+      "transformations": [],
+      "publishedSha256": "60804bd14f5a1c7c85702ebe76f0a8147101bdb4ac99f19e445a7d237c4bfc91"
+    },
+    {
+      "source": "docs/architecture/engine-workflow-atlas/review_status.dot",
+      "sourceSha256": "6684f23867dd4165bb8708a23b9c24df61a79e088f84999feb866a9328cebd5b",
+      "publishedPath": "interactive-it/review_status.dot",
+      "transformations": [],
+      "publishedSha256": "6684f23867dd4165bb8708a23b9c24df61a79e088f84999feb866a9328cebd5b"
+    },
+    {
+      "source": "docs/architecture/engine-workflow-atlas/review_status.mmd",
+      "sourceSha256": "e26e66536bd1a4e018db72393acc35aa9746e30ffaece03f8dc8e88e155a82b7",
+      "publishedPath": "interactive-it/review_status.mmd",
+      "transformations": [],
+      "publishedSha256": "e26e66536bd1a4e018db72393acc35aa9746e30ffaece03f8dc8e88e155a82b7"
+    },
+    {
+      "source": "docs/architecture/engine-workflow-atlas/review_status.svg",
+      "sourceSha256": "ed04b8133d62d33d264018ba6dcee22cb598788d649a6a483455ff8bea4e0e32",
+      "publishedPath": "interactive-it/review_status.svg",
+      "transformations": [],
+      "publishedSha256": "ed04b8133d62d33d264018ba6dcee22cb598788d649a6a483455ff8bea4e0e32"
+    },
+    {
+      "source": "docs/architecture/engine-workflow-atlas/sequence.mmd",
+      "sourceSha256": "587b5314c59f96a6acf4343c02efce34f9e8d8cf692e77b88315adeeb16d7b2d",
+      "publishedPath": "interactive-it/sequence.mmd",
+      "transformations": [],
+      "publishedSha256": "587b5314c59f96a6acf4343c02efce34f9e8d8cf692e77b88315adeeb16d7b2d"
+    },
+    {
+      "source": "docs/architecture/engine-workflow-atlas/sequence.svg",
+      "sourceSha256": "2ed92a8fdb1e30b7e92af60f206960bc37fe8236a428de95f2f415d1542d4561",
+      "publishedPath": "interactive-it/sequence.svg",
+      "transformations": [],
+      "publishedSha256": "2ed92a8fdb1e30b7e92af60f206960bc37fe8236a428de95f2f415d1542d4561"
+    },
+    {
+      "source": "docs/architecture/engine-workflow-atlas/task_status.dot",
+      "sourceSha256": "f406ee6a8c6c6bb7b66f696ddb5d8b83712cf689cdeac82e48d1142f9326f9dd",
+      "publishedPath": "interactive-it/task_status.dot",
+      "transformations": [],
+      "publishedSha256": "f406ee6a8c6c6bb7b66f696ddb5d8b83712cf689cdeac82e48d1142f9326f9dd"
+    },
+    {
+      "source": "docs/architecture/engine-workflow-atlas/task_status.mmd",
+      "sourceSha256": "bf0df0dc84d4e5367fd03760b71faac8e4dd14bc89469b72875fa465f403e0e2",
+      "publishedPath": "interactive-it/task_status.mmd",
+      "transformations": [],
+      "publishedSha256": "bf0df0dc84d4e5367fd03760b71faac8e4dd14bc89469b72875fa465f403e0e2"
+    },
+    {
+      "source": "docs/architecture/engine-workflow-atlas/task_status.svg",
+      "sourceSha256": "98a8e4027667670814119b84ded9ac1bbb0aff34cb04d7106c644fe558324690",
+      "publishedPath": "interactive-it/task_status.svg",
+      "transformations": [],
+      "publishedSha256": "98a8e4027667670814119b84ded9ac1bbb0aff34cb04d7106c644fe558324690"
+    },
+    {
+      "source": "docs/architecture/engine-workflow-atlas/workflow.md",
+      "sourceSha256": "b9e75f26cc247e121cd64db27c6ec9d7844b30941c3736c4b4d2200395f211dd",
+      "publishedPath": "interactive-it/workflow.md",
+      "transformations": [
+        "Relative publication links, public-scope path and documentation/engine delivery distinction; underlying historical receipts preserved."
+      ],
+      "publishedSha256": "0a90727b4c30ded2f7ca522cd5e0fd0a67112140f7cb2e49f4f665c4cf47caa7"
+    },
+    {
+      "source": "docs/reports/workflow-consistency-2026-11-22/README.md",
+      "sourceSha256": "dcd89165694561782afb3f17f837a9de155e285e43aedf8c28a16aac7f6f4508",
+      "publishedPath": "report/README.md",
+      "transformations": [
+        "Relative publication links, public-scope path and documentation/engine delivery distinction; underlying historical receipts preserved."
+      ],
+      "publishedSha256": "55f5d011f8f9777dcf54aae8c577b85f39ff61398b1584ed5ec1f6b86946f0ff"
+    },
+    {
+      "source": "docs/reports/workflow-consistency-2026-11-22/browser-qa.json",
+      "sourceSha256": "b208d64a6c7153c4bdcc72b0c2c70478073aaa4f8f5ff26902901b5c3d4a471c",
+      "publishedPath": "report/browser-qa.json",
+      "transformations": [],
+      "publishedSha256": "b208d64a6c7153c4bdcc72b0c2c70478073aaa4f8f5ff26902901b5c3d4a471c"
+    },
+    {
+      "source": "docs/reports/workflow-consistency-2026-11-22/build-receipt.json",
+      "sourceSha256": "a78da778e9940d55fb8b081aa80073c1c30f35867c8258f225a31b1fd3933570",
+      "publishedPath": "report/build-receipt.json",
+      "transformations": [],
+      "publishedSha256": "a78da778e9940d55fb8b081aa80073c1c30f35867c8258f225a31b1fd3933570"
+    },
+    {
+      "source": "docs/reports/workflow-consistency-2026-11-22/external-model-receipts.json",
+      "sourceSha256": "02cadf146ff57915faa6d0429c87d11ac3d2e0af3b5a79563ae388cddb246a5f",
+      "publishedPath": "report/external-model-receipts.json",
+      "transformations": [],
+      "publishedSha256": "02cadf146ff57915faa6d0429c87d11ac3d2e0af3b5a79563ae388cddb246a5f"
+    },
+    {
+      "source": "docs/reports/workflow-consistency-2026-11-22/findings.json",
+      "sourceSha256": "137423b464dc190395a30422bef68bf8a9bb7c5060974eff416af4d97dd63e0f",
+      "publishedPath": "report/findings.json",
+      "transformations": [],
+      "publishedSha256": "137423b464dc190395a30422bef68bf8a9bb7c5060974eff416af4d97dd63e0f"
+    },
+    {
+      "source": "docs/reports/workflow-consistency-2026-11-22/fk-diagram-verification.json",
+      "sourceSha256": "65076d1bfb2fcbc20528117f136ae5e8f35d7fa13181145ac7f3123b0e36a349",
+      "publishedPath": "report/fk-diagram-verification.json",
+      "transformations": [],
+      "publishedSha256": "65076d1bfb2fcbc20528117f136ae5e8f35d7fa13181145ac7f3123b0e36a349"
+    },
+    {
+      "source": "docs/reports/workflow-consistency-2026-11-22/model-adjudication.md",
+      "sourceSha256": "f611723263b8c2b68c707c9ef5d220c358107cb65fa4d84237b3f439b8520c84",
+      "publishedPath": "report/model-adjudication.md",
+      "transformations": [],
+      "publishedSha256": "f611723263b8c2b68c707c9ef5d220c358107cb65fa4d84237b3f439b8520c84"
+    },
+    {
+      "source": "docs/reports/workflow-consistency-2026-11-22/negative-controls.json",
+      "sourceSha256": "73bb56db95fe8913a24621cb7a7ca0a0b91ee48baddceb285a2b412a66aead0b",
+      "publishedPath": "report/negative-controls.json",
+      "transformations": [],
+      "publishedSha256": "73bb56db95fe8913a24621cb7a7ca0a0b91ee48baddceb285a2b412a66aead0b"
+    },
+    {
+      "source": "docs/reports/workflow-consistency-2026-11-22/review-code-after.md",
+      "sourceSha256": "d5164c0bd9d35f289746f2493ea910ccd675bbefd26b3a91dcd1fdb5011f7d0a",
+      "publishedPath": "report/review-code-after.md",
+      "transformations": [],
+      "publishedSha256": "d5164c0bd9d35f289746f2493ea910ccd675bbefd26b3a91dcd1fdb5011f7d0a"
+    },
+    {
+      "source": "docs/reports/workflow-consistency-2026-11-22/review-code-before.md",
+      "sourceSha256": "3af36beeddbe010730f37d1fc7051b8b11722e62a110b90e329a4ce40be0633d",
+      "publishedPath": "report/review-code-before.md",
+      "transformations": [],
+      "publishedSha256": "3af36beeddbe010730f37d1fc7051b8b11722e62a110b90e329a4ce40be0633d"
+    },
+    {
+      "source": "docs/reports/workflow-consistency-2026-11-22/review-evidence-after.md",
+      "sourceSha256": "ddf6b86881c2877cb5bd65266f54710e6414e86261020164db0639cb31be0c48",
+      "publishedPath": "report/review-evidence-after.md",
+      "transformations": [],
+      "publishedSha256": "ddf6b86881c2877cb5bd65266f54710e6414e86261020164db0639cb31be0c48"
+    },
+    {
+      "source": "docs/reports/workflow-consistency-2026-11-22/review-evidence-before.md",
+      "sourceSha256": "324067a2e9c4ad4c87a7dfc292e563ddab6d340c01e4b40961ae3df3717f9c1f",
+      "publishedPath": "report/review-evidence-before.md",
+      "transformations": [],
+      "publishedSha256": "324067a2e9c4ad4c87a7dfc292e563ddab6d340c01e4b40961ae3df3717f9c1f"
+    },
+    {
+      "source": "docs/reports/workflow-consistency-2026-11-22/review-final-api.json",
+      "sourceSha256": "7c8d518ee3d39c98ac077c0b99f47630de2a7519f5f404b62491717fc63c1c3b",
+      "publishedPath": "report/review-final-api.json",
+      "transformations": [],
+      "publishedSha256": "7c8d518ee3d39c98ac077c0b99f47630de2a7519f5f404b62491717fc63c1c3b"
+    },
+    {
+      "source": "docs/reports/workflow-consistency-2026-11-22/verification.json",
+      "sourceSha256": "2789cb3095fbadba42e69eae1b0d78e943891b7d7d8f94c77ca90702768b2098",
+      "publishedPath": "report/verification.json",
+      "transformations": [],
+      "publishedSha256": "2789cb3095fbadba42e69eae1b0d78e943891b7d7d8f94c77ca90702768b2098"
+    }
+  ],
+  "languageBoundary": {
+    "index.html": "English static UI",
+    "index-it.html": "Italian static UI",
+    "interactive-it/index.html": "Original full interactive UI in Italian, publication wrapper adaptations listed",
+    "diagrams": "Reviewed original English labels",
+    "overview": "Original Italian labels"
+  },
+  "regeneration": "python3 scripts/package-workflow-public-assets.py --source <source-repository> --destination <new-empty-static-directory>"
+}

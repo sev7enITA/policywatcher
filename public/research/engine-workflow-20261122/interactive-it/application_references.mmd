@@ -1,0 +1,23 @@
+flowchart LR
+  Task[EngineTask] -.->|A01 policyId / activePolicyId| Policy[Policy]
+  Task -.->|A02 dependencyId| Fetch[EngineTask fetch]
+  Attempt[EngineAttempt] -.->|A03 taskId| Task
+  Contract[EngineSourceContract] -.->|A04 policyId PK| Policy
+  State[EnginePolicyState] -.->|A05 policyId plus mode| Policy
+  State -.->|A06 candidateArtifactId| Artifact[EngineArtifact]
+  State -.->|A07 candidateRunId| Run[EngineRun]
+  State -.->|A08 assessedTaskId| Task
+  Cache[EngineHttpCache] -.->|A09 artifactId| Artifact
+  Review[EngineReview] -.->|A10 taskId unique| Task
+  Review -.->|A11 policyId| Policy
+  Review -.->|A12 changeId optional| Change[PolicyChange]
+  Review -.->|A13 payload observation / checkpoint artifact IDs| Artifact
+  Claim[EngineClaim] -.->|A14 taskId / policyId / reviewId / changeId| Task
+  Claim -.->|A14| Policy
+  Claim -.->|A14| Review
+  Claim -.->|A14| Change
+  Outbox[EngineOutbox] -.->|A15 changeId| Change
+  Outbox -.->|A16 subscriberId in payload| Subscriber[Subscriber]
+  Document[Canonical Document] -.->|A17 legacyPolicyId unique| Policy
+  Version[Canonical Version] -.->|A18 legacySnapshotId unique| Snapshot[PolicySnapshot]
+  CanonicalChange[Canonical Change] -.->|A19 legacyPolicyChangeId unique| Change

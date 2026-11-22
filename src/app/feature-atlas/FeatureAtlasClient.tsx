@@ -1,4 +1,6 @@
 'use client';
+import WorkflowAuditNotice from '@/components/WorkflowAuditNotice';
+
 
 import Image from 'next/image';
 import Link from 'next/link';
@@ -269,6 +271,7 @@ export default function FeatureAtlasClient({ lang = 'en' }: { lang?: PlanningLan
     <>
       <PublicHeader current="feature-atlas" lang={lang} lockLang />
       <main className={styles.page} lang={lang}>
+        <WorkflowAuditNotice lang={lang} />
       <nav className={styles.topbar} aria-label="Feature Atlas navigation">
         <Link href={local('/')} className={styles.brand} aria-label="PolicyWatcher home">
           <Image src="/logo-mark.png" width={34} height={34} alt="" priority />

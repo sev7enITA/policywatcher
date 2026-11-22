@@ -1,0 +1,614 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1132pt" height="2535pt" viewBox="0.00 0.00 1132.00 2535.00">
+<g id="end_to_end--graph0" class="graph" transform="scale(1 1) rotate(0) translate(12.96 2521.71)">
+<title>G</title>
+
+<g id="end_to_end--Cron" class="node">
+<title>Cron</title>
+<path fill="#ffffff" stroke="#cbd5e1" d="M729.74,-2508.75C729.74,-2508.75 564.26,-2508.75 564.26,-2508.75 558.26,-2508.75 552.26,-2502.75 552.26,-2496.75 552.26,-2496.75 552.26,-2484.75 552.26,-2484.75 552.26,-2478.75 558.26,-2472.75 564.26,-2472.75 564.26,-2472.75 729.74,-2472.75 729.74,-2472.75 735.74,-2472.75 741.74,-2478.75 741.74,-2484.75 741.74,-2484.75 741.74,-2496.75 741.74,-2496.75 741.74,-2502.75 735.74,-2508.75 729.74,-2508.75" />
+<text xml:space="preserve" text-anchor="middle" x="647" y="-2486.48" font-family="Arial" font-size="12.00">Authenticated scheduler POST</text>
+</g>
+
+<g id="end_to_end--Dispatch" class="node">
+<title>Dispatch</title>
+<path fill="#ffffff" stroke="#cbd5e1" d="M635.42,-2419.6C635.42,-2419.6 542.6,-2394.37 542.6,-2394.37 536.81,-2392.79 536.81,-2389.65 542.6,-2388.07 542.6,-2388.07 635.42,-2362.84 635.42,-2362.84 641.21,-2361.26 652.79,-2361.26 658.58,-2362.84 658.58,-2362.84 751.4,-2388.07 751.4,-2388.07 757.19,-2389.65 757.19,-2392.79 751.4,-2394.37 751.4,-2394.37 658.58,-2419.6 658.58,-2419.6 652.79,-2421.18 641.21,-2421.18 635.42,-2419.6" />
+<text xml:space="preserve" text-anchor="middle" x="647" y="-2386.95" font-family="Arial" font-size="12.00">Engine enabled?</text>
+</g>
+
+<g id="end_to_end--edge1" class="edge">
+<title>Cron-&gt;Dispatch</title>
+<path fill="none" stroke="#8593ab" d="M647,-2472.31C647,-2460.86 647,-2445.42 647,-2431.14" />
+<polygon fill="#8593ab" stroke="#8593ab" points="649.45,-2431.43 647,-2424.43 644.55,-2431.43 649.45,-2431.43" />
+<text xml:space="preserve" text-anchor="middle" x="655.62" y="-2444.25" font-family="Arial" font-size="10.00">E01</text>
+</g>
+
+<g id="end_to_end--Stable" class="node">
+<title>Stable</title>
+<path fill="#ffffff" stroke="#cbd5e1" d="M712.12,-2309.69C712.12,-2309.69 581.88,-2309.69 581.88,-2309.69 575.88,-2309.69 569.88,-2303.69 569.88,-2297.69 569.88,-2297.69 569.88,-2285.69 569.88,-2285.69 569.88,-2279.69 575.88,-2273.69 581.88,-2273.69 581.88,-2273.69 712.12,-2273.69 712.12,-2273.69 718.12,-2273.69 724.12,-2279.69 724.12,-2285.69 724.12,-2285.69 724.12,-2297.69 724.12,-2297.69 724.12,-2303.69 718.12,-2309.69 712.12,-2309.69" />
+<text xml:space="preserve" text-anchor="middle" x="647" y="-2287.42" font-family="Arial" font-size="12.00">Separate stable scanner</text>
+</g>
+
+<g id="end_to_end--edge2" class="edge">
+<title>Dispatch-&gt;Stable</title>
+<path fill="none" stroke="#8593ab" d="M647,-2359.36C647,-2346.12 647,-2330.84 647,-2318.24" />
+<polygon fill="#8593ab" stroke="#8593ab" points="649.45,-2318.53 647,-2311.53 644.55,-2318.53 649.45,-2318.53" />
+<text xml:space="preserve" text-anchor="middle" x="662.38" y="-2331.19" font-family="Arial" font-size="10.00">E02 no</text>
+</g>
+
+<g id="end_to_end--Enqueue" class="node">
+<title>Enqueue</title>
+<path fill="#ffffff" stroke="#cbd5e1" d="M941.49,-2309.69C941.49,-2309.69 774.51,-2309.69 774.51,-2309.69 768.51,-2309.69 762.51,-2303.69 762.51,-2297.69 762.51,-2297.69 762.51,-2285.69 762.51,-2285.69 762.51,-2279.69 768.51,-2273.69 774.51,-2273.69 774.51,-2273.69 941.49,-2273.69 941.49,-2273.69 947.49,-2273.69 953.49,-2279.69 953.49,-2285.69 953.49,-2285.69 953.49,-2297.69 953.49,-2297.69 953.49,-2303.69 947.49,-2309.69 941.49,-2309.69" />
+<text xml:space="preserve" text-anchor="middle" x="858" y="-2287.42" font-family="Arial" font-size="12.00">Idempotent durable EngineRun</text>
+</g>
+
+<g id="end_to_end--edge3" class="edge">
+<title>Dispatch-&gt;Enqueue</title>
+<path fill="none" stroke="#8593ab" d="M689.19,-2370.72C725.01,-2354.16 776.27,-2330.47 812.9,-2313.54" />
+<polygon fill="#8593ab" stroke="#8593ab" points="813.78,-2315.83 819.1,-2310.67 811.72,-2311.38 813.78,-2315.83" />
+<text xml:space="preserve" text-anchor="middle" x="795.6" y="-2331.19" font-family="Arial" font-size="10.00">E03 yes</text>
+</g>
+
+<g id="end_to_end--Fetch" class="node">
+<title>Fetch</title>
+<path fill="#ffffff" stroke="#cbd5e1" d="M815.24,-2223.69C815.24,-2223.69 646.76,-2223.69 646.76,-2223.69 640.76,-2223.69 634.76,-2217.69 634.76,-2211.69 634.76,-2211.69 634.76,-2199.69 634.76,-2199.69 634.76,-2193.69 640.76,-2187.69 646.76,-2187.69 646.76,-2187.69 815.24,-2187.69 815.24,-2187.69 821.24,-2187.69 827.24,-2193.69 827.24,-2199.69 827.24,-2199.69 827.24,-2211.69 827.24,-2211.69 827.24,-2217.69 821.24,-2223.69 815.24,-2223.69" />
+<text xml:space="preserve" text-anchor="middle" x="731" y="-2201.42" font-family="Arial" font-size="12.00">Deduplicated fetch task queued</text>
+</g>
+
+<g id="end_to_end--edge5" class="edge">
+<title>Enqueue-&gt;Fetch</title>
+<path fill="none" stroke="#8593ab" d="M831.69,-2273.29C812.1,-2260.33 785.24,-2242.56 764.18,-2228.64" />
+<polygon fill="#8593ab" stroke="#8593ab" points="765.73,-2226.73 758.54,-2224.91 763.03,-2230.81 765.73,-2226.73" />
+<text xml:space="preserve" text-anchor="middle" x="810.73" y="-2245.19" font-family="Arial" font-size="10.00">E05</text>
+</g>
+
+<g id="end_to_end--Policy" class="node">
+<title>Policy</title>
+<path fill="#ffffff" stroke="#cbd5e1" d="M1070.62,-2223.69C1070.62,-2223.69 901.38,-2223.69 901.38,-2223.69 895.38,-2223.69 889.38,-2217.69 889.38,-2211.69 889.38,-2211.69 889.38,-2199.69 889.38,-2199.69 889.38,-2193.69 895.38,-2187.69 901.38,-2187.69 901.38,-2187.69 1070.62,-2187.69 1070.62,-2187.69 1076.62,-2187.69 1082.62,-2193.69 1082.62,-2199.69 1082.62,-2199.69 1082.62,-2211.69 1082.62,-2211.69 1082.62,-2217.69 1076.62,-2223.69 1070.62,-2223.69" />
+<text xml:space="preserve" text-anchor="middle" x="986" y="-2201.42" font-family="Arial" font-size="12.00">Per-policy task blocked on fetch</text>
+</g>
+
+<g id="end_to_end--edge6" class="edge">
+<title>Enqueue-&gt;Policy</title>
+<path fill="none" stroke="#8593ab" d="M884.52,-2273.29C904.26,-2260.33 931.34,-2242.56 952.56,-2228.64" />
+<polygon fill="#8593ab" stroke="#8593ab" points="953.74,-2230.79 958.25,-2224.9 951.05,-2226.7 953.74,-2230.79" />
+<text xml:space="preserve" text-anchor="middle" x="938.29" y="-2245.19" font-family="Arial" font-size="10.00">E06</text>
+</g>
+
+<g id="end_to_end--Admin" class="node">
+<title>Admin</title>
+<path fill="#ffffff" stroke="#cbd5e1" d="M955.12,-2409.22C955.12,-2409.22 794.88,-2409.22 794.88,-2409.22 788.88,-2409.22 782.88,-2403.22 782.88,-2397.22 782.88,-2397.22 782.88,-2385.22 782.88,-2385.22 782.88,-2379.22 788.88,-2373.22 794.88,-2373.22 794.88,-2373.22 955.12,-2373.22 955.12,-2373.22 961.12,-2373.22 967.12,-2379.22 967.12,-2385.22 967.12,-2385.22 967.12,-2397.22 967.12,-2397.22 967.12,-2403.22 961.12,-2409.22 955.12,-2409.22" />
+<text xml:space="preserve" text-anchor="middle" x="875" y="-2386.95" font-family="Arial" font-size="12.00">Authenticated admin enqueue</text>
+</g>
+
+<g id="end_to_end--edge4" class="edge">
+<title>Admin-&gt;Enqueue</title>
+<path fill="none" stroke="#8593ab" d="M871.96,-2372.78C869.3,-2357.53 865.41,-2335.18 862.4,-2317.96" />
+<polygon fill="#8593ab" stroke="#8593ab" points="864.89,-2317.94 861.27,-2311.47 860.06,-2318.78 864.89,-2317.94" />
+<text xml:space="preserve" text-anchor="middle" x="874.62" y="-2331.19" font-family="Arial" font-size="10.00">E04</text>
+</g>
+
+<g id="end_to_end--Claim" class="node">
+<title>Claim</title>
+<path fill="#ffffff" stroke="#cbd5e1" d="M785.74,-2137.69C785.74,-2137.69 614.26,-2137.69 614.26,-2137.69 608.26,-2137.69 602.26,-2131.69 602.26,-2125.69 602.26,-2125.69 602.26,-2113.69 602.26,-2113.69 602.26,-2107.69 608.26,-2101.69 614.26,-2101.69 614.26,-2101.69 785.74,-2101.69 785.74,-2101.69 791.74,-2101.69 797.74,-2107.69 797.74,-2113.69 797.74,-2113.69 797.74,-2125.69 797.74,-2125.69 797.74,-2131.69 791.74,-2137.69 785.74,-2137.69" />
+<text xml:space="preserve" text-anchor="middle" x="700" y="-2115.42" font-family="Arial" font-size="12.00">CAS task lease and origin lease</text>
+</g>
+
+<g id="end_to_end--edge7" class="edge">
+<title>Fetch-&gt;Claim</title>
+<path fill="none" stroke="#8593ab" d="M724.58,-2187.29C720.17,-2175.35 714.25,-2159.31 709.33,-2145.97" />
+<polygon fill="#8593ab" stroke="#8593ab" points="711.66,-2145.21 706.94,-2139.49 707.06,-2146.91 711.66,-2145.21" />
+<text xml:space="preserve" text-anchor="middle" x="725.98" y="-2159.19" font-family="Arial" font-size="10.00">E07</text>
+</g>
+
+<g id="end_to_end--Retrieve" class="node">
+<title>Retrieve</title>
+<path fill="#ffffff" stroke="#cbd5e1" d="M705.62,-2051.69C705.62,-2051.69 560.38,-2051.69 560.38,-2051.69 554.38,-2051.69 548.38,-2045.69 548.38,-2039.69 548.38,-2039.69 548.38,-2017.91 548.38,-2017.91 548.38,-2011.91 554.38,-2005.91 560.38,-2005.91 560.38,-2005.91 705.62,-2005.91 705.62,-2005.91 711.62,-2005.91 717.62,-2011.91 717.62,-2017.91 717.62,-2017.91 717.62,-2039.69 717.62,-2039.69 717.62,-2045.69 711.62,-2051.69 705.62,-2051.69" />
+<text xml:space="preserve" text-anchor="middle" x="633" y="-2031.65" font-family="Arial" font-size="12.00">Direct / HTTP2 / configured</text>
+<text xml:space="preserve" text-anchor="middle" x="633" y="-2017.4" font-family="Arial" font-size="12.00">renderer</text>
+</g>
+
+<g id="end_to_end--edge8" class="edge">
+<title>Claim-&gt;Retrieve</title>
+<path fill="none" stroke="#8593ab" d="M687.08,-2101.55C677.93,-2089.41 665.44,-2072.83 654.76,-2058.67" />
+<polygon fill="#8593ab" stroke="#8593ab" points="656.77,-2057.27 650.6,-2053.15 652.86,-2060.22 656.77,-2057.27" />
+<text xml:space="preserve" text-anchor="middle" x="681.13" y="-2073.19" font-family="Arial" font-size="10.00">E08</text>
+</g>
+
+<g id="end_to_end--Capture" class="node">
+<title>Capture</title>
+<path fill="#ffffff" stroke="#cbd5e1" d="M566.24,-1955.91C566.24,-1955.91 403.76,-1955.91 403.76,-1955.91 397.76,-1955.91 391.76,-1949.91 391.76,-1943.91 391.76,-1943.91 391.76,-1922.13 391.76,-1922.13 391.76,-1916.13 397.76,-1910.13 403.76,-1910.13 403.76,-1910.13 566.24,-1910.13 566.24,-1910.13 572.24,-1910.13 578.24,-1916.13 578.24,-1922.13 578.24,-1922.13 578.24,-1943.91 578.24,-1943.91 578.24,-1949.91 572.24,-1955.91 566.24,-1955.91" />
+<text xml:space="preserve" text-anchor="middle" x="485" y="-1935.87" font-family="Arial" font-size="12.00">Extract parent; retain response</text>
+<text xml:space="preserve" text-anchor="middle" x="485" y="-1921.62" font-family="Arial" font-size="12.00">finalUrl</text>
+</g>
+
+<g id="end_to_end--edge9" class="edge">
+<title>Retrieve-&gt;Capture</title>
+<path fill="none" stroke="#8593ab" d="M597.93,-2005.58C576.71,-1992.13 549.54,-1974.91 527.16,-1960.74" />
+<polygon fill="#8593ab" stroke="#8593ab" points="528.58,-1958.73 521.36,-1957.06 525.96,-1962.87 528.58,-1958.73" />
+<text xml:space="preserve" text-anchor="middle" x="576.49" y="-1977.41" font-family="Arial" font-size="10.00">E09</text>
+</g>
+
+<g id="end_to_end--Proof" class="node">
+<title>Proof</title>
+<path fill="#ffffff" stroke="#cbd5e1" d="M793.12,-1955.91C793.12,-1955.91 632.88,-1955.91 632.88,-1955.91 626.88,-1955.91 620.88,-1949.91 620.88,-1943.91 620.88,-1943.91 620.88,-1922.13 620.88,-1922.13 620.88,-1916.13 626.88,-1910.13 632.88,-1910.13 632.88,-1910.13 793.12,-1910.13 793.12,-1910.13 799.12,-1910.13 805.12,-1916.13 805.12,-1922.13 805.12,-1922.13 805.12,-1943.91 805.12,-1943.91 805.12,-1949.91 799.12,-1955.91 793.12,-1955.91" />
+<text xml:space="preserve" text-anchor="middle" x="713" y="-1935.87" font-family="Arial" font-size="12.00">Whitelisted reason, status and</text>
+<text xml:space="preserve" text-anchor="middle" x="713" y="-1921.62" font-family="Arial" font-size="12.00">sanitized proof</text>
+</g>
+
+<g id="end_to_end--edge18" class="edge">
+<title>Retrieve-&gt;Proof</title>
+<path fill="none" stroke="#8593ab" d="M625.21,-2005.44C621.88,-1995.89 618.75,-1986.91 618.75,-1986.91 618.75,-1986.91 618.75,-1974.91 618.75,-1974.91 618.75,-1974.91 634.89,-1967.91 653.81,-1959.7" />
+<polygon fill="#8593ab" stroke="#8593ab" points="654.63,-1962.02 660.07,-1956.98 652.68,-1957.52 654.63,-1962.02" />
+<text xml:space="preserve" text-anchor="middle" x="657.38" y="-1977.41" font-family="Arial" font-size="10.00">E46 integrity error</text>
+</g>
+
+<g id="end_to_end--Base" class="node">
+<title>Base</title>
+<path fill="#ffffff" stroke="#cbd5e1" d="M425.99,-1860.13C425.99,-1860.13 274.01,-1860.13 274.01,-1860.13 268.01,-1860.13 262.01,-1854.13 262.01,-1848.13 262.01,-1848.13 262.01,-1826.35 262.01,-1826.35 262.01,-1820.35 268.01,-1814.35 274.01,-1814.35 274.01,-1814.35 425.99,-1814.35 425.99,-1814.35 431.99,-1814.35 437.99,-1820.35 437.99,-1826.35 437.99,-1826.35 437.99,-1848.13 437.99,-1848.13 437.99,-1854.13 431.99,-1860.13 425.99,-1860.13" />
+<text xml:space="preserve" text-anchor="middle" x="350" y="-1840.09" font-family="Arial" font-size="12.00">Resolve active XHTML base</text>
+<text xml:space="preserve" text-anchor="middle" x="350" y="-1825.84" font-family="Arial" font-size="12.00">against finalUrl</text>
+</g>
+
+<g id="end_to_end--edge10" class="edge">
+<title>Capture-&gt;Base</title>
+<path fill="none" stroke="#8593ab" d="M453.01,-1909.8C433.67,-1896.36 408.9,-1879.16 388.5,-1864.99" />
+<polygon fill="#8593ab" stroke="#8593ab" points="390.15,-1863.15 383.01,-1861.17 387.36,-1867.17 390.15,-1863.15" />
+<text xml:space="preserve" text-anchor="middle" x="434.21" y="-1881.63" font-family="Arial" font-size="10.00">E10</text>
+</g>
+
+<g id="end_to_end--Links" class="node">
+<title>Links</title>
+<path fill="#ffffff" stroke="#cbd5e1" d="M306.99,-1764.35C306.99,-1764.35 161.01,-1764.35 161.01,-1764.35 155.01,-1764.35 149.01,-1758.35 149.01,-1752.35 149.01,-1752.35 149.01,-1730.57 149.01,-1730.57 149.01,-1724.57 155.01,-1718.57 161.01,-1718.57 161.01,-1718.57 306.99,-1718.57 306.99,-1718.57 312.99,-1718.57 318.99,-1724.57 318.99,-1730.57 318.99,-1730.57 318.99,-1752.35 318.99,-1752.35 318.99,-1758.35 312.99,-1764.35 306.99,-1764.35" />
+<text xml:space="preserve" text-anchor="middle" x="234" y="-1744.31" font-family="Arial" font-size="12.00">Active document or unique-</text>
+<text xml:space="preserve" text-anchor="middle" x="234" y="-1730.06" font-family="Arial" font-size="12.00">fragment link census</text>
+</g>
+
+<g id="end_to_end--edge11" class="edge">
+<title>Base-&gt;Links</title>
+<path fill="none" stroke="#8593ab" d="M301.88,-1813.88C281.34,-1804.33 262,-1795.35 262,-1795.35 262,-1795.35 255.98,-1783.98 249.52,-1771.78" />
+<polygon fill="#8593ab" stroke="#8593ab" points="251.86,-1770.96 246.42,-1765.92 247.53,-1773.25 251.86,-1770.96" />
+<text xml:space="preserve" text-anchor="middle" x="293.5" y="-1785.85" font-family="Arial" font-size="10.00">E39 safe base</text>
+</g>
+
+<g id="end_to_end--Ineligible" class="node">
+<title>Ineligible</title>
+<path fill="#ffffff" stroke="#cbd5e1" d="M413.24,-1699.57C413.24,-1699.57 262.76,-1699.57 262.76,-1699.57 256.76,-1699.57 250.76,-1693.57 250.76,-1687.57 250.76,-1687.57 250.76,-1665.79 250.76,-1665.79 250.76,-1659.79 256.76,-1653.79 262.76,-1653.79 262.76,-1653.79 413.24,-1653.79 413.24,-1653.79 419.24,-1653.79 425.24,-1659.79 425.24,-1665.79 425.24,-1665.79 425.24,-1687.57 425.24,-1687.57 425.24,-1693.57 419.24,-1699.57 413.24,-1699.57" />
+<text xml:space="preserve" text-anchor="middle" x="338" y="-1679.53" font-family="Arial" font-size="12.00">Unresolved-base marker, no</text>
+<text xml:space="preserve" text-anchor="middle" x="338" y="-1665.28" font-family="Arial" font-size="12.00">attachment fetch</text>
+</g>
+
+<g id="end_to_end--edge12" class="edge">
+<title>Base-&gt;Ineligible</title>
+<path fill="none" stroke="#8593ab" d="M348.31,-1813.86C346.22,-1786.24 342.65,-1739.14 340.31,-1708.21" />
+<polygon fill="#8593ab" stroke="#8593ab" points="342.77,-1708.25 339.8,-1701.46 337.88,-1708.62 342.77,-1708.25" />
+<text xml:space="preserve" text-anchor="middle" x="414.24" y="-1785.85" font-family="Arial" font-size="10.00">E40 unsafe or ambiguous base</text>
+</g>
+
+<g id="end_to_end--Attachments" class="node">
+<title>Attachments</title>
+<path fill="#ffffff" stroke="#cbd5e1" d="M660.62,-1634.79C660.62,-1634.79 485.38,-1634.79 485.38,-1634.79 479.38,-1634.79 473.38,-1628.79 473.38,-1622.79 473.38,-1622.79 473.38,-1601.01 473.38,-1601.01 473.38,-1595.01 479.38,-1589.01 485.38,-1589.01 485.38,-1589.01 660.62,-1589.01 660.62,-1589.01 666.62,-1589.01 672.62,-1595.01 672.62,-1601.01 672.62,-1601.01 672.62,-1622.79 672.62,-1622.79 672.62,-1628.79 666.62,-1634.79 660.62,-1634.79" />
+<text xml:space="preserve" text-anchor="middle" x="573" y="-1614.75" font-family="Arial" font-size="12.00">Same-origin serial acquisition,</text>
+<text xml:space="preserve" text-anchor="middle" x="573" y="-1600.5" font-family="Arial" font-size="12.00">shared decoded-byte reservation</text>
+</g>
+
+<g id="end_to_end--edge13" class="edge">
+<title>Links-&gt;Attachments</title>
+<path fill="none" stroke="#8593ab" d="M319.24,-1723.12C374.02,-1711.97 435,-1699.57 435,-1699.57 435,-1699.57 489.8,-1665.16 530.33,-1639.7" />
+<polygon fill="#8593ab" stroke="#8593ab" points="531.56,-1641.82 536.18,-1636.02 528.95,-1637.67 531.56,-1641.82" />
+<text xml:space="preserve" text-anchor="middle" x="562.5" y="-1673.18" font-family="Arial" font-size="10.00">E41 expected attachments</text>
+</g>
+
+<g id="end_to_end--Artifact" class="node">
+<title>Artifact</title>
+<path fill="#ffffff" stroke="#cbd5e1" d="M387.99,-1527.01C387.99,-1527.01 266.01,-1527.01 266.01,-1527.01 260.01,-1527.01 254.01,-1521.01 254.01,-1515.01 254.01,-1515.01 254.01,-1493.23 254.01,-1493.23 254.01,-1487.23 260.01,-1481.23 266.01,-1481.23 266.01,-1481.23 387.99,-1481.23 387.99,-1481.23 393.99,-1481.23 399.99,-1487.23 399.99,-1493.23 399.99,-1493.23 399.99,-1515.01 399.99,-1515.01 399.99,-1521.01 393.99,-1527.01 387.99,-1527.01" />
+<text xml:space="preserve" text-anchor="middle" x="327" y="-1506.97" font-family="Arial" font-size="12.00">Persist private content-</text>
+<text xml:space="preserve" text-anchor="middle" x="327" y="-1492.72" font-family="Arial" font-size="12.00">addressed artifact</text>
+</g>
+
+<g id="end_to_end--edge14" class="edge">
+<title>Links-&gt;Artifact</title>
+<path fill="none" stroke="#8593ab" d="M226.14,-1718.31C215.14,-1687.32 196.5,-1634.79 196.5,-1634.79 196.5,-1634.79 196.5,-1589.01 196.5,-1589.01 196.5,-1589.01 247.2,-1556.42 285.4,-1531.86" />
+<polygon fill="#8593ab" stroke="#8593ab" points="286.53,-1534.05 291.1,-1528.2 283.88,-1529.92 286.53,-1534.05" />
+<text xml:space="preserve" text-anchor="middle" x="261.75" y="-1608.4" font-family="Arial" font-size="10.00">E42 no expected attachments</text>
+</g>
+
+<g id="end_to_end--edge16" class="edge">
+<title>Ineligible-&gt;Artifact</title>
+<path fill="none" stroke="#8593ab" d="M336.56,-1653.38C334.62,-1623.25 331.15,-1569.41 328.96,-1535.57" />
+<polygon fill="#8593ab" stroke="#8593ab" points="331.43,-1535.76 328.54,-1528.93 326.54,-1536.08 331.43,-1535.76" />
+<text xml:space="preserve" text-anchor="middle" x="398.22" y="-1608.4" font-family="Arial" font-size="10.00">E44 preserve failed evidence</text>
+</g>
+
+<g id="end_to_end--edge15" class="edge">
+<title>Attachments-&gt;Artifact</title>
+<path fill="none" stroke="#8593ab" d="M521.13,-1588.6C481.8,-1571.68 427.68,-1548.41 386.58,-1530.74" />
+<polygon fill="#8593ab" stroke="#8593ab" points="387.59,-1528.51 380.19,-1527.99 385.65,-1533.01 387.59,-1528.51" />
+<text xml:space="preserve" text-anchor="middle" x="524.16" y="-1560.51" font-family="Arial" font-size="10.00">E43 bytes, extraction or</text>
+<text xml:space="preserve" text-anchor="middle" x="524.16" y="-1548.51" font-family="Arial" font-size="10.00">bounded error evidence</text>
+</g>
+
+<g id="end_to_end--SourceChecks" class="node">
+<title>SourceChecks</title>
+<path fill="#ffffff" stroke="#cbd5e1" d="M411.99,-1419.23C411.99,-1419.23 242.01,-1419.23 242.01,-1419.23 236.01,-1419.23 230.01,-1413.23 230.01,-1407.23 230.01,-1407.23 230.01,-1385.45 230.01,-1385.45 230.01,-1379.45 236.01,-1373.45 242.01,-1373.45 242.01,-1373.45 411.99,-1373.45 411.99,-1373.45 417.99,-1373.45 423.99,-1379.45 423.99,-1385.45 423.99,-1385.45 423.99,-1407.23 423.99,-1407.23 423.99,-1413.23 417.99,-1419.23 411.99,-1419.23" />
+<text xml:space="preserve" text-anchor="middle" x="327" y="-1399.19" font-family="Arial" font-size="12.00">Identity, structure, V2</text>
+<text xml:space="preserve" text-anchor="middle" x="327" y="-1384.94" font-family="Arial" font-size="12.00">inventory, links and attachments</text>
+</g>
+
+<g id="end_to_end--edge17" class="edge">
+<title>Artifact-&gt;SourceChecks</title>
+<path fill="none" stroke="#8593ab" d="M327,-1480.95C327,-1465.57 327,-1444.9 327,-1427.96" />
+<polygon fill="#8593ab" stroke="#8593ab" points="329.45,-1428 327,-1421 324.55,-1428 329.45,-1428" />
+<text xml:space="preserve" text-anchor="middle" x="335.62" y="-1446.73" font-family="Arial" font-size="10.00">E45</text>
+</g>
+
+<g id="end_to_end--FetchDone" class="node">
+<title>FetchDone</title>
+<path fill="#ffffff" stroke="#cbd5e1" d="M396.24,-1323.45C396.24,-1323.45 257.76,-1323.45 257.76,-1323.45 251.76,-1323.45 245.76,-1317.45 245.76,-1311.45 245.76,-1311.45 245.76,-1289.67 245.76,-1289.67 245.76,-1283.67 251.76,-1277.67 257.76,-1277.67 257.76,-1277.67 396.24,-1277.67 396.24,-1277.67 402.24,-1277.67 408.24,-1283.67 408.24,-1289.67 408.24,-1289.67 408.24,-1311.45 408.24,-1311.45 408.24,-1317.45 402.24,-1323.45 396.24,-1323.45" />
+<text xml:space="preserve" text-anchor="middle" x="327" y="-1303.41" font-family="Arial" font-size="12.00">Fetch task completed with</text>
+<text xml:space="preserve" text-anchor="middle" x="327" y="-1289.16" font-family="Arial" font-size="12.00">observation</text>
+</g>
+
+<g id="end_to_end--edge21" class="edge">
+<title>SourceChecks-&gt;FetchDone</title>
+<path fill="none" stroke="#8593ab" d="M327,-1373.12C327,-1360.85 327,-1345.44 327,-1332.07" />
+<polygon fill="#8593ab" stroke="#8593ab" points="329.45,-1332.14 327,-1325.14 324.55,-1332.14 329.45,-1332.14" />
+<text xml:space="preserve" text-anchor="middle" x="335.25" y="-1344.95" font-family="Arial" font-size="10.00">E11</text>
+</g>
+
+<g id="end_to_end--edge19" class="edge">
+<title>Proof-&gt;Retrieve</title>
+<path fill="none" stroke="#8593ab" d="M706.31,-1956.14C701.92,-1970.64 697,-1986.91 697,-1986.91 697,-1986.91 686.99,-1993.31 674.89,-2001.04" />
+<polygon fill="#8593ab" stroke="#8593ab" points="673.85,-1998.79 669.27,-2004.63 676.49,-2002.92 673.85,-1998.79" />
+<text xml:space="preserve" text-anchor="middle" x="750.33" y="-1977.41" font-family="Arial" font-size="10.00">E47 next root transport</text>
+</g>
+
+<g id="end_to_end--edge20" class="edge">
+<title>Proof-&gt;FetchDone</title>
+<path fill="none" stroke="#8593ab" d="M713,-1909.8C713,-1882.06 713,-1838.24 713,-1838.24 713,-1838.24 713,-1838.24 713,-1395.34 713,-1395.34 530.5,-1351 416.48,-1323.3" />
+<polygon fill="#8593ab" stroke="#8593ab" points="417.24,-1320.96 409.86,-1321.69 416.08,-1325.72 417.24,-1320.96" />
+<text xml:space="preserve" text-anchor="middle" x="768.88" y="-1608.4" font-family="Arial" font-size="10.00">E48 exhausted transports</text>
+</g>
+
+<g id="end_to_end--PolicyReady" class="node">
+<title>PolicyReady</title>
+<path fill="#ffffff" stroke="#cbd5e1" d="M322.87,-1227.67C322.87,-1227.67 221.13,-1227.67 221.13,-1227.67 215.13,-1227.67 209.13,-1221.67 209.13,-1215.67 209.13,-1215.67 209.13,-1203.67 209.13,-1203.67 209.13,-1197.67 215.13,-1191.67 221.13,-1191.67 221.13,-1191.67 322.87,-1191.67 322.87,-1191.67 328.87,-1191.67 334.87,-1197.67 334.87,-1203.67 334.87,-1203.67 334.87,-1215.67 334.87,-1215.67 334.87,-1221.67 328.87,-1227.67 322.87,-1227.67" />
+<text xml:space="preserve" text-anchor="middle" x="272" y="-1205.39" font-family="Arial" font-size="12.00">Policy task queued</text>
+</g>
+
+<g id="end_to_end--edge22" class="edge">
+<title>FetchDone-&gt;PolicyReady</title>
+<path fill="none" stroke="#8593ab" d="M313.4,-1277.59C305.41,-1264.66 295.28,-1248.29 287.04,-1234.98" />
+<polygon fill="#8593ab" stroke="#8593ab" points="289.25,-1233.89 283.48,-1229.23 285.08,-1236.47 289.25,-1233.89" />
+<text xml:space="preserve" text-anchor="middle" x="309.77" y="-1249.17" font-family="Arial" font-size="10.00">E12</text>
+</g>
+
+<g id="end_to_end--Eval" class="node">
+<title>Eval</title>
+<path fill="#ffffff" stroke="#cbd5e1" d="M312.87,-1141.67C312.87,-1141.67 151.13,-1141.67 151.13,-1141.67 145.13,-1141.67 139.13,-1135.67 139.13,-1129.67 139.13,-1129.67 139.13,-1107.89 139.13,-1107.89 139.13,-1101.89 145.13,-1095.89 151.13,-1095.89 151.13,-1095.89 312.87,-1095.89 312.87,-1095.89 318.87,-1095.89 324.87,-1101.89 324.87,-1107.89 324.87,-1107.89 324.87,-1129.67 324.87,-1129.67 324.87,-1135.67 318.87,-1141.67 312.87,-1141.67" />
+<text xml:space="preserve" text-anchor="middle" x="232" y="-1121.63" font-family="Arial" font-size="12.00">Read integrity-checked artifact</text>
+<text xml:space="preserve" text-anchor="middle" x="232" y="-1107.38" font-family="Arial" font-size="12.00">and recompute assessment</text>
+</g>
+
+<g id="end_to_end--edge23" class="edge">
+<title>PolicyReady-&gt;Eval</title>
+<path fill="none" stroke="#8593ab" d="M264.29,-1191.53C258.92,-1179.61 251.64,-1163.42 245.34,-1149.43" />
+<polygon fill="#8593ab" stroke="#8593ab" points="247.69,-1148.68 242.59,-1143.3 243.22,-1150.69 247.69,-1148.68" />
+<text xml:space="preserve" text-anchor="middle" x="264.21" y="-1163.17" font-family="Arial" font-size="10.00">E13</text>
+</g>
+
+<g id="end_to_end--Hold" class="node">
+<title>Hold</title>
+<path fill="#fff3dd" stroke="#cbd5e1" d="M353.99,-284.23C353.99,-284.23 190.01,-284.23 190.01,-284.23 184.01,-284.23 178.01,-278.23 178.01,-272.23 178.01,-272.23 178.01,-250.45 178.01,-250.45 178.01,-244.45 184.01,-238.45 190.01,-238.45 190.01,-238.45 353.99,-238.45 353.99,-238.45 359.99,-238.45 365.99,-244.45 365.99,-250.45 365.99,-250.45 365.99,-272.23 365.99,-272.23 365.99,-278.23 359.99,-284.23 353.99,-284.23" />
+<text xml:space="preserve" text-anchor="middle" x="272" y="-264.19" font-family="Arial" font-size="12.00">Review / observed record, task</text>
+<text xml:space="preserve" text-anchor="middle" x="272" y="-249.94" font-family="Arial" font-size="12.00">completed</text>
+</g>
+
+<g id="end_to_end--edge24" class="edge">
+<title>Eval-&gt;Hold</title>
+<path fill="none" stroke="#8593ab" d="M176.72,-1095.44C108.1,-1067.7 0,-1024 0,-1024 0,-1024 0,-1024 0,-371.87 0,-371.87 128.67,-320.06 209.01,-287.7" />
+<polygon fill="#8593ab" stroke="#8593ab" points="209.65,-290.09 215.22,-285.2 207.82,-285.54 209.65,-290.09" />
+<text xml:space="preserve" text-anchor="middle" x="54.38" y="-691.99" font-family="Arial" font-size="10.00">E14 insufficient evidence</text>
+</g>
+
+<g id="end_to_end--PublishGate" class="node">
+<title>PublishGate</title>
+<path fill="#ffffff" stroke="#cbd5e1" d="M310.74,-1045.89C310.74,-1045.89 145.26,-1045.89 145.26,-1045.89 139.26,-1045.89 133.26,-1039.89 133.26,-1033.89 133.26,-1033.89 133.26,-1012.11 133.26,-1012.11 133.26,-1006.11 139.26,-1000.11 145.26,-1000.11 145.26,-1000.11 310.74,-1000.11 310.74,-1000.11 316.74,-1000.11 322.74,-1006.11 322.74,-1012.11 322.74,-1012.11 322.74,-1033.89 322.74,-1033.89 322.74,-1039.89 316.74,-1045.89 310.74,-1045.89" />
+<text xml:space="preserve" text-anchor="middle" x="228" y="-1025.85" font-family="Arial" font-size="12.00">V2 matched and zero expected</text>
+<text xml:space="preserve" text-anchor="middle" x="228" y="-1011.6" font-family="Arial" font-size="12.00">attachments</text>
+</g>
+
+<g id="end_to_end--edge25" class="edge">
+<title>Eval-&gt;PublishGate</title>
+<path fill="none" stroke="#8593ab" d="M231.05,-1095.56C230.53,-1083.29 229.87,-1067.88 229.3,-1054.51" />
+<polygon fill="#8593ab" stroke="#8593ab" points="231.75,-1054.47 229.01,-1047.58 226.86,-1054.68 231.75,-1054.47" />
+<text xml:space="preserve" text-anchor="middle" x="279.74" y="-1067.39" font-family="Arial" font-size="10.00">E15 publish mode only</text>
+</g>
+
+<g id="end_to_end--Compare" class="node">
+<title>Compare</title>
+<path fill="#ffffff" stroke="#cbd5e1" d="M351.17,-948.09C351.17,-948.09 189.85,-920.6 189.85,-920.6 183.93,-919.59 183.93,-917.57 189.85,-916.56 189.85,-916.56 351.17,-889.07 351.17,-889.07 357.09,-888.06 368.91,-888.06 374.83,-889.07 374.83,-889.07 536.15,-916.56 536.15,-916.56 542.07,-917.57 542.07,-919.59 536.15,-920.6 536.15,-920.6 374.83,-948.09 374.83,-948.09 368.91,-949.1 357.09,-949.1 351.17,-948.09" />
+<text xml:space="preserve" text-anchor="middle" x="363" y="-914.3" font-family="Arial" font-size="12.00">Current text hash unchanged?</text>
+</g>
+
+<g id="end_to_end--edge28" class="edge">
+<title>Eval-&gt;Compare</title>
+<path fill="none" stroke="#8593ab" d="M287.78,-1095.42C311.59,-1085.87 334,-1076.89 334,-1076.89 334,-1076.89 347.35,-1004.48 355.93,-957.91" />
+<polygon fill="#8593ab" stroke="#8593ab" points="358.34,-958.36 357.2,-951.03 353.52,-957.47 358.34,-958.36" />
+<text xml:space="preserve" text-anchor="middle" x="388.89" y="-1019.5" font-family="Arial" font-size="10.00">E18 observe mode</text>
+</g>
+
+<g id="end_to_end--ReviewView" class="node">
+<title>ReviewView</title>
+<path fill="#ffffff" stroke="#cbd5e1" d="M343.12,-167.81C343.12,-167.81 200.88,-167.81 200.88,-167.81 194.88,-167.81 188.88,-161.81 188.88,-155.81 188.88,-155.81 188.88,-119.78 188.88,-119.78 188.88,-113.78 194.88,-107.78 200.88,-107.78 200.88,-107.78 343.12,-107.78 343.12,-107.78 349.12,-107.78 355.12,-113.78 355.12,-119.78 355.12,-119.78 355.12,-155.81 355.12,-155.81 355.12,-161.81 349.12,-167.81 343.12,-167.81" />
+<text xml:space="preserve" text-anchor="middle" x="272" y="-147.77" font-family="Arial" font-size="12.00">Effective observation DTO,</text>
+<text xml:space="preserve" text-anchor="middle" x="272" y="-133.52" font-family="Arial" font-size="12.00">original stored payload</text>
+<text xml:space="preserve" text-anchor="middle" x="272" y="-119.27" font-family="Arial" font-size="12.00">preserved</text>
+</g>
+
+<g id="end_to_end--edge49" class="edge">
+<title>Hold-&gt;ReviewView</title>
+<path fill="none" stroke="#8593ab" d="M272,-238.05C272,-220.9 272,-196.8 272,-176.65" />
+<polygon fill="#8593ab" stroke="#8593ab" points="274.45,-176.79 272,-169.79 269.55,-176.79 274.45,-176.79" />
+<text xml:space="preserve" text-anchor="middle" x="321.5" y="-201.31" font-family="Arial" font-size="10.00">E49 explicit authorized</text>
+<text xml:space="preserve" text-anchor="middle" x="321.5" y="-189.31" font-family="Arial" font-size="10.00">administrator GET</text>
+</g>
+
+<g id="end_to_end--edge26" class="edge">
+<title>PublishGate-&gt;Hold</title>
+<path fill="none" stroke="#8593ab" d="M208.91,-999.78C183.02,-969.65 140,-919.58 140,-919.58 140,-919.58 140,-919.58 140,-371.87 140,-371.87 200.11,-321.99 239.21,-289.55" />
+<polygon fill="#8593ab" stroke="#8593ab" points="240.3,-291.83 244.12,-285.47 237.17,-288.06 240.3,-291.83" />
+<text xml:space="preserve" text-anchor="middle" x="161.75" y="-621.21" font-family="Arial" font-size="10.00">E16 failed</text>
+</g>
+
+<g id="end_to_end--edge27" class="edge">
+<title>PublishGate-&gt;Compare</title>
+<path fill="none" stroke="#8593ab" d="M253.93,-999.88C270.92,-985.38 290,-969.11 290,-969.11 290,-969.11 303.97,-959.63 319.69,-948.96" />
+<polygon fill="#8593ab" stroke="#8593ab" points="320.83,-951.15 325.25,-945.19 318.08,-947.1 320.83,-951.15" />
+<text xml:space="preserve" text-anchor="middle" x="318.5" y="-971.61" font-family="Arial" font-size="10.00">E17 satisfied</text>
+</g>
+
+<g id="end_to_end--Unchanged" class="node">
+<title>Unchanged</title>
+<path fill="#ffffff" stroke="#cbd5e1" d="M716.99,-837.05C716.99,-837.05 565.01,-837.05 565.01,-837.05 559.01,-837.05 553.01,-831.05 553.01,-825.05 553.01,-825.05 553.01,-803.27 553.01,-803.27 553.01,-797.27 559.01,-791.27 565.01,-791.27 565.01,-791.27 716.99,-791.27 716.99,-791.27 722.99,-791.27 728.99,-797.27 728.99,-803.27 728.99,-803.27 728.99,-825.05 728.99,-825.05 728.99,-831.05 722.99,-837.05 716.99,-837.05" />
+<text xml:space="preserve" text-anchor="middle" x="641" y="-817.01" font-family="Arial" font-size="12.00">Verified unchanged / eligible</text>
+<text xml:space="preserve" text-anchor="middle" x="641" y="-802.76" font-family="Arial" font-size="12.00">304 revalidation</text>
+</g>
+
+<g id="end_to_end--edge29" class="edge">
+<title>Compare-&gt;Unchanged</title>
+<path fill="none" stroke="#8593ab" d="M420.26,-896.48C464.44,-880.21 525.7,-857.64 572.47,-840.41" />
+<polygon fill="#8593ab" stroke="#8593ab" points="573.3,-842.71 579.02,-837.99 571.61,-838.12 573.3,-842.71" />
+<text xml:space="preserve" text-anchor="middle" x="544.9" y="-858.55" font-family="Arial" font-size="10.00">E19 yes</text>
+</g>
+
+<g id="end_to_end--Context" class="node">
+<title>Context</title>
+<path fill="#ffffff" stroke="#cbd5e1" d="M430.74,-837.05C430.74,-837.05 295.26,-837.05 295.26,-837.05 289.26,-837.05 283.26,-831.05 283.26,-825.05 283.26,-825.05 283.26,-803.27 283.26,-803.27 283.26,-797.27 289.26,-791.27 295.26,-791.27 295.26,-791.27 430.74,-791.27 430.74,-791.27 436.74,-791.27 442.74,-797.27 442.74,-803.27 442.74,-803.27 442.74,-825.05 442.74,-825.05 442.74,-831.05 436.74,-837.05 430.74,-837.05" />
+<text xml:space="preserve" text-anchor="middle" x="363" y="-817.01" font-family="Arial" font-size="12.00">Baseline integrity / parser</text>
+<text xml:space="preserve" text-anchor="middle" x="363" y="-802.76" font-family="Arial" font-size="12.00">profile context</text>
+</g>
+
+<g id="end_to_end--edge31" class="edge">
+<title>Compare-&gt;Context</title>
+<path fill="none" stroke="#8593ab" d="M363,-886.57C363,-873.53 363,-858.41 363,-845.45" />
+<polygon fill="#8593ab" stroke="#8593ab" points="365.45,-845.8 363,-838.8 360.55,-845.8 365.45,-845.8" />
+<text xml:space="preserve" text-anchor="middle" x="378.38" y="-858.55" font-family="Arial" font-size="10.00">E21 no</text>
+</g>
+
+<g id="end_to_end--Anchor" class="node">
+<title>Anchor</title>
+<path fill="#ecebff" stroke="#cbd5e1" d="M815.12,-718.38C815.12,-718.38 660.88,-718.38 660.88,-718.38 654.88,-718.38 648.88,-712.38 648.88,-706.38 648.88,-706.38 648.88,-684.6 648.88,-684.6 648.88,-678.6 654.88,-672.6 660.88,-672.6 660.88,-672.6 815.12,-672.6 815.12,-672.6 821.12,-672.6 827.12,-678.6 827.12,-684.6 827.12,-684.6 827.12,-706.38 827.12,-706.38 827.12,-712.38 821.12,-718.38 815.12,-718.38" />
+<text xml:space="preserve" text-anchor="middle" x="738" y="-698.34" font-family="Arial" font-size="12.00">Refresh baseline anchor and</text>
+<text xml:space="preserve" text-anchor="middle" x="738" y="-684.09" font-family="Arial" font-size="12.00">cache</text>
+</g>
+
+<g id="end_to_end--edge30" class="edge">
+<title>Unchanged-&gt;Anchor</title>
+<path fill="none" stroke="#8593ab" d="M659.47,-790.94C675.05,-772.21 697.43,-745.28 714.32,-724.97" />
+<polygon fill="#8593ab" stroke="#8593ab" points="716.04,-726.74 718.63,-719.79 712.27,-723.61 716.04,-726.74" />
+<text xml:space="preserve" text-anchor="middle" x="733.19" y="-762.77" font-family="Arial" font-size="10.00">E20 publish mode only</text>
+</g>
+
+<g id="end_to_end--edge32" class="edge">
+<title>Context-&gt;Hold</title>
+<path fill="none" stroke="#8593ab" d="M318.85,-790.81C277.16,-769.7 221,-741.27 221,-741.27 221,-741.27 200,-696.49 200,-696.49 200,-696.49 200,-696.49 200,-371.87 200,-371.87 231.45,-324.02 252.78,-291.58" />
+<polygon fill="#8593ab" stroke="#8593ab" points="254.8,-292.96 256.6,-285.77 250.71,-290.27 254.8,-292.96" />
+<text xml:space="preserve" text-anchor="middle" x="267.12" y="-508.15" font-family="Arial" font-size="10.00">E22 missing or changed profile</text>
+</g>
+
+<g id="end_to_end--Confirm" class="node">
+<title>Confirm</title>
+<path fill="#ffffff" stroke="#cbd5e1" d="M418.3,-738.58C418.3,-738.58 242.47,-698.18 242.47,-698.18 236.62,-696.83 236.62,-694.15 242.47,-692.8 242.47,-692.8 418.3,-652.4 418.3,-652.4 424.15,-651.05 435.85,-651.05 441.7,-652.4 441.7,-652.4 617.53,-692.8 617.53,-692.8 623.38,-694.15 623.38,-696.83 617.53,-698.18 617.53,-698.18 441.7,-738.58 441.7,-738.58 435.85,-739.93 424.15,-739.93 418.3,-738.58" />
+<text xml:space="preserve" text-anchor="middle" x="430" y="-698.34" font-family="Arial" font-size="12.00">Second matching fresh response</text>
+<text xml:space="preserve" text-anchor="middle" x="430" y="-684.09" font-family="Arial" font-size="12.00">in another run?</text>
+</g>
+
+<g id="end_to_end--edge33" class="edge">
+<title>Context-&gt;Confirm</title>
+<path fill="none" stroke="#8593ab" d="M375.76,-790.94C383.53,-777.4 393.76,-759.59 403.24,-743.08" />
+<polygon fill="#8593ab" stroke="#8593ab" points="405.14,-744.71 406.5,-737.42 400.89,-742.27 405.14,-744.71" />
+<text xml:space="preserve" text-anchor="middle" x="412.74" y="-762.77" font-family="Arial" font-size="10.00">E23 valid</text>
+</g>
+
+<g id="end_to_end--Candidate" class="node">
+<title>Candidate</title>
+<path fill="#fff3dd" stroke="#cbd5e1" d="M720.99,-591.07C720.99,-591.07 557.01,-591.07 557.01,-591.07 551.01,-591.07 545.01,-585.07 545.01,-579.07 545.01,-579.07 545.01,-557.29 545.01,-557.29 545.01,-551.29 551.01,-545.29 557.01,-545.29 557.01,-545.29 720.99,-545.29 720.99,-545.29 726.99,-545.29 732.99,-551.29 732.99,-557.29 732.99,-557.29 732.99,-579.07 732.99,-579.07 732.99,-585.07 726.99,-591.07 720.99,-591.07" />
+<text xml:space="preserve" text-anchor="middle" x="639" y="-571.03" font-family="Arial" font-size="12.00">Store candidate; complete task</text>
+<text xml:space="preserve" text-anchor="middle" x="639" y="-556.78" font-family="Arial" font-size="12.00">as confirmation pending</text>
+</g>
+
+<g id="end_to_end--edge34" class="edge">
+<title>Confirm-&gt;Candidate</title>
+<path fill="none" stroke="#8593ab" d="M490.42,-663.16C521.53,-647.03 553,-630.71 553,-630.71 553,-630.71 578.12,-612.74 601.2,-596.22" />
+<polygon fill="#8593ab" stroke="#8593ab" points="602.45,-598.34 606.72,-592.27 599.6,-594.36 602.45,-598.34" />
+<text xml:space="preserve" text-anchor="middle" x="584.83" y="-621.21" font-family="Arial" font-size="10.00">E24 no</text>
+</g>
+
+<g id="end_to_end--Initial" class="node">
+<title>Initial</title>
+<path fill="#ffffff" stroke="#cbd5e1" d="M882.33,-596.92C882.33,-596.92 773.94,-570.97 773.94,-570.97 768.11,-569.58 768.11,-566.78 773.94,-565.39 773.94,-565.39 882.33,-539.44 882.33,-539.44 888.16,-538.05 899.84,-538.05 905.67,-539.44 905.67,-539.44 1014.06,-565.39 1014.06,-565.39 1019.89,-566.78 1019.89,-569.58 1014.06,-570.97 1014.06,-570.97 905.67,-596.92 905.67,-596.92 899.84,-598.31 888.16,-598.31 882.33,-596.92" />
+<text xml:space="preserve" text-anchor="middle" x="894" y="-563.9" font-family="Arial" font-size="12.00">Observe or publish?</text>
+</g>
+
+<g id="end_to_end--edge36" class="edge">
+<title>Confirm-&gt;Initial</title>
+<path fill="none" stroke="#8593ab" d="M520.57,-670.03C609.81,-645.93 744.2,-609.64 825.08,-587.79" />
+<polygon fill="#8593ab" stroke="#8593ab" points="825.64,-590.18 831.76,-585.99 824.37,-585.45 825.64,-590.18" />
+<text xml:space="preserve" text-anchor="middle" x="755.31" y="-621.21" font-family="Arial" font-size="10.00">E26 yes, initial baseline</text>
+</g>
+
+<g id="end_to_end--Deltas" class="node">
+<title>Deltas</title>
+<path fill="#ffffff" stroke="#cbd5e1" d="M502.99,-591.07C502.99,-591.07 357.01,-591.07 357.01,-591.07 351.01,-591.07 345.01,-585.07 345.01,-579.07 345.01,-579.07 345.01,-557.29 345.01,-557.29 345.01,-551.29 351.01,-545.29 357.01,-545.29 357.01,-545.29 502.99,-545.29 502.99,-545.29 508.99,-545.29 514.99,-551.29 514.99,-557.29 514.99,-557.29 514.99,-579.07 514.99,-579.07 514.99,-585.07 508.99,-591.07 502.99,-591.07" />
+<text xml:space="preserve" text-anchor="middle" x="430" y="-571.03" font-family="Arial" font-size="12.00">Compare structured parent-</text>
+<text xml:space="preserve" text-anchor="middle" x="430" y="-556.78" font-family="Arial" font-size="12.00">document blocks</text>
+</g>
+
+<g id="end_to_end--edge39" class="edge">
+<title>Confirm-&gt;Deltas</title>
+<path fill="none" stroke="#8593ab" d="M430,-649.25C430,-632.84 430,-614.7 430,-599.84" />
+<polygon fill="#8593ab" stroke="#8593ab" points="432.45,-600.02 430,-593.02 427.55,-600.02 432.45,-600.02" />
+<text xml:space="preserve" text-anchor="middle" x="488.88" y="-621.21" font-family="Arial" font-size="10.00">E29 yes, changed baseline</text>
+</g>
+
+<g id="end_to_end--edge35" class="edge">
+<title>Candidate-&gt;Enqueue</title>
+<path fill="none" stroke="#8593ab" stroke-dasharray="5,2" d="M693.89,-591.51C752.49,-615.34 837,-649.71 837,-649.71 837,-649.71 858,-694.49 858,-694.49 858,-2206.69 858,-2206.69 858,-2206.69 858,-2206.69 858,-2240.29 858,-2264.99" />
+<polygon fill="#8593ab" stroke="#8593ab" points="855.55,-2264.77 858,-2271.77 860.45,-2264.77 855.55,-2264.77" />
+<text xml:space="preserve" text-anchor="middle" x="918.38" y="-1452.73" font-family="Arial" font-size="10.00">E25 later due run, at least 1</text>
+<text xml:space="preserve" text-anchor="middle" x="918.38" y="-1440.73" font-family="Arial" font-size="10.00">hour</text>
+</g>
+
+<g id="end_to_end--PrivateBaseline" class="node">
+<title>PrivateBaseline</title>
+<path fill="#e6f8f5" stroke="#cbd5e1" d="M863.74,-486.65C863.74,-486.65 710.26,-486.65 710.26,-486.65 704.26,-486.65 698.26,-480.65 698.26,-474.65 698.26,-474.65 698.26,-452.87 698.26,-452.87 698.26,-446.87 704.26,-440.87 710.26,-440.87 710.26,-440.87 863.74,-440.87 863.74,-440.87 869.74,-440.87 875.74,-446.87 875.74,-452.87 875.74,-452.87 875.74,-474.65 875.74,-474.65 875.74,-480.65 869.74,-486.65 863.74,-486.65" />
+<text xml:space="preserve" text-anchor="middle" x="787" y="-466.61" font-family="Arial" font-size="12.00">Observed baseline ready; no</text>
+<text xml:space="preserve" text-anchor="middle" x="787" y="-452.36" font-family="Arial" font-size="12.00">public snapshot</text>
+</g>
+
+<g id="end_to_end--edge37" class="edge">
+<title>Initial-&gt;PrivateBaseline</title>
+<path fill="none" stroke="#8593ab" d="M868.1,-542.39C852.34,-527.31 832.19,-508.02 815.92,-492.44" />
+<polygon fill="#8593ab" stroke="#8593ab" points="817.96,-491 811.21,-487.93 814.57,-494.54 817.96,-491" />
+<text xml:space="preserve" text-anchor="middle" x="867.88" y="-508.15" font-family="Arial" font-size="10.00">E27 observe</text>
+</g>
+
+<g id="end_to_end--PublicBaseline" class="node">
+<title>PublicBaseline</title>
+<path fill="#ecebff" stroke="#cbd5e1" d="M1093.87,-486.65C1093.87,-486.65 908.13,-486.65 908.13,-486.65 902.13,-486.65 896.13,-480.65 896.13,-474.65 896.13,-474.65 896.13,-452.87 896.13,-452.87 896.13,-446.87 902.13,-440.87 908.13,-440.87 908.13,-440.87 1093.87,-440.87 1093.87,-440.87 1099.87,-440.87 1105.87,-446.87 1105.87,-452.87 1105.87,-452.87 1105.87,-474.65 1105.87,-474.65 1105.87,-480.65 1099.87,-486.65 1093.87,-486.65" />
+<text xml:space="preserve" text-anchor="middle" x="1001" y="-466.61" font-family="Arial" font-size="12.00">Snapshot and baseline; no change</text>
+<text xml:space="preserve" text-anchor="middle" x="1001" y="-452.36" font-family="Arial" font-size="12.00">alert</text>
+</g>
+
+<g id="end_to_end--edge38" class="edge">
+<title>Initial-&gt;PublicBaseline</title>
+<path fill="none" stroke="#8593ab" d="M919.9,-542.39C935.66,-527.31 955.81,-508.02 972.08,-492.44" />
+<polygon fill="#8593ab" stroke="#8593ab" points="973.43,-494.54 976.79,-487.93 970.04,-491 973.43,-494.54" />
+<text xml:space="preserve" text-anchor="middle" x="982.58" y="-508.15" font-family="Arial" font-size="10.00">E28 publish</text>
+</g>
+
+<g id="end_to_end--edge40" class="edge">
+<title>Deltas-&gt;Hold</title>
+<path fill="none" stroke="#8593ab" d="M414.94,-544.79C387.52,-504.03 332.25,-421.87 332.25,-421.87 332.25,-421.87 300.82,-338.65 283.36,-292.42" />
+<polygon fill="#8593ab" stroke="#8593ab" points="285.68,-291.62 280.91,-285.94 281.09,-293.35 285.68,-291.62" />
+<text xml:space="preserve" text-anchor="middle" x="374.62" y="-412.37" font-family="Arial" font-size="10.00">E30 formatting only</text>
+</g>
+
+<g id="end_to_end--Analyze" class="node">
+<title>Analyze</title>
+<path fill="#ffffff" stroke="#cbd5e1" d="M474.37,-481.76C474.37,-481.76 399.63,-481.76 399.63,-481.76 393.63,-481.76 387.63,-475.76 387.63,-469.76 387.63,-469.76 387.63,-457.76 387.63,-457.76 387.63,-451.76 393.63,-445.76 399.63,-445.76 399.63,-445.76 474.37,-445.76 474.37,-445.76 480.37,-445.76 486.37,-451.76 486.37,-457.76 486.37,-457.76 486.37,-469.76 486.37,-469.76 486.37,-475.76 480.37,-481.76 474.37,-481.76" />
+<text xml:space="preserve" text-anchor="middle" x="437" y="-459.49" font-family="Arial" font-size="12.00">Model analyst</text>
+</g>
+
+<g id="end_to_end--edge41" class="edge">
+<title>Deltas-&gt;Analyze</title>
+<path fill="none" stroke="#8593ab" d="M431.52,-544.96C432.61,-528.92 434.1,-507.24 435.24,-490.46" />
+<polygon fill="#8593ab" stroke="#8593ab" points="437.67,-490.85 435.71,-483.7 432.78,-490.52 437.67,-490.85" />
+<text xml:space="preserve" text-anchor="middle" x="462.63" y="-508.15" font-family="Arial" font-size="10.00">E31 changed</text>
+</g>
+
+<g id="end_to_end--edge42" class="edge">
+<title>Analyze-&gt;Hold</title>
+<path fill="none" stroke="#8593ab" d="M432.09,-445.44C427.71,-430.02 422,-409.87 422,-409.87 422,-409.87 352,-311.87 352,-311.87 352,-311.87 333.83,-300.62 314.8,-288.84" />
+<polygon fill="#8593ab" stroke="#8593ab" points="316.32,-286.9 309.08,-285.29 313.74,-291.06 316.32,-286.9" />
+<text xml:space="preserve" text-anchor="middle" x="467.85" y="-369.37" font-family="Arial" font-size="10.00">E32 invalid claims or spans</text>
+</g>
+
+<g id="end_to_end--Verify" class="node">
+<title>Verify</title>
+<path fill="#fff3dd" stroke="#cbd5e1" d="M713.12,-390.87C713.12,-390.87 588.88,-390.87 588.88,-390.87 582.88,-390.87 576.88,-384.87 576.88,-378.87 576.88,-378.87 576.88,-366.87 576.88,-366.87 576.88,-360.87 582.88,-354.87 588.88,-354.87 588.88,-354.87 713.12,-354.87 713.12,-354.87 719.12,-354.87 725.12,-360.87 725.12,-366.87 725.12,-366.87 725.12,-378.87 725.12,-378.87 725.12,-384.87 719.12,-390.87 713.12,-390.87" />
+<text xml:space="preserve" text-anchor="middle" x="651" y="-368.6" font-family="Arial" font-size="12.00">Separate model verifier</text>
+</g>
+
+<g id="end_to_end--edge43" class="edge">
+<title>Analyze-&gt;Verify</title>
+<path fill="none" stroke="#8593ab" d="M479.02,-445.3C514.14,-430.72 564.28,-409.89 601.37,-394.49" />
+<polygon fill="#8593ab" stroke="#8593ab" points="602.15,-396.81 607.67,-391.87 600.27,-392.29 602.15,-396.81" />
+<text xml:space="preserve" text-anchor="middle" x="620.54" y="-412.37" font-family="Arial" font-size="10.00">E33 valid grounded claims</text>
+</g>
+
+<g id="end_to_end--edge44" class="edge">
+<title>Verify-&gt;Hold</title>
+<path fill="none" stroke="#8593ab" d="M581.96,-354.4C545.72,-345.22 508.75,-335.87 508.75,-335.87 508.75,-335.87 453,-311.87 453,-311.87 453,-311.87 407.37,-299.38 361.94,-286.95" />
+<polygon fill="#8593ab" stroke="#8593ab" points="362.62,-284.6 355.22,-285.11 361.33,-289.32 362.62,-284.6" />
+<text xml:space="preserve" text-anchor="middle" x="577.38" y="-326.37" font-family="Arial" font-size="10.00">E34 invalid, unsupported, same</text>
+<text xml:space="preserve" text-anchor="middle" x="577.38" y="-314.37" font-family="Arial" font-size="10.00">model, high impact or stale</text>
+</g>
+
+<g id="end_to_end--Commit" class="node">
+<title>Commit</title>
+<path fill="#ffffff" stroke="#cbd5e1" d="M639.84,-288.47C639.84,-288.47 582.18,-265.74 582.18,-265.74 576.6,-263.54 576.6,-259.14 582.18,-256.94 582.18,-256.94 639.84,-234.21 639.84,-234.21 645.42,-232.01 656.58,-232.01 662.16,-234.21 662.16,-234.21 719.82,-256.94 719.82,-256.94 725.4,-259.14 725.4,-263.54 719.82,-265.74 719.82,-265.74 662.16,-288.47 662.16,-288.47 656.58,-290.67 645.42,-290.67 639.84,-288.47" />
+<text xml:space="preserve" text-anchor="middle" x="651" y="-257.07" font-family="Arial" font-size="12.00">Run mode</text>
+</g>
+
+<g id="end_to_end--edge45" class="edge">
+<title>Verify-&gt;Commit</title>
+<path fill="none" stroke="#8593ab" d="M651,-354.76C651,-340.46 651,-319.53 651,-301.2" />
+<polygon fill="#8593ab" stroke="#8593ab" points="653.45,-301.51 651,-294.51 648.55,-301.51 653.45,-301.51" />
+<text xml:space="preserve" text-anchor="middle" x="699.38" y="-320.37" font-family="Arial" font-size="10.00">E35 all gates satisfied</text>
+</g>
+
+<g id="end_to_end--PrivateClaims" class="node">
+<title>PrivateClaims</title>
+<path fill="#e6f8f5" stroke="#cbd5e1" d="M676.37,-160.69C676.37,-160.69 523.63,-160.69 523.63,-160.69 517.63,-160.69 511.63,-154.69 511.63,-148.69 511.63,-148.69 511.63,-126.91 511.63,-126.91 511.63,-120.91 517.63,-114.91 523.63,-114.91 523.63,-114.91 676.37,-114.91 676.37,-114.91 682.37,-114.91 688.37,-120.91 688.37,-126.91 688.37,-126.91 688.37,-148.69 688.37,-148.69 688.37,-154.69 682.37,-160.69 676.37,-160.69" />
+<text xml:space="preserve" text-anchor="middle" x="600" y="-140.65" font-family="Arial" font-size="12.00">Private inferred claim ledger;</text>
+<text xml:space="preserve" text-anchor="middle" x="600" y="-126.4" font-family="Arial" font-size="12.00">no public change or outbox</text>
+</g>
+
+<g id="end_to_end--edge46" class="edge">
+<title>Commit-&gt;PrivateClaims</title>
+<path fill="none" stroke="#8593ab" d="M636.46,-235.28C629.33,-223 622.25,-210.81 622.25,-210.81 622.25,-210.81 615.37,-188.53 609.26,-168.76" />
+<polygon fill="#8593ab" stroke="#8593ab" points="611.65,-168.2 607.24,-162.24 606.97,-169.65 611.65,-168.2" />
+<text xml:space="preserve" text-anchor="middle" x="649.62" y="-195.31" font-family="Arial" font-size="10.00">E36 observe</text>
+</g>
+
+<g id="end_to_end--PublicCommit" class="node">
+<title>PublicCommit</title>
+<path fill="#ecebff" stroke="#cbd5e1" d="M897.37,-167.81C897.37,-167.81 720.63,-167.81 720.63,-167.81 714.63,-167.81 708.63,-161.81 708.63,-155.81 708.63,-155.81 708.63,-119.78 708.63,-119.78 708.63,-113.78 714.63,-107.78 720.63,-107.78 720.63,-107.78 897.37,-107.78 897.37,-107.78 903.37,-107.78 909.37,-113.78 909.37,-119.78 909.37,-119.78 909.37,-155.81 909.37,-155.81 909.37,-161.81 903.37,-167.81 897.37,-167.81" />
+<text xml:space="preserve" text-anchor="middle" x="809" y="-147.77" font-family="Arial" font-size="12.00">Atomic DB transaction: snapshot,</text>
+<text xml:space="preserve" text-anchor="middle" x="809" y="-133.52" font-family="Arial" font-size="12.00">change, ledger, optional</text>
+<text xml:space="preserve" text-anchor="middle" x="809" y="-119.27" font-family="Arial" font-size="12.00">canonical projection and outbox</text>
+</g>
+
+<g id="end_to_end--edge47" class="edge">
+<title>Commit-&gt;PublicCommit</title>
+<path fill="none" stroke="#8593ab" d="M677.45,-240C701.11,-221.79 736.3,-194.72 764.32,-173.16" />
+<polygon fill="#8593ab" stroke="#8593ab" points="765.66,-175.22 769.72,-169.01 762.68,-171.34 765.66,-175.22" />
+<text xml:space="preserve" text-anchor="middle" x="769.65" y="-195.31" font-family="Arial" font-size="10.00">E37 publish</text>
+</g>
+
+<g id="end_to_end--Notify" class="node">
+<title>Notify</title>
+<path fill="#ffffff" stroke="#cbd5e1" d="M897.74,-45.78C897.74,-45.78 720.26,-45.78 720.26,-45.78 714.26,-45.78 708.26,-39.78 708.26,-33.78 708.26,-33.78 708.26,-12 708.26,-12 708.26,-6 714.26,0 720.26,0 720.26,0 897.74,0 897.74,0 903.74,0 909.74,-6 909.74,-12 909.74,-12 909.74,-33.78 909.74,-33.78 909.74,-39.78 903.74,-45.78 897.74,-45.78" />
+<text xml:space="preserve" text-anchor="middle" x="809" y="-25.74" font-family="Arial" font-size="12.00">Outbox fanout and per-subscriber</text>
+<text xml:space="preserve" text-anchor="middle" x="809" y="-11.49" font-family="Arial" font-size="12.00">delivery</text>
+</g>
+
+<g id="end_to_end--edge48" class="edge">
+<title>PublicCommit-&gt;Notify</title>
+<path fill="none" stroke="#8593ab" d="M809,-107.43C809,-91.07 809,-70.73 809,-54.22" />
+<polygon fill="#8593ab" stroke="#8593ab" points="811.45,-54.49 809,-47.49 806.55,-54.49 811.45,-54.49" />
+<text xml:space="preserve" text-anchor="middle" x="865.25" y="-79.28" font-family="Arial" font-size="10.00">E38 separately polled and</text>
+<text xml:space="preserve" text-anchor="middle" x="865.25" y="-67.28" font-family="Arial" font-size="10.00">notifications enabled</text>
+</g>
+</g>
+</svg>

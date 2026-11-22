@@ -25,6 +25,11 @@ export const dynamic = 'force-dynamic';
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Static landing pages
   const staticEntries: MetadataRoute.Sitemap = [
+    ...(['en', 'it'] as const).map(lang => ({
+      url: `${BASE_URL}/research/engine-workflow-20261122/${lang === 'it' ? 'index-it.html' : 'index.html'}`,
+      alternates: { languages: { en: `${BASE_URL}/research/engine-workflow-20261122/index.html`, it: `${BASE_URL}/research/engine-workflow-20261122/index-it.html` } },
+      lastModified: '2026-11-22', changeFrequency: 'monthly' as const, priority: 0.76,
+    })),
     { url: `${BASE_URL}/`, changeFrequency: 'daily', priority: 1.0 },
     ...['/per-te', '/per-te?lang=en'].map(path => ({ url: `${BASE_URL}${path}`, changeFrequency: 'daily' as const, priority: 0.96, alternates: { languages: { it: `${BASE_URL}/per-te`, en: `${BASE_URL}/per-te?lang=en` } } })),
     // One canonical URL per supported language covers the global directory and
