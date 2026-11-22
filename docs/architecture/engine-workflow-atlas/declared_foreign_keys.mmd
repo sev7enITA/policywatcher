@@ -1,0 +1,17 @@
+erDiagram
+  EngineRun ||--o{ EngineTask : runId
+  EngineClaim ||--o{ EngineClaimEvidence : claimId
+  Company ||--o{ Policy : companyId
+  Policy ||--o{ PolicySnapshot : policyId
+  Policy ||--o{ PolicyChange : policyId
+  Policy ||--o| ExtractionBaseline : policyId
+  PolicySnapshot o|--o{ PolicyChange : oldSnapshotId
+  PolicySnapshot ||--o{ PolicyChange : newSnapshotId
+  SourceRetrieval o|--o{ PolicySnapshot : sourceRetrievalId
+  Entity ||--o{ Document : entityId
+  Document ||--o{ Version : documentId
+  ContentArtifact o|--o{ Version : contentArtifactHash
+  Document ||--o{ Change : documentId
+  Version o|--o{ Change : fromVersionId
+  Version ||--o{ Change : toVersionId
+  Change ||--o{ Provision : changeId

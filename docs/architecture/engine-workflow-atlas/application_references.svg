@@ -1,0 +1,270 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1025pt" height="744pt" viewBox="0.00 0.00 1025.00 744.00">
+<g id="application_references--graph0" class="graph" transform="scale(1 1) rotate(0) translate(12.96 730.96)">
+<title>G</title>
+
+<g id="application_references--Task" class="node">
+<title>Task</title>
+<path fill="#ffffff" stroke="#cbd5e1" d="M678.94,-650C678.94,-650 615.46,-650 615.46,-650 609.46,-650 603.46,-644 603.46,-638 603.46,-638 603.46,-626 603.46,-626 603.46,-620 609.46,-614 615.46,-614 615.46,-614 678.94,-614 678.94,-614 684.94,-614 690.94,-620 690.94,-626 690.94,-626 690.94,-638 690.94,-638 690.94,-644 684.94,-650 678.94,-650" />
+<text xml:space="preserve" text-anchor="middle" x="647.2" y="-627.73" font-family="Arial" font-size="12.00">EngineTask</text>
+</g>
+
+<g id="application_references--Policy" class="node">
+<title>Policy</title>
+<path fill="#ffffff" stroke="#cbd5e1" d="M957.42,-431C957.42,-431 923.94,-431 923.94,-431 917.94,-431 911.94,-425 911.94,-419 911.94,-419 911.94,-407 911.94,-407 911.94,-401 917.94,-395 923.94,-395 923.94,-395 957.42,-395 957.42,-395 963.42,-395 969.42,-401 969.42,-407 969.42,-407 969.42,-419 969.42,-419 969.42,-425 963.42,-431 957.42,-431" />
+<text xml:space="preserve" text-anchor="middle" x="940.68" y="-408.73" font-family="Arial" font-size="12.00">Policy</text>
+</g>
+
+<g id="application_references--edge1" class="edge">
+<title>Task-&gt;Policy</title>
+<path fill="none" stroke="#8593ab" stroke-dasharray="5,2" d="M691.29,-616.8C754.18,-594.62 863.69,-556 863.69,-556 863.69,-556 904.01,-480.12 925.91,-438.91" />
+<polygon fill="#8593ab" stroke="#8593ab" points="928.07,-440.07 929.19,-432.74 923.74,-437.77 928.07,-440.07" />
+<text xml:space="preserve" text-anchor="middle" x="801.44" y="-601.05" font-family="Arial" font-size="10.00">A01 policyId / activePolicyId</text>
+</g>
+
+<g id="application_references--Fetch" class="node">
+<title>Fetch</title>
+<path fill="#ffffff" stroke="#cbd5e1" d="M986.67,-659C986.67,-659 894.69,-659 894.69,-659 888.69,-659 882.69,-653 882.69,-647 882.69,-647 882.69,-635 882.69,-635 882.69,-629 888.69,-623 894.69,-623 894.69,-623 986.67,-623 986.67,-623 992.67,-623 998.67,-629 998.67,-635 998.67,-635 998.67,-647 998.67,-647 998.67,-653 992.67,-659 986.67,-659" />
+<text xml:space="preserve" text-anchor="middle" x="940.68" y="-636.73" font-family="Arial" font-size="12.00">EngineTask fetch</text>
+</g>
+
+<g id="application_references--edge2" class="edge">
+<title>Task-&gt;Fetch</title>
+<path fill="none" stroke="#8593ab" stroke-dasharray="5,2" d="M691.21,-633.33C739.41,-634.82 818.11,-637.25 874.02,-638.97" />
+<polygon fill="#8593ab" stroke="#8593ab" points="873.86,-641.42 880.93,-639.19 874.01,-636.52 873.86,-641.42" />
+<text xml:space="preserve" text-anchor="middle" x="801.44" y="-641.09" font-family="Arial" font-size="10.00">A02 dependencyId</text>
+</g>
+
+<g id="application_references--Attempt" class="node">
+<title>Attempt</title>
+<path fill="#ffffff" stroke="#cbd5e1" d="M392.59,-598C392.59,-598 313.36,-598 313.36,-598 307.36,-598 301.36,-592 301.36,-586 301.36,-586 301.36,-574 301.36,-574 301.36,-568 307.36,-562 313.36,-562 313.36,-562 392.59,-562 392.59,-562 398.59,-562 404.59,-568 404.59,-574 404.59,-574 404.59,-586 404.59,-586 404.59,-592 398.59,-598 392.59,-598" />
+<text xml:space="preserve" text-anchor="middle" x="352.97" y="-575.73" font-family="Arial" font-size="12.00">EngineAttempt</text>
+</g>
+
+<g id="application_references--edge3" class="edge">
+<title>Attempt-&gt;Task</title>
+<path fill="none" stroke="#8593ab" stroke-dasharray="5,2" d="M405.01,-587.61C464.63,-596.5 555.21,-610 555.21,-610 555.21,-610 574.21,-614.59 594.84,-619.58" />
+<polygon fill="#8593ab" stroke="#8593ab" points="594.25,-621.96 601.63,-621.22 595.4,-617.2 594.25,-621.96" />
+<text xml:space="preserve" text-anchor="middle" x="494.84" y="-612.5" font-family="Arial" font-size="10.00">A03 taskId</text>
+</g>
+
+<g id="application_references--Contract" class="node">
+<title>Contract</title>
+<path fill="#ffffff" stroke="#cbd5e1" d="M708.19,-594C708.19,-594 586.21,-594 586.21,-594 580.21,-594 574.21,-588 574.21,-582 574.21,-582 574.21,-570 574.21,-570 574.21,-564 580.21,-558 586.21,-558 586.21,-558 708.19,-558 708.19,-558 714.19,-558 720.19,-564 720.19,-570 720.19,-570 720.19,-582 720.19,-582 720.19,-588 714.19,-594 708.19,-594" />
+<text xml:space="preserve" text-anchor="middle" x="647.2" y="-571.73" font-family="Arial" font-size="12.00">EngineSourceContract</text>
+</g>
+
+<g id="application_references--edge4" class="edge">
+<title>Contract-&gt;Policy</title>
+<path fill="none" stroke="#8593ab" stroke-dasharray="5,2" d="M695.42,-557.64C708.98,-552.36 720.19,-548 720.19,-548 720.19,-548 863.69,-486 863.69,-486 863.69,-486 892.35,-458.47 914.47,-437.22" />
+<polygon fill="#8593ab" stroke="#8593ab" points="916.06,-439.09 919.41,-432.47 912.67,-435.55 916.06,-439.09" />
+<text xml:space="preserve" text-anchor="middle" x="801.44" y="-541.5" font-family="Arial" font-size="10.00">A04 policyId PK</text>
+</g>
+
+<g id="application_references--State" class="node">
+<title>State</title>
+<path fill="#ffffff" stroke="#cbd5e1" d="M402.71,-509C402.71,-509 303.23,-509 303.23,-509 297.23,-509 291.23,-503 291.23,-497 291.23,-497 291.23,-485 291.23,-485 291.23,-479 297.23,-473 303.23,-473 303.23,-473 402.71,-473 402.71,-473 408.71,-473 414.71,-479 414.71,-485 414.71,-485 414.71,-497 414.71,-497 414.71,-503 408.71,-509 402.71,-509" />
+<text xml:space="preserve" text-anchor="middle" x="352.97" y="-486.73" font-family="Arial" font-size="12.00">EnginePolicyState</text>
+</g>
+
+<g id="application_references--edge8" class="edge">
+<title>State-&gt;Task</title>
+<path fill="none" stroke="#8593ab" stroke-dasharray="5,2" d="M396.1,-509.32C415.58,-517.79 434.46,-526 434.46,-526 434.46,-526 555.21,-575 555.21,-575 555.21,-575 574.21,-604 574.21,-604 574.21,-604 583.49,-607.61 595.39,-612.24" />
+<polygon fill="#8593ab" stroke="#8593ab" points="594.25,-614.42 601.67,-614.68 596.03,-609.86 594.25,-614.42" />
+<text xml:space="preserve" text-anchor="middle" x="494.84" y="-577.5" font-family="Arial" font-size="10.00">A08 assessedTaskId</text>
+</g>
+
+<g id="application_references--edge5" class="edge">
+<title>State-&gt;Policy</title>
+<path fill="none" stroke="#8593ab" stroke-dasharray="5,2" d="M414.99,-482.87C536.44,-466.7 805.12,-430.92 903.05,-417.88" />
+<polygon fill="#8593ab" stroke="#8593ab" points="903.33,-420.31 909.94,-416.96 902.68,-415.46 903.33,-420.31" />
+<text xml:space="preserve" text-anchor="middle" x="647.2" y="-463.53" font-family="Arial" font-size="10.00">A05 policyId plus mode</text>
+</g>
+
+<g id="application_references--Artifact" class="node">
+<title>Artifact</title>
+<path fill="#ffffff" stroke="#cbd5e1" d="M684.94,-430C684.94,-430 609.46,-430 609.46,-430 603.46,-430 597.46,-424 597.46,-418 597.46,-418 597.46,-406 597.46,-406 597.46,-400 603.46,-394 609.46,-394 609.46,-394 684.94,-394 684.94,-394 690.94,-394 696.94,-400 696.94,-406 696.94,-406 696.94,-418 696.94,-418 696.94,-424 690.94,-430 684.94,-430" />
+<text xml:space="preserve" text-anchor="middle" x="647.2" y="-407.73" font-family="Arial" font-size="12.00">EngineArtifact</text>
+</g>
+
+<g id="application_references--edge6" class="edge">
+<title>State-&gt;Artifact</title>
+<path fill="none" stroke="#8593ab" stroke-dasharray="5,2" d="M383.94,-472.75C406.83,-458.82 434.46,-442 434.46,-442 434.46,-442 526.12,-429.01 588.83,-420.13" />
+<polygon fill="#8593ab" stroke="#8593ab" points="589,-422.58 595.59,-419.17 588.32,-417.73 589,-422.58" />
+<text xml:space="preserve" text-anchor="middle" x="494.84" y="-444.5" font-family="Arial" font-size="10.00">A06 candidateArtifactId</text>
+</g>
+
+<g id="application_references--Run" class="node">
+<title>Run</title>
+<path fill="#ffffff" stroke="#cbd5e1" d="M677.82,-538C677.82,-538 616.59,-538 616.59,-538 610.59,-538 604.59,-532 604.59,-526 604.59,-526 604.59,-514 604.59,-514 604.59,-508 610.59,-502 616.59,-502 616.59,-502 677.82,-502 677.82,-502 683.82,-502 689.82,-508 689.82,-514 689.82,-514 689.82,-526 689.82,-526 689.82,-532 683.82,-538 677.82,-538" />
+<text xml:space="preserve" text-anchor="middle" x="647.2" y="-515.73" font-family="Arial" font-size="12.00">EngineRun</text>
+</g>
+
+<g id="application_references--edge7" class="edge">
+<title>State-&gt;Run</title>
+<path fill="none" stroke="#8593ab" stroke-dasharray="5,2" d="M414.88,-497.04C468.48,-502.36 545.6,-510.02 595.81,-515" />
+<polygon fill="#8593ab" stroke="#8593ab" points="595.52,-517.43 602.73,-515.69 596.01,-512.56 595.52,-517.43" />
+<text xml:space="preserve" text-anchor="middle" x="494.84" y="-513.12" font-family="Arial" font-size="10.00">A07 candidateRunId</text>
+</g>
+
+<g id="application_references--Cache" class="node">
+<title>Cache</title>
+<path fill="#ffffff" stroke="#cbd5e1" d="M400.84,-423C400.84,-423 305.11,-423 305.11,-423 299.11,-423 293.11,-417 293.11,-411 293.11,-411 293.11,-399 293.11,-399 293.11,-393 299.11,-387 305.11,-387 305.11,-387 400.84,-387 400.84,-387 406.84,-387 412.84,-393 412.84,-399 412.84,-399 412.84,-411 412.84,-411 412.84,-417 406.84,-423 400.84,-423" />
+<text xml:space="preserve" text-anchor="middle" x="352.97" y="-400.73" font-family="Arial" font-size="12.00">EngineHttpCache</text>
+</g>
+
+<g id="application_references--edge9" class="edge">
+<title>Cache-&gt;Artifact</title>
+<path fill="none" stroke="#8593ab" stroke-dasharray="5,2" d="M413.26,-405C472.62,-405 555.21,-405 555.21,-405 555.21,-405 570.5,-406.18 588.54,-407.56" />
+<polygon fill="#8593ab" stroke="#8593ab" points="588.3,-410 595.47,-408.1 588.68,-405.12 588.3,-410" />
+<text xml:space="preserve" text-anchor="middle" x="494.84" y="-407.5" font-family="Arial" font-size="10.00">A09 artifactId</text>
+</g>
+
+<g id="application_references--Review" class="node">
+<title>Review</title>
+<path fill="#e6f8f5" stroke="#cbd5e1" d="M392.59,-264C392.59,-264 313.36,-264 313.36,-264 307.36,-264 301.36,-258 301.36,-252 301.36,-252 301.36,-240 301.36,-240 301.36,-234 307.36,-228 313.36,-228 313.36,-228 392.59,-228 392.59,-228 398.59,-228 404.59,-234 404.59,-240 404.59,-240 404.59,-252 404.59,-252 404.59,-258 398.59,-264 392.59,-264" />
+<text xml:space="preserve" text-anchor="middle" x="352.97" y="-241.72" font-family="Arial" font-size="12.00">EngineReview</text>
+</g>
+
+<g id="application_references--edge10" class="edge">
+<title>Review-&gt;Task</title>
+<path fill="none" stroke="#8593ab" stroke-dasharray="5,2" d="M404.95,-261.83C420.92,-266.79 434.46,-271 434.46,-271 434.46,-271 555.21,-295 555.21,-295 555.21,-295 574.21,-604 574.21,-604 574.21,-604 583.49,-607.61 595.39,-612.24" />
+<polygon fill="#8593ab" stroke="#8593ab" points="594.25,-614.42 601.67,-614.68 596.03,-609.86 594.25,-614.42" />
+<text xml:space="preserve" text-anchor="middle" x="494.84" y="-297.5" font-family="Arial" font-size="10.00">A10 taskId unique</text>
+</g>
+
+<g id="application_references--edge11" class="edge">
+<title>Review-&gt;Policy</title>
+<path fill="none" stroke="#8593ab" stroke-dasharray="5,2" d="M404.95,-242.83C420.92,-241.84 434.46,-241 434.46,-241 434.46,-241 555.21,-241 555.21,-241 555.21,-241 863.69,-291 863.69,-291 863.69,-291 901.53,-351.75 923.81,-387.51" />
+<polygon fill="#8593ab" stroke="#8593ab" points="921.72,-388.8 927.5,-393.45 925.88,-386.21 921.72,-388.8" />
+<text xml:space="preserve" text-anchor="middle" x="647.2" y="-270.17" font-family="Arial" font-size="10.00">A11 policyId</text>
+</g>
+
+<g id="application_references--edge13" class="edge">
+<title>Review-&gt;Artifact</title>
+<path fill="none" stroke="#8593ab" stroke-dasharray="5,2" d="M405.01,-246C464.63,-246 555.21,-246 555.21,-246 555.21,-246 574.21,-384 574.21,-384 574.21,-384 581.33,-386.77 591.08,-390.56" />
+<polygon fill="#8593ab" stroke="#8593ab" points="590.16,-392.83 597.57,-393.09 591.94,-388.27 590.16,-392.83" />
+<text xml:space="preserve" text-anchor="middle" x="494.84" y="-260.5" font-family="Arial" font-size="10.00">A13 payload observation /</text>
+<text xml:space="preserve" text-anchor="middle" x="494.84" y="-248.5" font-family="Arial" font-size="10.00">checkpoint artifact IDs</text>
+</g>
+
+<g id="application_references--Change" class="node">
+<title>Change</title>
+<path fill="#ffffff" stroke="#cbd5e1" d="M685.32,-135C685.32,-135 609.09,-135 609.09,-135 603.09,-135 597.09,-129 597.09,-123 597.09,-123 597.09,-111 597.09,-111 597.09,-105 603.09,-99 609.09,-99 609.09,-99 685.32,-99 685.32,-99 691.32,-99 697.32,-105 697.32,-111 697.32,-111 697.32,-123 697.32,-123 697.32,-129 691.32,-135 685.32,-135" />
+<text xml:space="preserve" text-anchor="middle" x="647.2" y="-112.72" font-family="Arial" font-size="12.00">PolicyChange</text>
+</g>
+
+<g id="application_references--edge12" class="edge">
+<title>Review-&gt;Change</title>
+<path fill="none" stroke="#8593ab" stroke-dasharray="5,2" d="M376.82,-227.83C400.62,-208.91 434.46,-182 434.46,-182 434.46,-182 555.21,-158 555.21,-158 555.21,-158 575.91,-148.67 597.56,-138.92" />
+<polygon fill="#8593ab" stroke="#8593ab" points="598.47,-141.19 603.85,-136.08 596.46,-136.72 598.47,-141.19" />
+<text xml:space="preserve" text-anchor="middle" x="494.84" y="-184.5" font-family="Arial" font-size="10.00">A12 changeId optional</text>
+</g>
+
+<g id="application_references--Claim" class="node">
+<title>Claim</title>
+<path fill="#ffffff" stroke="#cbd5e1" d="M96.48,-307C96.48,-307 26.25,-307 26.25,-307 20.25,-307 14.25,-301 14.25,-295 14.25,-295 14.25,-283 14.25,-283 14.25,-277 20.25,-271 26.25,-271 26.25,-271 96.48,-271 96.48,-271 102.48,-271 108.48,-277 108.48,-283 108.48,-283 108.48,-295 108.48,-295 108.48,-301 102.48,-307 96.48,-307" />
+<text xml:space="preserve" text-anchor="middle" x="61.37" y="-284.73" font-family="Arial" font-size="12.00">EngineClaim</text>
+</g>
+
+<g id="application_references--edge14" class="edge">
+<title>Claim-&gt;Task</title>
+<path fill="none" stroke="#8593ab" stroke-dasharray="5,2" d="M75.28,-307.06C123.54,-374.55 290.48,-608 290.48,-608 290.48,-608 434.46,-623 434.46,-623 434.46,-623 532.21,-627.15 594.88,-629.82" />
+<polygon fill="#8593ab" stroke="#8593ab" points="594.49,-632.25 601.58,-630.1 594.69,-627.36 594.49,-632.25" />
+<text xml:space="preserve" text-anchor="middle" x="352.97" y="-635.43" font-family="Arial" font-size="10.00">A14 taskId / policyId /</text>
+<text xml:space="preserve" text-anchor="middle" x="352.97" y="-623.43" font-family="Arial" font-size="10.00">reviewId / changeId</text>
+</g>
+
+<g id="application_references--edge15" class="edge">
+<title>Claim-&gt;Policy</title>
+<path fill="none" stroke="#8593ab" stroke-dasharray="5,2" d="M108.88,-291.76C258.9,-300.65 720.19,-328 720.19,-328 720.19,-328 863.69,-369 863.69,-369 863.69,-369 884.66,-381.14 904.57,-392.67" />
+<polygon fill="#8593ab" stroke="#8593ab" points="903.22,-394.72 910.51,-396.11 905.68,-390.48 903.22,-394.72" />
+<text xml:space="preserve" text-anchor="middle" x="494.84" y="-320.52" font-family="Arial" font-size="10.00">A14</text>
+</g>
+
+<g id="application_references--edge16" class="edge">
+<title>Claim-&gt;Review</title>
+<path fill="none" stroke="#8593ab" stroke-dasharray="5,2" d="M108.9,-282.09C158.93,-274.66 238.61,-262.83 293,-254.76" />
+<polygon fill="#8593ab" stroke="#8593ab" points="293.11,-257.22 299.67,-253.77 292.39,-252.37 293.11,-257.22" />
+<text xml:space="preserve" text-anchor="middle" x="206.61" y="-278.79" font-family="Arial" font-size="10.00">A14</text>
+</g>
+
+<g id="application_references--edge17" class="edge">
+<title>Claim-&gt;Change</title>
+<path fill="none" stroke="#8593ab" stroke-dasharray="5,2" d="M103.91,-270.68C123.11,-262.21 141.73,-254 141.73,-254 141.73,-254 290.48,-206 290.48,-206 290.48,-206 434.46,-161 434.46,-161 434.46,-161 525.86,-142.01 588.56,-128.98" />
+<polygon fill="#8593ab" stroke="#8593ab" points="588.99,-131.39 595.34,-127.57 587.99,-126.59 588.99,-131.39" />
+<text xml:space="preserve" text-anchor="middle" x="352.97" y="-208.5" font-family="Arial" font-size="10.00">A14</text>
+</g>
+
+<g id="application_references--Outbox" class="node">
+<title>Outbox</title>
+<path fill="#ffffff" stroke="#cbd5e1" d="M391.46,-45C391.46,-45 314.48,-45 314.48,-45 308.48,-45 302.48,-39 302.48,-33 302.48,-33 302.48,-21 302.48,-21 302.48,-15 308.48,-9 314.48,-9 314.48,-9 391.46,-9 391.46,-9 397.46,-9 403.46,-15 403.46,-21 403.46,-21 403.46,-33 403.46,-33 403.46,-39 397.46,-45 391.46,-45" />
+<text xml:space="preserve" text-anchor="middle" x="352.97" y="-22.73" font-family="Arial" font-size="12.00">EngineOutbox</text>
+</g>
+
+<g id="application_references--edge18" class="edge">
+<title>Outbox-&gt;Change</title>
+<path fill="none" stroke="#8593ab" stroke-dasharray="5,2" d="M403.71,-39.61C463.31,-54.71 555.21,-78 555.21,-78 555.21,-78 574.54,-86.29 595.39,-95.22" />
+<polygon fill="#8593ab" stroke="#8593ab" points="594.31,-97.43 601.71,-97.93 596.24,-92.92 594.31,-97.43" />
+<text xml:space="preserve" text-anchor="middle" x="494.84" y="-80.5" font-family="Arial" font-size="10.00">A15 changeId</text>
+</g>
+
+<g id="application_references--Subscriber" class="node">
+<title>Subscriber</title>
+<path fill="#ffffff" stroke="#cbd5e1" d="M676.32,-36C676.32,-36 618.09,-36 618.09,-36 612.09,-36 606.09,-30 606.09,-24 606.09,-24 606.09,-12 606.09,-12 606.09,-6 612.09,0 618.09,0 618.09,0 676.32,0 676.32,0 682.32,0 688.32,-6 688.32,-12 688.32,-12 688.32,-24 688.32,-24 688.32,-30 682.32,-36 676.32,-36" />
+<text xml:space="preserve" text-anchor="middle" x="647.2" y="-13.72" font-family="Arial" font-size="12.00">Subscriber</text>
+</g>
+
+<g id="application_references--edge19" class="edge">
+<title>Outbox-&gt;Subscriber</title>
+<path fill="none" stroke="#8593ab" stroke-dasharray="5,2" d="M403.57,-21.45C420.13,-19.6 434.46,-18 434.46,-18 434.46,-18 535.19,-18 597.7,-18" />
+<polygon fill="#8593ab" stroke="#8593ab" points="597.36,-20.45 604.36,-18 597.36,-15.55 597.36,-20.45" />
+<text xml:space="preserve" text-anchor="middle" x="494.84" y="-20.5" font-family="Arial" font-size="10.00">A16 subscriberId in payload</text>
+</g>
+
+<g id="application_references--Document" class="node">
+<title>Document</title>
+<path fill="#ffffff" stroke="#cbd5e1" d="M703.69,-374C703.69,-374 590.71,-374 590.71,-374 584.71,-374 578.71,-368 578.71,-362 578.71,-362 578.71,-350 578.71,-350 578.71,-344 584.71,-338 590.71,-338 590.71,-338 703.69,-338 703.69,-338 709.69,-338 715.69,-344 715.69,-350 715.69,-350 715.69,-362 715.69,-362 715.69,-368 709.69,-374 703.69,-374" />
+<text xml:space="preserve" text-anchor="middle" x="647.2" y="-351.73" font-family="Arial" font-size="12.00">Canonical Document</text>
+</g>
+
+<g id="application_references--edge20" class="edge">
+<title>Document-&gt;Policy</title>
+<path fill="none" stroke="#8593ab" stroke-dasharray="5,2" d="M716.17,-369.29C774.61,-380.72 856.64,-396.76 903.34,-405.89" />
+<polygon fill="#8593ab" stroke="#8593ab" points="902.81,-408.29 910.15,-407.23 903.76,-403.48 902.81,-408.29" />
+<text xml:space="preserve" text-anchor="middle" x="801.44" y="-400.21" font-family="Arial" font-size="10.00">A17 legacyPolicyId unique</text>
+</g>
+
+<g id="application_references--Version" class="node">
+<title>Version</title>
+<path fill="#ffffff" stroke="#cbd5e1" d="M110.73,-718C110.73,-718 12,-718 12,-718 6,-718 0,-712 0,-706 0,-706 0,-694 0,-694 0,-688 6,-682 12,-682 12,-682 110.73,-682 110.73,-682 116.73,-682 122.73,-688 122.73,-694 122.73,-694 122.73,-706 122.73,-706 122.73,-712 116.73,-718 110.73,-718" />
+<text xml:space="preserve" text-anchor="middle" x="61.37" y="-695.73" font-family="Arial" font-size="12.00">Canonical Version</text>
+</g>
+
+<g id="application_references--Snapshot" class="node">
+<title>Snapshot</title>
+<path fill="#ffffff" stroke="#cbd5e1" d="M395.21,-718C395.21,-718 310.73,-718 310.73,-718 304.73,-718 298.73,-712 298.73,-706 298.73,-706 298.73,-694 298.73,-694 298.73,-688 304.73,-682 310.73,-682 310.73,-682 395.21,-682 395.21,-682 401.21,-682 407.21,-688 407.21,-694 407.21,-694 407.21,-706 407.21,-706 407.21,-712 401.21,-718 395.21,-718" />
+<text xml:space="preserve" text-anchor="middle" x="352.97" y="-695.73" font-family="Arial" font-size="12.00">PolicySnapshot</text>
+</g>
+
+<g id="application_references--edge21" class="edge">
+<title>Version-&gt;Snapshot</title>
+<path fill="none" stroke="#8593ab" stroke-dasharray="5,2" d="M123.08,-700C172.15,-700 240.95,-700 290.28,-700" />
+<polygon fill="#8593ab" stroke="#8593ab" points="290.13,-702.45 297.13,-700 290.13,-697.55 290.13,-702.45" />
+<text xml:space="preserve" text-anchor="middle" x="206.61" y="-702.5" font-family="Arial" font-size="10.00">A18 legacySnapshotId unique</text>
+</g>
+
+<g id="application_references--CanonicalChange" class="node">
+<title>CanonicalChange</title>
+<path fill="#ffffff" stroke="#cbd5e1" d="M403.46,-106C403.46,-106 302.48,-106 302.48,-106 296.48,-106 290.48,-100 290.48,-94 290.48,-94 290.48,-82 290.48,-82 290.48,-76 296.48,-70 302.48,-70 302.48,-70 403.46,-70 403.46,-70 409.46,-70 415.46,-76 415.46,-82 415.46,-82 415.46,-94 415.46,-94 415.46,-100 409.46,-106 403.46,-106" />
+<text xml:space="preserve" text-anchor="middle" x="352.97" y="-83.72" font-family="Arial" font-size="12.00">Canonical Change</text>
+</g>
+
+<g id="application_references--edge22" class="edge">
+<title>CanonicalChange-&gt;Change</title>
+<path fill="none" stroke="#8593ab" stroke-dasharray="5,2" d="M415.72,-93.52C474.87,-98.81 555.21,-106 555.21,-106 555.21,-106 570.37,-107.83 588.31,-110" />
+<polygon fill="#8593ab" stroke="#8593ab" points="587.96,-112.43 595.21,-110.84 588.55,-107.56 587.96,-112.43" />
+<text xml:space="preserve" text-anchor="middle" x="494.84" y="-120.5" font-family="Arial" font-size="10.00">A19 legacyPolicyChangeId</text>
+<text xml:space="preserve" text-anchor="middle" x="494.84" y="-108.5" font-family="Arial" font-size="10.00">unique</text>
+</g>
+</g>
+</svg>

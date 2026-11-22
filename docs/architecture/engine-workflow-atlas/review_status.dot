@@ -1,0 +1,23 @@
+digraph G {
+graph [rankdir=LR, bgcolor="transparent", pad="0.18", nodesep="0.28", ranksep="0.52", splines=polyline];
+node [shape=box, style="rounded,filled", fillcolor="#ffffff", color="#cbd5e1", fontname="Arial", fontsize=12, margin="0.17,0.12"];
+edge [color="#8593ab", arrowsize="0.7", fontname="Arial", fontsize=10];
+start [id="review_status--start", label="start", fillcolor="#eaf2ff", shape="box"];
+observed [id="review_status--observed", label="observed", fillcolor="#e6f8f5", shape="box"];
+pending [id="review_status--pending", label="pending", fillcolor="#fff3dd", shape="box"];
+rejected [id="review_status--rejected", label="rejected", fillcolor="#eaf2ff", shape="box"];
+superseded [id="review_status--superseded", label="superseded", fillcolor="#eaf2ff", shape="box"];
+approving [id="review_status--approving", label="approving", fillcolor="#eaf2ff", shape="box"];
+approved [id="review_status--approved", label="approved", fillcolor="#eaf2ff", shape="box"];
+rebaseline_requested [id="review_status--rebaseline_requested", label="rebaseline_requested", fillcolor="#eaf2ff", shape="box"];
+start -> observed [label="R01 observe-mode hold", style="solid"];
+start -> pending [label="R01 publish-mode hold", style="solid"];
+observed -> rejected [label="R02 explicit reject", style="solid"];
+pending -> rejected [label="R02 explicit reject", style="solid"];
+observed -> superseded [label="R03 refresh/new\nobservation/contract revision", style="solid"];
+pending -> superseded [label="R03 refresh/new\nobservation/contract revision", style="solid"];
+rejected -> superseded [label="R04 refresh", style="solid"];
+pending -> approving [label="R05 eligible manual approval\nCAS", style="solid"];
+approving -> approved [label="R06 same DB transaction\ncommits", style="solid"];
+pending -> rebaseline_requested [label="R07 parser replay unavailable\nand explicit rebaseline\nrequest", style="solid"];
+}

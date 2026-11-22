@@ -1,0 +1,6 @@
+stateDiagram-v2
+  [*] --> pending: O01 optional event inside publication DB transaction
+  pending --> sending: O02 CAS lease claim
+  sending --> delivered: O03 root fanout committed / recipient ack or skip
+  sending --> pending: O04 retryable failure / expired lease below 5 attempts
+  sending --> failed: O05 attempts exhausted
