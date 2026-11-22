@@ -732,6 +732,7 @@ export const engineSixDemoAuditUpdate: PressKitRelease = {
     { href: '/engine-6-preview#validation', label: { en: 'Research notebook and retained historical observations', it: 'Diario di ricerca e osservazioni storiche conservate' } },
     { href: 'https://github.com/sev7enITA/policywatcher/blob/main/docs/reports/policywatcher-demo-audit-2026-11-22.md', label: { en: '22 November demonstration audit and qualification limits', it: 'Audit della dimostrazione del 22 novembre e limiti di qualifica' } },
     { href: 'https://github.com/sev7enITA/policywatcher/blob/main/docs/reports/browser-extension-ios-assessment-2026-11-22.md', label: { en: 'Unsigned Safari iOS candidate: build and bounded startup evidence', it: 'Candidato Safari iOS non firmato: build e prova circoscritta di avvio' } },
+    { href: 'https://github.com/sev7enITA/policywatcher/releases/tag/safari-ios-0.1.0-build1-preview', label: { en: 'Published unsigned iOS developer kit on GitHub', it: 'Kit iOS non firmato per sviluppatori pubblicato su GitHub' } },
     { href: '/press-kit/releases/engine-six-remote-followup-november-2026', label: { en: 'Retained 21 November follow-up on 133 sources', it: 'Verifica conservata del 21 novembre sulle 133 fonti' } },
   ],
 };
