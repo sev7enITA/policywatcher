@@ -1,3 +1,5 @@
+import type { Metadata } from 'next';
+import { languageAlternates, publicLanguage, withSocialMetadata } from '@/lib/seo';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { db } from '@/lib/db';
@@ -8,13 +10,27 @@ import { publishedAssessmentFilter } from '@/lib/publicAssessment';
 import { classifyPolicyChange, classificationSnapshotSelect } from '@/lib/changeClassification';
 import ChangeClassificationPanel from '@/components/ChangeClassification';
 import DiffViewer from '@/components/DiffViewer';
-import { comparisonPath, isDigest } from '../../../../../shared/comparisonLink';
+import { comparisonPath, isDigest, isVersion } from '../../../../../shared/comparisonLink';
 import styles from '../../briefing.module.css';
 
 export const dynamic = 'force-dynamic';
-export const metadata = { robots: { index: false }, title: 'PolicyWatcher | Briefing' };
 
 type Props = { params: Promise<{ id: string }>; searchParams: Promise<{ before?: string; after?: string; from?: string; to?: string; lang?: string }> };
+
+export async function generateMetadata({ params, searchParams }: Props): Promise<Metadata> {
+  const [{ id }, query] = await Promise.all([params, searchParams]);
+  const from = Number(query.from), to = Number(query.to);
+  if (!isUuid(id) || !isDigest(query.before) || !isDigest(query.after)
+      || !isVersion(from) || !isVersion(to) || String(from) !== query.from || String(to) !== query.to) notFound();
+  const lang = publicLanguage(query.lang);
+  // Keep the exact public comparison identity; a bare record URL lacks its required hashes/versions.
+  const path = comparisonPath(id, { before: query.before, after: query.after, from, to }, 'en');
+  return withSocialMetadata({
+    robots: { index: false },
+    title: lang === 'it' ? 'Confronto delle versioni | PolicyWatcher' : 'Shared version comparison | PolicyWatcher',
+    alternates: languageAlternates(path, lang),
+  }, lang);
+}
 export default async function SharedComparison({ params, searchParams }: Props) {
   const { id } = await params;
   const query = await searchParams;
@@ -28,7 +44,7 @@ export default async function SharedComparison({ params, searchParams }: Props) 
   if (!change?.oldSnapshot) notFound();
   const pair = comparisonPair(change.policyId, change.oldSnapshot, change.newSnapshot);
   if (!pair || pair.before !== query.before || pair.after !== query.after || String(pair.from) !== query.from || String(pair.to) !== query.to) notFound();
-  const lang = query.lang === 'it' ? 'it' : 'en';
+  const lang = publicLanguage(query.lang);
   const it = lang === 'it';
   return <main className={styles.page} lang={lang}><div className={styles.shared}>
     <nav className={styles.related}><Link href={`/briefing?lang=${lang}`}>Briefing</Link>

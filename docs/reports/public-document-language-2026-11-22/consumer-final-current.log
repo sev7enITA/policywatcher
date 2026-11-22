@@ -1,0 +1,9 @@
+
+ RUN  v4.1.9 /Users/fabriziodegni/Projects/PolicyWatcher-public-document-language-20261122
+
+
+ Test Files  5 passed (5)
+      Tests  55 passed (55)
+   Start at  04:50:46
+   Duration  806ms (transform 1.01s, setup 0ms, import 1.05s, tests 1.03s, environment 0ms)
+

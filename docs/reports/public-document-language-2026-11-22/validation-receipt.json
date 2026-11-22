@@ -1,0 +1,66 @@
+[
+  {
+    "check": "consumer-final-current",
+    "exitCode": 0,
+    "command": [
+      "./node_modules/.bin/vitest",
+      "run",
+      "src/lib/__tests__/publicDocumentLanguageConsumers.test.tsx",
+      "src/lib/__tests__/seoCanonical.test.ts",
+      "src/lib/__tests__/planningReconciliation.test.tsx",
+      "src/lib/__tests__/browserExtensionPage.test.tsx",
+      "src/lib/__tests__/publicUiRegression.test.ts"
+    ],
+    "log": "consumer-final-current.log",
+    "logSha256": "47800883902f9703bbd4e02c2581e14f5cdb95c8928403b8da0d764204a6b257"
+  },
+  {
+    "check": "typecheck-source-final",
+    "exitCode": 0,
+    "command": [
+      "./node_modules/.bin/tsc",
+      "--noEmit",
+      "--incremental",
+      "false"
+    ],
+    "log": "typecheck-source-final.log",
+    "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "check": "typecheck-consumer-final",
+    "exitCode": 0,
+    "command": [
+      "./node_modules/.bin/tsc",
+      "--project",
+      "output/public-document-language/tsconfig.consumer.json",
+      "--noEmit"
+    ],
+    "log": "typecheck-consumer-final.log",
+    "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "check": "lint-final",
+    "exitCode": 0,
+    "command": [
+      "./node_modules/.bin/eslint",
+      "src/lib/seo.ts",
+      "src/app/press/page.tsx",
+      "src/app/press/cases/[slug]/page.tsx",
+      "src/app/briefing/comparison/[id]/page.tsx",
+      "src/lib/__tests__/publicDocumentLanguageConsumers.test.tsx"
+    ],
+    "log": "lint-final.log",
+    "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "check": "manifest-final",
+    "exitCode": 0,
+    "command": [
+      "node",
+      "scripts/engine-implementation-manifest.mjs",
+      "--check"
+    ],
+    "log": "manifest-final.log",
+    "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+]
