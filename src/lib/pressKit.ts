@@ -627,7 +627,7 @@ export const pressKitPackages: PressKitPackage[] = pressPackageManifest.packages
   };
 });
 
-export const enginePreviewNotebookUpdatedAt = '2026-11-16';
+export const enginePreviewNotebookUpdatedAt = '2026-11-21';
 
 export const previewResearchUpdate: PressKitRelease = {
   "slug": "engine-six-preview-r3-evidence-update",

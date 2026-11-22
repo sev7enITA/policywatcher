@@ -13,7 +13,7 @@ import { localizedPublicUrl } from '@/lib/seo';
 type Props = { searchParams: Promise<{ lang?: string }> };
 const copy = {
   en: {
-    status: 'Experimental programme', date: '16 November 2026', kicker: 'Engineering notebook',
+    status: 'Experimental programme', date: '21 November 2026', kicker: 'Engineering notebook',
     title: 'A clearer path from source to evidence.',
     intro: 'Engine 6 Preview is being developed and tested to make policy retrieval, comparison and validation more traceable. This page opens the design for inspection.',
     boundary: 'Private preview access / staging environment',
@@ -67,7 +67,7 @@ const copy = {
       ['Policy · PolicyChange · EngineOutbox', 'Public baseline, committed change and deferred delivery.', 'PolicyChange → Policy is an existing FK; outbox changeId is an application reference.'],
     ],
     ledgerTitle: 'What the evidence currently establishes.',
-    ledgerIntro: 'Recorded verification, updated 16 November 2026. Historical regression and campaign results are retained. Local production-mode and generated standalone-server checks are reported separately from hosted verification and production accuracy.',
+    ledgerIntro: 'Recorded verification, updated 21 November 2026. Historical regression and campaign results are retained. Local production-mode and generated standalone-server checks are reported separately from hosted verification and production accuracy.',
     check: 'Check', result: 'Recorded result', limit: 'What remains unproven',
     checks: [
       ["21 November · Follow-up of 133 remote holds", "Four new extraction successes on the same 133 URLs. The other 129 scopes remain held.", "All baseline cases retain their classification and fresh receipts. The candidate follows bounded same-host HTTPS redirects and closes single-use HTTP2 sessions. Eighty-one focused tests pass offline. The original follow-up process needed termination after saving its report; a separate fixed cleanup probe exited naturally. This is not a new 500-policy completion score."],
@@ -122,7 +122,7 @@ const copy = {
     footerNote: 'A public record of an experiment. Status will change only as new verification evidence is recorded.',
   },
   it: {
-    status: 'Programma sperimentale', date: '16 novembre 2026', kicker: 'Quaderno di progetto',
+    status: 'Programma sperimentale', date: '21 novembre 2026', kicker: 'Quaderno di progetto',
     title: 'Un percorso più chiaro dalla fonte alle prove.',
     intro: 'Engine 6 Preview è in sviluppo e sperimentazione per rendere più tracciabili recupero, confronto e validazione delle policy. Questa pagina rende il progetto consultabile.',
     boundary: 'Accesso alla preview privata / ambiente staging',
@@ -176,7 +176,7 @@ const copy = {
       ['Policy · PolicyChange · EngineOutbox', 'Baseline pubblica, modifica registrata e invio differito.', 'PolicyChange → Policy è una FK esistente; changeId dell’outbox è un riferimento applicativo.'],
     ],
     ledgerTitle: 'Che cosa dimostrano oggi le verifiche.',
-    ledgerIntro: 'Verifiche aggiornate al 16 novembre 2026. I risultati storici delle regressioni e della campagna sono conservati. Le verifiche locali in modalità produzione e sul server standalone generato sono distinte dalle prove di hosting e dall’accuratezza in produzione.',
+    ledgerIntro: 'Verifiche aggiornate al 21 novembre 2026. I risultati storici delle regressioni e della campagna sono conservati. Le verifiche locali in modalità produzione e sul server standalone generato sono distinte dalle prove di hosting e dall’accuratezza in produzione.',
     check: 'Controllo', result: 'Risultato registrato', limit: 'Che cosa resta da dimostrare',
     checks: [
       ["21 novembre · Verifica dei 133 casi remoti sospesi", "Quattro nuove estrazioni riuscite sugli stessi 133 URL. Restano sospesi gli altri 129 ambiti.", "Conservati classificazione e nuove ricevute per ogni caso. Il candidato segue redirect HTTPS circoscritti sullo stesso host e chiude le sessioni HTTP2 monouso. Passano 81 test mirati offline. Il primo processo ha richiesto arresto dopo il salvataggio del rapporto; una prova separata con la correzione è terminata spontaneamente. Questa verifica non costituisce un nuovo risultato di 500 policy completate."],
