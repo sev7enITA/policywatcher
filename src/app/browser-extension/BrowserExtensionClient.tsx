@@ -14,6 +14,7 @@ import {
   POLICYWATCHER_BROWSER_EXTENSION_RELEASE_BADGE,
 } from '@/lib/release';
 import styles from './browserExtension.module.css';
+import { localizedPublicPath } from '@/lib/seo';
 
 type Lang = 'it' | 'en';
 
@@ -33,14 +34,14 @@ const copy = {
       ['Conferma gli indizi', 'Controlla organizzazione, policy e presenza del link di partenza.'],
       ['Verifica le evidenze', 'Solo i campi strutturati confermati raggiungono PolicyWatcher.'],
     ],
-    installTitle: 'Disponibilità per browser', installLead: 'Ogni browser mostra uno stato indipendente. Stato aggiornato: 6 agosto 2026.',
-    chrome: 'Google Chrome', edge: 'Microsoft Edge', safari: 'Safari',
+    installTitle: 'Disponibilità per browser', installLead: 'Stati distinti per browser. Candidato iOS aggiornato il 22 novembre 2026; le indicazioni storiche degli store sono separate dalle prove di compilazione.',
+    chrome: 'Google Chrome', edge: 'Microsoft Edge', safari: 'Safari', edgeHistorical: 'Pubblicazione dichiarata in precedenza',
     chromeBody: 'Estensione Manifest V3 per browser desktop basati su Chromium.',
-    edgeBody: 'La versione per Microsoft Edge è pubblicata su Microsoft Edge Add-ons.',
-    safariBody: 'Richiede firma del publisher e pacchetto App Store tramite Safari Web Extension.',
-    install: 'Apri e installa', directLinkPending: 'La scheda è pubblicata. Il pulsante diretto apparirà quando l’URL Edge Add-ons sarà configurato nel deployment.', safariNote: 'La sorgente Safari non equivale a un’app installabile. La disponibilità mobile verrà dichiarata solo dopo firma e revisione App Store.',
+    edgeBody: 'La pubblicazione su Edge Add-ons è stata dichiarata in precedenza. La verifica attuale e l’URL della scheda restano da confermare.',
+    safariBody: 'Candidato Safari iOS per sviluppatori 0.1.0 (1), runtime condiviso 3.8.3.3. Non disponibile per gli utenti tramite App Store o TestFlight.',
+    install: 'Apri e installa', directLinkPending: 'La pubblicazione è storica; verifica attuale e URL Edge Add-ons restano da confermare prima di mostrare un pulsante diretto.', safariNote: 'Le build non firmate non equivalgono a un’app iPhone installabile dagli utenti. Restano necessari collaudo Safari, firma e revisione Apple.',
     fallback: 'Stai usando il telefono o lo store non è ancora disponibile?', fallbackBody: 'Incolla il testo visibile: i link nascosti non saranno inclusi, ma PolicyWatcher può usare le fonti già monitorate o aprire una richiesta minima di discovery e QA.', fallbackAction: 'Continua con il copia-incolla',
-    privacy: 'Privacy', methodology: 'Metodo e limiti', legal: 'Non è consulenza legale.',
+    privacy: 'Privacy', methodology: 'Metodo e limiti', contact: 'Contatti', legal: 'Non è consulenza legale.',
   },
   en: {
     back: 'What changed?', switchLanguage: 'Italiano', kicker: 'Browser extension · Beta',
@@ -57,14 +58,14 @@ const copy = {
       ['Confirm the clues', 'Review the organization, policies and whether a starting link was found.'],
       ['Verify the evidence', 'Only confirmed structured fields reach PolicyWatcher.'],
     ],
-    installTitle: 'Browser availability', installLead: 'Each browser has an independent status. Updated: 6 August 2026.',
-    chrome: 'Google Chrome', edge: 'Microsoft Edge', safari: 'Safari',
+    installTitle: 'Browser availability', installLead: 'Independent browser states. iOS candidate updated on 22 November 2026; historical store statements are separate from build evidence.',
+    chrome: 'Google Chrome', edge: 'Microsoft Edge', safari: 'Safari', edgeHistorical: 'Previously reported as published',
     chromeBody: 'Manifest V3 extension for Chromium-based desktop browsers.',
-    edgeBody: 'The Microsoft Edge version is published on Microsoft Edge Add-ons.',
-    safariBody: 'Requires publisher signing and App Store packaging as a Safari Web Extension.',
-    install: 'View and install', directLinkPending: 'The listing is published. The direct button will appear after the Edge Add-ons URL is configured in the deployment.', safariNote: 'Safari source is not an installable app. Mobile availability will be stated only after App Store signing and review.',
+    edgeBody: 'Edge Add-ons publication was previously reported. Current listing availability and its exact URL still require verification.',
+    safariBody: 'Safari iOS developer candidate 0.1.0 (1), shared runtime 3.8.3.3. Not available to end users through the App Store or TestFlight.',
+    install: 'View and install', directLinkPending: 'The publication statement is historical; current availability and the Edge Add-ons URL require verification before a direct button is shown.', safariNote: 'Unsigned builds are not an iPhone app installable by ordinary users. Safari qualification, signing and Apple review are still required.',
     fallback: 'On a phone or is the store not available yet?', fallbackBody: 'Paste the visible text: hidden links will not be included, but PolicyWatcher can use monitored sources or open a minimized discovery and QA request.', fallbackAction: 'Continue with copy and paste',
-    privacy: 'Privacy', methodology: 'Method and limits', legal: 'Not legal advice.',
+    privacy: 'Privacy', methodology: 'Method and limits', contact: 'Contact', legal: 'Not legal advice.',
   },
 } as const;
 
@@ -76,10 +77,10 @@ export default function BrowserExtensionClient({ storeLinks, lang = 'en' }: { st
     { id: 'safari' as const, name: t.safari, body: t.safariBody, icon: Puzzle },
   ];
 
-  return <main className={styles.shell}>
+  return <main className={styles.shell} lang={lang}>
     <header className={styles.header}>
-      <Link href="/" className={styles.brand}><Image src="/logo-mark.png" width={32} height={32} alt="" /><span>PolicyWatcher</span></Link>
-      <div><Link href="/what-changed"><ArrowLeft aria-hidden="true" />{t.back}</Link><Link href={lang === 'it' ? '/browser-extension' : '/browser-extension?lang=it'}><Languages aria-hidden="true" />{t.switchLanguage}</Link></div>
+      <Link href={localizedPublicPath('/', lang)} className={styles.brand}><Image src="/logo-mark.png" width={32} height={32} alt="" /><span>PolicyWatcher</span></Link>
+      <div><Link href={localizedPublicPath('/what-changed', lang)}><ArrowLeft aria-hidden="true" />{t.back}</Link><Link href={lang === 'it' ? '/browser-extension' : '/browser-extension?lang=it'}><Languages aria-hidden="true" />{t.switchLanguage}</Link></div>
     </header>
 
     <section className={styles.hero}>
@@ -110,10 +111,10 @@ export default function BrowserExtensionClient({ storeLinks, lang = 'en' }: { st
         const status = POLICYWATCHER_BROWSER_EXTENSION_STORE_STATUS[id];
         const isPublished = status.state === 'published';
         const hasInstallLink = isPublished && Boolean(storeLinks[id]);
-        return <article key={id} data-store-state={status.state}>
+        return <article key={id} data-store-state={id === 'edge' ? 'historical' : status.state}>
         <Icon aria-hidden="true" /><div><h3>{name}</h3>
-          <strong className={isPublished ? styles.storePublished : styles.storePending}>
-            <span aria-hidden="true" />{status[lang]}
+          <strong className={isPublished && id !== 'edge' ? styles.storePublished : styles.storePending}>
+            <span aria-hidden="true" />{id === 'edge' ? t.edgeHistorical : status[lang]}
           </strong>
           <p>{body}</p>{hasInstallLink
           ? <a href={storeLinks[id]!} target="_blank" rel="noopener noreferrer">{t.install}<ExternalLink aria-hidden="true" /></a>
@@ -124,10 +125,22 @@ export default function BrowserExtensionClient({ storeLinks, lang = 'en' }: { st
       </article>})}</div>
     </section>
 
-    <section className={styles.fallback}>
-      <Link2 aria-hidden="true" /><div><h2>{t.fallback}</h2><p>{t.fallbackBody}</p><Link href="/what-changed#paste-notice">{t.fallbackAction}<ArrowRight aria-hidden="true" /></Link></div>
+    <section className={styles.iosCandidate} id="ios-developer-candidate" aria-labelledby="ios-candidate-title">
+      <p>{lang === 'it' ? 'Evidenze di sviluppo · 22 novembre 2026' : 'Development evidence · 22 November 2026'}</p>
+      <h2 id="ios-candidate-title">{lang === 'it' ? 'Safari iOS: candidato per sviluppatori, non una release Apple' : 'Safari iOS: a developer candidate, not an Apple release'}</h2>
+      <dl>
+        <div><dt>{lang === 'it' ? 'Versioni separate' : 'Separate versions'}</dt><dd>{lang === 'it' ? 'Contenitore iOS 0.1.0, build 1. Runtime dell’estensione 3.8.3.3, invariato. La versione del sito rimane 5.5.0.' : 'iOS container 0.1.0, build 1. Extension runtime 3.8.3.3, unchanged. The website remains version 5.5.0.'}</dd></div>
+        <div><dt>{lang === 'it' ? 'Osservato localmente' : 'Observed locally'}</dt><dd>{lang === 'it' ? 'Build simulatore e archivio ARM64 per dispositivo, entrambi non firmati. Il contenitore ha mostrato la schermata iniziale in inglese su un simulatore iPhone Duo con iOS 27.1.' : 'Unsigned simulator build and ARM64 device archive. The containing app displayed its initial English screen in an iPhone Duo simulator running iOS 27.1.'}</dd></div>
+        <div><dt>{lang === 'it' ? 'Ancora da verificare' : 'Still unverified'}</dt><dd>{lang === 'it' ? 'Attivazione e funzionamento reale in Safari, iPhone fisico, iPad, iOS 17 minimo e accessibilità. Firma, provisioning e revisione Apple restano da completare. Nessun caricamento su App Store o TestFlight.' : 'Actual Safari activation and operation, physical iPhone, iPad, minimum iOS 17 and accessibility. Signing, provisioning and Apple review remain open. No App Store or TestFlight upload.'}</dd></div>
+      </dl>
+      <p>{lang === 'it' ? 'Queste prove riguardano compilazione e avvio del contenitore. Non dimostrano funzionamento dell’estensione in Safari né disponibilità per gli utenti.' : 'These observations cover compilation and containing-app startup. They do not demonstrate extension operation in Safari or availability to end users.'}</p>
+      <a href="https://github.com/sev7enITA/policywatcher/blob/main/docs/reports/browser-extension-ios-assessment-2026-11-22.md" target="_blank" rel="noopener noreferrer">{lang === 'it' ? 'Leggi prove, tentativi e limiti su GitHub' : 'Read evidence, attempts and limits on GitHub'}<ExternalLink aria-hidden="true" /></a>
     </section>
 
-    <footer className={styles.footer}><p>{t.legal}</p><nav><Link href="/privacy">{t.privacy}</Link><Link href="/methodology/confidence">{t.methodology}</Link></nav></footer>
+    <section className={styles.fallback}>
+      <Link2 aria-hidden="true" /><div><h2>{t.fallback}</h2><p>{t.fallbackBody}</p><Link href={localizedPublicPath('/what-changed#paste-notice', lang)}>{t.fallbackAction}<ArrowRight aria-hidden="true" /></Link></div>
+    </section>
+
+    <footer className={styles.footer}><p>{t.legal}</p><nav><Link href={localizedPublicPath('/privacy', lang)}>{t.privacy}</Link><Link href={localizedPublicPath('/methodology/confidence', lang)}>{t.methodology}</Link><Link href={localizedPublicPath('/about', lang)}>{t.contact}</Link></nav></footer>
   </main>;
 }
