@@ -13,8 +13,21 @@ Artifact SHA256 remains ca3a96c560b6f3300e4e46fc43541e30e0087443731e3e9b500915be
 
 ## Evidence and reproduction
 
-[Observed statuses](renderer-real-chromium-2026-11-22/receipt.json), [process/package follow-up](renderer-real-chromium-2026-11-22/followup.json), [exact original fixture](renderer-real-chromium-2026-11-22/fixture.mjs), [process log](renderer-real-chromium-2026-11-22/run.log). This manual probe needs an already installed Playwright browser and makes an external non-policy test request; it is separate from the offline suites.
+[Observed statuses](renderer-real-chromium-2026-11-22/receipt.json), [process/package follow-up](renderer-real-chromium-2026-11-22/followup.json), [exact original executed fixture](renderer-real-chromium-2026-11-22/fixture-original.mjs.txt), [process log](renderer-real-chromium-2026-11-22/run.log). This manual probe needs an already installed Playwright browser and makes an external non-policy test request; it is separate from the offline suites.
 
 The exact fixture saves its result before invoking the real SIGTERM handler. That production handler exits0, so **process exit0 alone must not be used as the probe verdict**: require receipt.status=passed_real_local_browser_and_admission, readiness200, concurrent429, external outer/source200 and final active0. A failed assertion in this original fixture can otherwise be followed by successful shutdown. The recorded successful run satisfies all those independent fields. The controlled startup log prints configured8787, while the real fixture listener is an observed ephemeral loopback port.
 
 For a fresh reproduction, use a separate scratch working directory, symlink only the reviewed renderer folder, create output/renderer-1.2.1/real-chromium there, then execute the exact fixture and validate its JSON fields. Preserve existing receipts; do not overwrite them. No real VPS or source-policy request is needed or authorized by this fixture.
+
+
+## Executable reproducer and retained first CI failure
+
+The first delivery CI rejected the archived script's direct local alias of `this` (`@typescript-eslint/no-this-alias`), without a renderer runtime failure. The exact executed bytes are now explicitly archived as `.mjs.txt`, SHA256 `d1f63a95a128a13ebb690b59ef210ef25a8b61e58c6d7a58a9c63ac10a7b93ca`. The active [fixture](renderer-real-chromium-2026-11-22/fixture.mjs) hands the real listener through its existing Promise instead; the lint rule is unchanged. A [parent runner](renderer-real-chromium-2026-11-22/run-reproduction.mjs) creates a new scratch directory on every run and validates every required JSON stage after the child's actual SIGTERM handler. It never reuses or overwrites prior receipts.
+
+The updated runner passed another bounded real-browser test. A discriminating negative control temporarily changed only the fixture URL to forbidden HTTP and then restored it: the real child exited0 after shutdown, while its receipt correctly recorded failure/outer400 and the parent exited1. The invalid target was rejected before a source fetch. [Negative receipt](renderer-real-chromium-2026-11-22/runner-negative.json) and [positive receipt](renderer-real-chromium-2026-11-22/runner-positive.json). This is not a fix by ignoring lint or accepting an exit code; the original evidence and active validated reproducer are separate. Whole-web lint then returned0 errors, with15 pre-existing warnings retained. No renderer runtime, package byte, production server or qualification denominator changed.
+
+Manual command from the repository root, requiring an already installed browser and allowing the one non-policy external test source:
+
+```sh
+node docs/reports/renderer-real-chromium-2026-11-22/run-reproduction.mjs
+```

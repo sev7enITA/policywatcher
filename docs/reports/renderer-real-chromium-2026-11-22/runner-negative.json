@@ -1,0 +1,66 @@
+{
+  "scope": "A deliberately forbidden HTTP target is rejected before any source fetch. The real child shutdown exits0, but the parent requires semantic success and fails. Runtime service unchanged.",
+  "parentExit": 1,
+  "childExit": {
+    "code": 0,
+    "signal": null
+  },
+  "receipt": {
+    "startedAt": "2026-11-22T05:08:50.594Z",
+    "scope": "Real installed Playwright Chromium on this Mac; real candidate1.2.1 HTTP handler, DNS and browser render. Only listener binding forced to127.0.0.1 ephemeral port. One intended external top-level request to IANA example.com; no PolicyWatcher, database, model or VPS endpoint.",
+    "remoteVpsQualification": false,
+    "modelCalls": 0,
+    "policySourceCalls": 0,
+    "downloadOrInstall": false,
+    "initialReady": {
+      "status": 200,
+      "payload": {
+        "ok": true,
+        "service": "policywatcher-renderer",
+        "version": "1.2.1",
+        "state": "ready",
+        "active": 0,
+        "capacity": 1,
+        "secretRotation": "single-active",
+        "targetAllowlistCount": 1,
+        "subresourceAllowlistCount": 0,
+        "browserVersionMajor": "149",
+        "userAgentMode": "browser-default",
+        "uptimeSeconds": 0
+      }
+    },
+    "partialBodyActive": 1,
+    "concurrentAttempt": {
+      "status": 429,
+      "retryAfter": "5",
+      "payload": {
+        "error": "renderer_busy"
+      }
+    },
+    "externalRender": {
+      "outerStatus": 400,
+      "sourceStatus": null,
+      "finalUrl": null,
+      "htmlBytes": 0,
+      "exampleDomainObserved": false,
+      "error": "https_required"
+    },
+    "finalReady": {
+      "ok": true,
+      "service": "policywatcher-renderer",
+      "version": "1.2.1",
+      "state": "ready",
+      "active": 0,
+      "capacity": 1,
+      "secretRotation": "single-active",
+      "targetAllowlistCount": 1,
+      "subresourceAllowlistCount": 0,
+      "browserVersionMajor": "149",
+      "userAgentMode": "browser-default",
+      "uptimeSeconds": 0
+    },
+    "status": "failed_or_unavailable",
+    "failure": "Expected values to be strictly equal:\n\n400 !== 200\n",
+    "completedAt": "2026-11-22T05:08:51.046Z"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "firstFailedRun": 44987536000,
+  "head": "e735b1b7c467426390cd0eab1987c8a2a1a4fac0",
+  "failure": "ESLint no-this-alias in the original archived real-browser fixture",
+  "runtimeChanged": false,
+  "originalFixtureSha256": "d1f63a95a128a13ebb690b59ef210ef25a8b61e58c6d7a58a9c63ac10a7b93ca",
+  "activeFixtureSha256": "1fd75f9c0de3528e5f44ab3585e3b185abe952b9fa901132af3e6f57b4bd9eec",
+  "lintRuleDisabled": false,
+  "wholeWebLintErrors": 0,
+  "preExistingWarnings": 15,
+  "positiveParentExit": 0,
+  "negativeParentExit": 1,
+  "negativeChildExit": 0,
+  "negativeSourceFetch": false
+}
