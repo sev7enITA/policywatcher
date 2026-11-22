@@ -598,13 +598,14 @@ export interface EngineAttachmentResponse {
 /** Private Engine 6 only: one fresh pinned request chain, at most 1 MB decoded.
  * This retains original PDF/entity bytes, distinct from its derived inert HTML.
  */
-export async function acquireEngineAttachment(url: string): Promise<EngineAttachmentResponse> {
+export async function acquireEngineAttachment(url: string, maximumDecodedBytes = 1_000_000): Promise<EngineAttachmentResponse> {
+  if (!Number.isSafeInteger(maximumDecodedBytes) || maximumDecodedBytes < 1 || maximumDecodedBytes > 1_000_000) throw new Error('invalid_attachment_budget');
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
   try {
     const destination = await validateOutboundUrl(url);
     if (!destination.ok) throw new Error(destination.reason);
-    const res = await requestPinnedHttp(new URL(destination.url), destination.pinnedIp, buildHeaders(BROWSER_PROFILES[0]), controller.signal, true);
+    const res = await requestPinnedHttp(new URL(destination.url), destination.pinnedIp, buildHeaders(BROWSER_PROFILES[0]), controller.signal, true, maximumDecodedBytes);
     // A redirect changes the exact reviewed resource; do not contact its target.
     if (res.status >= 300 && res.status < 400) throw new Error('attachment_redirect_unreviewed');
     if (res.status !== 200 || !res.entityBytes?.length) throw new Error('attachment_response_not_complete');
@@ -746,7 +747,8 @@ function requestPinnedHttp(
   pinnedIp: string,
   headers: Record<string, string>,
   signal: AbortSignal,
-  retainEntityBytes = false
+  retainEntityBytes = false,
+  maximumEntityBytes = 1_000_000
 ): Promise<{ status: number; headers: http.IncomingHttpHeaders; body: string; transportProof: TransportProof; entityBytes?: Buffer }> {
   return new Promise((resolve, reject) => {
     let settled = false;
@@ -817,7 +819,7 @@ function requestPinnedHttp(
         const buffer = Buffer.concat(chunks, receivedBytes);
         const encoding = (res.headers['content-encoding'] || '').toLowerCase();
         try {
-          const entityBytes = retainEntityBytes ? await decodeBoundedResponseBytes(buffer, encoding, 1_000_000) : undefined;
+          const entityBytes = retainEntityBytes ? await decodeBoundedResponseBytes(buffer, encoding, maximumEntityBytes) : undefined;
           const body = await decodeBoundedDocumentBody(entityBytes || buffer, entityBytes ? '' : encoding, res.headers['content-type'] || '');
           if (settled) return;
           settled = true;

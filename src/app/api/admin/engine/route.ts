@@ -28,15 +28,16 @@ export async function GET(request: NextRequest) {
     const review = await db.engineReview.findUnique({ where: { id: reviewId } });
     if (!review) return json({ error: 'Review not found' }, 404);
     const payload = JSON.parse(review.payloadJson);
-    const artifactId = payload.observation?.artifactId;
+    const observation = payload.observation ?? payload.checkpoint?.observation;
+    const artifactId = observation?.artifactId;
     // Raw HTML stays in the private artifact store. The authenticated reviewer sees frozen text and claims.
     const artifact = artifactId ? await readArtifact<CaptureBody>(artifactId) : null;
     const oldDocument = payload.checkpoint?.oldArtifactId ? await readArtifact(payload.checkpoint.oldArtifactId) : null;
     const baselineCandidate = payload.checkpoint?.baselineCandidateArtifactId ? await readArtifact<{ document: unknown; extraction?: unknown }>(payload.checkpoint.baselineCandidateArtifactId) : null;
     const input = payload.input as TaskInput | undefined;
     const coverageAssessment = artifact && input ? assessCapture(artifact, input.contract, input.sourceUrl) : null;
-    return json({ review, payload, document: artifact?.document, extraction: artifact?.extraction,
-      coverageAssessment, transportProof: payload.observation?.transportProof ?? artifact?.transportProof ?? null,
+    return json({ review, payload, document: artifact?.document, extraction: artifact?.extraction, attachmentErrors: artifact?.attachmentErrors ?? [],
+      coverageAssessment, transportProof: observation?.transportProof ?? artifact?.transportProof ?? null,
       oldDocument, baselineCandidate: baselineCandidate?.document, baselineExtraction: baselineCandidate?.extraction });
   }
   const [runs, reviews, policies, outbox, tasks, states, contracts] = await Promise.all([

@@ -1,7 +1,7 @@
 import { load } from 'cheerio';
 import { randomUUID } from 'node:crypto';
 import type { AnyNode } from 'domhandler';
-import { acquireEngineAttachment, acquireEngineTransport, hasLiveHostDrift, hasLivePathDrift, extractPolicyText, detectBlockPage, detectSoft404, type TransportResult, type TransportProof } from '../scraper';
+import { TransportIntegrityError, acquireEngineAttachment, acquireEngineTransport, hasLiveHostDrift, hasLivePathDrift, extractPolicyText, detectBlockPage, detectSoft404, type TransportResult, type TransportProof } from '../scraper';
 import { db } from '../db';
 import { digest, normalized, structureDocument, assessDocument, type SourceContract, type StructuredDocument } from './document';
 import { DAILY_MS, putArtifact, readArtifact, type TaskInput, type Tx } from './store';
@@ -9,7 +9,7 @@ import type { AttachmentCapture, CoverageReceipt } from './coverage';
 
 export interface CaptureBody {
   html: string; document: StructuredDocument; language?: string;
-  captureId?: string; attachments?: AttachmentCapture[]; attachmentErrors?: Array<{ url: string; reason: string }>;
+  captureId?: string; documentUrl?: string; attachments?: AttachmentCapture[]; attachmentErrors?: Array<{ url: string; reason: string; httpStatus?: number; transportProof?: TransportProof }>;
   transportProof?: TransportProof;
   extraction?: { retainedDisclosureIds: string[]; retainedDocumentHeaders: number; restoredTitleFromDom: boolean; retainedUnstructuredRuns?: number; issues?: Array<{ reason: string; target: string | null; chars: number }>;
     reviewedExclusionHash?: string; appliedExclusions?: Array<{ selector: string; htmlSha256: string; reviewNote: string }> };
@@ -213,14 +213,14 @@ export function extractEngineBody(html: string, sourceUrl: string, contentLangua
   if (restoredTitleFromDom) text = `# ${prepared.titles[0]}\n\n${text}`;
   if (text.length < 100 || text.length > 500_000) throw new Error('extraction_size_out_of_bounds');
   const language = load(html)('html').attr('lang') || contentLanguage;
-  return { html, captureId: randomUUID(), document: structureDocument(text), ...(language ? { language } : {}),
+  return { html, captureId: randomUUID(), documentUrl: sourceUrl, document: structureDocument(text), ...(language ? { language } : {}),
     extraction: { retainedDisclosureIds: prepared.retainedDisclosureIds, retainedDocumentHeaders: prepared.retainedDocumentHeaders, retainedUnstructuredRuns: prepared.retainedUnstructuredRuns, restoredTitleFromDom, issues: prepared.issues, appliedExclusions: prepared.appliedExclusions,
       reviewedExclusionHash: digest(JSON.stringify(contract?.reviewedExclusions || [])) } };
 }
 /** Extraction uncertainty is a hard evidence gate, including cached/replayed bodies. */
 export function assessCapture(body: CaptureBody, contract: SourceContract | null, sourceUrl: string) {
   const assessment = assessDocument(body.document, contract, sourceUrl, body.language, { captureId: body.captureId,
-    attachmentLinks: expectedAttachmentLinks(body.html, sourceUrl, contract), attachments: body.attachments });
+    attachmentLinks: expectedAttachmentLinks(body.html, sourceUrl, contract, body.documentUrl), attachments: body.attachments });
   const exclusionsChanged = contract?.reviewedExclusions?.length && body.extraction?.reviewedExclusionHash !== digest(JSON.stringify(contract.reviewedExclusions));
   const reasons = [...new Set([...assessment.reasons, ...(exclusionsChanged ? ['reviewed_exclusion_context_mismatch'] : []), ...(body.extraction?.issues || []).map(issue => issue.reason), ...(body.attachmentErrors || []).map(error => error.reason)])];
   return { ...assessment, reasons, eligible: reasons.length === 0,
@@ -248,6 +248,7 @@ export async function acquire(input: TaskInput, transport: Transport = acquireEn
   }
   const diagnostics: Observation['diagnostics'] = [];
   const attachmentRequests = new Map<string, ReturnType<typeof acquireEngineAttachment>>();
+  const attachmentBudget = { reservedDecodedBytes: 0 };
   const order: Array<'direct' | 'http2' | 'rendered'> = input.contract?.preferredTransport === 'rendered'
     ? ['rendered', 'direct', 'http2'] : ['direct', 'http2', 'rendered'];
   let lastStatus = 0, finalUrl = input.sourceUrl;
@@ -256,7 +257,7 @@ export async function acquire(input: TaskInput, transport: Transport = acquireEn
     let result: TransportResult;
     try { result = await transport(input.sourceUrl, source, source === 'direct' && cachedBody && cached
       ? { etag: cached.etag || undefined, lastModified: cached.lastModified || undefined } : undefined); }
-    catch { diagnostics.push({ source, status: 0, reason: 'transport_failed' }); continue; }
+    catch (error) { const failure = boundedTransportFailure(error); lastStatus = failure.status; diagnostics.push({ source, ...failure }); continue; }
     // Confirmation spacing is measured between received representations, not
     // request starts. Each fallback response gets its own receipt timestamp.
     observedAt = new Date().toISOString();
@@ -284,8 +285,9 @@ export async function acquire(input: TaskInput, transport: Transport = acquireEn
     let body: CaptureBody;
     try { body = extractEngineBody(result.html, input.sourceUrl, result.validators?.contentLanguage, input.contract); }
     catch { diagnostics.push({ source, status: result.status, reason: 'extraction_rejected', transportProof: result.transportProof }); continue; }
+    body.documentUrl = result.finalUrl;
     if (result.transportProof) body.transportProof = result.transportProof;
-    await captureExpectedAttachments(body, input, attachmentTransport, attachmentRequests);
+    await captureExpectedAttachments(body, input, attachmentTransport, attachmentRequests, attachmentBudget);
     const artifactId = await putArtifact(body);
     const assessment = assessCapture(body, input.contract, input.sourceUrl);
     diagnostics.push({ source, status: result.status, reason: assessment.eligible
@@ -310,32 +312,45 @@ export async function acquire(input: TaskInput, transport: Transport = acquireEn
 }
 
 /** Only exact reviewed attachment URLs are requested; no recursive crawler. */
-export function expectedAttachmentLinks(html: string, sourceUrl: string, contract: SourceContract | null): Record<string, number> {
+export function expectedAttachmentLinks(html: string, sourceUrl: string, contract: SourceContract | null, documentUrl = sourceUrl): Record<string, number> {
   const counts: Record<string, number> = Object.create(null);
   if (contract?.completenessInventory?.schemaVersion !== 2) return counts;
   const $ = load(html);
-  let roots = $('main, article, [role="main"]');
+  const active = (node: AnyNode) => $(node).is('html') || $(node).parents('html').length > 0;
+  const bases = $('base[href]').filter((_, node) => active(node) && (node as AnyNode & { namespace?: string }).namespace === 'http://www.w3.org/1999/xhtml');
+  let documentBase = documentUrl;
+  try {
+    const documentLocation = new URL(documentUrl);
+    if (!['http:', 'https:'].includes(documentLocation.protocol) || documentLocation.username || documentLocation.password) throw new Error('unsafe_document_location');
+    if (bases.length > 1) throw new Error('ambiguous_document_base');
+    if (bases.length) {
+      const base = new URL(bases.first().attr('href')!, documentUrl);
+      if (!['http:', 'https:'].includes(base.protocol) || base.username || base.password) throw new Error('unsafe_document_base');
+      documentBase = base.toString();
+    }
+  } catch { counts.unresolved_document_base = 1; return counts; }
+  let roots = $('main, article, [role="main"]').filter((_, node) => active(node));
   try {
     const fragment = decodeURIComponent(new URL(sourceUrl).hash.slice(1));
     if (fragment) {
-      roots = $('[id]').filter((_, node) => $(node).attr('id') === fragment);
+      roots = $('[id]').filter((_, node) => active(node) && $(node).attr('id') === fragment);
       if (roots.length !== 1) { counts.unresolved_fragment_scope = 1; return counts; }
     }
   } catch { counts.unresolved_fragment_scope = 1; return counts; }
-  const anchors = roots.length ? roots.find('a[href]').add(roots.filter('a[href]')) : $('a[href]');
+  const anchors = (roots.length ? roots.find('a[href]').add(roots.filter('a[href]')) : $('a[href]')).filter((_, node) => active(node));
   const seen = new Set<AnyNode>();
   anchors.each((_, node) => {
     if (seen.has(node)) return; seen.add(node);
-    try { const parsed = new URL($(node).attr('href')!, sourceUrl); const url = parsed.toString(); if (['http:', 'https:', 'mailto:', 'tel:'].includes(parsed.protocol)) counts[url] = (counts[url] || 0) + 1; } catch { /* malformed link cannot satisfy coverage */ }
+    try { const parsed = new URL($(node).attr('href')!, documentBase); const url = parsed.toString(); if (['http:', 'https:', 'mailto:', 'tel:'].includes(parsed.protocol)) counts[url] = (counts[url] || 0) + 1; } catch { /* malformed link cannot satisfy coverage */ }
   });
   return counts;
 }
 async function captureExpectedAttachments(body: CaptureBody, input: TaskInput, transport: typeof acquireEngineAttachment,
-  requests: Map<string, ReturnType<typeof acquireEngineAttachment>>) {
+  requests: Map<string, ReturnType<typeof acquireEngineAttachment>>, budget: { reservedDecodedBytes: number }) {
   const expected = input.contract?.completenessInventory;
   if (expected?.schemaVersion !== 2 || !expected.attachments?.length) return;
   body.attachments = []; body.attachmentErrors = [];
-  const links = expectedAttachmentLinks(body.html, input.sourceUrl, input.contract);
+  const links = expectedAttachmentLinks(body.html, input.sourceUrl, input.contract, body.documentUrl);
   let totalBytes = 0, totalText = 0;
   for (const attachment of expected.attachments) {
     if (new URL(attachment.url).origin !== new URL(input.sourceUrl).origin) {
@@ -346,7 +361,18 @@ async function captureExpectedAttachments(body: CaptureBody, input: TaskInput, t
     }
     try {
       // Reusing an in-run promise prevents fallback retries from issuing more requests.
-      if (!requests.has(attachment.url)) requests.set(attachment.url, transport(attachment.url));
+      if (!requests.has(attachment.url)) {
+        const allowance = Math.min(1_000_000, 2_000_000 - budget.reservedDecodedBytes);
+        if (allowance <= 0) throw new Error('attachment_capture_budget_exceeded');
+        // Reserve before a request. A failed read retains its reservation because
+        // its consumed decoded output is unknown; successful small reads refund it.
+        budget.reservedDecodedBytes += allowance;
+        requests.set(attachment.url, transport(attachment.url, allowance).then(result => {
+          if (result.bytes.length > allowance) throw new Error('attachment_capture_budget_exceeded');
+          budget.reservedDecodedBytes -= allowance - result.bytes.length;
+          return result;
+        }));
+      }
       const result = await requests.get(attachment.url)!;
       if (result.status !== 200 || result.finalUrl !== attachment.url || result.mediaType !== attachment.mediaType) throw new Error('attachment_identity_or_type_mismatch');
       totalBytes += result.bytes.length;
@@ -360,7 +386,39 @@ async function captureExpectedAttachments(body: CaptureBody, input: TaskInput, t
     } catch (error) {
       const token = error instanceof Error && ['attachment_capture_budget_exceeded', 'attachment_identity_or_type_mismatch'].includes(error.message)
         ? error.message : 'attachment_capture_failed';
-      body.attachmentErrors.push({ url: attachment.url, reason: token });
+      if (error instanceof TransportIntegrityError) {
+        const failure = boundedTransportFailure(error);
+        body.attachmentErrors.push({ url: attachment.url, reason: 'attachment_' + failure.reason, httpStatus: failure.status, transportProof: failure.transportProof });
+      } else body.attachmentErrors.push({ url: attachment.url, reason: token });
     }
   }
+}
+
+
+const integrityFailureCodes = new Set([
+  'request_failed', 'response_stream_failed', 'response_aborted', 'response_incomplete', 'response_length_mismatch',
+  'http_206_partial_response', 'invalid_content_length', 'response_body_too_large', 'response_decode_failed',
+  'response_range_length_mismatch', 'h2_invalid_content_length', 'h2_206_partial_response', 'h2_response_body_too_large',
+  'h2_response_incomplete', 'h2_response_length_mismatch', 'h2_response_decode_failed', 'h2_response_aborted', 'h2_request_failed',
+]);
+/** Preserve bounded transport facts, never raw exception/server text or extra properties. */
+function boundedTransportFailure(error: unknown): Omit<Observation['diagnostics'][number], 'source'> {
+  if (!(error instanceof TransportIntegrityError)) return { status: 0, reason: 'transport_failed' };
+  const status = Number.isInteger(error.httpStatus) && error.httpStatus >= 0 && error.httpStatus <= 599 ? error.httpStatus : 0;
+  const reason = integrityFailureCodes.has(error.message) ? error.message : 'transport_integrity_rejected';
+  const proof = error.transportProof;
+  const enums: Array<[unknown, readonly unknown[]]> = [
+    [proof?.scope, ['origin_response', 'archive_response', 'renderer_api_response']],
+    [proof?.protocol, ['http1', 'http2', 'fetch']], [proof?.byteRepresentation, ['encoded', 'decoded']],
+    [proof?.streamEnd, ['observed', 'not_observed']], [proof?.framing, ['complete', 'incomplete', 'unknown']],
+    [proof?.lengthCheck, ['matched', 'mismatch', 'not_declared', 'not_comparable']],
+    [proof?.decoding, ['completed', 'failed', 'not_applied']],
+  ];
+  const count = (value: unknown) => typeof value === 'number' && Number.isSafeInteger(value) && value >= 0;
+  if (!proof || proof.schemaVersion !== 1 || enums.some(([value, allowed]) => !allowed.includes(value))
+    || !count(proof.receivedBytes) || (proof.declaredContentLength !== null && !count(proof.declaredContentLength))) return { status, reason };
+  return { status, reason, transportProof: { schemaVersion: 1, scope: proof.scope, protocol: proof.protocol,
+    byteRepresentation: proof.byteRepresentation, declaredContentLength: proof.declaredContentLength,
+    receivedBytes: proof.receivedBytes, streamEnd: proof.streamEnd, framing: proof.framing,
+    lengthCheck: proof.lengthCheck, decoding: proof.decoding, entityCompleteness: 'not_proven' } };
 }

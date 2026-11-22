@@ -4,7 +4,7 @@ import { digest, structureDocument, type SourceContract } from '../engine/docume
 import { assessCoverage, coverageInventoryDigest, coverageScopeId, observedCoverageUnits, observedCoverageSequenceDigest,
   parseCoverageInventory, publicationCoverageSatisfied, type AttachmentCapture, type CoverageEvidence, type ReviewedCoverageInventory } from '../engine/coverage';
 import { reviewedFixture } from './fixtures/independentCoverage';
-import type { TransportProof } from '../scraper';
+import { TransportIntegrityError, type TransportProof } from '../scraper';
 
 const mainUrl = 'https://example.org/terms';
 const attachmentUrl = 'https://example.org/annex';
@@ -153,6 +153,73 @@ const rootTransport = vi.fn(async () => ({ ok: true, html: mainHtml, status: 200
 const attachmentTransport = vi.fn(async () => ({ bytes, html: annexHtml, status: 200, finalUrl: attachmentUrl, mediaType: 'text/html', language: 'en', transportProof: proof }));
 afterEach(() => { vi.clearAllMocks(); stored.bodies.length = 0; });
 describe('bounded attachment acquisition and retained evidence', () => {
+  it('keeps transport integrity status and bounded proof when a request throws', async () => {
+    const failedProof = { ...proof, receivedBytes: 10, declaredContentLength: 100, framing: 'incomplete' as const, lengthCheck: 'mismatch' as const };
+    const failure = vi.fn(async () => { throw new TransportIntegrityError('response_length_mismatch', failedProof, 200); });
+    const result = await acquire(input(), failure, attachmentTransport);
+    expect(result.eligible).toBe(false); expect(result.httpStatus).toBe(200);
+    expect(result.diagnostics[0]).toMatchObject({ status: 200, reason: 'response_length_mismatch', transportProof: failedProof });
+    expect(attachmentTransport).not.toHaveBeenCalled();
+  });
+  it('does not persist unknown exception messages or extra proof properties', async () => {
+    const supplied = { ...proof, secret: 'PRIVATE_TRANSPORT_CANARY' };
+    const failure = vi.fn(async () => { throw new TransportIntegrityError('PRIVATE_TRANSPORT_CANARY', supplied, 200); });
+    const result = await acquire(input(), failure, attachmentTransport);
+    expect(result.diagnostics[0].reason).toBe('transport_integrity_rejected');
+    expect(JSON.stringify(result)).not.toContain('PRIVATE_TRANSPORT_CANARY');
+  });
+  it('uses the active document base for relative and fragment links', () => {
+    const contract = input().contract!;
+    expect(expectedAttachmentLinks('<head><base href="/legal/"></head><main><a href="annex.pdf">A</a><a href="#item">I</a></main>', mainUrl, contract))
+      .toEqual({ 'https://example.org/legal/annex.pdf': 1, 'https://example.org/legal/#item': 1 });
+    expect(expectedAttachmentLinks('<main><a href="reference">R</a></main>', mainUrl, contract, mainUrl + '/'))
+      .toEqual({ 'https://example.org/terms/reference': 1 });
+  });
+  it('holds a changed base even when visible text and every block hash are unchanged', () => {
+    const value = input(); const reference = value.contract!.completenessInventory!;
+    reference.attachments = []; reference.links = [{ url: attachmentUrl, occurrences: 1, purpose: 'reference' }];
+    const { inventorySha256: ignored, ...body } = reference; void ignored;
+    value.contract!.completenessInventory = { ...body, inventorySha256: coverageInventoryDigest(body) };
+    const control = extractEngineBody(mainHtml, mainUrl, undefined, value.contract);
+    const changed = extractEngineBody(mainHtml.replace('<html lang="en">', '<html lang="en"><head><base href="https://cdn.example.net/legal/"></head>'), mainUrl, undefined, value.contract);
+    expect(control.document.hash).toBe(changed.document.hash);
+    expect(publicationCoverageSatisfied(assessCapture(control, value.contract, mainUrl))).toBe(true);
+    const assessment = assessCapture(changed, value.contract, mainUrl);
+    expect(assessment.eligible).toBe(false); expect(assessment.coverage.detail.linkState).toBe('mismatch');
+    expect(publicationCoverageSatisfied(assessment)).toBe(false);
+  });
+  it.each(['<base href="/"><base href="/other/">', '<base href="javascript:alert(1)">', '<base href="https://user:pass@example.org/">', '<base href="http://[malformed">'])('rejects ambiguous or unsafe document base %s', base => {
+    const counts = expectedAttachmentLinks('<head>' + base + '</head><main><a href="/annex">A</a></main>', mainUrl, input().contract!);
+    expect(counts).toEqual({ unresolved_document_base: 1 });
+  });
+  it('ignores inert template roots, IDs, anchors and base elements', () => {
+    const html = '<head><base href="/legal/"></head><body><template><base href="/bad/"><main id="part"><a href="fake">Fake</a></main></template><main id="part"><a href="real">Real</a></main><svg><base href="/svg/"></base></svg></body>';
+    expect(expectedAttachmentLinks(html, mainUrl + '#part', input().contract!)).toEqual({ 'https://example.org/legal/real': 1 });
+  });
+  it('does not fetch an attachment for a link that resolves to a different base origin', async () => {
+    const response = vi.fn(async () => ({ ok: true, html: mainHtml.replace('<html lang="en">', '<html lang="en"><head><base href="https://cdn.example.net/legal/"></head>'), status: 200, finalUrl: mainUrl, error: '' }));
+    const result = await acquire(input(), response, attachmentTransport);
+    expect(result.eligible).toBe(false); expect(attachmentTransport).not.toHaveBeenCalled();
+  });
+  it('stops creating attachment requests once the decoded aggregate reservation is exhausted', async () => {
+    const value = input(); const expected = value.contract!.completenessInventory!;
+    const largeBytes = Buffer.concat([bytes, Buffer.alloc(1_000_000 - bytes.length, 32)]);
+    expected.attachments = Array.from({ length: 4 }, (_, i) => {
+      const url = mainUrl + '/annex' + i;
+      return { id: 'annex-' + i, url, mediaType: 'text/html' as const, bytesSha256: sha(largeBytes), linkOccurrences: 1, coverage: legacy(annexText, url) };
+    });
+    const html = mainHtml.replace('<p><a href="/annex">Records annex</a></p>', expected.attachments.map(a => '<p><a href="' + a.url + '">Records annex</a></p>').join(''));
+    const freshReference = legacy(extractEngineBody(html, mainUrl).document.text);
+    expected.units = freshReference.units; expected.sequenceSha256 = freshReference.sequenceSha256;
+    const { inventorySha256: ignored, ...base } = expected; void ignored;
+    value.contract!.completenessInventory = reviewedFixture({ ...base, elements: undefined, attachments: expected.attachments, links: expected.attachments.map(a => ({ url: a.url, occurrences: 1, purpose: 'attachment' as const })) });
+    const limits: number[] = [];
+    const fetch = vi.fn(async (url: string, limit = 1_000_000) => { limits.push(limit); return { bytes: largeBytes, html: annexHtml, status: 200, finalUrl: url, mediaType: 'text/html', language: 'en', transportProof: proof }; });
+    const result = await acquire(value, async () => ({ ok: true, html, status: 200, finalUrl: mainUrl, error: '' }), fetch);
+    expect(fetch).toHaveBeenCalledTimes(2); expect(limits).toEqual([1_000_000, 1_000_000]);
+    expect(result.eligible).toBe(false); expect(result.reasons).toContain('attachment_capture_budget_exceeded');
+  });
+
   it('counts links only in the exact fragment scope and rejects ambiguous targets', () => {
     const contract = input().contract!; const scoped = mainUrl + '#part';
     expect(expectedAttachmentLinks('<main><a href="/outside">Outside</a><section id="part"><a href="/annex">Annex</a></section></main>', scoped, contract)).toEqual({ [attachmentUrl]: 1 });

@@ -165,6 +165,14 @@ describe('rendered acquisition keeps origin partial status and API response limi
 
 
 describe('original attachment entity bytes', () => {
+  it('enforces the remaining decoded aggregate allowance before returning an entity', async () => {
+    const wire = gzipSync(BODY); harness.direct.push({ complete: true, headers: { 'content-encoding': 'gzip', 'content-length': String(wire.length) }, chunks: [wire] });
+    await expect(acquireEngineAttachment(URL, BODY.length - 1)).rejects.toThrow('response_decode_failed');
+  });
+  it.each([0, -1, 1_000_001, 1.5])('rejects invalid remaining allowance %s before requesting', async limit => {
+    await expect(acquireEngineAttachment(URL, limit)).rejects.toThrow('invalid_attachment_budget');
+  });
+
   it('refuses a redirect before contacting its unreviewed target', async () => {
     harness.direct.push({ status: 302, complete: true, headers: { location: 'https://different.example.net/annex' }, chunks: [] });
     await expect(acquireEngineAttachment(URL)).rejects.toThrow('attachment_redirect_unreviewed');

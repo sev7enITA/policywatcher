@@ -395,7 +395,9 @@ export async function requestConfirmedRebaseline(id: string, note: string, actor
     if (!payload.observation?.eligible || !payload.observation.artifactId
       || Date.now() - Date.parse(payload.observation.observedAt) > 2 * DAILY_MS) throw new Error('review_hard_gate_unresolved');
     const captured = await readArtifact<CaptureBody>(payload.observation.artifactId, tx);
-    if (!assessCapture(captured, payload.input.contract, payload.input.sourceUrl).eligible) throw new Error('review_hard_gate_unresolved');
+    const assessment = assessCapture(captured, payload.input.contract, payload.input.sourceUrl);
+    if (!assessment.eligible) throw new Error('review_hard_gate_unresolved');
+    if (!publicationCoverageSatisfied(assessment)) throw new Error('source_coverage_not_qualified');
     if (await tx.engineTask.count({ where: { activePolicyId: review.policyId } })) throw new Error('policy_active_cancel_first');
     const task = await tx.engineTask.findUniqueOrThrow({ where: { id: review.taskId } });
     const policy = await currentPolicy(tx, task as Lease, payload.input);

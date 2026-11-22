@@ -1,15 +1,17 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { NextRequest } from 'next/server';
-const { log, approval } = vi.hoisted(() => ({ log: vi.fn().mockResolvedValue({}), approval: vi.fn() }));
-vi.mock('@/lib/db', () => ({ db: { adminReviewLog: { create: log } } }));
+const { log, approval, findReview } = vi.hoisted(() => ({ log: vi.fn().mockResolvedValue({}), approval: vi.fn(), findReview: vi.fn() }));
+vi.mock('@/lib/db', () => ({ db: { adminReviewLog: { create: log }, engineReview: { findUnique: findReview } } }));
 vi.mock('@/lib/adminAuth', () => ({ getSession: vi.fn(() => ({ valid: true, role: 'admin' })) }));
 vi.mock('@/lib/engine/store', () => ({ engineEnabled: () => true, enqueueRun: vi.fn(), cancelRun: vi.fn(), stateKey: vi.fn(), readArtifact: vi.fn() }));
 vi.mock('@/lib/engine/pipeline', () => ({ approveReview: approval, closeReview: vi.fn(), requestConfirmedRebaseline: vi.fn() }));
 vi.mock('@/lib/hostedPreview', () => ({ isHostedPreview: () => false, assertHostedPreviewContext: vi.fn() }));
 vi.mock('@/lib/engine/hostedWorker', () => ({ getHostedWorkerStatus: vi.fn() }));
 vi.mock('@/lib/scanChannels', () => ({ channelImplementationHash: vi.fn(), scanChannelCapabilities: vi.fn() }));
-import { POST } from '@/app/api/admin/engine/route';
+import { GET, POST } from '@/app/api/admin/engine/route';
 import { getSession } from '@/lib/adminAuth';
+import { readArtifact } from '@/lib/engine/store';
+import { structureDocument } from '@/lib/engine/document';
 const id = '11111111-1111-4111-8111-111111111111';
 const request = (body: unknown) => new NextRequest('https://example.org/api/admin/engine', { method: 'POST', body: JSON.stringify(body), headers: { 'content-type': 'application/json' } });
 describe('administrative coverage refusal accountability', () => {
@@ -41,5 +43,32 @@ describe('administrative coverage refusal accountability', () => {
   it('rejects an oversized inventory request before touching approval or storage', async () => {
     expect((await POST(request({ action: 'contract', inventory: 'x'.repeat(512 * 1024) }))).status).toBe(400);
     expect(log).not.toHaveBeenCalled(); expect(approval).not.toHaveBeenCalled();
+  });
+});
+
+
+describe('terminal review evidence visibility', () => {
+  const text = 'This frozen policy capture remains available after a terminal worker failure; processing failure never deletes its evidence.';
+  beforeEach(() => { vi.clearAllMocks(); vi.mocked(getSession).mockReturnValue({ valid: true, role: 'admin' });
+    vi.mocked(readArtifact).mockResolvedValue({ html: 'PRIVATE_RAW_HTML_CANARY', document: structureDocument(text), captureId: 'frozen-capture', language: 'en' }); });
+  it('loads evidence retained only inside the terminal checkpoint without exposing raw HTML', async () => {
+    findReview.mockResolvedValue({ id, payloadJson: JSON.stringify({ input: { sourceUrl: 'https://example.org/terms', contract: null },
+      checkpoint: { observation: { artifactId: 'retained-capture' } } }) });
+    const response = await GET(new NextRequest('https://example.org/api/admin/engine?reviewId=' + id));
+    expect(response.status).toBe(200); expect(response.headers.get('cache-control')).toContain('no-store');
+    expect(readArtifact).toHaveBeenCalledWith('retained-capture');
+    const body = await response.json(); expect(body.document.text).toBe(text); expect(body.coverageAssessment.eligible).toBe(false);
+    expect(JSON.stringify(body)).not.toContain('PRIVATE_RAW_HTML_CANARY');
+  });
+  it('keeps an explicit current observation ahead of a historical checkpoint pointer', async () => {
+    findReview.mockResolvedValue({ id, payloadJson: JSON.stringify({ observation: { artifactId: 'current-capture' },
+      checkpoint: { observation: { artifactId: 'older-capture' } } }) });
+    const response = await GET(new NextRequest('https://example.org/api/admin/engine?reviewId=' + id));
+    expect(response.status).toBe(200); expect(readArtifact).toHaveBeenCalledExactlyOnceWith('current-capture');
+  });
+  it('does not read terminal evidence for an unauthorized visitor', async () => {
+    vi.mocked(getSession).mockReturnValue({ valid: false });
+    expect((await GET(new NextRequest('https://example.org/api/admin/engine?reviewId=' + id))).status).toBe(403);
+    expect(readArtifact).not.toHaveBeenCalled(); expect(findReview).not.toHaveBeenCalled();
   });
 });

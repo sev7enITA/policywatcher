@@ -117,6 +117,15 @@ describe('coverage publication hard gates, actual isolated database and worker',
     expect(await database.policyChange.count()).toBe(0);
     expect(modelForbidden).not.toHaveBeenCalled();
   });
+  it('rejects a rebaseline request that cannot satisfy the publication inventory gate', async () => {
+    const policy = await seed(false, referenceText); await run('legacy-rebaseline-request', 'publish');
+    const review = await database.engineReview.findFirstOrThrow();
+    await database.engineReview.update({ where: { id: review.id }, data: { reasonsJson: '["parser_upgrade_rebaseline_required"]' } });
+    await expect(pipeline.requestConfirmedRebaseline(review.id, 'A historical review cannot waive the current independent inventory gate.', 'synthetic-admin')).rejects.toThrow('source_coverage_not_qualified');
+    expect((await database.policy.findUniqueOrThrow({ where: { id: policy.id } })).sourceMigrationPending).toBe(false);
+    expect((await database.engineReview.findUniqueOrThrow({ where: { id: review.id } })).status).toBe('pending');
+    expect(await database.policySnapshot.count()).toBe(0); expect(await database.engineOutbox.count()).toBe(0);
+  });
   it('cannot turn an uncovered high-impact review into publication with human approval', async () => {
     await seed(); await run('manual-gate', 'publish');
     const review = await database.engineReview.findFirstOrThrow();
