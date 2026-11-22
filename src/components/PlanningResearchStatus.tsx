@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { POLICYWATCHER_VERSION } from '@/lib/release';
 import { planningHref, type PlanningLanguage } from '@/lib/planningLocale';
 import styles from './PlanningResearchStatus.module.css';
 
@@ -10,7 +11,7 @@ export default function PlanningResearchStatus({ lang, path }: { lang: PlanningL
       <h2 id="planning-research-title">{it ? 'Tre livelli da distinguere' : 'Three distinct delivery states'}</h2>
     </div>
     <dl className={styles.states}>
-      <div><dt>{it ? 'Servizio pubblico · 5.5.0 stabile' : 'Public service · stable 5.5.0'}</dt><dd>{it ? 'Il dominio ufficiale usa lo scanner consolidato. La versione del prodotto non è la versione del motore sperimentale.' : 'The official website uses the established scanner. The product version and experimental engine version are separate.'}</dd></div>
+      <div><dt>{it ? `Servizio pubblico · ${POLICYWATCHER_VERSION} stabile` : `Public service · stable ${POLICYWATCHER_VERSION}`}</dt><dd>{it ? 'Il dominio ufficiale usa lo scanner consolidato. La versione del prodotto non è la versione del motore sperimentale.' : 'The official website uses the established scanner. The product version and experimental engine version are separate.'}</dd></div>
       <div><dt>{it ? 'Preview r3 · privata' : 'Preview r3 · private'}</dt><dd>{it ? 'Richiede accesso amministratore, conserva rapporti e confronti. Pubblicazione automatica e notifiche restano disabilitate.' : 'Administrator access is required. Reports and comparisons are retained. Automatic publication and notifications remain disabled.'}</dd></div>
       <div><dt>{it ? 'Candidato su Git · in qualificazione' : 'Git candidate · under qualification'}</dt><dd>{it ? 'La verifica successiva sui 133 URL sospesi ha completato quattro estrazioni; 129 casi restano sospesi. Non è una nuova prova di 500 completamenti riusciti.' : 'The follow-up on the same 133 held URLs completed four extractions; 129 cases remain held. This is not a new trial of 500 successful completions.'}</dd></div>
     </dl>

@@ -15,7 +15,7 @@ describe('browser-extension public candidate and localized handoff', () => {
     expect(candidate).toContain('0.1.0');
     expect(candidate).toContain('build 1');
     expect(candidate).toContain('3.8.3.3');
-    expect(candidate).toContain('5.5.0');
+    expect(candidate).toContain('5.6.0');
     expect(candidate).toContain('iPhone Duo');
     expect(candidate).toContain('27.1');
     expect(candidate).toContain(lang === 'it' ? 'non firmati' : 'Unsigned');
