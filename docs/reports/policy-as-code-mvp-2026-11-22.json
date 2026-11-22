@@ -25,7 +25,9 @@
     "candidateBranch": "codex/policy-as-code-mvp-20261122",
     "productionDeployed": false,
     "privatePreviewChanged": false,
-    "corporateRuntimeChanged": false
+    "corporateRuntimeChanged": false,
+    "pullRequest": "https://github.com/sev7enITA/policywatcher/pull/81",
+    "state": "pushed-draft-pr-not-deployed"
   },
   "executionAuthorized": false,
   "boundaries": [
@@ -35,10 +37,10 @@
     "No new completeness or 500-policy/day qualification."
   ],
   "evidenceSha256": {
-    "offline-receipt.json": "0b538a3ce0707be6028ec4b5499fe6e41c4d9b0a0f9ac01d2fc02c4d76c88e4f",
+    "offline-receipt.json": "e0b1e2b4ed518048539b4bd8e37826544b252fc7ac6a8920a004a79a4cc2faaa",
     "network-denial.log": "8db0a18cd7ed8c5df6905d866ed7f6f900b0cdbe5b3e3bf6d17bcf7ea98a4bbf",
-    "contract-and-adversarial.log": "b23906a76d3ed5f9ff1b99c1a8c458eb55289cf081880f064ee07b046229ef64",
-    "export-api-roundtrip.log": "c9873fd5b671af6f4857c2b75227e37aae66d55f2bec341aa334875416cfd40f",
+    "contract-and-adversarial.log": "c3f3d9687e93a1a2de7698637cffe19876173eb59c84dbf24f628ba71e0c08c4",
+    "export-api-roundtrip.log": "b4c56113bf033e19140441545e35d2bc082d266e4337b2e6c8a0e549f48d24b0",
     "mutation-receipt.json": "2921eac127aa5d310c6e816c4f9eb31190a5c78469dbd894f9b5d2e438ce4f54",
     "unicode-display-mutant.log": "919d401207e55dc16caacab781f2218a2933c99b3b1d7a11b100b33244bd0955",
     "quote-prefix-mutant.log": "2d010fde97d8ee9167e2b85ca8adf7de972111e939a7d53e12d9d91185b2fb2f",
@@ -46,6 +48,33 @@
     "build-aligned.log": "45ea1c85718178b22b6d5724534d452b4cd6edb25104cf0af6275944fc000afa",
     "standalone-receipt.json": "03a886702c9ccc335add0942e31a2dcfda11b89581eb73993d56a66a9e0daaa6",
     "test-typecheck.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-    "lint-final.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    "lint-final.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "build-aligned-final.log": "b6e27262b674a32a208b53e1e400a95f5b6a36a9d13e2d8915c8b0093efdd2da"
+  },
+  "localPolicyAsCodeSidecar": {
+    "installed": true,
+    "sourceCommit": "50954e4dc410beee59a7096a9b7c301bc6b174da",
+    "input": "synthetic-only",
+    "firstImport": "created",
+    "repeatImport": "existing",
+    "protectedFilesChecked": 79,
+    "protectedFilesUnchanged": true,
+    "runtimeDatabaseOrUiConnector": false
+  },
+  "ciInitial": {
+    "head": "50954e4dc410beee59a7096a9b7c301bc6b174da",
+    "coverage": {
+      "passedTests": 1775,
+      "skippedTests": 14,
+      "failedTests": 1,
+      "cause": "report title punctuation"
+    },
+    "codeql": {
+      "alerts": 2,
+      "location": "deliberate tampering test check/use race",
+      "fix": "same O_NOFOLLOW descriptor for inspect/read/write"
+    },
+    "correctedHeadStatus": "awaiting CI",
+    "checksDisabledOrAlertsDismissed": false
   }
 }

@@ -128,6 +128,8 @@ sandbox-exec -p '(version 1) (allow default) (deny network*)' \
 
 This portable test command does not cover the Next.js data query or endpoint. Run the relevant application suites separately using their checked-in test configuration and the evidence report's commands.
 
+The generic adapter can be installed as a separate local kit inside a PolicyAsCode workspace. The verified local installation imported only a synthetic example into a new draft sidecar and preserved hashes of 79 protected project files; it did not register a runtime hook or attach a draft to the live database/UI.
+
 The acceptance boundary is an export-to-draft round trip with the source digest preserved, repeat import unchanged, conflicting input rejected and private/held evidence absent. No approval, runtime evaluation, application database write or hosted deployment follows from a passing round trip.
 
 ## Deferred work

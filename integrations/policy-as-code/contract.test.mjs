@@ -24,14 +24,20 @@ test('draft import is immutable, namespaced, idempotent and detects local tamper
     assert.equal(first.status, 'created');
     assert.equal(first.receipt.status, 'draft');
     assert.equal(first.receipt.executionAuthorized, false);
-    assert.equal(fs.statSync(first.path).mode & 0o777, 0o600);
     assert.equal(importDraft({ ...input, actor: 'another' }).receipt.importedBy, 'reviewer');
     const other = importDraft({ ...input, tenant: 'tenant-b' });
     assert.notEqual(other.path, first.path);
     assert.throws(() => importDraft({ ...input, tenant: '../escape' }));
-    const tampered = JSON.parse(fs.readFileSync(first.path, 'utf8'));
-    tampered.executionAuthorized = true;
-    fs.writeFileSync(first.path, JSON.stringify(tampered));
+    // Inspect and deliberately corrupt the same open file, without a path race.
+    const fd = fs.openSync(first.path, fs.constants.O_RDWR | fs.constants.O_NOFOLLOW);
+    try {
+        assert.equal(fs.fstatSync(fd).mode & 0o777, 0o600);
+        const tampered = JSON.parse(fs.readFileSync(fd, 'utf8'));
+        tampered.executionAuthorized = true;
+        fs.ftruncateSync(fd, 0);
+        fs.writeSync(fd, JSON.stringify(tampered), 0, 'utf8');
+    }
+    finally { fs.closeSync(fd); }
     assert.throws(() => importDraft(input));
 }
 finally {
