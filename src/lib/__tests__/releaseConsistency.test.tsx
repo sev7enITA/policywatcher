@@ -90,6 +90,11 @@ describe('public release consistency', () => {
 });
 
 describe('release archive language handoff', () => {
+  it('rejects an unregistered release in both the page and its metadata', async () => {
+    const { default: page, generateMetadata } = await import('@/app/press-kit/releases/[slug]/page');
+    const props = { params: Promise.resolve({ slug: 'unregistered-release' }), searchParams: Promise.resolve({ lang: 'it' }) };
+    for (const render of [page, generateMetadata]) await expect(render(props)).rejects.toThrow('404');
+  });
   it.each(['en', 'it'] as const)('preserves %s from the changelog through the archive and detail', async lang => {
     const { default: ArchivePage, generateMetadata: archiveMetadata } = await import('@/app/press-kit/releases/page');
     const { default: DetailPage, generateMetadata: detailMetadata } = await import('@/app/press-kit/releases/[slug]/page');
