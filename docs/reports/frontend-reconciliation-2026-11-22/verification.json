@@ -1,0 +1,24 @@
+{
+  "recordedAt": "2026-11-22T03:07:26.504514+00:00",
+  "baseRevision": "dc43afdfc013c517b949e20b0f2dd2865823cca1",
+  "scope": "Stable frontend source and isolated local UI; no engine activation, scan, production change or Apple store availability claim.",
+  "networkDeniedTests": {
+    "files": 8,
+    "passed": 56,
+    "command": "sandbox-exec -p '(version 1)(allow default)(deny network*)' node node_modules/vitest/vitest.mjs run src/lib/__tests__/planningReconciliation.test.tsx src/lib/__tests__/releaseConsistency.test.tsx src/lib/__tests__/release.test.ts src/lib/__tests__/releasePulse.test.ts src/lib/__tests__/seoCanonical.test.ts src/lib/__tests__/pressKit.test.ts src/lib/__tests__/roadmapSignalUi.test.ts src/lib/__tests__/roadmapSignals.test.ts --reporter=dot",
+    "logSha256": "ffb92397885887ad333f298c305f347ec9c010f761a55b2b2a912b6e16b262f6"
+  },
+  "typecheck": {
+    "result": "passed",
+    "command": "node_modules/.bin/tsc --noEmit --incremental false --pretty false"
+  },
+  "lint": "Scoped ESLint passed",
+  "ui": {
+    "initialResponsiveRows": 18,
+    "finalHandoffRows": 8,
+    "base": "http://127.0.0.1:4517",
+    "noPublicDeploymentImplied": true
+  },
+  "negativeControl": "All three Italian planning-page tests fail when the diary href loses its Italian query; original source restored.",
+  "remainingTranslationBoundary": "Detailed technical inventory remains explicitly marked English; not full Italian translation."
+}

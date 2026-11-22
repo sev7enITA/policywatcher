@@ -6,6 +6,7 @@ import { useRef, useState } from 'react';
 import { Menu, X } from 'lucide-react';
 import GlobalContextControl, { useGlobalContext } from './GlobalContextControl';
 import styles from './PublicHeader.module.css';
+import { publicNavigationPath } from '@/lib/seo';
 
 export type PublicSection =
   | 'per-te'
@@ -84,7 +85,7 @@ export default function PublicHeader({ current, lang = 'en', lockLang = false }:
       }}
     >
       <div className={styles.inner}>
-        <Link href="/" className={styles.brand} aria-label="PolicyWatcher home">
+        <Link href={publicNavigationPath('/', activeLang)} className={styles.brand} aria-label="PolicyWatcher home">
           <Image src="/logo-mark.png" alt="" width={38} height={38} className={styles.mark} priority />
           <span>
             <strong>PolicyWatcher</strong>
@@ -108,9 +109,7 @@ export default function PublicHeader({ current, lang = 'en', lockLang = false }:
             {primaryIds.map((id) => links.find((link) => link.id === id)!).map((link) => (
               <Link
                 key={link.id}
-                href={link.id === 'briefing' ? `/briefing?lang=${activeLang}` : link.id === 'per-te' ? activeLang === 'it' ? '/per-te' : '/per-te?lang=en' : link.id === 'associations'
-                  ? activeLang === 'it' ? '/it/associazioni' : '/en/associations'
-                  : link.id === 'guides' && activeLang === 'it' ? '/guides?lang=it' : link.href}
+                href={publicNavigationPath(link.href, activeLang)}
                 aria-current={current === link.id ? 'page' : undefined}
                 onClick={closeNavigation}
               >
@@ -136,11 +135,7 @@ export default function PublicHeader({ current, lang = 'en', lockLang = false }:
                 {links.filter((link) => !primaryIds.includes(link.id)).map((link) => (
                   <Link
                     key={link.id}
-                    href={link.id === 'briefing' ? `/briefing?lang=${activeLang}` : link.id === 'per-te'
-                      ? activeLang === 'it' ? '/per-te' : '/per-te?lang=en'
-                      : link.id === 'associations'
-                        ? activeLang === 'it' ? '/it/associazioni' : '/en/associations'
-                        : link.href}
+                    href={publicNavigationPath(link.href, activeLang)}
                     aria-current={current === link.id ? 'page' : undefined}
                     onClick={closeNavigation}
                   >

@@ -29,6 +29,8 @@ import {
 import { ReleaseImpactMap } from '@/components/ReleaseImpactMap';
 import Footer from '@/components/Footer';
 import PublicHeader from '@/components/PublicHeader';
+import PlanningResearchStatus from '@/components/PlanningResearchStatus';
+import { planningHref, type PlanningLanguage } from '@/lib/planningLocale';
 import { POLICYWATCHER_RELEASE_NAME, POLICYWATCHER_VERSION } from '@/lib/release';
 import { latestResearchUpdate } from '@/lib/pressKit';
 import RoadmapSignalComposer, {
@@ -260,7 +262,7 @@ const nowItems = [
     title: 'PolicyWatcher 5.5: Engine 6 Preview',
     body: 'The new Engine 6 is available in a separate authenticated Preview, with durable scans, source contracts, private evidence and extraction comparison.',
     benefit: 'Operators can inspect saved reports and export JSON; readers can follow architecture, decision-flow and entity diagrams in the public diary.',
-    validation: 'The main service retains its established scanner. Preview is private and silent. Source completeness, multiple live dates and 500 distinct daily sources remain under qualification.',
+    validation: 'The main service retains its established scanner. Preview is private and silent. Source completeness, semantic accuracy and 500 successful daily full-pipeline completions remain unqualified. Three valid dates were completed only by the earlier separate frozen 12-source cohort.',
     icon: Eye,
     href: '/press-kit/releases/engine-six-preview-5-5-0',
   },
@@ -907,7 +909,9 @@ function DepthDiagram({ level, goal }: { level: DetailLevel; goal: (typeof goals
   );
 }
 
-export default function RoadmapClient() {
+export default function RoadmapClient({ lang = 'en' }: { lang?: PlanningLanguage }) {
+  const tr = (en: string, it: string) => lang === 'it' ? it : en;
+  const local = (href: string) => planningHref(href, lang);
   const [goalId, setGoalId] = useState<GoalId>('citizen');
   const [detailLevel, setDetailLevel] = useState<DetailLevel>('forensic');
   const [candidateSearch, setCandidateSearch] = useState('');
@@ -964,52 +968,52 @@ export default function RoadmapClient() {
 
   return (
     <>
-      <PublicHeader current="roadmap" />
-      <main className={styles.page}>
+      <PublicHeader current="roadmap" lang={lang} lockLang />
+      <main className={styles.page} lang={lang}>
       <nav className={styles.nav} aria-label="Roadmap navigation">
-        <Link href="/" className={styles.brand}>
+        <Link href={local('/')} className={styles.brand}>
           <Image src="/logo-mark.png" alt="" width={34} height={34} className={styles.brandMark} priority />
           <span>PolicyWatcher</span>
         </Link>
         <div className={styles.navLinks}>
-          <a href="#technical-baseline">Baseline</a>
-          <a href="#pipeline">Pipeline</a>
-          <a href="#candidates">Candidates</a>
-          <a href="#impact-map">Release impact</a>
-          <Link href="/feature-atlas">Feature Atlas</Link>
-          <a href="#workspace">Workspace</a>
-          <a href="#method">Ranking</a>
+          <a href="#technical-baseline">{tr('Baseline','Baseline')}</a>
+          <a href="#pipeline">{tr('Pipeline','Pipeline')}</a>
+          <a href="#candidates">{tr('Candidates','Candidati')}</a>
+          <a href="#impact-map">{tr('Release impact','Impatto delle release')}</a>
+          <Link href={local('/feature-atlas')}>{tr('Feature Atlas','Atlante delle funzioni')}</Link>
+          <a href="#workspace">{tr('Workspace','Area di lavoro')}</a>
+          <a href="#method">{tr('Ranking','Priorità')}</a>
           <a href={repoUrl} target="_blank" rel="noopener noreferrer">GitHub</a>
         </div>
       </nav>
 
       <header className={styles.hero}>
         <section className={styles.heroCopy}>
-          <Link href="/" className={styles.backLink}>
+          <Link href={local('/')} className={styles.backLink}>
             <ArrowLeft size={16} />
-            Back to dashboard
+            {tr('Back to dashboard','Torna all’area delle evidenze')}
           </Link>
-          <span className={styles.eyebrow}>PRODUCT PLANNING</span>
-          <h1>Product roadmap</h1>
+          <span className={styles.eyebrow}>{tr('PRODUCT PLANNING','PIANIFICAZIONE DEL PRODOTTO')}</span>
+          <h1>{tr('Product roadmap','Roadmap del prodotto')}</h1>
           <p>
-            PolicyWatcher includes goal-driven evidence workspaces in addition to static dashboard views. Workspace configuration records the user objective, requested evidence depth and modules that remain unavailable until source requirements are met.
+            {tr('PolicyWatcher includes goal-driven evidence workspaces in addition to static dashboard views. Workspace configuration records the user objective, requested evidence depth and modules that remain unavailable until source requirements are met.', 'La roadmap distingue funzioni disponibili, candidati in verifica e lavoro pianificato. Ogni percorso conserva obiettivo, profondità delle evidenze e requisiti ancora da soddisfare.')}
           </p>
           <div className={styles.heroActions}>
             <a className={styles.primaryAction} href="#candidates">
-              Signal a roadmap priority
+              {tr('Signal a roadmap priority','Segnala una priorità')}
               <ArrowUpRight size={17} />
             </a>
             <button className={styles.secondaryAction} type="button" onClick={openNewSignal}>
-              Propose a new idea
+              {tr('Propose a new idea','Proponi un’idea')}
             </button>
-            <Link className={styles.secondaryAction} href="/feature-atlas">
-              Explore feature dependencies
+            <Link className={styles.secondaryAction} href={local('/feature-atlas')}>
+              {tr('Explore feature dependencies','Esplora le dipendenze')}
               <ArrowUpRight size={17} />
             </Link>
           </div>
         </section>
 
-        <aside className={styles.heroBoard} aria-label="Roadmap signal preview">
+        <aside lang="en" className={styles.heroBoard} aria-label="Roadmap signal preview">
           <div className={styles.boardChrome}>
             <span>roadmap.signal</span>
             <b>proposal interface</b>
@@ -1032,11 +1036,13 @@ export default function RoadmapClient() {
         </aside>
       </header>
 
+      <PlanningResearchStatus lang={lang} path="/roadmap" />
       <aside className={styles.enginePreviewNotice} aria-label="Engine 6 Preview experimental programme">
-        <div><span>RESEARCH UPDATE · {latestResearchUpdate.dateModified}</span><h2>{latestResearchUpdate.title.en}</h2><p>{latestResearchUpdate.summary.en} {latestResearchUpdate.boundaries[0].en}</p></div>
-        <nav aria-label="Engine 6 Preview details"><Link href={`/press-kit/releases/${latestResearchUpdate.slug}`}>Read the latest research update</Link><Link href="/engine-6-preview">Explore architecture, decision flow and entity relationships <ArrowUpRight size={17} aria-hidden="true" /></Link><Link href="/engine-6-preview?lang=it" hrefLang="it">Leggi in italiano</Link></nav>
+        <div><span>{tr('RESEARCH UPDATE', 'AGGIORNAMENTO DI RICERCA')} · {latestResearchUpdate.dateModified}</span><h2>{latestResearchUpdate.title[lang]}</h2><p>{latestResearchUpdate.summary[lang]} {latestResearchUpdate.boundaries[0][lang]}</p></div>
+        <nav aria-label="Engine 6 Preview details"><Link href={local(`/press-kit/releases/${latestResearchUpdate.slug}`)}>{tr('Read the latest research update','Leggi l’aggiornamento di ricerca')}</Link><Link href={local('/engine-6-preview')}>{tr('Explore architecture, decision flow and entity relationships', 'Esamina architettura, flussi decisionali e relazioni fra entità')} <ArrowUpRight size={17} aria-hidden="true" /></Link></nav>
       </aside>
 
+      <div lang="en" data-planning-technical-inventory>
       <section className={styles.principles} aria-label="Roadmap principles">
         <article>
           <ShieldCheck size={18} />
@@ -1410,20 +1416,21 @@ export default function RoadmapClient() {
         <span>PolicyWatcher roadmap - community signal board</span>
         <span>Planning surface only. Features may change after validation, testing, and review.</span>
         <div>
-          <Link href="/showcase">Showcase</Link>
-          <Link href="/press">Press</Link>
-          <Link href="/trust">Trust</Link>
-          <Link href="/methodology/confidence">Methodology</Link>
+          <Link href={local('/showcase')}>Showcase</Link>
+          <Link href={local('/press')}>Press</Link>
+          <Link href={local('/trust')}>Trust</Link>
+          <Link href={local('/methodology/confidence')}>Methodology</Link>
         </div>
       </section>
-      <Footer lang="en" />
+      </div>
+      <Footer lang={lang} lockLang />
       </main>
-      <RoadmapSignalComposer
+      <div lang="en"><RoadmapSignalComposer
         request={composerRequest}
         tracks={candidateTracks}
         onClose={closeSignalComposer}
         onDraftAvailabilityChange={updateDraftAvailability}
-      />
+      /></div>
     </>
   );
 }

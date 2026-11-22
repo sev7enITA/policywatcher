@@ -1,5 +1,7 @@
 'use client';
 
+import { localizedPublicPath } from '@/lib/seo';
+
 import { ChangeEvent, FormEvent, MouseEvent, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import {
@@ -174,8 +176,8 @@ function dateInputValue(value: string | null): string {
   return value ? value.slice(0, 10) : '';
 }
 
-export default function WhatChangedClient() {
-  const [lang, setLang] = useState<Lang>('en');
+export default function WhatChangedClient({ initialLang = 'en' }: { initialLang?: Lang }) {
+  const [lang, setLang] = useState<Lang>(initialLang);
   const [companyName, setCompanyName] = useState('');
   const [companyTouched, setCompanyTouched] = useState(false);
   const [websiteUrl, setWebsiteUrl] = useState('');
@@ -372,7 +374,7 @@ export default function WhatChangedClient() {
 
             <details className={`${styles.disclosure} ${styles.privacyDisclosure}`}>
               <summary><span><LockKeyhole aria-hidden="true" />{t.privacyHow}</span><ChevronDown aria-hidden="true" /></summary>
-              <div><p>{t.privacyLocal}</p><p>{t.privacyMinimal}</p><p>{t.privacyPortfolio}</p><p>{t.privacyQa}</p><nav><Link href="/privacy">{t.privacyDetails}</Link><Link href="/methodology/confidence">{t.confidenceDetails}</Link></nav></div>
+              <div><p>{t.privacyLocal}</p><p>{t.privacyMinimal}</p><p>{t.privacyPortfolio}</p><p>{t.privacyQa}</p><nav><Link href={localizedPublicPath('/privacy', lang)}>{t.privacyDetails}</Link><Link href="/methodology/confidence">{t.confidenceDetails}</Link></nav></div>
             </details>
           </div>}
 
@@ -384,7 +386,7 @@ export default function WhatChangedClient() {
               <label className={styles.emailFileAction}><FileUp aria-hidden="true" />{t.emlAction}<input type="file" accept=".eml,message/rfc822" aria-describedby="email-file-help" onChange={(event) => void importEmailFile(event)} /></label>
             </div>
             {emailImport && <p className={styles.emailFileStatus} role="status" aria-live="polite"><CheckCircle2 aria-hidden="true" /><span><strong>{t.emlReady}:</strong> {emailImport.name}{emailImport.ignoredAttachments > 0 ? ` · ${emailImport.ignoredAttachments} ${emailImport.ignoredAttachments === 1 ? t.emlAttachment : t.emlAttachments}` : ''}</span></p>}
-            <div className={styles.plainTextNotice} role="note"><Link2Off aria-hidden="true" /><div><p>{t.plainTextLimit}</p><span>{t.desktopExtensionHint} <Link href="/browser-extension">{t.extensionShortLink}<ArrowRight aria-hidden="true" /></Link></span></div></div>
+            <div className={styles.plainTextNotice} role="note"><Link2Off aria-hidden="true" /><div><p>{t.plainTextLimit}</p><span>{t.desktopExtensionHint} <Link href={localizedPublicPath('/browser-extension', lang)}>{t.extensionShortLink}<ArrowRight aria-hidden="true" /></Link></span></div></div>
             </div>
           </details>
 
@@ -397,14 +399,14 @@ export default function WhatChangedClient() {
           <article className={`${styles.capturePath} ${styles.extensionPath}`}>
             <div className={styles.pathIcon}><Puzzle aria-hidden="true" /></div>
             <div className={styles.pathCopy}><p>{t.extensionChoiceLabel}</p><h2>{t.extensionChoiceTitle}</h2><span>{t.extensionChoiceBody}</span></div>
-            <Link className={styles.pathAction} href="/browser-extension">{t.extensionChoiceAction}<ArrowRight aria-hidden="true" /></Link>
+            <Link className={styles.pathAction} href={localizedPublicPath('/browser-extension', lang)}>{t.extensionChoiceAction}<ArrowRight aria-hidden="true" /></Link>
           </article>
           <article className={`${styles.capturePath} ${styles.pastePath}`}>
             <div className={styles.pathIcon}><ClipboardCheck aria-hidden="true" /></div>
             <div className={styles.pathCopy}><p>{t.pasteChoiceLabel}</p><h2>{t.pasteChoiceTitle}</h2><span>{t.pasteChoiceBody}</span></div>
             <a className={styles.pathAction} href="#paste-notice" onClick={focusPasteInput}>{t.pasteChoiceAction}<ArrowRight aria-hidden="true" /></a>
           </article>
-          <p className={styles.mobileExtensionNote}>{t.desktopExtensionHint} <Link href="/browser-extension">{t.extensionShortLink}<ArrowRight aria-hidden="true" /></Link></p>
+          <p className={styles.mobileExtensionNote}>{t.desktopExtensionHint} <Link href={localizedPublicPath('/browser-extension', lang)}>{t.extensionShortLink}<ArrowRight aria-hidden="true" /></Link></p>
         </section>
         </details>
 
@@ -442,9 +444,9 @@ export default function WhatChangedClient() {
         {result?.state === 'ambiguous' && <section className={styles.receipt} aria-live="polite"><h2>{t.ambiguous}</h2><div className={styles.whyBlock} data-result-explanation="ambiguous"><ShieldQuestion aria-hidden="true" /><div><strong>{t.why}</strong><p>{t.ambiguousWhy}</p></div></div><div className={styles.candidates}>{result.candidates.map((candidate) => <button type="button" key={candidate.id} onClick={() => chooseCompany(candidate.name)}><span>{candidate.name}</span><small>{t.choose}</small></button>)}</div></section>}
       </div>
 
-      <section className={styles.footer} aria-label={lang === 'it' ? 'Limiti e link locali' : 'Boundary and local links'}><p>{t.note}</p><div><Link href="/">{t.back}</Link><Link href="/privacy">Privacy</Link></div></section>
+      <section className={styles.footer} aria-label={lang === 'it' ? 'Limiti e link locali' : 'Boundary and local links'}><p>{t.note}</p><div><Link href={localizedPublicPath('/', lang)}>{t.back}</Link><Link href={localizedPublicPath('/privacy', lang)}>Privacy</Link></div></section>
       </main>
-      <Footer lang={lang} />
+      <Footer lang={lang} lockLang />
     </>
   );
 }

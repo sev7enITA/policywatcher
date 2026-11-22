@@ -602,8 +602,8 @@ export const pressKitBoilerplates = {
     it: 'PolicyWatcher è un progetto di interesse pubblico che collega le modifiche pubblicate alle fonti originali. Il Briefing permette di selezionare servizi e temi.',
   },
   long: {
-    en: 'PolicyWatcher is an independent civic-tech project created by Fabrizio Degni. It monitors a configured inventory of public policy sources for 16 companies across 6 sectors and organizes analysis through 15 canonical KPIs spanning privacy, AI governance and ethics. Public data routes apply the configured evidence gate, preserve source-specific timestamps and show Not assessed when an assessment is unavailable. The public repository is reusable under CC BY 4.0. PolicyWatcher is not legal advice, a compliance certification or exhaustive coverage; update intervals depend on source retrieval and review.',
-    it: 'PolicyWatcher e un progetto civic-tech indipendente creato da Fabrizio Degni. Monitora un inventario configurato di fonti policy pubbliche per 16 aziende in 6 settori e organizza l analisi attraverso 15 KPI canonici tra privacy, governance AI ed etica. Le route pubbliche applicano il gate configurato, mantengono timestamp specifici delle fonti e mostrano Non valutato quando una valutazione non e disponibile. Il repository pubblico e riutilizzabile con licenza CC BY 4.0. PolicyWatcher non e consulenza legale, certificazione di conformita, copertura esaustiva o monitoraggio in tempo reale.',
+    en: 'PolicyWatcher is an independent civic-tech project created by Fabrizio Degni. It monitors a configured inventory of public company policy sources and organizes analysis through 15 canonical KPIs spanning privacy, AI governance and ethics. Public data routes apply the configured evidence gate, preserve source-specific timestamps and show Not assessed when an assessment is unavailable. The public repository is reusable under CC BY 4.0. PolicyWatcher is not legal advice, a compliance certification or exhaustive coverage; update intervals depend on source retrieval and review.',
+    it: 'PolicyWatcher e un progetto civic-tech indipendente creato da Fabrizio Degni. Monitora un inventario configurato di fonti policy pubbliche delle aziende e organizza l analisi attraverso 15 KPI canonici tra privacy, governance AI ed etica. Le route pubbliche applicano il gate configurato, mantengono timestamp specifici delle fonti e mostrano Non valutato quando una valutazione non e disponibile. Il repository pubblico e riutilizzabile con licenza CC BY 4.0. PolicyWatcher non e consulenza legale, certificazione di conformita, copertura esaustiva o monitoraggio in tempo reale.',
   },
 } as const;
 
@@ -709,6 +709,37 @@ export const previewResearchUpdate: PressKitRelease = {
   ]
 };
 
+export const engineSixRemoteFollowupUpdate: PressKitRelease = {
+  slug: 'engine-six-remote-followup-november-2026',
+  version: '5.5.0',
+  displayVersion: 'Engine 6 research',
+  datePublished: '2026-11-22',
+  dateModified: '2026-11-22',
+  status: 'research',
+  category: 'confidence',
+  title: { en: 'Engine 6: a preserved follow-up on 133 held sources', it: 'Engine 6: verifica documentata delle 133 fonti sospese' },
+  summary: {
+    en: 'The 21 November follow-up retained the same 133 previously held URLs. Four extractions completed and 129 scopes remain held. Bounded same-host HTTPS redirects, a shared DNS deadline and HTTP2 cleanup have reproducible regression evidence. The public service remains stable 5.5.0; the hosted private Preview remains r3.',
+    it: 'La verifica del 21 novembre ha mantenuto gli stessi 133 URL precedentemente sospesi. Quattro estrazioni sono state completate e 129 ambiti restano sospesi. Redirect HTTPS circoscritti sullo stesso host, limite complessivo per il DNS e chiusura HTTP2 hanno evidenze di regressione riproducibili. Il servizio pubblico resta stabile 5.5.0; la Preview privata online resta r3.',
+  },
+  changes: [
+    { en: 'All 133 endpoint records were processed in 261.515 seconds with 233 transport-chain attempts. Thirty-one endpoints returned accepted HTTP 200; only four completed extraction. The other outcomes retain 98 transport rejections, 24 extraction-size holds, four origin-backoff holds and three block or soft404 holds.', it: 'Elaborati tutti i 133 record in 261,515 secondi con 233 tentativi nelle catene di trasporto. Trentuno endpoint hanno restituito HTTP 200 accettato; solo quattro hanno completato l’estrazione. Restano 98 rifiuti di trasporto, 24 sospensioni per dimensione dell’estrazione, quattro per backoff dell’origine e tre per blocco o soft404.' },
+    { en: 'Eighty-one focused tests passed with operating-system network access denied. They cover safe redirects, redirect loops, rejected credentials and downgrade, DNS rebinding, a stalled lookup, a bounded chain deadline and final-path drift.', it: 'Superati 81 test mirati con rete bloccata dal sistema operativo. Coprono redirect sicuri, cicli, rifiuto di credenziali e downgrade, DNS rebinding, lookup bloccato, scadenza complessiva della catena e deriva del percorso finale.' },
+    { en: 'The first follow-up process retained open HTTP2 sessions after its report was saved. The process was terminated and that failure is preserved. A separate bounded probe of the final cleanup candidate returned HTTP 200 and exited naturally with code 0 in 0.350 seconds.', it: 'Il primo processo ha mantenuto sessioni HTTP2 aperte dopo il salvataggio del rapporto. È stato arrestato e il fallimento è conservato. Una prova separata e limitata del candidato finale ha restituito HTTP 200 ed è terminata spontaneamente con codice 0 in 0,350 secondi.' },
+  ],
+  boundaries: [
+    { en: 'The source-code candidate and isolated target-account diagnostic are separate from the stable website and hosted private r3. Preview publication and notifications remain disabled. This research update does not activate a new engine.', it: 'Il candidato sorgente e la diagnostica isolata sull’account remoto sono separati dal sito stabile e dalla r3 privata online. Pubblicazione e notifiche Preview restano disabilitate. Questo aggiornamento di ricerca non attiva un nuovo motore.' },
+    { en: 'The four later successes cannot be added to an earlier 367-success wave as one contemporaneous 500-policy score. Changed source responses and network conditions prevent attributing the live improvement solely to the redirect fix.', it: 'I quattro successi successivi non si sommano alla precedente prova con 367 successi come unico risultato contemporaneo su 500 policy. Risposte delle fonti e condizioni di rete diverse impediscono di attribuire il miglioramento live soltanto alla correzione dei redirect.' },
+    { en: 'Source completeness, semantic accuracy, verifier reliability, recovery under load and 500 successful daily full-pipeline completions remain unqualified. A model opinion is not an executed test.', it: 'Completezza delle fonti, accuratezza semantica, affidabilità del verificatore, recupero sotto carico e 500 completamenti giornalieri dell’intera pipeline restano da qualificare. Un’opinione di un modello non equivale a un test eseguito.' },
+  ],
+  evidenceLinks: [
+    { href: '/engine-6-preview#validation', label: { en: 'Dated diary and retained receipts', it: 'Diario datato e ricevute conservate' } },
+    { href: 'https://github.com/sev7enITA/policywatcher/blob/c7deedbc1d926eb54845c2ffeca0e42efab2b6aa/docs/reports/engine-v6-remote133-2026-11-21.md', label: { en: '21 November: fixed-input follow-up, failures and cleanup', it: '21 novembre: verifica sul campione invariato, fallimenti e chiusura' } },
+    { href: 'https://github.com/sev7enITA/policywatcher/pull/76', label: { en: 'Implementation and evidence review, PR76', it: 'Revisione di implementazione ed evidenze, PR76' } },
+    { href: '/press-kit/releases/engine-six-progress-november-2026', label: { en: 'Earlier 8–16 November research roundup', it: 'Precedente sintesi di ricerca, 8–16 novembre' } },
+  ],
+};
+
 export const engineSixProgressUpdate: PressKitRelease = {
   "slug": "engine-six-progress-november-2026",
   "version": "5.5.0",
@@ -808,6 +839,7 @@ export const engineSixProgressUpdate: PressKitRelease = {
 };
 
 export const pressKitReleases: PressKitRelease[] = [
+  engineSixRemoteFollowupUpdate,
   engineSixProgressUpdate,
   previewResearchUpdate,
 {
