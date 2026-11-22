@@ -84,7 +84,7 @@
       "sourceSha256": "1617069bb03095bd499f5f553f592a288f5a7e0fc73ee32bb6ed14d79b91012b",
       "publishedPath": "interactive-it/index.html",
       "transformations": [
-        "Publication label and local logo; executable script/style externalized; original IT UI, source data and reviewed diagrams retained."
+        "Publication label and local logo; executable script/style externalized; original IT UI, source data and reviewed diagrams retained; anchor updates retain the hosted nonce route."
       ],
       "publishedSha256": "d695dba0331ddbcb5768e2a232a95bf9cda2dec8def27a415043596beb16e5f1"
     },
