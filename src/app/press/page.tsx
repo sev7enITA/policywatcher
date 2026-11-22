@@ -1,5 +1,5 @@
 import { serializeJsonLd } from '@/lib/structuredData';
-import { languageAlternates, withSocialMetadata } from '@/lib/seo';
+import { languageAlternates, publicLanguage, withSocialMetadata } from '@/lib/seo';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import {
@@ -25,7 +25,7 @@ import styles from './press.module.css';
 
 type Props = { searchParams: Promise<{ lang?: string }> };
 export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
-  const lang = (await searchParams).lang === 'it' ? 'it' : 'en';
+  const lang = publicLanguage((await searchParams).lang);
   return withSocialMetadata({
     title: lang === 'it' ? 'Rassegna stampa | PolicyWatcher' : 'Coverage Registry | PolicyWatcher',
     description: lang === 'it' ? 'Articoli, fonti originali e casi documentati su PolicyWatcher.' : 'Original articles, sources and worked examples about PolicyWatcher.',
@@ -36,7 +36,7 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
 const submitReferenceHref = 'mailto:info@policywatcher.online?subject=PolicyWatcher%20public%20reference';
 
 export default async function PressPage({ searchParams }: Props) {
-  const lang = (await searchParams).lang === 'it' ? 'it' : 'en';
+  const lang = publicLanguage((await searchParams).lang);
   const it = lang === 'it';
   const kinds = it ? { 'editorial-article': 'Articolo', 'newsletter-article': 'Newsletter', 'professional-post': 'Post professionale' } : pressCoverageKindLabels;
   const boundary = it ? 'La rassegna documenta riferimenti pubblici. Una citazione non attesta approvazione, certificazione, diffusione o validazione dei risultati.' : PRESS_COVERAGE_BOUNDARY;

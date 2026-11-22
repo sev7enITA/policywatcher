@@ -1,0 +1,7 @@
+{
+  "parent": "30a5eff",
+  "mutatedOnly": "src/lib/seo.ts",
+  "exitCode": 1,
+  "fixedBytesRestored": true,
+  "scope": "Controlled render/effect tests; no browser, network or database."
+}

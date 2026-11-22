@@ -1,0 +1,5 @@
+"route","query_en","query_it","server_wrapper_awaits_searchParams","server_metadata_alternates","client_file","client_boundary","source_localized_copy","sitemap_maps_en_it","sitemap_lastModified","sitemap_line","public_header_link","public_directory_link","proxy_sets_document_locale","persistent_document_lang_reuses_same_function","observed_browser_render"
+"/atlas","en","it","true","true","src/app/atlas/SiteAtlasClient.tsx","true","true","true","2026-11-22","47","true","false","true","true","false"
+"/feature-atlas","en","it","true","true","src/app/feature-atlas/FeatureAtlasClient.tsx","true","true","true","2026-11-22","48","true","true","true","true","false"
+"/roadmap","en","it","true","true","src/app/roadmap/RoadmapClient.tsx","true","true","true","2026-11-22","63","true","true","true","true","false"
+"/what-changed","en","it","true","true","src/app/what-changed/WhatChangedClient.tsx","true","true","true","2026-11-22","55","true","true","true","true","false"
