@@ -1,0 +1,52 @@
+{
+  "baseCommit": "4fd791e19b1b1ca68f6ec57d7d84ee1c829f17b4",
+  "scope": "Initial React admin login hydration only; no real credentials, authentication or hosted deployment.",
+  "parentNegativeOfflineExit": 1,
+  "fixedOfflineExit": 0,
+  "focusedAuthTestsPassed": 31,
+  "focusedAuthTestFiles": 4,
+  "lint": "passed",
+  "sourceTypecheck": "passed",
+  "parentBrowserFixture": {
+    "sourceRef": "4fd791e19b1b1ca68f6ec57d7d84ee1c829f17b4",
+    "scope": "Actual React login component SSR and hydration, stubbed Next router/image/CSS/auth response; isolated localhost only. Not a full hosted Next app or real authentication test.",
+    "externalRequests": 0,
+    "rows": [
+      {
+        "submission": "click",
+        "initialDisabledControls": 0,
+        "emptyCredentialError": true,
+        "authRequestCount": 0,
+        "fieldsCleared": true
+      }
+    ],
+    "status": "failed_expected_parent_negative"
+  },
+  "fixedBrowserFixture": {
+    "sourceRef": "working-tree-fix",
+    "scope": "Actual React login component SSR and hydration, stubbed Next router/image/CSS/auth response; isolated localhost only. Not a full hosted Next app or real authentication test.",
+    "externalRequests": 0,
+    "rows": [
+      {
+        "submission": "click",
+        "initialDisabledControls": 3,
+        "emptyCredentialError": false,
+        "authRequestCount": 1,
+        "fieldsCleared": false,
+        "expectedRequestShape": true
+      },
+      {
+        "submission": "Enter",
+        "initialDisabledControls": 3,
+        "emptyCredentialError": false,
+        "authRequestCount": 1,
+        "fieldsCleared": false,
+        "expectedRequestShape": true
+      }
+    ],
+    "status": "passed"
+  },
+  "harnessSha256": "f88cebffe2ee637a45cd4f7f2f3e739190e92dfdce09e2ab13d12e1f51d01547",
+  "sourceSha256": "f7ff8dc6b97db0cc451bd3756e90c81d125920cc74cc152da91afe89652b136f",
+  "remaining": "Full Next deployment and real sign-in remain separate gates. The private r3 cookie/redirect observation is not diagnosed or changed by this fix."
+}
