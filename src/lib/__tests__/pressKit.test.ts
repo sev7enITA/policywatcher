@@ -1,6 +1,9 @@
 import { createHash } from 'node:crypto';
 import { existsSync, readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
+import { createElement } from 'react';
+import { renderToStaticMarkup } from 'react-dom/server';
+import Footer from '@/components/Footer';
 import { POLICYWATCHER_VERSION } from '../release';
 import {
   PRESS_KIT_ARTICLE_50_URL,
@@ -186,13 +189,13 @@ describe('public press kit', () => {
   });
 
   it('connects the Press Kit through public navigation and supporting surfaces', () => {
-    const footer = read('src/components/Footer.tsx');
     const header = read('src/components/PublicHeader.tsx');
     const sitemap = read('src/app/sitemap.ts');
     const press = read('src/app/press/page.tsx');
     const about = read('src/app/about/page.tsx');
     const sections = read('src/lib/publicSections.ts');
-    expect(footer).toContain('href="/press-kit"');
+    expect(renderToStaticMarkup(createElement(Footer, { lang: 'en', variant: 'compact' }))).toContain('href="/press-kit"');
+    expect(renderToStaticMarkup(createElement(Footer, { lang: 'it', variant: 'compact' }))).toContain('href="/press-kit?lang=it"');
     expect(header).toContain("| 'press-kit'");
     expect(header).toContain("{ id: 'press-kit', href: '/press-kit'");
     expect(sitemap).toContain('`${BASE_URL}/press-kit`');

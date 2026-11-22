@@ -1,0 +1,329 @@
+{
+  "checkedAt": "2026-11-22T02:46:20.315549+00:00",
+  "rows": [
+    {
+      "path": "/",
+      "requestedLang": "en",
+      "status": 200,
+      "finalUrl": "https://policywatcher.online/",
+      "htmlLang": "en",
+      "canonical": [
+        "https://policywatcher.online"
+      ],
+      "h1": [
+        "Track updates to privacy policies, terms of service and AI policies"
+      ],
+      "bytes": 33358,
+      "sha256": "4eb376711b993b1f0ab7214e57c9e90ecefe377cd8542ce9737361a649a17b6a"
+    },
+    {
+      "path": "/",
+      "requestedLang": "it",
+      "status": 200,
+      "finalUrl": "https://policywatcher.online/?lang=it",
+      "htmlLang": "it",
+      "canonical": [
+        "https://policywatcher.online/?lang=it"
+      ],
+      "h1": [
+        "Segui le modifiche a informative privacy, condizioni di servizio e regole sull’IA"
+      ],
+      "bytes": 33928,
+      "sha256": "3c49e035de24e97e8e82f66a9b71e468a430e1d51e9c1aa930f3bcc5b6e7cbf2"
+    },
+    {
+      "path": "/admin/engine",
+      "requestedLang": "en",
+      "status": 200,
+      "finalUrl": "https://policywatcher.online/admin/login",
+      "htmlLang": "en",
+      "canonical": [],
+      "h1": [
+        "PolicyWatcher Admin",
+        "v",
+        "5.5.0"
+      ],
+      "bytes": 15242,
+      "sha256": "b6a1328bec324ee3d7e9d5d446de5e8f638a55c6be821d7059410c8b4d502a15"
+    },
+    {
+      "path": "/admin/engine",
+      "requestedLang": "it",
+      "status": 200,
+      "finalUrl": "https://policywatcher.online/admin/login",
+      "htmlLang": "en",
+      "canonical": [],
+      "h1": [
+        "PolicyWatcher Admin",
+        "v",
+        "5.5.0"
+      ],
+      "bytes": 15242,
+      "sha256": "4b068da69db553ba5c924583a0802ccabbed1710ab78e41a87732c1e03779ace"
+    },
+    {
+      "path": "/atlas",
+      "requestedLang": "en",
+      "status": 200,
+      "finalUrl": "https://policywatcher.online/atlas",
+      "htmlLang": "en",
+      "canonical": [
+        "https://policywatcher.online/atlas"
+      ],
+      "h1": [
+        "Site map"
+      ],
+      "bytes": 96547,
+      "sha256": "666e5e42ec52f05dd9bd8f0074bcfe9f9bfd6b34f3cba0efc52377a39f60996c"
+    },
+    {
+      "path": "/atlas",
+      "requestedLang": "it",
+      "status": 200,
+      "finalUrl": "https://policywatcher.online/atlas?lang=it",
+      "htmlLang": "en",
+      "canonical": [
+        "https://policywatcher.online/atlas"
+      ],
+      "h1": [
+        "Site map"
+      ],
+      "bytes": 96563,
+      "sha256": "d4f27a188402e82bb81e54b9a48658b17a40db5aa5632222080c05193ab12866"
+    },
+    {
+      "path": "/feature-atlas",
+      "requestedLang": "en",
+      "status": 200,
+      "finalUrl": "https://policywatcher.online/feature-atlas",
+      "htmlLang": "en",
+      "canonical": [
+        "https://policywatcher.online/feature-atlas"
+      ],
+      "h1": [
+        "Feature atlas"
+      ],
+      "bytes": 236772,
+      "sha256": "7567dedd4bf74931a1787eec1edfeb540e40a5cbc671e12a5e250673d6c02f46"
+    },
+    {
+      "path": "/feature-atlas",
+      "requestedLang": "it",
+      "status": 200,
+      "finalUrl": "https://policywatcher.online/feature-atlas?lang=it",
+      "htmlLang": "en",
+      "canonical": [
+        "https://policywatcher.online/feature-atlas"
+      ],
+      "h1": [
+        "Feature atlas"
+      ],
+      "bytes": 236788,
+      "sha256": "e78a8c182aa3c483378cf156f5c88b68e0e24b02b4feddaf53b1b431cb6d66d3"
+    },
+    {
+      "path": "/roadmap",
+      "requestedLang": "en",
+      "status": 200,
+      "finalUrl": "https://policywatcher.online/roadmap",
+      "htmlLang": "en",
+      "canonical": [
+        "https://policywatcher.online/roadmap"
+      ],
+      "h1": [
+        "Product roadmap"
+      ],
+      "bytes": 282367,
+      "sha256": "449c48834008beea5a93f16889abee603c571f245c04c3e61b8c14a412b365f5"
+    },
+    {
+      "path": "/roadmap",
+      "requestedLang": "it",
+      "status": 200,
+      "finalUrl": "https://policywatcher.online/roadmap?lang=it",
+      "htmlLang": "en",
+      "canonical": [
+        "https://policywatcher.online/roadmap"
+      ],
+      "h1": [
+        "Product roadmap"
+      ],
+      "bytes": 282383,
+      "sha256": "ffb2be2aea001d81cbc8576eb476cf096ffb53703d96f0ad79e046af7e7a36ca"
+    },
+    {
+      "path": "/changelog",
+      "requestedLang": "en",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "/changelog",
+      "requestedLang": "it",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "/engine-6-preview",
+      "requestedLang": "en",
+      "status": 200,
+      "finalUrl": "https://policywatcher.online/engine-6-preview",
+      "htmlLang": "en",
+      "canonical": [
+        "https://policywatcher.online/engine-6-preview"
+      ],
+      "h1": [
+        "Engine ",
+        "6",
+        "Preview"
+      ],
+      "bytes": 150027,
+      "sha256": "cd880c79fda3b70ba40bb71349b9731b52f1218fd9a2d2b27c8c450b555b53ba"
+    },
+    {
+      "path": "/engine-6-preview",
+      "requestedLang": "it",
+      "status": 200,
+      "finalUrl": "https://policywatcher.online/engine-6-preview?lang=it",
+      "htmlLang": "it",
+      "canonical": [
+        "https://policywatcher.online/engine-6-preview?lang=it"
+      ],
+      "h1": [
+        "Engine ",
+        "6",
+        "Preview"
+      ],
+      "bytes": 154952,
+      "sha256": "1ef72f81ca648f64346cab473e76e3e6fd3d74de33f6bd097705893fc7ffd7be"
+    },
+    {
+      "path": "/browser-extension",
+      "requestedLang": "en",
+      "status": 200,
+      "finalUrl": "https://policywatcher.online/browser-extension",
+      "htmlLang": "en",
+      "canonical": [
+        "https://policywatcher.online/browser-extension"
+      ],
+      "h1": [
+        "Link verification"
+      ],
+      "bytes": 26562,
+      "sha256": "26c6cb7c1c94ef40a0d29a8f41b17e1afaf5313551fa2afdba7ef0b7bb58717e"
+    },
+    {
+      "path": "/browser-extension",
+      "requestedLang": "it",
+      "status": 200,
+      "finalUrl": "https://policywatcher.online/browser-extension?lang=it",
+      "htmlLang": "it",
+      "canonical": [
+        "https://policywatcher.online/browser-extension?lang=it"
+      ],
+      "h1": [
+        "Verifica dei link"
+      ],
+      "bytes": 26775,
+      "sha256": "8ad34a7327fa997273661e383ace13b21bbacc0b547fbe880afa9b84eb733a1d"
+    },
+    {
+      "path": "/press-kit",
+      "requestedLang": "en",
+      "status": 200,
+      "finalUrl": "https://policywatcher.online/press-kit",
+      "htmlLang": "en",
+      "canonical": [
+        "https://policywatcher.online/press-kit"
+      ],
+      "h1": [
+        "PolicyWatcher press kit."
+      ],
+      "bytes": 141543,
+      "sha256": "784e15f4f67db2a877f08ac8f1a67fc029c58dde468b63e3d55e1031513ca43a"
+    },
+    {
+      "path": "/press-kit",
+      "requestedLang": "it",
+      "status": 200,
+      "finalUrl": "https://policywatcher.online/press-kit?lang=it",
+      "htmlLang": "it",
+      "canonical": [
+        "https://policywatcher.online/press-kit?lang=it"
+      ],
+      "h1": [
+        "Press kit PolicyWatcher."
+      ],
+      "bytes": 142947,
+      "sha256": "776f58297e77dd17320a7bb62601daa2a4e422de3cb47f6c0dbdf816f5199f20"
+    },
+    {
+      "path": "/press-kit/releases",
+      "requestedLang": "en",
+      "status": 200,
+      "finalUrl": "https://policywatcher.online/press-kit/releases",
+      "htmlLang": "en",
+      "canonical": [
+        "https://policywatcher.online/press-kit/releases"
+      ],
+      "h1": [
+        "Product releases and research updates."
+      ],
+      "bytes": 72305,
+      "sha256": "a85d8d4d510c07578a6014d41c7f9c9af51d37afa28f81eec61467606bb54ab1"
+    },
+    {
+      "path": "/press-kit/releases",
+      "requestedLang": "it",
+      "status": 200,
+      "finalUrl": "https://policywatcher.online/press-kit/releases?lang=it",
+      "htmlLang": "it",
+      "canonical": [
+        "https://policywatcher.online/press-kit/releases?lang=it"
+      ],
+      "h1": [
+        "Release prodotto e aggiornamenti di ricerca."
+      ],
+      "bytes": 74133,
+      "sha256": "04a80761821a353cb96850cab0192861ab55cd5eb9937ff97b0fdc38a3b7452c"
+    },
+    {
+      "path": "/what-changed",
+      "requestedLang": "en",
+      "status": 200,
+      "finalUrl": "https://policywatcher.online/what-changed",
+      "htmlLang": "en",
+      "canonical": [
+        "https://policywatcher.online/what-changed"
+      ],
+      "h1": [
+        "Policy notice verification"
+      ],
+      "bytes": 52800,
+      "sha256": "d2f2b96299c9d2aa5aec38221ab55bada6df2675f0d4a0e56c8949904b045955"
+    },
+    {
+      "path": "/what-changed",
+      "requestedLang": "it",
+      "status": 200,
+      "finalUrl": "https://policywatcher.online/what-changed?lang=it",
+      "htmlLang": "en",
+      "canonical": [
+        "https://policywatcher.online/what-changed"
+      ],
+      "h1": [
+        "Policy notice verification"
+      ],
+      "bytes": 52816,
+      "sha256": "9ea091236820843a1f78cf7483a06055d8eaaa4354d5b8b6e60a36c241d63f06"
+    },
+    {
+      "path": "/dashboard",
+      "requestedLang": "en",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "/dashboard",
+      "requestedLang": "it",
+      "error": "HTTP Error 404: Not Found"
+    }
+  ]
+}

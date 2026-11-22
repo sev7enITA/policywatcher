@@ -7,6 +7,7 @@ import { ArrowUpRight, ChevronDown, Compass, Menu, X } from 'lucide-react';
 import GlobalContextControl, { useGlobalContext } from './GlobalContextControl';
 import { NAVIGATION_COPY, NAVIGATION_GROUPS, NAVIGATION_LANES, navigationGroupFor, type NavigationLane } from '@/lib/navigationDirectory';
 import styles from './PublicHeader.module.css';
+import { publicNavigationPath } from '@/lib/seo';
 
 export type PublicSection =
   | 'per-te'
@@ -95,11 +96,7 @@ export default function PublicHeader({ current, lang = 'en', lockLang = false }:
   }, []);
 
   function localizedHref(link: typeof links[number]) {
-    if (link.id === 'briefing') return `/briefing?lang=${activeLang}`;
-    if (link.id === 'per-te') return activeLang === 'it' ? '/per-te' : '/per-te?lang=en';
-    if (link.id === 'associations') return activeLang === 'it' ? '/it/associazioni' : '/en/associations';
-    if (link.id === 'guides' && activeLang === 'it') return '/guides?lang=it';
-    return link.href;
+    return publicNavigationPath(link.href, activeLang);
   }
 
   function closeNavigation() {
@@ -118,7 +115,7 @@ export default function PublicHeader({ current, lang = 'en', lockLang = false }:
       }}
     >
       <div className={styles.inner}>
-        <Link href="/" className={styles.brand} aria-label="PolicyWatcher home">
+        <Link href={publicNavigationPath('/', activeLang)} className={styles.brand} aria-label="PolicyWatcher home">
           <Image src="/logo-mark.png" alt="" width={38} height={38} className={styles.mark} priority />
           <span>
             <strong>PolicyWatcher</strong>
@@ -188,7 +185,7 @@ export default function PublicHeader({ current, lang = 'en', lockLang = false }:
                     </section>
                   ))}
                 </div>
-                <Link href="/" className={styles.workspaceLink} onClick={closeNavigation}>
+                <Link href={publicNavigationPath('/', activeLang)} className={styles.workspaceLink} onClick={closeNavigation}>
                   {activeLang === 'it' ? 'Apri lo spazio interattivo' : 'Open the interactive workspace'} <ArrowUpRight size={15} aria-hidden="true" />
                 </Link>
               </div>

@@ -25,6 +25,8 @@ import {
 } from 'lucide-react';
 import Footer from '@/components/Footer';
 import PublicHeader from '@/components/PublicHeader';
+import PlanningResearchStatus from '@/components/PlanningResearchStatus';
+import { planningHref, type PlanningLanguage } from '@/lib/planningLocale';
 import { POLICYWATCHER_BUILD_LABEL } from '@/lib/release';
 import {
   publicSectionEdges,
@@ -103,19 +105,45 @@ function getNode(id: string) {
   return publicSectionNodes.find((node) => node.id === id);
 }
 
-function statusLabel(status: PublicSectionNode['status']) {
-  if (status === 'dynamic') return 'Dataset-driven';
-  if (status === 'protected') return 'Protected';
-  if (status === 'reference') return 'Reference';
-  return 'Live';
+function statusLabel(status: PublicSectionNode['status'], lang: PlanningLanguage) {
+  const labels = {
+    dynamic: { en: 'Dataset-driven', it: 'Da dati pubblici' },
+    protected: { en: 'Protected', it: 'Protetta' },
+    reference: { en: 'Reference', it: 'Riferimento' },
+    live: { en: 'Live', it: 'Disponibile' },
+  };
+  return labels[status][lang];
 }
+
+const italianNodeLabels: Record<string, string> = {
+  briefing: 'Briefing policy', 'engine-6-preview': 'Engine 6 Preview', changelog: 'Cronologia delle release',
+  'per-te': 'Per te', associations: 'Associazioni dei consumatori', 'historical-comparisons': 'Confronti degli archivi ufficiali',
+  knowledge: 'Catalogo pubblico', dashboard: 'Area delle evidenze', showcase: 'Presentazione del prodotto', timeline: 'Cronologia',
+  'what-changed': 'Verifica di un avviso', observatory: 'Osservatorio', developers: 'API e strumenti di sviluppo', integrations: 'Integrazioni',
+  leaderboard: 'Segnali dalle policy', trust: 'Fiducia e qualità', methodology: 'Metodo delle evidenze', roadmap: 'Roadmap del prodotto',
+  press: 'Registro della copertura', 'press-kit': 'Press Kit', pulse: 'PolicyWatcher Pulse', about: 'Il progetto',
+  security: 'Politica di sicurezza', privacy: 'Informativa privacy', infographics: 'Infografiche', 'feature-atlas': 'Atlante delle funzioni',
+  terms: 'Termini di utilizzo', admin: 'Operazioni amministrative',
+};
+const italianGroups: Record<PublicSectionGroup, { label: string; description: string }> = {
+  core: { label: 'Percorsi principali', description: 'Punti di ingresso e consultazione pubblica.' },
+  evidence: { label: 'Viste sulle evidenze', description: 'Viste basate sui record che superano i controlli di pubblicazione.' },
+  assurance: { label: 'Controlli di qualità', description: 'Controlli, segnali di sicurezza ed evidenze operative.' },
+  community: { label: 'Informazioni pubbliche', description: 'Roadmap, riferimenti stampa e informazioni sul prodotto.' },
+  governance: { label: 'Regole e metodo', description: 'Limiti di utilizzo, metodo delle evidenze e informativa privacy.' },
+  boundary: { label: 'Operazioni protette', description: 'Funzioni amministrative protette, mostrate solo per contesto.' },
+};
 
 function NodeIcon({ node }: { node: PublicSectionNode }) {
   const Icon = iconMap[node.icon] ?? LayoutDashboard;
   return <Icon size={17} aria-hidden="true" />;
 }
 
-export default function SiteAtlasClient() {
+export default function SiteAtlasClient({ lang = 'en' }: { lang?: PlanningLanguage }) {
+  const tr = (en: string, it: string) => lang === 'it' ? it : en;
+  const local = (href: string) => planningHref(href, lang);
+  const nodeLabel = (node: PublicSectionNode) => lang === 'it' ? italianNodeLabels[node.id] ?? node.label : node.label;
+  const groups = Object.fromEntries(Object.entries(publicSectionGroups).map(([key, group]) => [key, { ...group, ...(lang === 'it' ? italianGroups[key as PublicSectionGroup] : {}) }])) as typeof publicSectionGroups;
   const [activeGroup, setActiveGroup] = useState<PublicSectionGroup | 'all'>('all');
   const [selectedId, setSelectedId] = useState('per-te');
 
@@ -133,18 +161,18 @@ export default function SiteAtlasClient() {
 
   return (
     <>
-      <PublicHeader current="atlas" />
-      <main className={styles.page}>
+      <PublicHeader current="atlas" lang={lang} lockLang />
+      <main className={styles.page} lang={lang}>
       <section className={styles.hero}>
-        <nav className={styles.topbar} aria-label="Atlas navigation">
-          <Link href="/" className={styles.backLink}>
+        <nav className={styles.topbar} aria-label={tr('Atlas navigation', 'Navigazione dell’atlante')}>
+          <Link href={local('/')} className={styles.backLink}>
             <ArrowLeft size={16} />
-            Evidence Console
+            {tr('Evidence Console', 'Area delle evidenze')}
           </Link>
           <div className={styles.topbarLinks}>
-            <Link href="/showcase">Showcase</Link>
-            <Link href="/trust">Trust</Link>
-            <Link href="/roadmap">Roadmap</Link>
+            <Link href={local('/showcase')}>{tr('Showcase','Presentazione')}</Link>
+            <Link href={local('/trust')}>{tr('Trust','Qualità')}</Link>
+            <Link href={local('/roadmap')}>{tr('Roadmap','Roadmap')}</Link>
           </div>
         </nav>
 
@@ -152,32 +180,32 @@ export default function SiteAtlasClient() {
           <div>
             <span className={styles.eyebrow}>
               <GitFork size={15} />
-              Public route graph · {POLICYWATCHER_BUILD_LABEL}
+              {tr('Public route graph', 'Mappa delle sezioni pubbliche')} · {POLICYWATCHER_BUILD_LABEL}
             </span>
-            <h1>Site map</h1>
+            <h1>{tr('Site map','Mappa del sito')}</h1>
             <p>
-              The graph contains public sections, quality controls, evidence methodology,
-              public information and protected operations.
+              {tr('The graph contains public sections, quality controls, evidence methodology, public information and protected operations.', 'La mappa comprende sezioni pubbliche, controlli di qualità, metodo delle evidenze e operazioni protette.')}
             </p>
           </div>
-          <div className={styles.heroStats} aria-label="Atlas summary">
+          <div className={styles.heroStats} aria-label={tr('Atlas summary', 'Riepilogo dell’atlante')}>
             <div>
               <strong>{publicSectionNodes.length}</strong>
-              <span>nodes</span>
+              <span>{tr('nodes','nodi')}</span>
             </div>
             <div>
               <strong>{publicSectionEdges.length}</strong>
-              <span>relations</span>
+              <span>{tr('relations','relazioni')}</span>
             </div>
             <div>
-              <strong>{Object.keys(publicSectionGroups).length}</strong>
-              <span>families</span>
+              <strong>{Object.keys(groups).length}</strong>
+              <span>{tr('families','famiglie')}</span>
             </div>
           </div>
         </div>
       </section>
 
-      <section className={styles.filters} aria-label="Atlas filters">
+      <PlanningResearchStatus lang={lang} path="/atlas" />
+      <section className={styles.filters} aria-label={tr('Atlas filters', 'Filtri dell’atlante')}>
         <button
           type="button"
           className={activeGroup === 'all' ? styles.filterActive : ''}
@@ -185,7 +213,7 @@ export default function SiteAtlasClient() {
         >
           All sections
         </button>
-        {(Object.entries(publicSectionGroups) as Array<[PublicSectionGroup, typeof publicSectionGroups[PublicSectionGroup]]>).map(([key, group]) => (
+        {(Object.entries(groups) as Array<[PublicSectionGroup, typeof groups[PublicSectionGroup]]>).map(([key, group]) => (
           <button
             key={key}
             type="button"
@@ -202,13 +230,13 @@ export default function SiteAtlasClient() {
         <div className={styles.graphPanel}>
           <div className={styles.graphHeader}>
             <div>
-              <h2>Route relationships</h2>
-              <p>Node selection displays the route role and connected sections.</p>
+              <h2>{tr('Route relationships','Relazioni fra le pagine')}</h2>
+              <p>{tr('Node selection displays the route role and connected sections.','Seleziona un nodo per esaminarne il ruolo e i collegamenti.')}</p>
             </div>
-            <span>{activeGroup === 'all' ? 'Full atlas' : publicSectionGroups[activeGroup].label}</span>
+            <span>{activeGroup === 'all' ? tr('Full atlas', 'Atlante completo') : groups[activeGroup].label}</span>
           </div>
 
-          <svg className={styles.graph} viewBox="0 0 100 100" role="img" aria-label="PolicyWatcher section relationship graph">
+          <svg className={styles.graph} viewBox="0 0 100 100" role="group" aria-label={tr("PolicyWatcher section relationship graph", "Mappa delle relazioni fra le sezioni")}>
             <defs>
               <radialGradient id="atlasNode" cx="50%" cy="35%" r="70%">
                 <stop offset="0%" stopColor="#ffffff" stopOpacity="0.96" />
@@ -235,7 +263,7 @@ export default function SiteAtlasClient() {
             {publicSectionNodes.map((node) => {
               const visible = visibleNodeIds.has(node.id);
               const selected = node.id === selectedNode.id;
-              const group = publicSectionGroups[node.group];
+              const group = groups[node.group];
               return (
                 <g
                   key={node.id}
@@ -252,14 +280,15 @@ export default function SiteAtlasClient() {
                       setSelectedId(node.id);
                     }
                   }}
-                  tabIndex={0}
+                  tabIndex={visible ? 0 : -1}
+                  aria-hidden={!visible}
                   role="button"
-                  aria-label={`Open ${node.label} details`}
+                  aria-label={`${tr('Open', 'Apri')} ${nodeLabel(node)}${lang === 'en' ? ' details' : ''}`}
                 >
                   <circle r={selected ? 5.8 : 4.9} fill="url(#atlasNode)" stroke={group.color} />
                   <circle r="8.7" fill="transparent" stroke={group.color} className={styles.nodeHalo} />
                   <text y={selected ? -8.5 : -7.4} textAnchor="middle">
-                    {node.label}
+                    {nodeLabel(node)}
                   </text>
                 </g>
               );
@@ -271,31 +300,31 @@ export default function SiteAtlasClient() {
           <div className={styles.detailHeader}>
             <span
               className={styles.detailIcon}
-              style={{ '--group-color': publicSectionGroups[selectedNode.group].color } as CSSProperties}
+              style={{ '--group-color': groups[selectedNode.group].color } as CSSProperties}
             >
               <NodeIcon node={selectedNode} />
             </span>
             <div>
-              <span className={styles.nodeFamily}>{publicSectionGroups[selectedNode.group].label}</span>
-              <h2>{selectedNode.label}</h2>
+              <span className={styles.nodeFamily}>{groups[selectedNode.group].label}</span>
+              <h2>{nodeLabel(selectedNode)}</h2>
             </div>
           </div>
 
-          <p className={styles.detailSummary}>{selectedNode.summary}</p>
+          <p lang="en" className={styles.detailSummary}>{selectedNode.summary}</p>
           <div className={styles.statusRow}>
-            <span>{statusLabel(selectedNode.status)}</span>
-            <span>{selectedNode.role}</span>
+            <span>{statusLabel(selectedNode.status, lang)}</span>
+            <span lang="en">{selectedNode.role}</span>
           </div>
 
-          <Link href={selectedNode.href} className={styles.primaryAction}>
-            Open section
+          <Link href={local(selectedNode.href)} className={styles.primaryAction}>
+            {tr('Open section', 'Apri la sezione')}
             <ExternalLink size={15} />
           </Link>
 
           <div className={styles.relationsBox}>
-            <h3>Connected to</h3>
+            <h3>{tr('Connected to','Collegamenti')}</h3>
             {selectedEdges.length === 0 ? (
-              <p>No direct relation is configured for this node.</p>
+              <p>{tr('No direct relation is configured for this node.','Non sono configurati collegamenti diretti per questo nodo.')}</p>
             ) : (
               <ul>
                 {selectedEdges.map((edge) => {
@@ -304,8 +333,8 @@ export default function SiteAtlasClient() {
                   return (
                     <li key={`${edge.from}-${edge.to}`}>
                       <button type="button" onClick={() => setSelectedId(other.id)}>
-                        <span>{other.label}</span>
-                        <small>{edge.label}</small>
+                        <span>{nodeLabel(other)}</span>
+                        <small lang="en">{edge.label}</small>
                       </button>
                     </li>
                   );
@@ -322,11 +351,11 @@ export default function SiteAtlasClient() {
             <Route size={15} />
             Linked sitemap
           </span>
-          <h2>Route directory</h2>
+          <h2>{tr('Route directory','Indice delle sezioni')}</h2>
         </div>
 
         <div className={styles.sitemapFamilies}>
-          {(Object.entries(publicSectionGroups) as Array<[PublicSectionGroup, typeof publicSectionGroups[PublicSectionGroup]]>).map(([key, group]) => {
+          {(Object.entries(groups) as Array<[PublicSectionGroup, typeof groups[PublicSectionGroup]]>).map(([key, group]) => {
             const nodes = publicSectionNodes.filter((node) => node.group === key);
             return (
               <article key={key} className={styles.sitemapFamily} style={{ '--group-color': group.color } as CSSProperties}>
@@ -340,15 +369,15 @@ export default function SiteAtlasClient() {
 
                 <div className={styles.sitemapLinks}>
                   {nodes.map((node) => (
-                    <Link key={node.id} href={node.href} className={styles.sitemapLink}>
+                    <Link key={node.id} href={local(node.href)} className={styles.sitemapLink}>
                       <span className={styles.sitemapLinkIcon}>
                         <NodeIcon node={node} />
                       </span>
                       <span>
-                        <strong>{node.label}</strong>
-                        <small>{node.summary}</small>
+                        <strong>{nodeLabel(node)}</strong>
+                        <small lang="en">{node.summary}</small>
                       </span>
-                      <em>{statusLabel(node.status)}</em>
+                      <em>{statusLabel(node.status, lang)}</em>
                     </Link>
                   ))}
                 </div>
@@ -364,11 +393,11 @@ export default function SiteAtlasClient() {
             <Search size={15} />
             Route sequences
           </span>
-          <h2>Route groups</h2>
+          <h2>{tr('Route groups','Gruppi di percorsi')}</h2>
         </div>
         <div className={styles.routeCards}>
           {recommendedRoutes.map((route) => (
-            <article key={route.title} className={styles.routeCard}>
+            <article key={route.title} className={styles.routeCard} lang="en">
               <h3>{route.title}</h3>
               <p>{route.body}</p>
               <div className={styles.routeChain}>
@@ -378,7 +407,7 @@ export default function SiteAtlasClient() {
                   return (
                     <span key={node.id}>
                       <button type="button" onClick={() => setSelectedId(node.id)}>
-                        {node.label}
+                        {nodeLabel(node)}
                       </button>
                       {index < route.nodes.length - 1 && <ArrowRight size={14} />}
                     </span>
@@ -396,20 +425,20 @@ export default function SiteAtlasClient() {
             <ShieldCheck size={15} />
             Route group summary
           </span>
-          <h2>Group responsibilities</h2>
+          <h2>{tr('Group responsibilities','Ruoli dei gruppi')}</h2>
         </div>
         <div className={styles.familyGrid}>
-          {(Object.entries(publicSectionGroups) as Array<[PublicSectionGroup, typeof publicSectionGroups[PublicSectionGroup]]>).map(([key, group]) => (
+          {(Object.entries(groups) as Array<[PublicSectionGroup, typeof groups[PublicSectionGroup]]>).map(([key, group]) => (
             <article key={key} className={styles.familyCard} style={{ '--group-color': group.color } as CSSProperties}>
               <h3>{group.label}</h3>
               <p>{group.description}</p>
-              <strong>{publicSectionNodes.filter((node) => node.group === key).length} sections</strong>
+              <strong>{publicSectionNodes.filter((node) => node.group === key).length} {tr('sections', 'sezioni')}</strong>
             </article>
           ))}
         </div>
       </section>
 
-      <Footer lang="en" />
+      <Footer lang={lang} lockLang />
       </main>
     </>
   );

@@ -15,7 +15,7 @@ export function publicLanguage(value: unknown): PublicLanguage {
 export function publicRequestLanguage(pathname: string, queryLanguage: unknown): PublicLanguage {
   if (/^\/per-te\/?$/.test(pathname)) return queryLanguage === 'en' ? 'en' : 'it';
   if (pathname.startsWith('/it/')) return 'it';
-  const localizedQueryRoute = /^\/(change\/[^/]+|pulse\/[^/]+|share\/[^/]+|embed\/pulse\/[^/]+|guides(?:\/[^/]+)?|press-kit\/releases(?:\/[^/]+)?|browser-extension|engine-6-preview|briefing)\/?$/.test(pathname);
+  const localizedQueryRoute = /^\/(change\/[^/]+|pulse\/[^/]+|share\/[^/]+|embed\/pulse\/[^/]+|guides(?:\/[^/]+)?|press-kit\/releases(?:\/[^/]+)?|browser-extension|engine-6-preview|briefing|atlas|feature-atlas|roadmap|what-changed)\/?$/.test(pathname);
   return (pathname === '/' || pathname === '/press-kit' || localizedQueryRoute) ? publicLanguage(queryLanguage) : 'en';
 }
 
@@ -29,6 +29,22 @@ export function localizedPublicUrl(path: string, lang: PublicLanguage): string {
 export function localizedPublicPath(path: string, lang: PublicLanguage): string {
   const url = new URL(localizedPublicUrl(path, lang));
   return `${url.pathname}${url.search}${url.hash}`;
+}
+
+/** Keep language only on routes that actually implement that public translation. */
+export function publicNavigationPath(path: string, lang: PublicLanguage): string {
+  if (!path.startsWith('/') || path.startsWith('//') || path.startsWith('/admin')) return path;
+  const url = new URL(path, POLICYWATCHER_CANONICAL_ORIGIN);
+  if (url.pathname === '/en/associations' || url.pathname === '/it/associazioni') {
+    url.pathname = lang === 'it' ? '/it/associazioni' : '/en/associations';
+    url.searchParams.delete('lang');
+  } else if (url.pathname === '/per-te') {
+    if (lang === 'en') url.searchParams.set('lang', 'en');
+    else url.searchParams.delete('lang');
+  } else if (publicRequestLanguage(url.pathname, 'it') === 'it' && !url.pathname.startsWith('/it/')) {
+    return localizedPublicPath(path, lang);
+  } else return path;
+  return url.pathname + url.search + url.hash;
 }
 
 export function languageAlternates(path: string, lang: PublicLanguage) {
