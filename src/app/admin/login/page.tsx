@@ -1,20 +1,27 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useSyncExternalStore } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { LogIn, AlertTriangle } from 'lucide-react';
 import { POLICYWATCHER_VERSION } from '@/lib/release';
 import styles from '../admin.module.css';
 
+// Keep the initial HTML inert until React has attached the controlled-input handlers.
+const subscribeToHydration = () => () => {};
+const clientReady = () => true;
+const serverReady = () => false;
+
 export default function AdminLoginPage() {
   const router = useRouter();
+  const ready = useSyncExternalStore(subscribeToHydration, clientReady, serverReady);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async () => {
+    if (!ready || loading) return;
     if (!username.trim() || !password.trim()) {
       setError('Please enter both username and password.');
       return;
@@ -61,7 +68,7 @@ export default function AdminLoginPage() {
 
   return (
     <div className={styles.loginContainer}>
-      <div className={styles.loginCard}>
+      <div className={styles.loginCard} aria-busy={!ready || loading}>
         <div className={styles.loginLogoWrapper}>
           <Image
             src="/logo-mark.png"
@@ -76,6 +83,9 @@ export default function AdminLoginPage() {
           PolicyWatcher Admin
           <span className={styles.loginVersion}>v{POLICYWATCHER_VERSION}</span>
         </h1>
+
+        {!ready && <p id="login-readiness" role="status">Preparing sign-in controls. Please wait.</p>}
+        <noscript>JavaScript is required to sign in. Enable it and reload this page.</noscript>
 
         {error && (
           <div className={`${styles.alert} ${styles.alertWarning}`}>
@@ -97,7 +107,8 @@ export default function AdminLoginPage() {
             onKeyDown={handleKeyDown}
             placeholder="Enter your username"
             autoComplete="username"
-            disabled={loading}
+            aria-describedby={!ready ? 'login-readiness' : undefined}
+            disabled={!ready || loading}
           />
         </div>
 
@@ -114,17 +125,18 @@ export default function AdminLoginPage() {
             onKeyDown={handleKeyDown}
             placeholder="Enter your password"
             autoComplete="current-password"
-            disabled={loading}
+            aria-describedby={!ready ? 'login-readiness' : undefined}
+            disabled={!ready || loading}
           />
         </div>
 
         <button
           className={`${styles.btn} ${styles.btnPrimary}`}
           onClick={handleSubmit}
-          disabled={loading}
+          disabled={!ready || loading}
         >
           <LogIn size={16} />
-          {loading ? 'Signing in...' : 'Sign In'}
+          {!ready ? 'Preparing sign-in...' : loading ? 'Signing in...' : 'Sign In'}
         </button>
       </div>
     </div>

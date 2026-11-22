@@ -1,0 +1,11 @@
+
+ RUN  v4.1.9 /Users/fabriziodegni/Projects/PolicyWatcher-admin-login-hydration-20261122
+
+ ✓ src/lib/__tests__/adminLoginHydration.test.tsx > admin login initial HTML > does not accept credentials or submission before hydration attaches handlers 8ms
+ ✓ src/lib/__tests__/adminLoginHydration.test.tsx > admin login initial HTML > explains the disabled controls accessibly and gives a no-JavaScript recovery path 1ms
+
+ Test Files  1 passed (1)
+      Tests  2 passed (2)
+   Start at  04:36:45
+   Duration  254ms (transform 84ms, setup 0ms, import 160ms, tests 9ms, environment 0ms)
+

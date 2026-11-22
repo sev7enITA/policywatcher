@@ -1,0 +1,44 @@
+
+ RUN  v4.1.9 /Users/fabriziodegni/Projects/PolicyWatcher-admin-login-hydration-20261122
+
+ × src/lib/__tests__/adminLoginHydration.test.tsx > admin login initial HTML > does not accept credentials or submission before hydration attaches handlers 9ms
+   → Target cannot be null or undefined.
+ × src/lib/__tests__/adminLoginHydration.test.tsx > admin login initial HTML > explains the disabled controls accessibly and gives a no-JavaScript recovery path 5ms
+   → expected '<link rel="preload" as="image" href="…' to contain 'id="login-readiness" role="status"'
+
+ Test Files  1 failed (1)
+      Tests  2 failed (2)
+   Start at  04:36:44
+   Duration  288ms (transform 80ms, setup 0ms, import 160ms, tests 15ms, environment 0ms)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/lib/__tests__/adminLoginHydration.test.tsx > admin login initial HTML > does not accept credentials or submission before hydration attaches handlers
+AssertionError: Target cannot be null or undefined.
+ ❯ src/lib/__tests__/adminLoginHydration.test.tsx:11:51
+      9|   it('does not accept credentials or submission before hydration attac…
+     10|     const html = renderToStaticMarkup(<AdminLoginPage />);
+     11|     expect(html.match(/<input[^>]*disabled=""/g)).toHaveLength(2);
+       |                                                   ^
+     12|     expect(html.match(/<button[^>]*disabled=""/g)).toHaveLength(1);
+     13|     expect(html).toContain('aria-busy="true"');
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  src/lib/__tests__/adminLoginHydration.test.tsx > admin login initial HTML > explains the disabled controls accessibly and gives a no-JavaScript recovery path
+AssertionError: expected '<link rel="preload" as="image" href="…' to contain 'id="login-readiness" role="status"'
+
+Expected: "id="login-readiness" role="status""
+Received: "<link rel="preload" as="image" href="/logo-mark.png"/><div class="_loginContainer_991292"><div class="_loginCard_991292"><div class="_loginLogoWrapper_991292"><img alt="PolicyWatcher Logo" width="52" height="52" decoding="async" data-nimg="1" style="color:transparent;object-fit:contain" src="/logo-mark.png"/></div><h1 class="_loginTitle_991292">PolicyWatcher Admin<span class="_loginVersion_991292">v5.5.0</span></h1><div class="_formGroup_991292"><label class="_label_991292" for="username">Username</label><input id="username" class="_input_991292" type="text" placeholder="Enter your username" autoComplete="username" value=""/></div><div class="_formGroup_991292"><label class="_label_991292" for="password">Password</label><input id="password" class="_input_991292" type="password" placeholder="Enter your password" autoComplete="current-password" value=""/></div><button class="_btn_991292 _btnPrimary_991292"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-log-in" aria-hidden="true"><path d="m10 17 5-5-5-5"></path><path d="M15 12H3"></path><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path></svg>Sign In</button></div></div>"
+
+ ❯ src/lib/__tests__/adminLoginHydration.test.tsx:18:18
+     16|   it('explains the disabled controls accessibly and gives a no-JavaScr…
+     17|     const html = renderToStaticMarkup(<AdminLoginPage />);
+     18|     expect(html).toContain('id="login-readiness" role="status"');
+       |                  ^
+     19|     expect(html.match(/aria-describedby="login-readiness"/g)).toHaveLe…
+     20|     expect(html).toContain('<noscript>JavaScript is required to sign i…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
