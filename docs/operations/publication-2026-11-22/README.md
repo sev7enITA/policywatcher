@@ -1,6 +1,6 @@
 # Public release preparation: PolicyWatcher 5.6.0
 
-**Current preparation:** see `independent-inventory-publication.json`. Earlier SHA256 `416cc4fe…` is SUPERSEDED/HOLD and must not be deployed. Full stable npm prebuild found a stale fingerprint; the replacement retains the guard and regenerates only stable extraction metadata. The historical handoff below is preserved, not current readiness.
+**Current preparation:** `independent-inventory-publication.json` records the verified source `9d60d30`, ZIP SHA256 `c41b194f9900e3c4c6f5b537a0fc5cc4b812e205872e158a92f05138c9762088`, 56 passing release/source tests and 29 local HTTP/schema controls. Ready for staging; not published. Earlier SHA256 `416cc4fe…` is SUPERSEDED/HOLD and must not be deployed. Full stable npm prebuild found a stale fingerprint; the replacement retains the guard and regenerates only stable extraction metadata. The historical handoff below is preserved, not current readiness.
 
 This is a publication handoff, not a deployment receipt. The public artifact contains the cumulative EN/IT diary and responsible-AI methodology, with the stable scanner. It does not activate the new private engine or add its admin runtime. The new independent-inventory follow-up must not be attributed to this frozen package.
 

@@ -12,7 +12,7 @@ The offline CLI checks actual retained reference bytes against declared digests 
 
 ## Executed local verification
 
-- Full application suite: **1,842 passed, 14 skipped**, 221 files passed and 3 skipped, with OS-denied TCP/IP and scoped Unix IPC for tooling.
+- Full application suite: **1,844 passed, 14 skipped**, 221 files passed and 3 skipped, with OS-denied TCP/IP and scoped Unix IPC for tooling.
 - Targeted checks cover granular counts, exact reference binding, changed links with unchanged visible text, missing candidate identity, self-reference IDs, missing/ambiguous attachments, wrong bytes/media/language, incomplete text, uncertain extraction, partial responses and unknown/renderer framing.
 - Isolated database/worker regression rejects a version 1 block-only reference before model execution, baseline refresh, public changes or outbox writes.
 - Offline authoring checks reject changed reference/attachment bytes and preserve existing drafts. No candidate content is learned during those checks.
@@ -41,3 +41,14 @@ The final clean isolated private-candidate package build passed, including the g
 Full stable public `npm run build` uncovered a stale generated extraction profile after the 5.6 root lockfile metadata change. The earlier direct Next build had bypassed that prebuild guard. Original preparation archives are now held. Stable source `411a415f5e898a83ee9aca9fc979e843125bb18a` regenerates the profile with the guard retained: only the lockfile input digest changes; all seven extraction-source digests are identical. The profile identity changes from `e717f5728a2a0bbd1a078708282e0cf8fec1fc5e126ffeda57c86ee989d8d9c4` to `fcc7f2145af676a4973bcdcba82a6701176cca950b949c2563043733b1d70062`. No extraction flag, source approval, adoption of a baseline or hosted scanner state was changed. Historical evidence must retain its original profile.
 
 The regenerated public ZIP has SHA256 `0cc3e1a430bdbd1b73b6a35f2f3206c776ce393bde49065e2b94359a675e78a6`. Against the previous 5.6 archive, only the EN/IT methodology page, diary page, generated stable extraction-profile metadata and release manifest differ; the other 1,067 files match. No private Engine 6/admin code is included. Fresh stable build and compiled HTTP checks are required before this package can be called ready. This checkpoint does not claim delivery online.
+
+
+## Final local readiness and CodeQL correction
+
+On `371cf98`, five GitHub controls passed while the CodeQL status reported two high-severity filesystem-race findings in the offline authoring script. The script checked a path before reopening it. Both paths now use one `O_NOFOLLOW`/nonblocking read descriptor, bounded reads, descriptor metadata and a post-read change check. Symlinks, non-regular/oversized files and changed files are refused; the descriptor is closed in a finally block. No alert or rule was dismissed. Added negative cases reject symlink and oversized inputs. The complete offline suite passed **1,844 tests, 14 skipped**; final clean private package build, lint and critical-test types passed. Remote revalidation is separate.
+
+The final stable public package is **ready for staging, not published**: source `9d60d30a119c1f88d494ae07da73f9156badec06`, SHA256 `c41b194f9900e3c4c6f5b537a0fc5cc4b812e205872e158a92f05138c9762088`. Full npm build including its prebuild guard passed. Eight release/source regression suites passed 56 tests offline. Real compiled EN/IT HTTP responses passed 28 controls; a separate pristine SQLite rehearsal applied all 19 stable migrations and confirmed 35 application tables. The prior successful 1,842-test diary package is superseded and retained separately.
+
+Harness failures are preserved: deployment ZIPs omit test files and downloaded press-package fixtures, so regression tests used the matching stable source and verified local press fixtures outside the deployment archive; the public ZIP was not expanded to include those fixtures. The first HTTP/schema harness incorrectly expected migration metadata in a bootstrap database. The final schema control uses a separate pristine stable migration rehearsal. An initial absent-file migration error and a subsequent private-schema rehearsal from the wrong working directory are retained and excluded; the correctly scoped stable rehearsal is the 35-table/19-migration result. No hosted database was touched.
+
+The download handoff includes the exact ZIP, digest, standalone offline verifier, readiness receipt and staging/Preview-restoration/production sequence. It contains no credentials or private source captures. Old preparation archives and receipts remain available with explicit holds. Git, local build, wiki and public delivery remain separate states; no website publication is claimed.

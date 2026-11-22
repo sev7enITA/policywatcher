@@ -1,5 +1,5 @@
 /** Offline draft authoring from separately retained reference files. No network or approval. */
-import { readFileSync, writeFileSync, statSync } from 'node:fs';
+import { openSync, fstatSync, readSync, closeSync, writeFileSync, constants } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { digest, parseSourceContract, structureDocument, type SourceContract } from '../src/lib/engine/document';
 import { createHash } from 'node:crypto';
@@ -13,8 +13,24 @@ function argument(name: string) {
   return resolve(args[index + 1]);
 }
 const specPath = argument('--spec'), destination = argument('--out');
-if (statSync(specPath).size > 512 * 1024) throw new Error('reference_spec_budget_exceeded');
-const spec = JSON.parse(readFileSync(specPath, 'utf8')) as {
+function boundedFile(file: string, limit: number): Buffer {
+  const descriptor = openSync(file, constants.O_RDONLY | constants.O_NOFOLLOW | constants.O_NONBLOCK);
+  try {
+    const before = fstatSync(descriptor, { bigint: true });
+    if (!before.isFile() || before.size > BigInt(limit)) throw new Error('reference_file_budget_or_type');
+    const bytes = Buffer.alloc(limit + 1); let used = 0;
+    while (used < bytes.length) {
+      const received = readSync(descriptor, bytes, used, bytes.length - used, null);
+      if (!received) break; used += received;
+    }
+    const after = fstatSync(descriptor, { bigint: true });
+    if (used > limit || BigInt(used) !== before.size || after.size !== before.size
+      || after.mtimeNs !== before.mtimeNs || after.ctimeNs !== before.ctimeNs
+      || after.ino !== before.ino || after.dev !== before.dev) throw new Error('reference_file_changed_during_read');
+    return bytes.subarray(0, used);
+  } finally { closeSync(descriptor); }
+}
+const spec = JSON.parse(boundedFile(specPath, 512 * 1024).toString('utf8')) as {
   contract: SourceContract;
   referenceFile: string;
   reference: ReviewedCoverageInventory['reference'];
@@ -27,8 +43,8 @@ if (!spec || !Array.isArray(spec.attachments) || spec.attachments.length > 4 || 
 const base = dirname(specPath);
 function retained(path: string, limit: number) {
   const file = resolve(base, path);
-  if (file === destination || statSync(file).size > limit) throw new Error('reference_file_budget_or_output_overlap');
-  return readFileSync(file);
+  if (file === destination) throw new Error('reference_file_output_overlap');
+  return boundedFile(file, limit);
 }
 function inventory(referenceText: string, sourceUrl: string, reference: ReviewedCoverageInventory['reference'], version: string): ReviewedCoverageInventory {
   const scope = { sourceUrl, language: spec.contract.language, referenceVersion: version };

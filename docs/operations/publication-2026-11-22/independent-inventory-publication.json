@@ -1,7 +1,7 @@
 {
-  "sourceRevision": "411a415f5e898a83ee9aca9fc979e843125bb18a",
+  "sourceRevision": "9d60d30a119c1f88d494ae07da73f9156badec06",
   "archive": "PolicyWatcher-5.6.0-hostinger-2026-11-22-independent-inventory-methodology-diary.zip",
-  "sha256": "0cc3e1a430bdbd1b73b6a35f2f3206c776ce393bde49065e2b94359a675e78a6",
+  "sha256": "c41b194f9900e3c4c6f5b537a0fc5cc4b812e205872e158a92f05138c9762088",
   "files": 1071,
   "unchangedFiles": 1067,
   "changedFilesComparedWithPrevious56": [
@@ -18,7 +18,7 @@
     "flagsChanged": false,
     "baselineAdoptionPerformed": false
   },
-  "state": "prepared_pending_fresh_build_and_compiled_checks_not_published",
+  "state": "ready_for_staging_not_published",
   "productVersion": "5.6.0",
   "newPrivateEngineCodeIncluded": false,
   "privateCandidatePR": 84,
@@ -30,5 +30,10 @@
     "Exact package verified in staging",
     "Exact private r3 and protected data restored and verified",
     "Same public package verified in production"
-  ]
+  ],
+  "fullNpmBuildIncludingPrebuild": "passed",
+  "releaseAndSourceTestsPassed": 56,
+  "compiledHttpControlsPassed": 28,
+  "pristineMigrationRehearsalControlsPassed": 1,
+  "privateCandidateTestsPassed": 1844
 }

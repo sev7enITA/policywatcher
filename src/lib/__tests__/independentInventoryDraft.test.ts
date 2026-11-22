@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it } from 'vitest';
-import { mkdtempSync, writeFileSync, readFileSync, rmSync } from 'node:fs';
+import { mkdtempSync, writeFileSync, readFileSync, rmSync, symlinkSync, unlinkSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
@@ -47,6 +47,16 @@ describe('offline independent reference authoring', () => {
   it('refuses changed attachment bytes even when the reviewed text is unchanged', () => {
     const { directory } = fixture(); writeFileSync(join(directory,'annex.html'),raw+'<p>An extra clause.</p>');
     const result = run(directory); expect(result.status).not.toBe(0); expect(result.stderr).toContain('attachment_reference_artifact_digest_mismatch');
+  });
+  it('rejects a symlink reference instead of checking one pathname and reading another target', () => {
+    const { directory } = fixture();
+    unlinkSync(join(directory, 'reference.txt')); writeFileSync(join(directory, 'different.txt'), main);
+    symlinkSync(join(directory, 'different.txt'), join(directory, 'reference.txt'));
+    const result = run(directory); expect(result.status).not.toBe(0); expect(result.stderr).toContain('ELOOP');
+  });
+  it('bounds file reads before allocating or trusting changed reference bytes', () => {
+    const { directory } = fixture(); writeFileSync(join(directory, 'reference.txt'), Buffer.alloc(500001, 65));
+    const result = run(directory); expect(result.status).not.toBe(0); expect(result.stderr).toContain('reference_file_budget_or_type');
   });
   it('preserves an earlier draft instead of overwriting its evidence', () => {
     const { directory } = fixture(); expect(run(directory).status).toBe(0);
