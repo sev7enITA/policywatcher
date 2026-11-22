@@ -26,6 +26,7 @@
     "extension:validate": "node scripts/validate-browser-extension.mjs",
     "extension:smoke": "node scripts/extension-browser-smoke.mjs",
     "extension:package": "bash scripts/package-browser-extension.sh",
+    "extension:safari:package": "python3 scripts/package-safari-ios.py",
     "api:smoke": "tsx scripts/api-smoke-test.ts",
     "db:repair": "tsx scripts/repair-data.ts",
     "db:schema:active": "node scripts/prisma-active-schema.mjs schema-path",
