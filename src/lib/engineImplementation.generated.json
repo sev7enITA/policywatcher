@@ -187,7 +187,7 @@
     ],
     [
       "src/app/api/admin/engine/route.ts",
-      "336a5064338c67a8ecd7a5b0c4a077e897884ed513f0b3a96f125e78073bcbb1"
+      "630cb27d15b7f5635d3b30665c22453b9b13e9b0e929cd68854d72328c363d6e"
     ],
     [
       "src/app/api/cron/check-all/route.ts",
@@ -299,7 +299,7 @@
     ],
     [
       "src/lib/engine/acquisition.ts",
-      "3c9a10042a0e3fce802f651088c2bfaff495463e290b9276f8025aa2108149bd"
+      "1500ebcdc5c11208addace6142020a940eba6d990037454e73404f910e5373bd"
     ],
     [
       "src/lib/engine/channelReports.ts",
@@ -318,12 +318,16 @@
       "92e450217f0c2de005f865334732d1bdbaf531c2e0d07eab5880253785d0d5cd"
     ],
     [
+      "src/lib/engine/coverage.ts",
+      "251333f554cfe78eb16e03ddc974ea1e44394213a439a9e45f24ec12936626c3"
+    ],
+    [
       "src/lib/engine/document.ts",
-      "6543f9d0d2c768510a140b19e8d5191c7c90f7730062ef696f1e3471a4893540"
+      "5c97ccb9754977e5317b81a0a0e4ec2c812e69115865dd520687a2d95575b0d0"
     ],
     [
       "src/lib/engine/failures.ts",
-      "1a7d7ba69e35061e462b84b12046f6484102a4b3733257ed8f95e32d17bf0a46"
+      "22561a1923338b8246087d3743b6896302a036d0e9a2e417863ac30847d13d57"
     ],
     [
       "src/lib/engine/hostedWorker.ts",
@@ -335,7 +339,7 @@
     ],
     [
       "src/lib/engine/pipeline.ts",
-      "a79154289a2fb97137cb570ef898ec4c4d856ef68be6f49bf64dfa8e9793e075"
+      "098ed199e361c4ac38a7a242565a7c1594d7e3a4b75dc049cc15300af8611ccf"
     ],
     [
       "src/lib/engine/qualification.ts",
@@ -351,7 +355,7 @@
     ],
     [
       "src/lib/extractionProfile.generated.json",
-      "ed817c4e29d7d67b08f7e7c0bfa082dc1d88c94cf45ab48dfdc1c0b7ee432538"
+      "39821a5b0942b054bb1a4780ad127f7f806ff8d2950e66141aecb747d44ea3f2"
     ],
     [
       "src/lib/extractionProfile.ts",
@@ -451,11 +455,11 @@
     ],
     [
       "src/lib/scraper.ts",
-      "74ea02d0e563307105110c2b595ecb4635855103e0bd69f3aca9d5fbf47f8a45"
+      "b431a74792173fc79cfc2b5e034786905a36145d5bfe0f5eb13912891dab8e17"
     ],
     [
       "src/lib/seo.ts",
-      "658cd5e3080b7904080db92ceaa09eda42fccb54085d8a813b23ca7cb3496b01"
+      "8feb2b6f1e6daf03fd61fb7630be1846d13d53e0ee133650597f5d2600720c3d"
     ],
     [
       "src/lib/siteOrigin.ts",
@@ -490,5 +494,5 @@
       "9a58ee8a17ae157f8639415c9a07249dcfd7f46d9b8371d9592eb8e460e56005"
     ]
   ],
-  "hash": "787f8a080761919275cdc18ca793dc171e0aad283be19d573c115ec95f77c922"
+  "hash": "6c5f05109de8858462a2abe9657a58783ce4347aafbb8450786728a65358d253"
 }

@@ -9,6 +9,8 @@ import { validateOutboundUrl } from '@/lib/scraper';
 import { isHostedPreview, assertHostedPreviewContext } from '@/lib/hostedPreview';
 import { getHostedWorkerStatus } from '@/lib/engine/hostedWorker';
 import { channelImplementationHash, scanChannelCapabilities } from '@/lib/scanChannels';
+import { assessCapture, type CaptureBody } from '@/lib/engine/acquisition';
+import type { TaskInput } from '@/lib/engine/store';
 
 const json = (value: unknown, status = 200) => NextResponse.json(value, { status, headers: { 'Cache-Control': 'private, no-store' } });
 const authorized = (request: NextRequest) => { const s = getSession(request); return s.valid && s.role === 'admin'; };
@@ -26,12 +28,17 @@ export async function GET(request: NextRequest) {
     const review = await db.engineReview.findUnique({ where: { id: reviewId } });
     if (!review) return json({ error: 'Review not found' }, 404);
     const payload = JSON.parse(review.payloadJson);
-    const artifactId = payload.observation?.artifactId;
+    const observation = payload.observation ?? payload.checkpoint?.observation;
+    const artifactId = observation?.artifactId;
     // Raw HTML stays in the private artifact store. The authenticated reviewer sees frozen text and claims.
-    const artifact = artifactId ? await readArtifact<{ document: unknown; extraction?: unknown }>(artifactId) : null;
+    const artifact = artifactId ? await readArtifact<CaptureBody>(artifactId) : null;
     const oldDocument = payload.checkpoint?.oldArtifactId ? await readArtifact(payload.checkpoint.oldArtifactId) : null;
     const baselineCandidate = payload.checkpoint?.baselineCandidateArtifactId ? await readArtifact<{ document: unknown; extraction?: unknown }>(payload.checkpoint.baselineCandidateArtifactId) : null;
-    return json({ review, payload, document: artifact?.document, extraction: artifact?.extraction, oldDocument, baselineCandidate: baselineCandidate?.document, baselineExtraction: baselineCandidate?.extraction });
+    const input = payload.input as TaskInput | undefined;
+    const coverageAssessment = artifact && input ? assessCapture(artifact, input.contract, input.sourceUrl) : null;
+    return json({ review, payload, observation: observation ?? null, document: artifact?.document, extraction: artifact?.extraction, attachmentErrors: artifact?.attachmentErrors ?? [],
+      coverageAssessment, transportProof: observation?.transportProof ?? artifact?.transportProof ?? null,
+      oldDocument, baselineCandidate: baselineCandidate?.document, baselineExtraction: baselineCandidate?.extraction });
   }
   const [runs, reviews, policies, outbox, tasks, states, contracts] = await Promise.all([
     db.engineRun.findMany({ orderBy: { createdAt: 'desc' }, take: 20, include: { tasks: {
@@ -41,19 +48,22 @@ export async function GET(request: NextRequest) {
     db.policy.findMany({ select: { id: true, name: true, url: true, retrievalUrl: true, jurisdiction: true, company: { select: { name: true } } }, take: 1000 }),
     db.engineOutbox.groupBy({ by: ['status'], _count: true }),
     db.engineTask.groupBy({ by: ['status'], _count: true }),
-    db.enginePolicyState.findMany({ where: { mode: isHostedPreview() ? 'observe' : 'publish' } }), db.engineSourceContract.findMany({ select: { policyId: true } }),
+    db.enginePolicyState.findMany({ where: { mode: isHostedPreview() ? 'observe' : 'publish' } }), db.engineSourceContract.findMany({ select: { policyId: true, contractJson: true } }),
   ]);
   return json({ enabled: true, schema: ENGINE_SCHEMA, runs, reviews, policies, outbox, tasks,
     hostedPreview: isHostedPreview(), channels: scanChannelCapabilities(), implementationHash: channelImplementationHash(),
     worker: isHostedPreview() ? await getHostedWorkerStatus() : null,
-    coverage: { total: policies.length, contracted: contracts.length, verified: states.filter(s => s.lastVerifiedAt && s.lastVerifiedAt.getTime() > Date.now() - 86400000).length, awaitingConfirmation: states.filter(s => s.candidateHash).length },
+    coverage: { total: policies.length, contracted: contracts.length,
+      inventoryConfigured: contracts.filter(c => { try { return Boolean(parseSourceContract(JSON.parse(c.contractJson)).completenessInventory); } catch { return false; } }).length,
+      qualification: 'not_qualified',
+      verified: states.filter(s => s.lastVerifiedAt && s.lastVerifiedAt.getTime() > Date.now() - 86400000).length, awaitingConfirmation: states.filter(s => s.candidateHash).length },
     publicationEnabled: process.env.POLICYWATCHER_ENGINE_PUBLICATION === '1' });
 }
 
 export async function POST(request: NextRequest) {
   if (!authorized(request)) return json({ error: 'Admin access required' }, 403);
   if (!engineEnabled()) return json({ error: 'engine_disabled' }, 409);
-  const parsed = await readBoundedJsonObject(request, 64 * 1024);
+  const parsed = await readBoundedJsonObject(request, 512 * 1024);
   if (!parsed.ok) return json({ error: parsed.reason }, 400);
   const body = parsed.value;
   try {
@@ -108,6 +118,13 @@ export async function POST(request: NextRequest) {
     return json({ error: 'unknown_engine_action' }, 400);
   } catch (error) {
     const message = error instanceof Error && /^[a-z_]{1,80}$/.test(error.message) ? error.message : 'engine_request_failed';
-    return json({ error: message }, 409);
+    let auditRecorded: boolean | undefined;
+    if (body.action === 'approve' && ['source_coverage_not_qualified', 'review_hard_gate_unresolved'].includes(message)) {
+      // Keep a bounded refusal receipt without retaining source text or user rationale.
+      auditRecorded = await db.adminReviewLog.create({ data: { actorRole: 'admin', action: 'engine_evidence_approval_denied',
+        targetType: 'engineReview', ...(typeof body.reviewId === 'string' && /^[a-f0-9-]{36}$/i.test(body.reviewId) ? { targetId: body.reviewId } : {}),
+        note: 'Approval refused by a hard evidence gate.', metadataJson: JSON.stringify({ reason: message }) } }).then(() => true).catch(() => false);
+    }
+    return json({ error: message, ...(auditRecorded === undefined ? {} : { auditRecorded }) }, 409);
   }
 }

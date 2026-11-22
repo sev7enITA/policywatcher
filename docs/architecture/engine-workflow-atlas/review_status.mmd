@@ -1,0 +1,11 @@
+stateDiagram-v2
+  [*] --> observed: R01 observe-mode hold
+  [*] --> pending: R01 publish-mode hold
+  observed --> rejected: R02 explicit reject
+  pending --> rejected: R02 explicit reject
+  observed --> superseded: R03 refresh/new observation/contract revision
+  pending --> superseded: R03 refresh/new observation/contract revision
+  rejected --> superseded: R04 refresh
+  pending --> approving: R05 eligible manual approval CAS
+  approving --> approved: R06 same DB transaction commits
+  pending --> rebaseline_requested: R07 parser replay unavailable and explicit rebaseline request

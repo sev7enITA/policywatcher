@@ -1,0 +1,121 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-11-22T16:22:20.773244+00:00",
+  "state": "local_verified_public_ready_final_attachment_guard_remote_checks_pending_not_published",
+  "codeCheckpoint": "7f2b1e84ad0bc8cbd9545d5a4d4027b25d549312",
+  "pullRequest": "https://github.com/sev7enITA/policywatcher/pull/84",
+  "includedPriorPR": 83,
+  "merged": false,
+  "implementationHash": "3ca303abe693673a969ccf165e53880aca344d729d24f0848cce0f07116ed9c8",
+  "applicationTests": {
+    "passed": 1845,
+    "skipped": 14,
+    "filesPassed": 221,
+    "filesSkipped": 3,
+    "network": "OS-denied TCP/IP"
+  },
+  "fullPrivatePackageBuild": "passed_in_clean_isolated_copy",
+  "targetedLint": "passed",
+  "criticalTestTypeScript": "passed",
+  "mutationControls": [
+    {
+      "mutation": "v1-publication-bypass",
+      "exitCode": 1,
+      "expectedFailureObserved": true,
+      "test": "version 1 block-only reference"
+    },
+    {
+      "mutation": "link-census-bypass",
+      "exitCode": 1,
+      "expectedFailureObserved": true,
+      "test": "holds a new or changed link"
+    },
+    {
+      "mutation": "attachment-publication-scope-bypass",
+      "exitCode": 1,
+      "expectedFailureObserved": true,
+      "sourceRestoredSha256": "251333f554cfe78eb16e03ddc974ea1e44394213a439a9e45f24ec12936626c3"
+    }
+  ],
+  "modelChallenge": {
+    "qwenInitialCompatible": "no_final_answer_reasoning_budget_exhausted",
+    "qwenNative": "partial_response_at_output_cap",
+    "glm4Compatible": "completed_response",
+    "modelExecutedTests": false,
+    "glm53MaxClaimed": false,
+    "geminiClaimed": false
+  },
+  "publicPackage": {
+    "state": "ready_for_staging_not_published",
+    "sourceRevision": "9d60d30a119c1f88d494ae07da73f9156badec06",
+    "stableBranch": "codex/release-56-completeness-public",
+    "archive": "PolicyWatcher-5.6.0-hostinger-2026-11-22-independent-inventory-methodology-diary.zip",
+    "sha256": "c41b194f9900e3c4c6f5b537a0fc5cc4b812e205872e158a92f05138c9762088",
+    "changedFilesComparedWithPrevious56": [
+      "release-manifest.json",
+      "src/app/methodology/confidence/page.tsx",
+      "src/app/engine-6-preview/page.tsx",
+      "src/lib/extractionProfile.generated.json"
+    ],
+    "unchangedFiles": 1067,
+    "files": 1071,
+    "originalArchiveSha256": "416cc4fea3691fb1024366434b5656361ac4b7ea2fc16fba27c0308a08ee58d0",
+    "newPrivateEngineCodeIncluded": false,
+    "scannerLogicUnchanged": true,
+    "stableExtractionProfile": {
+      "before": "e717f5728a2a0bbd1a078708282e0cf8fec1fc5e126ffeda57c86ee989d8d9c4",
+      "after": "fcc7f2145af676a4973bcdcba82a6701176cca950b949c2563043733b1d70062",
+      "reason": "Only root lockfile version metadata advanced to 5.6; all seven extraction-source digests unchanged",
+      "flagsChanged": false,
+      "baselineAdoptionPerformed": false
+    },
+    "privateCandidateRevision": "7f2b1e84ad0bc8cbd9545d5a4d4027b25d549312",
+    "privateCandidateTests": {
+      "passed": 1844,
+      "skipped": 14
+    },
+    "hostedActionsPerformed": false,
+    "stableExpectedTables": 35,
+    "stableExpectedMigrations": 19,
+    "manifest": {
+      "product": "PolicyWatcher",
+      "version": "5.6.0",
+      "releaseName": "Chatbot Policy Watch",
+      "sourceRevision": "9d60d30a119c1f88d494ae07da73f9156badec06",
+      "sourceState": "clean",
+      "sourceStateDigest": null,
+      "builtAt": "2026-11-22T16:29:28.276730Z",
+      "target": "Hostinger Next.js source deployment",
+      "startupCommand": "npm start",
+      "startupFile": "server.js",
+      "databaseIncluded": false,
+      "artifactLabel": "independent-inventory-methodology-diary"
+    },
+    "fullNpmBuildIncludingPrebuild": "passed",
+    "stableReleaseAndSourceRegressionTests": 56,
+    "compiledHttpControls": 28,
+    "pristineMigrationRehearsalControls": 1,
+    "stableApplicationTables": 35,
+    "stableMigrations": 19
+  },
+  "hostedActionsPerformed": false,
+  "realSourceCompletenessQualified": false,
+  "daily500FullPipelineQualified": false,
+  "authoringScriptSha256": "170d55a3cb1907f1ac515d7cab847b96fc3952a2ef4b8d0a04b1e96ab74c36db",
+  "codeqlCorrection": {
+    "priorRevision": "371cf9897c02bacef09306f37f901b6cff40255a",
+    "findings": 2,
+    "rule": "Potential file system race condition",
+    "fixedWith": "single bounded no-follow descriptor and before/after descriptor metadata",
+    "rulesDisabled": false,
+    "alertsDismissed": false,
+    "remoteRevalidation": "six checks passed on 4254840; final scope guard revalidation pending"
+  },
+  "attachmentBearingPublicationEnabled": false,
+  "attachmentChangeAnalysisQualified": false,
+  "previousVerifiedCI": {
+    "revision": "42548402313b65880757b5c5e04954a1f7bc5d11",
+    "allSixPassed": true,
+    "includesFinalAttachmentScopeGuard": false
+  }
+}

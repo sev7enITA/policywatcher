@@ -1,0 +1,13 @@
+stateDiagram-v2
+  [*] --> queued: T01 fetch creation
+  [*] --> blocked: T02 policy creation with dependency
+  blocked --> queued: T03 fetch completed or terminal dependency recovered
+  queued --> running: T04 CAS claim + lease
+  running --> queued: T05 next stage checkpoint / attempt reset
+  running --> queued: T06 retryable failure / nextAttemptAt
+  running --> queued: T07 expired lease below 3 attempts
+  running --> failed: T08 terminal failure / attempts exhausted
+  running --> completed: T09 result, hold or confirmation pending
+  blocked --> cancelled: T10 explicit run cancellation
+  queued --> cancelled: T10 explicit run cancellation
+  running --> cancelled: T10 explicit run cancellation

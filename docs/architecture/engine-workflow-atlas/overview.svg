@@ -1,0 +1,201 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760pt" height="1079pt" viewBox="0.00 0.00 760.00 1079.00">
+<g id="overview--graph0" class="graph" transform="scale(1 1) rotate(0) translate(12.96 1065.54)">
+<title>G</title>
+
+<g id="overview--entry" class="node">
+<title>entry</title>
+<path fill="#ffffff" stroke="#cbd5e1" d="M239.97,-1052.58C239.97,-1052.58 114.99,-1052.58 114.99,-1052.58 108.99,-1052.58 102.99,-1046.58 102.99,-1040.58 102.99,-1040.58 102.99,-1028.58 102.99,-1028.58 102.99,-1022.58 108.99,-1016.58 114.99,-1016.58 114.99,-1016.58 239.97,-1016.58 239.97,-1016.58 245.97,-1016.58 251.97,-1022.58 251.97,-1028.58 251.97,-1028.58 251.97,-1040.58 251.97,-1040.58 251.97,-1046.58 245.97,-1052.58 239.97,-1052.58" />
+<text xml:space="preserve" text-anchor="middle" x="177.48" y="-1030.3" font-family="Arial" font-size="12.00">1. Richiesta autorizzata</text>
+</g>
+
+<g id="overview--queue" class="node">
+<title>queue</title>
+<path fill="#eaf2ff" stroke="#cbd5e1" d="M250.47,-977.58C250.47,-977.58 104.49,-977.58 104.49,-977.58 98.49,-977.58 92.49,-971.58 92.49,-965.58 92.49,-965.58 92.49,-953.58 92.49,-953.58 92.49,-947.58 98.49,-941.58 104.49,-941.58 104.49,-941.58 250.47,-941.58 250.47,-941.58 256.47,-941.58 262.47,-947.58 262.47,-953.58 262.47,-953.58 262.47,-965.58 262.47,-965.58 262.47,-971.58 256.47,-977.58 250.47,-977.58" />
+<text xml:space="preserve" text-anchor="middle" x="177.48" y="-955.3" font-family="Arial" font-size="12.00">2. Coda persistente e lease</text>
+</g>
+
+<g id="overview--edge1" class="edge">
+<title>entry-&gt;queue</title>
+<path fill="none" stroke="#8593ab" d="M177.48,-1016.28C177.48,-1007.34 177.48,-996.26 177.48,-986.34" />
+<polygon fill="#8593ab" stroke="#8593ab" points="179.93,-986.52 177.48,-979.52 175.03,-986.52 179.93,-986.52" />
+</g>
+
+<g id="overview--capture" class="node">
+<title>capture</title>
+<path fill="#ffffff" stroke="#cbd5e1" d="M246.34,-902.58C246.34,-902.58 108.62,-902.58 108.62,-902.58 102.62,-902.58 96.61,-896.58 96.61,-890.58 96.61,-890.58 96.61,-868.8 96.61,-868.8 96.61,-862.8 102.61,-856.8 108.61,-856.8 108.61,-856.8 246.34,-856.8 246.34,-856.8 252.34,-856.8 258.34,-862.8 258.34,-868.8 258.34,-868.8 258.34,-890.58 258.34,-890.58 258.34,-896.58 252.34,-902.58 246.34,-902.58" />
+<text xml:space="preserve" text-anchor="middle" x="177.48" y="-882.54" font-family="Arial" font-size="12.00">3. Acquisizione e artefatto</text>
+<text xml:space="preserve" text-anchor="middle" x="177.48" y="-868.29" font-family="Arial" font-size="12.00">privato</text>
+</g>
+
+<g id="overview--edge2" class="edge">
+<title>queue-&gt;capture</title>
+<path fill="none" stroke="#8593ab" d="M177.48,-941.29C177.48,-932.47 177.48,-921.47 177.48,-911.28" />
+<polygon fill="#8593ab" stroke="#8593ab" points="179.93,-911.48 177.48,-904.48 175.03,-911.48 179.93,-911.48" />
+</g>
+
+<g id="overview--checks" class="node">
+<title>checks</title>
+<path fill="#ffffff" stroke="#cbd5e1" d="M165.86,-814.8C165.86,-814.8 11.62,-775.02 11.62,-775.02 5.81,-773.52 5.81,-770.52 11.62,-769.02 11.62,-769.02 165.86,-729.24 165.86,-729.24 171.67,-727.74 183.29,-727.74 189.1,-729.24 189.1,-729.24 343.34,-769.02 343.34,-769.02 349.15,-770.52 349.15,-773.52 343.34,-775.02 343.34,-775.02 189.1,-814.8 189.1,-814.8 183.29,-816.3 171.67,-816.3 165.86,-814.8" />
+<text xml:space="preserve" text-anchor="middle" x="177.48" y="-774.87" font-family="Arial" font-size="12.00">4. Identità, inventario V2, link</text>
+<text xml:space="preserve" text-anchor="middle" x="177.48" y="-760.62" font-family="Arial" font-size="12.00">e prove</text>
+</g>
+
+<g id="overview--edge3" class="edge">
+<title>capture-&gt;checks</title>
+<path fill="none" stroke="#8593ab" d="M177.48,-856.54C177.48,-847.75 177.48,-837.23 177.48,-826.67" />
+<polygon fill="#8593ab" stroke="#8593ab" points="179.93,-826.74 177.48,-819.74 175.03,-826.74 179.93,-826.74" />
+</g>
+
+<g id="overview--hold" class="node">
+<title>hold</title>
+<path fill="#fff3dd" stroke="#cbd5e1" d="M333.72,-148.69C333.72,-148.69 165.24,-148.69 165.24,-148.69 159.24,-148.69 153.24,-142.69 153.24,-136.69 153.24,-136.69 153.24,-114.91 153.24,-114.91 153.24,-108.91 159.24,-102.91 165.24,-102.91 165.24,-102.91 333.72,-102.91 333.72,-102.91 339.72,-102.91 345.72,-108.91 345.72,-114.91 345.72,-114.91 345.72,-136.69 345.72,-136.69 345.72,-142.69 339.72,-148.69 333.72,-148.69" />
+<text xml:space="preserve" text-anchor="middle" x="249.48" y="-128.65" font-family="Arial" font-size="12.00">Sospensione: prove mancanti o</text>
+<text xml:space="preserve" text-anchor="middle" x="249.48" y="-114.4" font-family="Arial" font-size="12.00">incerte</text>
+</g>
+
+<g id="overview--edge4" class="edge">
+<title>checks-&gt;hold</title>
+<path fill="none" stroke="#8593ab" d="M171.39,-727.46C166.16,-690.13 159.48,-642.35 159.48,-642.35 159.48,-642.35 159.48,-642.35 159.48,-262.59 159.48,-262.59 180.48,-217.81 180.48,-217.81 180.48,-217.81 207.57,-182.08 227.8,-155.39" />
+<polygon fill="#8593ab" stroke="#8593ab" points="229.59,-157.09 231.86,-150.03 225.68,-154.13 229.59,-157.09" />
+<text xml:space="preserve" text-anchor="middle" x="211.98" y="-467.93" font-family="Arial" font-size="10.00">non idoneo alla modalità</text>
+<text xml:space="preserve" text-anchor="middle" x="211.98" y="-455.93" font-family="Arial" font-size="10.00">richiesta</text>
+</g>
+
+<g id="overview--confirm" class="node">
+<title>confirm</title>
+<path fill="#ffffff" stroke="#cbd5e1" d="M329.72,-664.24C329.72,-664.24 203.24,-664.24 203.24,-664.24 197.24,-664.24 191.24,-658.24 191.24,-652.24 191.24,-652.24 191.24,-630.46 191.24,-630.46 191.24,-624.46 197.24,-618.46 203.24,-618.46 203.24,-618.46 329.72,-618.46 329.72,-618.46 335.72,-618.46 341.72,-624.46 341.72,-630.46 341.72,-630.46 341.72,-652.24 341.72,-652.24 341.72,-658.24 335.72,-664.24 329.72,-664.24" />
+<text xml:space="preserve" text-anchor="middle" x="266.48" y="-644.2" font-family="Arial" font-size="12.00">5. Contesto, conferma e</text>
+<text xml:space="preserve" text-anchor="middle" x="266.48" y="-629.95" font-family="Arial" font-size="12.00">confronto</text>
+</g>
+
+<g id="overview--edge5" class="edge">
+<title>checks-&gt;confirm</title>
+<path fill="none" stroke="#8593ab" d="M203.94,-732.76C217.51,-713.14 233.78,-689.63 246.32,-671.5" />
+<polygon fill="#8593ab" stroke="#8593ab" points="248.27,-672.98 250.24,-665.83 244.24,-670.19 248.27,-672.98" />
+<text xml:space="preserve" text-anchor="middle" x="279.32" y="-697.74" font-family="Arial" font-size="10.00">parent modificato e</text>
+<text xml:space="preserve" text-anchor="middle" x="279.32" y="-685.74" font-family="Arial" font-size="10.00">confrontabile</text>
+</g>
+
+<g id="overview--private" class="node">
+<title>private</title>
+<path fill="#e6f8f5" stroke="#cbd5e1" d="M326.97,-281.59C326.97,-281.59 201.99,-281.59 201.99,-281.59 195.99,-281.59 189.99,-275.59 189.99,-269.59 189.99,-269.59 189.99,-257.59 189.99,-257.59 189.99,-251.59 195.99,-245.59 201.99,-245.59 201.99,-245.59 326.97,-245.59 326.97,-245.59 332.97,-245.59 338.97,-251.59 338.97,-257.59 338.97,-257.59 338.97,-269.59 338.97,-269.59 338.97,-275.59 332.97,-281.59 326.97,-281.59" />
+<text xml:space="preserve" text-anchor="middle" x="264.48" y="-259.32" font-family="Arial" font-size="12.00">Observe: risultati privati</text>
+</g>
+
+<g id="overview--waiting" class="node">
+<title>waiting</title>
+<path fill="#fff3dd" stroke="#cbd5e1" d="M330.1,-556.46C330.1,-556.46 202.87,-556.46 202.87,-556.46 196.87,-556.46 190.87,-550.46 190.87,-544.46 190.87,-544.46 190.87,-508.43 190.87,-508.43 190.87,-502.43 196.87,-496.43 202.87,-496.43 202.87,-496.43 330.1,-496.43 330.1,-496.43 336.1,-496.43 342.1,-502.43 342.1,-508.43 342.1,-508.43 342.1,-544.46 342.1,-544.46 342.1,-550.46 336.1,-556.46 330.1,-556.46" />
+<text xml:space="preserve" text-anchor="middle" x="266.48" y="-536.42" font-family="Arial" font-size="12.00">Attesa altra cattura: task</text>
+<text xml:space="preserve" text-anchor="middle" x="266.48" y="-522.17" font-family="Arial" font-size="12.00">completato, non fonte</text>
+<text xml:space="preserve" text-anchor="middle" x="266.48" y="-507.92" font-family="Arial" font-size="12.00">qualificata</text>
+</g>
+
+<g id="overview--edge6" class="edge">
+<title>confirm-&gt;waiting</title>
+<path fill="none" stroke="#8593ab" d="M266.48,-618.04C266.48,-602.91 266.48,-582.54 266.48,-564.94" />
+<polygon fill="#8593ab" stroke="#8593ab" points="268.93,-565.07 266.48,-558.07 264.03,-565.07 268.93,-565.07" />
+<text xml:space="preserve" text-anchor="middle" x="312.23" y="-589.96" font-family="Arial" font-size="10.00">conferma non ancora</text>
+<text xml:space="preserve" text-anchor="middle" x="312.23" y="-577.96" font-family="Arial" font-size="10.00">disponibile</text>
+</g>
+
+<g id="overview--models" class="node">
+<title>models</title>
+<path fill="#ffffff" stroke="#cbd5e1" d="M534.6,-544.44C534.6,-544.44 374.37,-544.44 374.37,-544.44 368.37,-544.44 362.37,-538.44 362.37,-532.44 362.37,-532.44 362.37,-520.44 362.37,-520.44 362.37,-514.44 368.37,-508.44 374.37,-508.44 374.37,-508.44 534.6,-508.44 534.6,-508.44 540.6,-508.44 546.6,-514.44 546.6,-520.44 546.6,-520.44 546.6,-532.44 546.6,-532.44 546.6,-538.44 540.6,-544.44 534.6,-544.44" />
+<text xml:space="preserve" text-anchor="middle" x="454.48" y="-522.17" font-family="Arial" font-size="12.00">6. Analista, span e verificatore</text>
+</g>
+
+<g id="overview--edge7" class="edge">
+<title>confirm-&gt;models</title>
+<path fill="none" stroke="#8593ab" d="M319.52,-617.99C342.17,-608.44 363.48,-599.46 363.48,-599.46 363.48,-599.46 399.21,-571.19 425.89,-550.07" />
+<polygon fill="#8593ab" stroke="#8593ab" points="427.3,-552.08 431.26,-545.82 424.26,-548.24 427.3,-552.08" />
+<text xml:space="preserve" text-anchor="middle" x="450.66" y="-589.96" font-family="Arial" font-size="10.00">confermato; delta non solo</text>
+<text xml:space="preserve" text-anchor="middle" x="450.66" y="-577.96" font-family="Arial" font-size="10.00">formattazione</text>
+</g>
+
+<g id="overview--mode" class="node">
+<title>mode</title>
+<path fill="#ffffff" stroke="#cbd5e1" d="M355.94,-431.12C355.94,-431.12 269.04,-406.21 269.04,-406.21 263.27,-404.55 263.27,-401.25 269.04,-399.59 269.04,-399.59 355.94,-374.68 355.94,-374.68 361.71,-373.02 373.25,-373.02 379.02,-374.68 379.02,-374.68 465.92,-399.59 465.92,-399.59 471.69,-401.25 471.69,-404.55 465.92,-406.21 465.92,-406.21 379.02,-431.12 379.02,-431.12 373.25,-432.78 361.71,-432.78 355.94,-431.12" />
+<text xml:space="preserve" text-anchor="middle" x="367.48" y="-398.62" font-family="Arial" font-size="12.00">Modalità del run</text>
+</g>
+
+<g id="overview--edge10" class="edge">
+<title>mode-&gt;private</title>
+<path fill="none" stroke="#8593ab" d="M348.35,-376.39C329.42,-351.16 300.67,-312.84 282.24,-288.26" />
+<polygon fill="#8593ab" stroke="#8593ab" points="284.39,-287.05 278.23,-282.92 280.47,-289.99 284.39,-287.05" />
+<text xml:space="preserve" text-anchor="middle" x="345.48" y="-336.87" font-family="Arial" font-size="10.00">observe</text>
+</g>
+
+<g id="overview--publication" class="node">
+<title>publication</title>
+<path fill="#ecebff" stroke="#cbd5e1" d="M534.82,-306.53C534.82,-306.53 370.16,-266.43 370.16,-266.43 364.33,-265.01 364.33,-262.17 370.16,-260.75 370.16,-260.75 534.82,-220.65 534.82,-220.65 540.65,-219.23 552.31,-219.23 558.14,-220.65 558.14,-220.65 722.8,-260.75 722.8,-260.75 728.63,-262.17 728.63,-265.01 722.8,-266.43 722.8,-266.43 558.14,-306.53 558.14,-306.53 552.31,-307.95 540.65,-307.95 534.82,-306.53" />
+<text xml:space="preserve" text-anchor="middle" x="546.48" y="-266.44" font-family="Arial" font-size="12.00">7. Gate pubblicabile: V2 e zero</text>
+<text xml:space="preserve" text-anchor="middle" x="546.48" y="-252.19" font-family="Arial" font-size="12.00">allegati</text>
+</g>
+
+<g id="overview--edge11" class="edge">
+<title>mode-&gt;publication</title>
+<path fill="none" stroke="#8593ab" d="M396.64,-379.53C423.27,-359.1 463.26,-328.43 495.22,-303.91" />
+<polygon fill="#8593ab" stroke="#8593ab" points="496.65,-305.9 500.72,-299.7 493.67,-302.01 496.65,-305.9" />
+<text xml:space="preserve" text-anchor="middle" x="516.72" y="-342.87" font-family="Arial" font-size="10.00">publish: ricontrollo di tutti</text>
+<text xml:space="preserve" text-anchor="middle" x="516.72" y="-330.87" font-family="Arial" font-size="10.00">i gate</text>
+</g>
+
+<g id="overview--edge9" class="edge">
+<title>models-&gt;mode</title>
+<path fill="none" stroke="#8593ab" d="M442.02,-508.03C428.64,-489.35 407.11,-459.27 390.62,-436.23" />
+<polygon fill="#8593ab" stroke="#8593ab" points="392.63,-434.82 386.56,-430.56 388.64,-437.68 392.63,-434.82" />
+<text xml:space="preserve" text-anchor="middle" x="469.4" y="-461.93" font-family="Arial" font-size="10.00">span e verifica superati</text>
+</g>
+
+<g id="overview--review" class="node">
+<title>review</title>
+<path fill="#fff3dd" stroke="#cbd5e1" d="M669.6,-425.79C669.6,-425.79 509.37,-425.79 509.37,-425.79 503.37,-425.79 497.37,-419.79 497.37,-413.79 497.37,-413.79 497.37,-392.01 497.37,-392.01 497.37,-386.01 503.37,-380.01 509.37,-380.01 509.37,-380.01 669.6,-380.01 669.6,-380.01 675.6,-380.01 681.6,-386.01 681.6,-392.01 681.6,-392.01 681.6,-413.79 681.6,-413.79 681.6,-419.79 675.6,-425.79 669.6,-425.79" />
+<text xml:space="preserve" text-anchor="middle" x="589.48" y="-405.75" font-family="Arial" font-size="12.00">Revisione: impatto alto o esito</text>
+<text xml:space="preserve" text-anchor="middle" x="589.48" y="-391.5" font-family="Arial" font-size="12.00">incerto</text>
+</g>
+
+<g id="overview--edge8" class="edge">
+<title>models-&gt;review</title>
+<path fill="none" stroke="#8593ab" d="M480.11,-508.11C500.45,-494.36 525.48,-477.43 525.48,-477.43 525.48,-477.43 546.79,-452.95 564.82,-432.24" />
+<polygon fill="#8593ab" stroke="#8593ab" points="566.54,-433.99 569.28,-427.1 562.84,-430.77 566.54,-433.99" />
+<text xml:space="preserve" text-anchor="middle" x="575.06" y="-461.93" font-family="Arial" font-size="10.00">hold richiesto</text>
+</g>
+
+<g id="overview--edge12" class="edge">
+<title>publication-&gt;hold</title>
+<path fill="none" stroke="#8593ab" d="M482.04,-233.12C429.46,-209.09 355.92,-175.46 305.7,-152.5" />
+<polygon fill="#8593ab" stroke="#8593ab" points="306.92,-150.36 299.54,-149.68 304.88,-154.82 306.92,-150.36" />
+<text xml:space="preserve" text-anchor="middle" x="441.76" y="-183.31" font-family="Arial" font-size="10.00">non pubblicabile</text>
+</g>
+
+<g id="overview--commit" class="node">
+<title>commit</title>
+<path fill="#eaf2ff" stroke="#cbd5e1" d="M625.1,-155.81C625.1,-155.81 467.87,-155.81 467.87,-155.81 461.87,-155.81 455.87,-149.81 455.87,-143.81 455.87,-143.81 455.87,-107.78 455.87,-107.78 455.87,-101.78 461.87,-95.78 467.87,-95.78 467.87,-95.78 625.1,-95.78 625.1,-95.78 631.1,-95.78 637.1,-101.78 637.1,-107.78 637.1,-107.78 637.1,-143.81 637.1,-143.81 637.1,-149.81 631.1,-155.81 625.1,-155.81" />
+<text xml:space="preserve" text-anchor="middle" x="546.48" y="-135.77" font-family="Arial" font-size="12.00">8. Transazione DB: snapshot,</text>
+<text xml:space="preserve" text-anchor="middle" x="546.48" y="-121.52" font-family="Arial" font-size="12.00">change, claim, graph/evento</text>
+<text xml:space="preserve" text-anchor="middle" x="546.48" y="-107.27" font-family="Arial" font-size="12.00">opzionali</text>
+</g>
+
+<g id="overview--edge13" class="edge">
+<title>publication-&gt;commit</title>
+<path fill="none" stroke="#8593ab" d="M546.48,-217.37C546.48,-200.16 546.48,-180.75 546.48,-164.32" />
+<polygon fill="#8593ab" stroke="#8593ab" points="548.93,-164.55 546.48,-157.55 544.03,-164.55 548.93,-164.55" />
+<text xml:space="preserve" text-anchor="middle" x="604.98" y="-189.31" font-family="Arial" font-size="10.00">prove sufficienti e contesto</text>
+<text xml:space="preserve" text-anchor="middle" x="604.98" y="-177.31" font-family="Arial" font-size="10.00">valido</text>
+</g>
+
+<g id="overview--notify" class="node">
+<title>notify</title>
+<path fill="#ffffff" stroke="#cbd5e1" d="M630.72,-45.78C630.72,-45.78 462.24,-45.78 462.24,-45.78 456.24,-45.78 450.24,-39.78 450.24,-33.78 450.24,-33.78 450.24,-12 450.24,-12 450.24,-6 456.24,0 462.24,0 462.24,0 630.72,0 630.72,0 636.72,0 642.72,-6 642.72,-12 642.72,-12 642.72,-33.78 642.72,-33.78 642.72,-39.78 636.72,-45.78 630.72,-45.78" />
+<text xml:space="preserve" text-anchor="middle" x="546.48" y="-25.74" font-family="Arial" font-size="12.00">9. Outbox separata: consenso e</text>
+<text xml:space="preserve" text-anchor="middle" x="546.48" y="-11.49" font-family="Arial" font-size="12.00">consegna</text>
+</g>
+
+<g id="overview--edge14" class="edge">
+<title>commit-&gt;notify</title>
+<path fill="none" stroke="#8593ab" d="M546.48,-95.34C546.48,-82.45 546.48,-67.35 546.48,-54.35" />
+<polygon fill="#8593ab" stroke="#8593ab" points="548.93,-54.67 546.48,-47.67 544.03,-54.67 548.93,-54.67" />
+<text xml:space="preserve" text-anchor="middle" x="593.73" y="-67.28" font-family="Arial" font-size="10.00">solo notifiche abilitate</text>
+</g>
+</g>
+</svg>

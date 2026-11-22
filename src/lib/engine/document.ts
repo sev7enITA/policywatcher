@@ -1,5 +1,6 @@
 import { createHash } from 'node:crypto';
 import { diffArrays } from 'diff';
+import { assessCoverage, parseCoverageInventory, type CoverageReceipt, type CoverageEvidence, type ReviewedCoverageInventory } from './coverage';
 
 export const ENGINE_SCHEMA = 'pw-engine-6.0.0-alpha.1';
 export const digest = (value: string) => createHash('sha256').update(value).digest('hex');
@@ -87,6 +88,7 @@ export interface SourceContract {
   maximumChars: number;
   preferredTransport: 'direct' | 'rendered';
   reviewedExclusions?: ReviewedExclusion[];
+  completenessInventory?: ReviewedCoverageInventory;
   reviewedAt: string;
   reviewNote: string;
 }
@@ -116,7 +118,10 @@ export function parseSourceContract(value: unknown): SourceContract {
         || e.purpose !== 'non_document_ui' || typeof e.reviewNote !== 'string' || e.reviewNote.trim().length < 20 || e.reviewNote.length > 1000))) {
     throw new Error('invalid_reviewed_exclusion');
   }
-  return { schemaVersion: 1, sourceUrl: c.sourceUrl, titleAliases: [...c.titleAliases],
+  const completenessInventory = c.completenessInventory === undefined ? undefined : parseCoverageInventory(c.completenessInventory);
+  if (completenessInventory && (completenessInventory.scope.sourceUrl !== c.sourceUrl || completenessInventory.scope.language !== c.language)) throw new Error('completeness_contract_scope_mismatch');
+  return { schemaVersion: 1, sourceUrl: c.sourceUrl,
+    ...(completenessInventory ? { completenessInventory } : {}), titleAliases: [...c.titleAliases],
     requiredHeadings: [...c.requiredHeadings], terminalText: c.terminalText, language: c.language,
     minimumChars: c.minimumChars, maximumChars: c.maximumChars,
     ...(c.reviewedExclusions?.length ? { reviewedExclusions: c.reviewedExclusions.map(e => ({ selector: e.selector, htmlSha256: e.htmlSha256, purpose: e.purpose, reviewNote: e.reviewNote, ...(e.dialogHeadings ? { dialogHeadings: [...e.dialogHeadings] } : {}) })) } : {}),
@@ -124,8 +129,9 @@ export function parseSourceContract(value: unknown): SourceContract {
 }
 
 export function assessDocument(document: StructuredDocument, contract: SourceContract | null, sourceUrl: string,
-  languageHint?: string): { eligible: boolean; reasons: string[]; identity: string; completeness: string } {
-  if (!contract) return { eligible: false, reasons: ['source_contract_missing'], identity: 'unknown', completeness: 'unknown' };
+  languageHint?: string, evidence?: CoverageEvidence): { eligible: boolean; reasons: string[]; identity: string; completeness: string; coverage: CoverageReceipt } {
+  const coverage = assessCoverage(document, contract?.completenessInventory, sourceUrl, languageHint, evidence);
+  if (!contract) return { eligible: false, reasons: ['source_contract_missing'], identity: 'unknown', completeness: 'unknown', coverage };
   const reasons: string[] = [];
   if (contract.sourceUrl !== sourceUrl) reasons.push('source_contract_mismatch');
   const headings = document.blocks.filter(b => b.kind === 'heading').map(b => normalized(b.text.replace(/^#+\s*/, '')));
@@ -138,8 +144,9 @@ export function assessDocument(document: StructuredDocument, contract: SourceCon
   }
   if (document.text.length < contract.minimumChars || document.text.length > contract.maximumChars) reasons.push('document_length_outside_contract');
   if (!languageHint || languageHint.toLowerCase().split(/[-_]/)[0] !== contract.language) reasons.push('document_language_unverified');
-  return { eligible: reasons.length === 0, reasons, identity: titleMatches ? 'matched' : 'unknown',
-    completeness: reasons.some(r => /missing|length/.test(r)) ? 'partial' : reasons.length ? 'unknown' : 'contract_satisfied' };
+  if (coverage.state === 'mismatch') reasons.push(...coverage.reasons);
+  return { eligible: reasons.length === 0, reasons, identity: titleMatches ? 'matched' : 'unknown', coverage,
+    completeness: reasons.some(r => /missing|length/.test(r)) ? 'partial' : reasons.length ? 'unknown' : coverage.state === 'matched_reviewed_reference' ? 'matched_reviewed_reference' : 'unknown' };
 }
 
 export interface ClauseDelta { id: string; side: 'old' | 'new'; block: DocumentBlock }

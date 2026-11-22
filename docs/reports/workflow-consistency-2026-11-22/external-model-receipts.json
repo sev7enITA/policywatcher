@@ -1,0 +1,42 @@
+[
+  {
+    "label": "nemotron-initial",
+    "generationId": "gen-1795369140-jYpZTccVrWOCEXeF00EC",
+    "model": "nvidia/nemotron-3-ultra-550b-a55b-20260604:free",
+    "provider": "Nvidia",
+    "totalCostUsd": 0,
+    "finishReason": "length",
+    "promptTokens": 38884,
+    "completionTokens": 1988
+  },
+  {
+    "label": "particle-initial",
+    "generationId": "gen-1795369185-wNLS0lSx0GGlM8RPwhQz",
+    "model": "particle-ai/particle-1-20261027:free",
+    "provider": "Particle AI",
+    "totalCostUsd": 0,
+    "finishReason": "length",
+    "promptTokens": 38884,
+    "completionTokens": 2066
+  },
+  {
+    "label": "nemotron-focused",
+    "generationId": "gen-1795369877-DdGvBr5MaUK01f0PkFud",
+    "model": "nvidia/nemotron-3-ultra-550b-a55b-20260604:free",
+    "provider": "Nvidia",
+    "totalCostUsd": 0,
+    "finishReason": "stop",
+    "promptTokens": 6476,
+    "completionTokens": 679
+  },
+  {
+    "label": "particle-focused",
+    "generationId": "gen-1795369899-tzqk3CIJKwfqULxc4IHu",
+    "model": "particle-ai/particle-1-20261027:free",
+    "provider": "Particle AI",
+    "totalCostUsd": 0,
+    "finishReason": "stop",
+    "promptTokens": 6476,
+    "completionTokens": 974
+  }
+]

@@ -1,0 +1,24 @@
+digraph G {
+graph [rankdir=LR, bgcolor="transparent", pad="0.18", nodesep="0.28", ranksep="0.52", splines=polyline];
+node [shape=box, style="rounded,filled", fillcolor="#ffffff", color="#cbd5e1", fontname="Arial", fontsize=12, margin="0.17,0.12"];
+edge [color="#8593ab", arrowsize="0.7", fontname="Arial", fontsize=10];
+start [id="task_status--start", label="start", fillcolor="#eaf2ff", shape="box"];
+queued [id="task_status--queued", label="queued", fillcolor="#eaf2ff", shape="box"];
+blocked [id="task_status--blocked", label="blocked", fillcolor="#fff3dd", shape="box"];
+running [id="task_status--running", label="running", fillcolor="#eaf2ff", shape="box"];
+failed [id="task_status--failed", label="failed", fillcolor="#fff3dd", shape="box"];
+completed [id="task_status--completed", label="completed", fillcolor="#e6f8f5", shape="box"];
+cancelled [id="task_status--cancelled", label="cancelled", fillcolor="#eaf2ff", shape="box"];
+start -> queued [label="T01 fetch creation", style="solid"];
+start -> blocked [label="T02 policy creation with\ndependency", style="solid"];
+blocked -> queued [label="T03 fetch completed or\nterminal dependency recovered", style="solid"];
+queued -> running [label="T04 CAS claim + lease", style="solid"];
+running -> queued [label="T05 next stage checkpoint /\nattempt reset", style="solid"];
+running -> queued [label="T06 retryable failure /\nnextAttemptAt", style="solid"];
+running -> queued [label="T07 expired lease below 3\nattempts", style="solid"];
+running -> failed [label="T08 terminal failure /\nattempts exhausted", style="solid"];
+running -> completed [label="T09 result, hold or\nconfirmation pending", style="solid"];
+blocked -> cancelled [label="T10 explicit run cancellation", style="solid"];
+queued -> cancelled [label="T10 explicit run cancellation", style="solid"];
+running -> cancelled [label="T10 explicit run cancellation", style="solid"];
+}

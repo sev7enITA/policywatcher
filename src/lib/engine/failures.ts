@@ -17,6 +17,7 @@ export function modelFailure(error: unknown): EngineModelError {
   return new EngineModelError('model_transport_error');
 }
 export const REVIEW_FAILURES = new Set([
+  'source_coverage_not_qualified',
   'analysis_context_budget_exceeded', 'analysis_output_budget_exceeded', 'analysis_output_incomplete',
   'analysis_output_invalid_json', 'comparison_budget_exceeded', 'document_size_out_of_bounds', 'artifact_size_limit',
   'analysis_model_configuration_required', 'analysis_model_configuration_invalid', 'analysis_model_pair_not_independent',

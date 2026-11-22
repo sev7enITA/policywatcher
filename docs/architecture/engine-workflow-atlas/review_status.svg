@@ -1,0 +1,129 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="842pt" height="302pt" viewBox="0.00 0.00 842.00 302.00">
+<g id="review_status--graph0" class="graph" transform="scale(1 1) rotate(0) translate(12.96 288.96)">
+<title>G</title>
+
+<g id="review_status--start" class="node">
+<title>start</title>
+<path fill="#eaf2ff" stroke="#cbd5e1" d="M42,-181C42,-181 12,-181 12,-181 6,-181 0,-175 0,-169 0,-169 0,-157 0,-157 0,-151 6,-145 12,-145 12,-145 42,-145 42,-145 48,-145 54,-151 54,-157 54,-157 54,-169 54,-169 54,-175 48,-181 42,-181" />
+<text xml:space="preserve" text-anchor="middle" x="27" y="-158.72" font-family="Arial" font-size="12.00">start</text>
+</g>
+
+<g id="review_status--observed" class="node">
+<title>observed</title>
+<path fill="#e6f8f5" stroke="#cbd5e1" d="M257.48,-214C257.48,-214 207.5,-214 207.5,-214 201.5,-214 195.5,-208 195.5,-202 195.5,-202 195.5,-190 195.5,-190 195.5,-184 201.5,-178 207.5,-178 207.5,-178 257.48,-178 257.48,-178 263.48,-178 269.48,-184 269.48,-190 269.48,-190 269.48,-202 269.48,-202 269.48,-208 263.48,-214 257.48,-214" />
+<text xml:space="preserve" text-anchor="middle" x="232.49" y="-191.72" font-family="Arial" font-size="12.00">observed</text>
+</g>
+
+<g id="review_status--edge1" class="edge">
+<title>start-&gt;observed</title>
+<path fill="none" stroke="#8593ab" d="M54.19,-167.25C87.66,-172.67 146.12,-182.16 186.72,-188.74" />
+<polygon fill="#8593ab" stroke="#8593ab" points="186.3,-191.15 193.61,-189.86 187.09,-186.32 186.3,-191.15" />
+<text xml:space="preserve" text-anchor="middle" x="124.75" y="-188.75" font-family="Arial" font-size="10.00">R01 observe-mode hold</text>
+</g>
+
+<g id="review_status--pending" class="node">
+<title>pending</title>
+<path fill="#fff3dd" stroke="#cbd5e1" d="M254.48,-150C254.48,-150 210.5,-150 210.5,-150 204.5,-150 198.5,-144 198.5,-138 198.5,-138 198.5,-126 198.5,-126 198.5,-120 204.5,-114 210.5,-114 210.5,-114 254.48,-114 254.48,-114 260.48,-114 266.48,-120 266.48,-126 266.48,-126 266.48,-138 266.48,-138 266.48,-144 260.48,-150 254.48,-150" />
+<text xml:space="preserve" text-anchor="middle" x="232.49" y="-127.72" font-family="Arial" font-size="12.00">pending</text>
+</g>
+
+<g id="review_status--edge2" class="edge">
+<title>start-&gt;pending</title>
+<path fill="none" stroke="#8593ab" d="M54.44,-156.54C64.23,-154.14 73,-152 73,-152 73,-152 143.12,-143.15 190.08,-137.23" />
+<polygon fill="#8593ab" stroke="#8593ab" points="190.13,-139.69 196.76,-136.38 189.51,-134.83 190.13,-139.69" />
+<text xml:space="preserve" text-anchor="middle" x="124.75" y="-154.5" font-family="Arial" font-size="10.00">R01 publish-mode hold</text>
+</g>
+
+<g id="review_status--rejected" class="node">
+<title>rejected</title>
+<path fill="#eaf2ff" stroke="#cbd5e1" d="M528.46,-276C528.46,-276 485.23,-276 485.23,-276 479.23,-276 473.23,-270 473.23,-264 473.23,-264 473.23,-252 473.23,-252 473.23,-246 479.23,-240 485.23,-240 485.23,-240 528.46,-240 528.46,-240 534.46,-240 540.46,-246 540.46,-252 540.46,-252 540.46,-264 540.46,-264 540.46,-270 534.46,-276 528.46,-276" />
+<text xml:space="preserve" text-anchor="middle" x="506.85" y="-253.72" font-family="Arial" font-size="12.00">rejected</text>
+</g>
+
+<g id="review_status--edge3" class="edge">
+<title>observed-&gt;rejected</title>
+<path fill="none" stroke="#8593ab" d="M269.86,-206.58C280.09,-209.56 288.48,-212 288.48,-212 288.48,-212 401.64,-235.95 464.66,-249.28" />
+<polygon fill="#8593ab" stroke="#8593ab" points="464,-251.65 471.35,-250.7 465.01,-246.85 464,-251.65" />
+<text xml:space="preserve" text-anchor="middle" x="352.98" y="-241.62" font-family="Arial" font-size="10.00">R02 explicit reject</text>
+</g>
+
+<g id="review_status--superseded" class="node">
+<title>superseded</title>
+<path fill="#eaf2ff" stroke="#cbd5e1" d="M803.94,-214C803.94,-214 740.46,-214 740.46,-214 734.46,-214 728.46,-208 728.46,-202 728.46,-202 728.46,-190 728.46,-190 728.46,-184 734.46,-178 740.46,-178 740.46,-178 803.94,-178 803.94,-178 809.94,-178 815.94,-184 815.94,-190 815.94,-190 815.94,-202 815.94,-202 815.94,-208 809.94,-214 803.94,-214" />
+<text xml:space="preserve" text-anchor="middle" x="772.2" y="-191.72" font-family="Arial" font-size="12.00">superseded</text>
+</g>
+
+<g id="review_status--edge5" class="edge">
+<title>observed-&gt;superseded</title>
+<path fill="none" stroke="#8593ab" d="M269.61,-196C362.8,-196 611.64,-196 719.81,-196" />
+<polygon fill="#8593ab" stroke="#8593ab" points="719.76,-198.45 726.76,-196 719.76,-193.55 719.76,-198.45" />
+<text xml:space="preserve" text-anchor="middle" x="506.85" y="-210.5" font-family="Arial" font-size="10.00">R03 refresh/new</text>
+<text xml:space="preserve" text-anchor="middle" x="506.85" y="-198.5" font-family="Arial" font-size="10.00">observation/contract revision</text>
+</g>
+
+<g id="review_status--edge4" class="edge">
+<title>pending-&gt;rejected</title>
+<path fill="none" stroke="#8593ab" d="M266.81,-143.41C319.83,-161.56 417.48,-195 417.48,-195 417.48,-195 436.48,-225 436.48,-225 436.48,-225 450.1,-231.48 465.27,-238.7" />
+<polygon fill="#8593ab" stroke="#8593ab" points="464.05,-240.83 471.42,-241.62 466.15,-236.4 464.05,-240.83" />
+<text xml:space="preserve" text-anchor="middle" x="352.98" y="-197.5" font-family="Arial" font-size="10.00">R02 explicit reject</text>
+</g>
+
+<g id="review_status--edge6" class="edge">
+<title>pending-&gt;superseded</title>
+<path fill="none" stroke="#8593ab" d="M266.81,-134.72C319.83,-139.04 417.48,-147 417.48,-147 417.48,-147 577.21,-167 577.21,-167 577.21,-167 662.41,-179.74 719.88,-188.33" />
+<polygon fill="#8593ab" stroke="#8593ab" points="719.37,-190.73 726.65,-189.34 720.09,-185.88 719.37,-190.73" />
+<text xml:space="preserve" text-anchor="middle" x="506.85" y="-181.5" font-family="Arial" font-size="10.00">R03 refresh/new</text>
+<text xml:space="preserve" text-anchor="middle" x="506.85" y="-169.5" font-family="Arial" font-size="10.00">observation/contract revision</text>
+</g>
+
+<g id="review_status--approving" class="node">
+<title>approving</title>
+<path fill="#eaf2ff" stroke="#cbd5e1" d="M533.71,-92C533.71,-92 479.98,-92 479.98,-92 473.98,-92 467.98,-86 467.98,-80 467.98,-80 467.98,-68 467.98,-68 467.98,-62 473.98,-56 479.98,-56 479.98,-56 533.71,-56 533.71,-56 539.71,-56 545.71,-62 545.71,-68 545.71,-68 545.71,-80 545.71,-80 545.71,-86 539.71,-92 533.71,-92" />
+<text xml:space="preserve" text-anchor="middle" x="506.85" y="-69.72" font-family="Arial" font-size="12.00">approving</text>
+</g>
+
+<g id="review_status--edge8" class="edge">
+<title>pending-&gt;approving</title>
+<path fill="none" stroke="#8593ab" d="M258.73,-113.64C273.19,-103.12 288.48,-92 288.48,-92 288.48,-92 395.28,-83.16 459.15,-77.87" />
+<polygon fill="#8593ab" stroke="#8593ab" points="459.2,-80.32 465.98,-77.3 458.8,-75.44 459.2,-80.32" />
+<text xml:space="preserve" text-anchor="middle" x="352.98" y="-106.5" font-family="Arial" font-size="10.00">R05 eligible manual approval</text>
+<text xml:space="preserve" text-anchor="middle" x="352.98" y="-94.5" font-family="Arial" font-size="10.00">CAS</text>
+</g>
+
+<g id="review_status--rebaseline_requested" class="node">
+<title>rebaseline_requested</title>
+<path fill="#eaf2ff" stroke="#cbd5e1" d="M565.21,-36C565.21,-36 448.48,-36 448.48,-36 442.48,-36 436.48,-30 436.48,-24 436.48,-24 436.48,-12 436.48,-12 436.48,-6 442.48,0 448.48,0 448.48,0 565.21,0 565.21,0 571.21,0 577.21,-6 577.21,-12 577.21,-12 577.21,-24 577.21,-24 577.21,-30 571.21,-36 565.21,-36" />
+<text xml:space="preserve" text-anchor="middle" x="506.85" y="-13.72" font-family="Arial" font-size="12.00">rebaseline_requested</text>
+</g>
+
+<g id="review_status--edge10" class="edge">
+<title>pending-&gt;rebaseline_requested</title>
+<path fill="none" stroke="#8593ab" d="M244.35,-113.82C260.38,-87.01 288.48,-40 288.48,-40 288.48,-40 365.52,-32.2 427.87,-25.89" />
+<polygon fill="#8593ab" stroke="#8593ab" points="427.95,-28.35 434.67,-25.2 427.46,-23.47 427.95,-28.35" />
+<text xml:space="preserve" text-anchor="middle" x="352.98" y="-66.5" font-family="Arial" font-size="10.00">R07 parser replay unavailable</text>
+<text xml:space="preserve" text-anchor="middle" x="352.98" y="-54.5" font-family="Arial" font-size="10.00">and explicit rebaseline</text>
+<text xml:space="preserve" text-anchor="middle" x="352.98" y="-42.5" font-family="Arial" font-size="10.00">request</text>
+</g>
+
+<g id="review_status--edge7" class="edge">
+<title>rejected-&gt;superseded</title>
+<path fill="none" stroke="#8593ab" d="M540.69,-250.51C597.82,-237.47 709.46,-212 709.46,-212 709.46,-212 713.67,-210.91 719.89,-209.3" />
+<polygon fill="#8593ab" stroke="#8593ab" points="720.36,-211.71 726.52,-207.58 719.13,-206.96 720.36,-211.71" />
+<text xml:space="preserve" text-anchor="middle" x="652.84" y="-240.25" font-family="Arial" font-size="10.00">R04 refresh</text>
+</g>
+
+<g id="review_status--approved" class="node">
+<title>approved</title>
+<path fill="#eaf2ff" stroke="#cbd5e1" d="M797.57,-92C797.57,-92 746.84,-92 746.84,-92 740.84,-92 734.84,-86 734.84,-80 734.84,-80 734.84,-68 734.84,-68 734.84,-62 740.84,-56 746.84,-56 746.84,-56 797.57,-56 797.57,-56 803.57,-56 809.57,-62 809.57,-68 809.57,-68 809.57,-80 809.57,-80 809.57,-86 803.57,-92 797.57,-92" />
+<text xml:space="preserve" text-anchor="middle" x="772.2" y="-69.72" font-family="Arial" font-size="12.00">approved</text>
+</g>
+
+<g id="review_status--edge9" class="edge">
+<title>approving-&gt;approved</title>
+<path fill="none" stroke="#8593ab" d="M546.14,-74C593.88,-74 675.36,-74 726.08,-74" />
+<polygon fill="#8593ab" stroke="#8593ab" points="726.04,-76.45 733.04,-74 726.04,-71.55 726.04,-76.45" />
+<text xml:space="preserve" text-anchor="middle" x="652.84" y="-88.5" font-family="Arial" font-size="10.00">R06 same DB transaction</text>
+<text xml:space="preserve" text-anchor="middle" x="652.84" y="-76.5" font-family="Arial" font-size="10.00">commits</text>
+</g>
+</g>
+</svg>

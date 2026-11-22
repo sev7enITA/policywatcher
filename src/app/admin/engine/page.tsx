@@ -5,13 +5,16 @@ import Link from 'next/link';
 import type { GroundedClaim, Verification } from '@/lib/engine/claims';
 import type { ReviewedExclusion, SourceContract, StructuredDocument } from '@/lib/engine/document';
 import styles from '../admin.module.css';
+import type { CoverageReceipt } from '@/lib/engine/coverage';
+import type { TransportProof } from '@/lib/scraper';
 
 type Policy = { id: string; name: string; url: string; retrievalUrl: string | null; jurisdiction: string; company: { name: string } };
 type Task = { id: string; policyId: string | null; kind: string; stage: string; status: string; attempt: number; lastError: string | null; resultJson: string | null };
 type Run = { id: string; mode: string; status: string; selected: number; createdAt: string; tasks: Task[] };
 type Review = { status: string; mode: string; id: string; policyId: string; reasonsJson: string; createdAt: string };
-type Detail = { review: Review & { status: string }; payload: { observation?: { observedAt: string; source: string; httpStatus: number }; checkpoint?: { analysis?: { value: { claims: GroundedClaim[] } }; verification?: { value: Verification } } }; document?: StructuredDocument; oldDocument?: StructuredDocument; baselineCandidate?: StructuredDocument };
-type Status = { hostedPreview?: boolean; worker?: { active: boolean; leader?: { phase: string; lastHeartbeatAt: string; lastError: string | null } | null; error?: string | null } | null; implementationHash?: string | null; coverage?: { total: number; contracted: number; verified: number; awaitingConfirmation: number }; enabled: boolean; publicationEnabled: boolean; schema: string; runs: Run[]; reviews: Review[]; policies: Policy[] };
+type ReviewObservation = { observedAt: string; source: string; httpStatus: number };
+type Detail = { observation?: ReviewObservation | null; coverageAssessment?: { eligible: boolean; completeness: string; coverage: CoverageReceipt } | null; transportProof?: TransportProof | null; review: Review & { status: string }; payload: { observation?: { observedAt: string; source: string; httpStatus: number }; checkpoint?: { analysis?: { value: { claims: GroundedClaim[] } }; verification?: { value: Verification } } }; document?: StructuredDocument; oldDocument?: StructuredDocument; baselineCandidate?: StructuredDocument };
+type Status = { hostedPreview?: boolean; worker?: { active: boolean; leader?: { phase: string; lastHeartbeatAt: string; lastError: string | null } | null; error?: string | null } | null; implementationHash?: string | null; coverage?: { total: number; contracted: number; inventoryConfigured?: number; qualification?: string; verified: number; awaitingConfirmation: number }; enabled: boolean; publicationEnabled: boolean; schema: string; runs: Run[]; reviews: Review[]; policies: Policy[] };
 const fieldStyle = { width: '100%', padding: 10, margin: '6px 0 16px', background: 'var(--bg-secondary)', color: 'var(--text-main)', border: '1px solid var(--border-color)', borderRadius: 6 };
 const buttonStyle = { padding: '10px 16px', marginRight: 12, marginBottom: 12, cursor: 'pointer', borderRadius: 6, border: '1px solid #7089ae', background: '#203a5a', color: '#fff' };
 const label = (value: string) => value.replaceAll('_', ' ');
@@ -49,6 +52,8 @@ export default function EngineWorkspace() {
   const [note, setNote] = useState('');
   const [exclusions, setExclusions] = useState('[]');
   const [exclusionsError, setExclusionsError] = useState('');
+  const [inventory, setInventory] = useState('');
+  const [inventoryError, setInventoryError] = useState('');
   const [contractLoading, setContractLoading] = useState(false);
   const [contractError, setContractError] = useState('');
   const [loadedPolicyId, setLoadedPolicyId] = useState('');
@@ -72,6 +77,7 @@ export default function EngineWorkspace() {
     const controller = new AbortController();
     contractRequest.current = controller;
     setPolicyId(nextPolicyId); setLoadedPolicyId(''); setContractError(''); setExclusionsError('');
+    setInventory(''); setInventoryError('');
     setTitles(''); setHeadings(''); setTerminal(''); setLanguage('en'); setTransport('direct'); setNote(''); setExclusions('[]');
     setContractBounds({ minimumChars: 100, maximumChars: 500000 });
     setContractLoading(Boolean(nextPolicyId));
@@ -85,6 +91,7 @@ export default function EngineWorkspace() {
         const contract = result.contract;
         setTitles(contract.titleAliases.join('\n')); setHeadings(contract.requiredHeadings.join('\n')); setTerminal(contract.terminalText);
         setLanguage(contract.language); setTransport(contract.preferredTransport); setNote(contract.reviewNote);
+        setInventory(contract.completenessInventory ? JSON.stringify(contract.completenessInventory, null, 2) : '');
         setExclusions(JSON.stringify(contract.reviewedExclusions || [], null, 2));
         setContractBounds({ minimumChars: contract.minimumChars, maximumChars: contract.maximumChars });
       }
@@ -100,7 +107,7 @@ export default function EngineWorkspace() {
     try {
       const response = await fetch('/api/admin/engine', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
       const result = await response.json();
-      if (!response.ok) throw new Error(label(result.error || 'Request failed'));
+      if (!response.ok) throw new Error(label(result.error || 'Request failed') + (result.auditRecorded === false ? '. The refusal audit receipt could not be saved; publication remains blocked.' : ''));
       setMessage(body.action === 'rebaseline'
         ? 'A newly confirmed baseline has been requested. Two fresh captures are still required; the old baseline and history are preserved. This request creates no public change or notification.'
         : result.run ? `Run accepted: ${result.run.selected} policies due. A worker processes the saved queue.` : 'Saved.');
@@ -110,8 +117,12 @@ export default function EngineWorkspace() {
     finally { setBusy(false); }
   }
   const selected = status?.policies.find(p => p.id === policyId);
+  const reviewObservation = reviewDetail?.observation ?? reviewDetail?.payload.observation;
   const reviewReasons: string[] = reviewDetail ? JSON.parse(reviewDetail.review.reasonsJson) : [];
   const needsRebaseline = reviewReasons.length === 1 && reviewReasons[0] === 'parser_upgrade_rebaseline_required';
+  const reviewCoverage = reviewDetail?.coverageAssessment?.coverage;
+  const reviewEvidencePublishable = reviewDetail?.coverageAssessment?.eligible === true && reviewCoverage?.state === 'matched_reviewed_reference'
+    && reviewCoverage.detail?.state === 'matched_reviewed_inventory' && reviewCoverage.detail.expectedAttachments === 0;
   const policyName = (id: string) => { const p = status?.policies.find(p => p.id === id); return p ? `${p.company.name} · ${p.name} (${p.jurisdiction})` : id; };
   return <div style={{ maxWidth: 1200 }}>
     <h1 className={styles.pageTitle}>Engine 6 Preview</h1>
@@ -129,9 +140,11 @@ export default function EngineWorkspace() {
         <details><summary>Implementation identity</summary><code style={{ overflowWrap: 'anywhere' }}>{status.implementationHash || 'Unavailable; execution is blocked'}</code></details>
       </section>}
       <section className={styles.card} style={{ marginBottom: 24 }}>
-        <h2>Coverage and evidence</h2><p>{status.coverage?.contracted || 0}/{status.coverage?.total || 0} sources configured · {status.coverage?.verified || 0} baselines verified in the last 24 hours · {status.coverage?.awaitingConfirmation || 0} candidates awaiting confirmation.</p>
+        <h2>Coverage and evidence</h2><p>{status.coverage?.contracted || 0}/{status.coverage?.total || 0} sources configured · {status.coverage?.verified || 0} baselines checked in the last 24 hours · {status.coverage?.awaitingConfirmation || 0} candidates awaiting confirmation.</p>
         <p>Missing baselines need a documented correction in <Link href="/admin/evidence-quality">Evidence Quality</Link>. A completed run may still contain held or unconfigured sources.</p>
-        <p>A configured contract checks expected document boundaries. It does not establish independent coverage of every clause, repeated occurrence or table cell.</p>
+        <p>A configured legacy contract checks document boundaries; it does not prove every clause, repeated occurrence or table row is present. {status.coverage?.inventoryConfigured || 0} sources have a structurally valid reviewed-reference inventory configured. This count is not a count of independently complete sources.</p>
+        <p>Download integrity, agreement with a reviewed reference, interpretation accuracy and atomic storage are separate checks. Missing coverage stays unknown. The Preview creates no completeness certificate or compliance verdict.</p>
+        <p><a href="https://policywatcher.online/methodology/confidence?lang=en" target="_blank" rel="noreferrer">Read the evidence methodology and responsible AI boundaries</a></p>
       </section>
       <section className={styles.card} style={{ marginBottom: 24 }}>
         <h2>Start a durable run</h2>
@@ -167,7 +180,7 @@ export default function EngineWorkspace() {
         {reviewDetail && <div style={{ borderTop: '2px solid #7089ae', paddingTop: 20 }}>
           <h3>Frozen evidence and independent verification</h3>
           <p>{policyName(reviewDetail.review.policyId)} · {label(reviewDetail.review.status)}</p>
-          <p>Observation recorded {reviewDetail.payload.observation?.observedAt ? new Date(reviewDetail.payload.observation.observedAt).toLocaleString() : 'Not recorded'} · {reviewDetail.payload.observation?.source || 'No transport recorded'} · {reviewDetail.payload.observation?.httpStatus ? `HTTP ${reviewDetail.payload.observation.httpStatus}` : 'No HTTP response recorded'}</p>
+          <p>Observation recorded {reviewObservation?.observedAt ? new Date(reviewObservation.observedAt).toLocaleString() : 'Not recorded'} · {reviewObservation?.source || 'No transport recorded'} · {reviewObservation?.httpStatus ? `HTTP ${reviewObservation.httpStatus}` : 'No HTTP response recorded'}</p>
           {(reviewDetail.payload.checkpoint?.analysis?.value.claims || []).map(claim => <article key={claim.id} style={{ padding: 18, marginBottom: 16, background: 'var(--bg-secondary)', color: 'var(--text-main)', border: '1px solid var(--border-color)', borderRadius: 8 }}>
             <h4>{claim.textEn}</h4><p>{claim.textIt}</p><p>Impact {claim.impact}/10 · {label(claim.category)}</p>
             {claim.evidence.map((span, i) => <div key={i}><strong>{span.side === 'old' ? 'Previous version' : 'Captured version'}</strong><blockquote style={{ borderLeft: '3px solid #839bc0', paddingLeft: 14, whiteSpace: 'pre-wrap' }}>{span.quote}</blockquote></div>)}
@@ -177,6 +190,15 @@ export default function EngineWorkspace() {
             const document = value as StructuredDocument | undefined;
             return document && <details key={String(title)} style={{ marginBottom: 14 }}><summary>{String(title)}</summary><pre style={{ maxHeight: 400, overflow: 'auto', whiteSpace: 'pre-wrap', overflowWrap: 'anywhere' }}>{document.text}</pre></details>;
           })}
+          <section style={{ marginBottom: 16 }} aria-label="Separate evidence checks">
+            <h4>Separate evidence checks</h4>
+            <p>Transport framing: <strong>{reviewDetail.transportProof ? label(reviewDetail.transportProof.framing) : 'not recorded / unknown'}</strong>. This describes the received response, not the completeness of the legal document.</p>
+            <p>Reviewed-reference coverage: <strong>{label(reviewDetail.coverageAssessment?.coverage.state || 'not configured')}</strong>.</p>
+            {!reviewEvidencePublishable && <p role="alert"><strong>Publication held:</strong> repair the missing or mismatched reference evidence before approval. A high match count cannot waive a missing unit. Policies with attachments remain observation-only until attachment change analysis is qualified.</p>}
+            {reviewDetail.coverageAssessment?.coverage && <p>{reviewDetail.coverageAssessment.coverage.expectedUnits} expected units; {reviewDetail.coverageAssessment.coverage.observedUnits} observed; {reviewDetail.coverageAssessment.coverage.missingUnits} missing; {reviewDetail.coverageAssessment.coverage.unexpectedUnits} unexpected. Agreement is limited to the declared reference and does not prove its independent origin.</p>}
+            {reviewDetail.coverageAssessment?.coverage.detail && <div><p>Independent inventory: <strong>{label(reviewDetail.coverageAssessment.coverage.detail.state)}</strong>; independence is reviewer-attested. Link census: {label(reviewDetail.coverageAssessment.coverage.detail.linkState)}; {reviewDetail.coverageAssessment.coverage.detail.missingLinks} missing and {reviewDetail.coverageAssessment.coverage.detail.unexpectedLinks} unexpected occurrences.</p><p>{reviewDetail.coverageAssessment.coverage.detail.expectedSections} sections; {reviewDetail.coverageAssessment.coverage.detail.missingSections} missing. {reviewDetail.coverageAssessment.coverage.detail.expectedClauses} clause occurrences; {reviewDetail.coverageAssessment.coverage.detail.missingClauses} missing. {reviewDetail.coverageAssessment.coverage.detail.expectedTableRows} table row occurrences; {reviewDetail.coverageAssessment.coverage.detail.missingTableRows} missing. Attachments: {reviewDetail.coverageAssessment.coverage.detail.matchedAttachments}/{reviewDetail.coverageAssessment.coverage.detail.expectedAttachments} verified against the declared reference.</p>{reviewDetail.coverageAssessment.coverage.detail.attachments.map(item => <p key={item.id}>Attachment {item.id}: {label(item.state)}. {item.reasons.map(label).join(', ')}</p>)}</div>}
+            <p>Interpretation accuracy remains a separate analyst/verifier and human-review question. Atomic saving prevents partial updates; it cannot restore missing content.</p>
+          </section>
           <details style={{ marginBottom: 16 }}><summary>Technical provenance</summary><pre style={{ maxHeight: 300, overflow: 'auto', whiteSpace: 'pre-wrap', overflowWrap: 'anywhere' }}>{JSON.stringify(reviewDetail, null, 2)}</pre></details>
           <label>Review rationale (minimum 20 characters)<textarea style={fieldStyle} value={reviewNote} onChange={e => setReviewNote(e.target.value)} /></label>
           {needsRebaseline && <div style={{ marginBottom: 18, padding: 16, border: '1px solid var(--border-color)', background: 'var(--bg-secondary)' }}>
@@ -184,22 +206,28 @@ export default function EngineWorkspace() {
             <p>The parser upgrade cannot safely reuse the earlier extraction as a comparable baseline. Requesting a replacement starts a confirmation process: a worker must obtain two fresh captures before a new baseline can be recorded. The existing baseline and history are preserved; clicking this button publishes no policy change and sends no notification.</p>
             <p>Replacing the baseline can absorb a real provider policy change without producing a change alert. Use this only after explicit review establishes that the historical baseline cannot be compared reliably.</p>
             <p>This preview has no dedicated action to revoke a baseline replacement request. Scan-pause and publication controls remain available.</p>
-            <button style={buttonStyle} disabled={busy || !status.publicationEnabled || reviewDetail.review.mode !== 'publish' || reviewDetail.review.status !== 'pending' || reviewNote.trim().length < 20} onClick={() => void action({ action: 'rebaseline', reviewId: reviewDetail.review.id, note: reviewNote })}>Request a newly confirmed baseline</button>
+            <button style={buttonStyle} disabled={busy || !reviewEvidencePublishable || !status.publicationEnabled || reviewDetail.review.mode !== 'publish' || reviewDetail.review.status !== 'pending' || reviewNote.trim().length < 20} onClick={() => void action({ action: 'rebaseline', reviewId: reviewDetail.review.id, note: reviewNote })}>Request a newly confirmed baseline</button>
           </div>}
-          <button style={buttonStyle} disabled={busy || needsRebaseline || reviewDetail.review.status !== 'pending' || reviewDetail.review.mode !== 'publish' || !status.publicationEnabled || reviewNote.trim().length < 20 || !reviewReasons.every(r => ['high_impact_review_required', 'parser_upgrade_requires_baseline_review', 'formatting_requires_baseline_review'].includes(r))} onClick={() => void action({ action: 'approve', reviewId: reviewDetail.review.id, note: reviewNote })}>Approve reviewed evidence</button>
+          <button style={buttonStyle} disabled={busy || needsRebaseline || !reviewEvidencePublishable || reviewDetail.review.status !== 'pending' || reviewDetail.review.mode !== 'publish' || !status.publicationEnabled || reviewNote.trim().length < 20 || !reviewReasons.every(r => ['high_impact_review_required', 'parser_upgrade_requires_baseline_review', 'formatting_requires_baseline_review'].includes(r))} onClick={() => void action({ action: 'approve', reviewId: reviewDetail.review.id, note: reviewNote })}>Approve reviewed evidence</button>
           <button style={buttonStyle} disabled={busy || reviewNote.trim().length < 20} onClick={() => void action({ action: 'refresh', reviewId: reviewDetail.review.id, note: reviewNote })}>Request fresh evidence</button>
           <button style={buttonStyle} disabled={busy || reviewNote.trim().length < 20} onClick={() => void action({ action: 'reject', reviewId: reviewDetail.review.id, note: reviewNote })}>Close without publishing</button>
         </div>}
       </section>
       <section className={styles.card}>
-        <h2>Review a source contract</h2><p>A source contract defines the document identity and completeness checks. Read the official document before recording these expectations. A changed title or missing terminal section will require review.</p>
+        <h2>Review source identity and reference coverage</h2><p>Read the official document and an independently reviewed reference before recording expectations. A legacy contract permits private observation only. Engine 6 publication also requires agreement with a reviewed all-block inventory; human approval cannot bypass a failed coverage gate. A legitimate content change can require a new reference.</p>
         <form onSubmit={e => { e.preventDefault(); if (!selected || busy || contractLoading || loadedPolicyId !== policyId) return;
+          let completenessInventory: SourceContract['completenessInventory'];
+          try {
+            completenessInventory = inventory.trim() ? JSON.parse(inventory) : undefined;
+            if (completenessInventory !== undefined && (!completenessInventory || typeof completenessInventory !== 'object' || Array.isArray(completenessInventory))) throw new Error('Expected a JSON inventory object.');
+            setInventoryError('');
+          } catch { setInventoryError('Use a valid reviewed inventory object, or leave this field empty for observation only.'); return; }
           let reviewedExclusions: EditableExclusion[];
           try { reviewedExclusions = parseReviewedExclusions(exclusions); setExclusionsError(''); }
           catch (error) { setExclusionsError(error instanceof Error ? error.message : 'Unable to parse reviewed exclusions.'); return; }
           void action({ action: 'contract', policyId,
           contract: { schemaVersion: 1, sourceUrl: selected.retrievalUrl || selected.url, titleAliases: titles.split('\n').filter(Boolean), requiredHeadings: headings.split('\n').filter(Boolean), terminalText: terminal,
-            language, preferredTransport, ...contractBounds, reviewedExclusions, reviewedAt: new Date().toISOString(), reviewNote: note } }); }}>
+            language, preferredTransport, ...contractBounds, reviewedExclusions, ...(completenessInventory ? { completenessInventory } : {}), reviewedAt: new Date().toISOString(), reviewNote: note } }); }}>
           <label>Policy<select required disabled={busy} style={fieldStyle} value={policyId} onChange={e => void selectPolicy(e.target.value)}><option value="">Select a policy</option>{status.policies.map(p => <option key={p.id} value={p.id}>{policyName(p.id)}</option>)}</select></label>
           {contractLoading && <p role="status">Loading the reviewed source contract…</p>}
           {contractError && <div><p role="alert">{contractError}</p><button type="button" style={buttonStyle} disabled={busy || !policyId || contractLoading} onClick={() => void selectPolicy(policyId)}>Retry loading source contract</button></div>}
@@ -213,6 +241,12 @@ export default function EngineWorkspace() {
           <label>Reviewed exclusions (optional JSON array)<textarea rows={8} spellCheck={false} style={{ ...fieldStyle, fontFamily: 'var(--font-mono)' }} value={exclusions} aria-describedby="reviewed-exclusions-help reviewed-exclusions-error" aria-invalid={Boolean(exclusionsError)} onChange={e => { setExclusions(e.target.value); setExclusionsError(''); }} /></label>
           <p id="reviewed-exclusions-help">Use [] for none. Every exclusion must identify a specific reviewed node with selector and htmlSha256, purpose &quot;non_document_ui&quot;, and a reviewNote of at least 20 characters. Optional dialogHeadings records reviewed dialog headings. Exclude only non-document interface content, never policy provisions. Each exclusion is pinned to the reviewed HTML hash; new or changed nodes remain held for review.</p>
           <p id="reviewed-exclusions-error" role={exclusionsError ? 'alert' : undefined}>{exclusionsError}</p>
+          <details style={{ marginBottom: 16 }}><summary>Reviewed reference inventory (advanced)</summary>
+            <p>Use a version 2 inventory prepared from a separately retained reference. It must identify every section, clause unit, table row and occurrence, and declare every expected attachment with byte and extraction references. Version 1 permits private observation only. Review a reference independently: copying the current extraction into an inventory can reproduce its omissions. Reference hashes and review notes record an attestation, not a verified publisher signature.</p>
+            <label>Inventory JSON<textarea rows={12} spellCheck={false} style={{ ...fieldStyle, fontFamily: 'var(--font-mono)' }} value={inventory} aria-invalid={Boolean(inventoryError)} aria-describedby="inventory-help inventory-error" onChange={e => { setInventory(e.target.value); setInventoryError(''); }} /></label>
+            <p id="inventory-help">{inventory.trim() ? 'Validated on save for schema, source, language, timestamps, bounded size and digest consistency. Matching remains limited to this reviewed reference.' : 'No inventory configured. Saving preserves observation only and blocks Engine 6 publication; it does not approve completeness.'}</p>
+            <p id="inventory-error" role={inventoryError ? 'alert' : undefined} style={{ color: inventoryError ? 'var(--danger, #b42318)' : undefined }}>{inventoryError}</p>
+          </details>
           <label>What did you verify?<textarea required minLength={10} style={fieldStyle} value={note} onChange={e => setNote(e.target.value)} /></label>
           <button style={buttonStyle} disabled={busy || !selected || contractLoading || loadedPolicyId !== policyId}>Save reviewed contract</button>
           </fieldset>

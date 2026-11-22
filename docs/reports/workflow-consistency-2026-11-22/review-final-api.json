@@ -1,0 +1,15 @@
+{
+  "coreRevision": "0b0c515350d9b60f81baf2e926e92c874e563ad5",
+  "finalUiApiRevision": "3eabf9d8b420efb13debfcd8b6e378e81a2c4c61",
+  "verdict": "APPROVE_REVIEWED_FIX_SET",
+  "demonstratedRemainingP0P1P2": 0,
+  "baseCounterexampleFixed": true,
+  "independentCoreTestsPassed": 47,
+  "finalAdminApiTestsPassed": 7,
+  "browserUiExercised": false,
+  "network": "OS-denied TCP/IP",
+  "applicationSourceEdited": false,
+  "gitEdited": false,
+  "hostedActionsPerformed": false,
+  "fullSuiteReexecuted": false
+}

@@ -1,0 +1,7 @@
+{
+  "codeCheckpoint": "3eabf9d8b420efb13debfcd8b6e378e81a2c4c61",
+  "fullNpmBuild": "passed",
+  "database": "isolated SQLite only",
+  "networkPoliciesScanned": 0,
+  "publicationAndNotifications": false
+}

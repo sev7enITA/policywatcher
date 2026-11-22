@@ -1,0 +1,37 @@
+digraph G {
+graph [rankdir=LR, bgcolor="transparent", pad="0.18", nodesep="0.28", ranksep="0.52", splines=polyline];
+node [shape=box, style="rounded,filled", fillcolor="#ffffff", color="#cbd5e1", fontname="Arial", fontsize=12, margin="0.17,0.12"];
+edge [color="#8593ab", arrowsize="0.7", fontname="Arial", fontsize=10];
+EngineRun [id="declared_foreign_keys--EngineRun", label="EngineRun", fillcolor="#eaf2ff", shape="box"];
+EngineTask [id="declared_foreign_keys--EngineTask", label="EngineTask", fillcolor="#eaf2ff", shape="box"];
+EngineClaim [id="declared_foreign_keys--EngineClaim", label="EngineClaim", fillcolor="#eaf2ff", shape="box"];
+EngineClaimEvidence [id="declared_foreign_keys--EngineClaimEvidence", label="EngineClaimEvidence", fillcolor="#eaf2ff", shape="box"];
+Company [id="declared_foreign_keys--Company", label="Company", fillcolor="#eaf2ff", shape="box"];
+Policy [id="declared_foreign_keys--Policy", label="Policy", fillcolor="#eaf2ff", shape="box"];
+PolicySnapshot [id="declared_foreign_keys--PolicySnapshot", label="PolicySnapshot", fillcolor="#eaf2ff", shape="box"];
+PolicyChange [id="declared_foreign_keys--PolicyChange", label="PolicyChange", fillcolor="#eaf2ff", shape="box"];
+ExtractionBaseline [id="declared_foreign_keys--ExtractionBaseline", label="ExtractionBaseline", fillcolor="#eaf2ff", shape="box"];
+SourceRetrieval [id="declared_foreign_keys--SourceRetrieval", label="SourceRetrieval", fillcolor="#eaf2ff", shape="box"];
+Entity [id="declared_foreign_keys--Entity", label="Entity", fillcolor="#eaf2ff", shape="box"];
+Document [id="declared_foreign_keys--Document", label="Document", fillcolor="#eaf2ff", shape="box"];
+Version [id="declared_foreign_keys--Version", label="Version", fillcolor="#eaf2ff", shape="box"];
+ContentArtifact [id="declared_foreign_keys--ContentArtifact", label="ContentArtifact", fillcolor="#eaf2ff", shape="box"];
+Change [id="declared_foreign_keys--Change", label="Change", fillcolor="#eaf2ff", shape="box"];
+Provision [id="declared_foreign_keys--Provision", label="Provision", fillcolor="#eaf2ff", shape="box"];
+EngineRun -> EngineTask [label="runId  1 -> 0..N", style="solid"];
+EngineClaim -> EngineClaimEvidence [label="claimId  1 -> 0..N", style="solid"];
+Company -> Policy [label="companyId  1 -> 0..N", style="solid"];
+Policy -> PolicySnapshot [label="policyId  1 -> 0..N", style="solid"];
+Policy -> PolicyChange [label="policyId  1 -> 0..N", style="solid"];
+Policy -> ExtractionBaseline [label="policyId  1 -> 0..1", style="solid"];
+PolicySnapshot -> PolicyChange [label="oldSnapshotId  0..1 -> 0..N", style="solid"];
+PolicySnapshot -> PolicyChange [label="newSnapshotId  1 -> 0..N", style="solid"];
+SourceRetrieval -> PolicySnapshot [label="sourceRetrievalId  0..1 ->\n0..N", style="solid"];
+Entity -> Document [label="entityId  1 -> 0..N", style="solid"];
+Document -> Version [label="documentId  1 -> 0..N", style="solid"];
+ContentArtifact -> Version [label="contentArtifactHash  0..1 ->\n0..N", style="solid"];
+Document -> Change [label="documentId  1 -> 0..N", style="solid"];
+Version -> Change [label="fromVersionId  0..1 -> 0..N", style="solid"];
+Version -> Change [label="toVersionId  1 -> 0..N", style="solid"];
+Change -> Provision [label="changeId  1 -> 0..N", style="solid"];
+}

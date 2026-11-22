@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="776pt" height="118pt" viewBox="0.00 0.00 776.00 118.00">
+<g id="outbox_status--graph0" class="graph" transform="scale(1 1) rotate(0) translate(12.96 104.96)">
+<title>G</title>
+
+<g id="outbox_status--start" class="node">
+<title>start</title>
+<path fill="#eaf2ff" stroke="#cbd5e1" d="M42,-64C42,-64 12,-64 12,-64 6,-64 0,-58 0,-52 0,-52 0,-40 0,-40 0,-34 6,-28 12,-28 12,-28 42,-28 42,-28 48,-28 54,-34 54,-40 54,-40 54,-52 54,-52 54,-58 48,-64 42,-64" />
+<text xml:space="preserve" text-anchor="middle" x="27" y="-41.73" font-family="Arial" font-size="12.00">start</text>
+</g>
+
+<g id="outbox_status--pending" class="node">
+<title>pending</title>
+<path fill="#fff3dd" stroke="#cbd5e1" d="M262.73,-64C262.73,-64 218.75,-64 218.75,-64 212.75,-64 206.75,-58 206.75,-52 206.75,-52 206.75,-40 206.75,-40 206.75,-34 212.75,-28 218.75,-28 218.75,-28 262.73,-28 262.73,-28 268.73,-28 274.73,-34 274.73,-40 274.73,-40 274.73,-52 274.73,-52 274.73,-58 268.73,-64 262.73,-64" />
+<text xml:space="preserve" text-anchor="middle" x="240.74" y="-41.73" font-family="Arial" font-size="12.00">pending</text>
+</g>
+
+<g id="outbox_status--edge1" class="edge">
+<title>start-&gt;pending</title>
+<path fill="none" stroke="#8593ab" d="M54.39,-46C90.38,-46 155.24,-46 197.9,-46" />
+<polygon fill="#8593ab" stroke="#8593ab" points="197.87,-48.45 204.87,-46 197.87,-43.55 197.87,-48.45" />
+<text xml:space="preserve" text-anchor="middle" x="130.38" y="-60.5" font-family="Arial" font-size="10.00">O01 optional event inside</text>
+<text xml:space="preserve" text-anchor="middle" x="130.38" y="-48.5" font-family="Arial" font-size="10.00">publication DB transaction</text>
+</g>
+
+<g id="outbox_status--sending" class="node">
+<title>sending</title>
+<path fill="#eaf2ff" stroke="#cbd5e1" d="M503.71,-64C503.71,-64 460.48,-64 460.48,-64 454.48,-64 448.48,-58 448.48,-52 448.48,-52 448.48,-40 448.48,-40 448.48,-34 454.48,-28 460.48,-28 460.48,-28 503.71,-28 503.71,-28 509.71,-28 515.71,-34 515.71,-40 515.71,-40 515.71,-52 515.71,-52 515.71,-58 509.71,-64 503.71,-64" />
+<text xml:space="preserve" text-anchor="middle" x="482.1" y="-41.73" font-family="Arial" font-size="12.00">sending</text>
+</g>
+
+<g id="outbox_status--edge2" class="edge">
+<title>pending-&gt;sending</title>
+<path fill="none" stroke="#8593ab" d="M274.96,-46.64C285.15,-46.83 293.73,-47 293.73,-47 293.73,-47 429.48,-47 429.48,-47 429.48,-47 433.69,-46.92 439.71,-46.8" />
+<polygon fill="#8593ab" stroke="#8593ab" points="439.65,-49.25 446.6,-46.67 439.55,-44.35 439.65,-49.25" />
+<text xml:space="preserve" text-anchor="middle" x="361.61" y="-49.5" font-family="Arial" font-size="10.00">O02 CAS lease claim</text>
+</g>
+
+<g id="outbox_status--edge4" class="edge">
+<title>sending-&gt;pending</title>
+<path fill="none" stroke="#8593ab" d="M448.11,-28.11C438,-22.62 429.48,-18 429.48,-18 429.48,-18 293.73,-18 293.73,-18 293.73,-18 288.9,-20.6 282.19,-24.21" />
+<polygon fill="#8593ab" stroke="#8593ab" points="281.29,-21.91 276.29,-27.39 283.62,-26.23 281.29,-21.91" />
+<text xml:space="preserve" text-anchor="middle" x="361.61" y="-32.5" font-family="Arial" font-size="10.00">O04 retryable failure /</text>
+<text xml:space="preserve" text-anchor="middle" x="361.61" y="-20.5" font-family="Arial" font-size="10.00">expired lease below 5 attempts</text>
+</g>
+
+<g id="outbox_status--delivered" class="node">
+<title>delivered</title>
+<path fill="#eaf2ff" stroke="#cbd5e1" d="M737.94,-92C737.94,-92 687.96,-92 687.96,-92 681.96,-92 675.96,-86 675.96,-80 675.96,-80 675.96,-68 675.96,-68 675.96,-62 681.96,-56 687.96,-56 687.96,-56 737.94,-56 737.94,-56 743.94,-56 749.94,-62 749.94,-68 749.94,-68 749.94,-80 749.94,-80 749.94,-86 743.94,-92 737.94,-92" />
+<text xml:space="preserve" text-anchor="middle" x="712.95" y="-69.72" font-family="Arial" font-size="12.00">delivered</text>
+</g>
+
+<g id="outbox_status--edge3" class="edge">
+<title>sending-&gt;delivered</title>
+<path fill="none" stroke="#8593ab" d="M515.88,-50.01C555.71,-54.88 623.07,-63.13 667.53,-68.56" />
+<polygon fill="#8593ab" stroke="#8593ab" points="667.08,-70.98 674.32,-69.4 667.67,-66.11 667.08,-70.98" />
+<text xml:space="preserve" text-anchor="middle" x="595.84" y="-81.73" font-family="Arial" font-size="10.00">O03 root fanout committed /</text>
+<text xml:space="preserve" text-anchor="middle" x="595.84" y="-69.73" font-family="Arial" font-size="10.00">recipient ack or skip</text>
+</g>
+
+<g id="outbox_status--failed" class="node">
+<title>failed</title>
+<path fill="#fff3dd" stroke="#cbd5e1" d="M727.95,-36C727.95,-36 697.95,-36 697.95,-36 691.95,-36 685.95,-30 685.95,-24 685.95,-24 685.95,-12 685.95,-12 685.95,-6 691.95,0 697.95,0 697.95,0 727.95,0 727.95,0 733.95,0 739.95,-6 739.95,-12 739.95,-12 739.95,-24 739.95,-24 739.95,-30 733.95,-36 727.95,-36" />
+<text xml:space="preserve" text-anchor="middle" x="712.95" y="-13.72" font-family="Arial" font-size="12.00">failed</text>
+</g>
+
+<g id="outbox_status--edge5" class="edge">
+<title>sending-&gt;failed</title>
+<path fill="none" stroke="#8593ab" d="M516.08,-39.61C526.19,-37.65 534.71,-36 534.71,-36 534.71,-36 626.04,-26.72 677.58,-21.49" />
+<polygon fill="#8593ab" stroke="#8593ab" points="677.58,-23.95 684.29,-20.81 677.08,-19.08 677.58,-23.95" />
+<text xml:space="preserve" text-anchor="middle" x="595.84" y="-38.5" font-family="Arial" font-size="10.00">O05 attempts exhausted</text>
+</g>
+</g>
+</svg>

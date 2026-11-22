@@ -374,7 +374,7 @@ export default function WhatChangedClient({ initialLang = 'en' }: { initialLang?
 
             <details className={`${styles.disclosure} ${styles.privacyDisclosure}`}>
               <summary><span><LockKeyhole aria-hidden="true" />{t.privacyHow}</span><ChevronDown aria-hidden="true" /></summary>
-              <div><p>{t.privacyLocal}</p><p>{t.privacyMinimal}</p><p>{t.privacyPortfolio}</p><p>{t.privacyQa}</p><nav><Link href={localizedPublicPath('/privacy', lang)}>{t.privacyDetails}</Link><Link href="/methodology/confidence">{t.confidenceDetails}</Link></nav></div>
+              <div><p>{t.privacyLocal}</p><p>{t.privacyMinimal}</p><p>{t.privacyPortfolio}</p><p>{t.privacyQa}</p><nav><Link href={localizedPublicPath('/privacy', lang)}>{t.privacyDetails}</Link><Link href={localizedPublicPath('/methodology/confidence', lang)}>{t.confidenceDetails}</Link></nav></div>
             </details>
           </div>}
 

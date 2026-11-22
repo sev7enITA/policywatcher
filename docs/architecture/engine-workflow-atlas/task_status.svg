@@ -1,0 +1,138 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1059pt" height="215pt" viewBox="0.00 0.00 1059.00 215.00">
+<g id="task_status--graph0" class="graph" transform="scale(1 1) rotate(0) translate(12.96 201.96)">
+<title>G</title>
+
+<g id="task_status--start" class="node">
+<title>start</title>
+<path fill="#eaf2ff" stroke="#cbd5e1" d="M42,-67C42,-67 12,-67 12,-67 6,-67 0,-61 0,-55 0,-55 0,-43 0,-43 0,-37 6,-31 12,-31 12,-31 42,-31 42,-31 48,-31 54,-37 54,-43 54,-43 54,-55 54,-55 54,-61 48,-67 42,-67" />
+<text xml:space="preserve" text-anchor="middle" x="27" y="-44.73" font-family="Arial" font-size="12.00">start</text>
+</g>
+
+<g id="task_status--queued" class="node">
+<title>queued</title>
+<path fill="#eaf2ff" stroke="#cbd5e1" d="M500.98,-96C500.98,-96 460,-96 460,-96 454,-96 448,-90 448,-84 448,-84 448,-72 448,-72 448,-66 454,-60 460,-60 460,-60 500.98,-60 500.98,-60 506.98,-60 512.98,-66 512.98,-72 512.98,-72 512.98,-84 512.98,-84 512.98,-90 506.98,-96 500.98,-96" />
+<text xml:space="preserve" text-anchor="middle" x="480.49" y="-73.72" font-family="Arial" font-size="12.00">queued</text>
+</g>
+
+<g id="task_status--edge1" class="edge">
+<title>start-&gt;queued</title>
+<path fill="none" stroke="#8593ab" d="M54.44,-57.22C64.23,-60.27 73,-63 73,-63 73,-63 336.73,-72.73 439.33,-76.52" />
+<polygon fill="#8593ab" stroke="#8593ab" points="439,-78.96 446.08,-76.77 439.18,-74.06 439,-78.96" />
+<text xml:space="preserve" text-anchor="middle" x="234.88" y="-72.75" font-family="Arial" font-size="10.00">T01 fetch creation</text>
+</g>
+
+<g id="task_status--blocked" class="node">
+<title>blocked</title>
+<path fill="#fff3dd" stroke="#cbd5e1" d="M256.12,-38C256.12,-38 213.63,-38 213.63,-38 207.63,-38 201.63,-32 201.63,-26 201.63,-26 201.63,-14 201.63,-14 201.63,-8 207.63,-2 213.63,-2 213.63,-2 256.12,-2 256.12,-2 262.12,-2 268.12,-8 268.12,-14 268.12,-14 268.12,-26 268.12,-26 268.12,-32 262.12,-38 256.12,-38" />
+<text xml:space="preserve" text-anchor="middle" x="234.88" y="-15.72" font-family="Arial" font-size="12.00">blocked</text>
+</g>
+
+<g id="task_status--edge2" class="edge">
+<title>start-&gt;blocked</title>
+<path fill="none" stroke="#8593ab" d="M54.44,-42.54C64.23,-40.14 73,-38 73,-38 73,-38 145.36,-29.9 193.02,-24.57" />
+<polygon fill="#8593ab" stroke="#8593ab" points="193.13,-27.02 199.82,-23.81 192.59,-22.15 193.13,-27.02" />
+<text xml:space="preserve" text-anchor="middle" x="124.75" y="-52.5" font-family="Arial" font-size="10.00">T02 policy creation with</text>
+<text xml:space="preserve" text-anchor="middle" x="124.75" y="-40.5" font-family="Arial" font-size="10.00">dependency</text>
+</g>
+
+<g id="task_status--running" class="node">
+<title>running</title>
+<path fill="#eaf2ff" stroke="#cbd5e1" d="M753.72,-121C753.72,-121 712.74,-121 712.74,-121 706.74,-121 700.74,-115 700.74,-109 700.74,-109 700.74,-97 700.74,-97 700.74,-91 706.74,-85 712.74,-85 712.74,-85 753.72,-85 753.72,-85 759.72,-85 765.72,-91 765.72,-97 765.72,-97 765.72,-109 765.72,-109 765.72,-115 759.72,-121 753.72,-121" />
+<text xml:space="preserve" text-anchor="middle" x="733.23" y="-98.72" font-family="Arial" font-size="12.00">running</text>
+</g>
+
+<g id="task_status--edge4" class="edge">
+<title>queued-&gt;running</title>
+<path fill="none" stroke="#8593ab" d="M490.75,-96.16C505.33,-124.74 531.98,-177 531.98,-177 531.98,-177 653.48,-177 653.48,-177 653.48,-177 683.79,-148.52 706.8,-126.9" />
+<polygon fill="#8593ab" stroke="#8593ab" points="708.24,-128.91 711.66,-122.33 704.88,-125.34 708.24,-128.91" />
+<text xml:space="preserve" text-anchor="middle" x="592.73" y="-179.5" font-family="Arial" font-size="10.00">T04 CAS claim + lease</text>
+</g>
+
+<g id="task_status--cancelled" class="node">
+<title>cancelled</title>
+<path fill="#eaf2ff" stroke="#cbd5e1" d="M1019.59,-36C1019.59,-36 967.36,-36 967.36,-36 961.36,-36 955.36,-30 955.36,-24 955.36,-24 955.36,-12 955.36,-12 955.36,-6 961.36,0 967.36,0 967.36,0 1019.59,0 1019.59,0 1025.59,0 1031.59,-6 1031.59,-12 1031.59,-12 1031.59,-24 1031.59,-24 1031.59,-30 1025.59,-36 1019.59,-36" />
+<text xml:space="preserve" text-anchor="middle" x="993.47" y="-13.72" font-family="Arial" font-size="12.00">cancelled</text>
+</g>
+
+<g id="task_status--edge11" class="edge">
+<title>queued-&gt;cancelled</title>
+<path fill="none" stroke="#8593ab" d="M513.47,-59.63C523.49,-53.88 531.98,-49 531.98,-49 531.98,-49 830.43,-28.91 946.79,-21.08" />
+<polygon fill="#8593ab" stroke="#8593ab" points="946.85,-23.53 953.67,-20.61 946.52,-18.64 946.85,-23.53" />
+<text xml:space="preserve" text-anchor="middle" x="733.23" y="-41.57" font-family="Arial" font-size="10.00">T10 explicit run cancellation</text>
+</g>
+
+<g id="task_status--edge3" class="edge">
+<title>blocked-&gt;queued</title>
+<path fill="none" stroke="#8593ab" d="M268.2,-23.01C323.18,-28.14 429,-38 429,-38 429,-38 438.81,-45.77 449.78,-54.47" />
+<polygon fill="#8593ab" stroke="#8593ab" points="448.12,-56.27 455.13,-58.7 451.16,-52.43 448.12,-56.27" />
+<text xml:space="preserve" text-anchor="middle" x="361.12" y="-52.5" font-family="Arial" font-size="10.00">T03 fetch completed or</text>
+<text xml:space="preserve" text-anchor="middle" x="361.12" y="-40.5" font-family="Arial" font-size="10.00">terminal dependency recovered</text>
+</g>
+
+<g id="task_status--edge10" class="edge">
+<title>blocked-&gt;cancelled</title>
+<path fill="none" stroke="#8593ab" d="M268.56,-19.83C390.64,-19.2 812.98,-17 812.98,-17 812.98,-17 934.48,-17 934.48,-17 934.48,-17 939.54,-17.09 946.68,-17.21" />
+<polygon fill="#8593ab" stroke="#8593ab" points="946.53,-19.66 953.58,-17.33 946.62,-14.76 946.53,-19.66" />
+<text xml:space="preserve" text-anchor="middle" x="592.73" y="-20.93" font-family="Arial" font-size="10.00">T10 explicit run cancellation</text>
+</g>
+
+<g id="task_status--edge5" class="edge">
+<title>running-&gt;queued</title>
+<path fill="none" stroke="#8593ab" d="M700.65,-113.02C678.74,-119.98 653.48,-128 653.48,-128 653.48,-128 531.98,-128 531.98,-128 531.98,-128 518.77,-114.92 505.86,-102.14" />
+<polygon fill="#8593ab" stroke="#8593ab" points="507.78,-100.58 501.08,-97.4 504.33,-104.07 507.78,-100.58" />
+<text xml:space="preserve" text-anchor="middle" x="592.73" y="-142.5" font-family="Arial" font-size="10.00">T05 next stage checkpoint /</text>
+<text xml:space="preserve" text-anchor="middle" x="592.73" y="-130.5" font-family="Arial" font-size="10.00">attempt reset</text>
+</g>
+
+<g id="task_status--edge6" class="edge">
+<title>running-&gt;queued</title>
+<path fill="none" stroke="#8593ab" d="M700.34,-99.82C654.79,-95.28 571.15,-86.94 521.51,-81.99" />
+<polygon fill="#8593ab" stroke="#8593ab" points="521.96,-79.57 514.75,-81.32 521.47,-84.45 521.96,-79.57" />
+<text xml:space="preserve" text-anchor="middle" x="592.73" y="-109.41" font-family="Arial" font-size="10.00">T06 retryable failure /</text>
+<text xml:space="preserve" text-anchor="middle" x="592.73" y="-97.41" font-family="Arial" font-size="10.00">nextAttemptAt</text>
+</g>
+
+<g id="task_status--edge7" class="edge">
+<title>running-&gt;queued</title>
+<path fill="none" stroke="#8593ab" d="M702.91,-84.75C680.52,-70.82 653.48,-54 653.48,-54 653.48,-54 531.98,-54 531.98,-54 531.98,-54 527.4,-56.18 521,-59.22" />
+<polygon fill="#8593ab" stroke="#8593ab" points="520.1,-56.93 514.83,-62.15 522.21,-61.36 520.1,-56.93" />
+<text xml:space="preserve" text-anchor="middle" x="592.73" y="-68.5" font-family="Arial" font-size="10.00">T07 expired lease below 3</text>
+<text xml:space="preserve" text-anchor="middle" x="592.73" y="-56.5" font-family="Arial" font-size="10.00">attempts</text>
+</g>
+
+<g id="task_status--failed" class="node">
+<title>failed</title>
+<path fill="#fff3dd" stroke="#cbd5e1" d="M1008.47,-174C1008.47,-174 978.47,-174 978.47,-174 972.47,-174 966.47,-168 966.47,-162 966.47,-162 966.47,-150 966.47,-150 966.47,-144 972.47,-138 978.47,-138 978.47,-138 1008.47,-138 1008.47,-138 1014.47,-138 1020.47,-144 1020.47,-150 1020.47,-150 1020.47,-162 1020.47,-162 1020.47,-168 1014.47,-174 1008.47,-174" />
+<text xml:space="preserve" text-anchor="middle" x="993.47" y="-151.72" font-family="Arial" font-size="12.00">failed</text>
+</g>
+
+<g id="task_status--edge8" class="edge">
+<title>running-&gt;failed</title>
+<path fill="none" stroke="#8593ab" d="M765.81,-114.23C787.72,-122.02 812.98,-131 812.98,-131 812.98,-131 905.47,-143.88 957.67,-151.15" />
+<polygon fill="#8593ab" stroke="#8593ab" points="957.22,-153.56 964.49,-152.1 957.89,-148.71 957.22,-153.56" />
+<text xml:space="preserve" text-anchor="middle" x="873.73" y="-162.41" font-family="Arial" font-size="10.00">T08 terminal failure /</text>
+<text xml:space="preserve" text-anchor="middle" x="873.73" y="-150.41" font-family="Arial" font-size="10.00">attempts exhausted</text>
+</g>
+
+<g id="task_status--completed" class="node">
+<title>completed</title>
+<path fill="#e6f8f5" stroke="#cbd5e1" d="M1021.46,-118C1021.46,-118 965.48,-118 965.48,-118 959.48,-118 953.48,-112 953.48,-106 953.48,-106 953.48,-94 953.48,-94 953.48,-88 959.48,-82 965.48,-82 965.48,-82 1021.46,-82 1021.46,-82 1027.46,-82 1033.46,-88 1033.46,-94 1033.46,-94 1033.46,-106 1033.46,-106 1033.46,-112 1027.46,-118 1021.46,-118" />
+<text xml:space="preserve" text-anchor="middle" x="993.47" y="-95.72" font-family="Arial" font-size="12.00">completed</text>
+</g>
+
+<g id="task_status--edge9" class="edge">
+<title>running-&gt;completed</title>
+<path fill="none" stroke="#8593ab" d="M766.15,-102.63C810.89,-102.11 892.59,-101.16 944.62,-100.56" />
+<polygon fill="#8593ab" stroke="#8593ab" points="944.54,-103.01 951.51,-100.48 944.48,-98.11 944.54,-103.01" />
+<text xml:space="preserve" text-anchor="middle" x="873.73" y="-116.53" font-family="Arial" font-size="10.00">T09 result, hold or</text>
+<text xml:space="preserve" text-anchor="middle" x="873.73" y="-104.53" font-family="Arial" font-size="10.00">confirmation pending</text>
+</g>
+
+<g id="task_status--edge12" class="edge">
+<title>running-&gt;cancelled</title>
+<path fill="none" stroke="#8593ab" d="M766.15,-92.49C811.63,-77.52 895.28,-49.99 947.15,-32.92" />
+<polygon fill="#8593ab" stroke="#8593ab" points="947.87,-35.26 953.76,-30.74 946.34,-30.6 947.87,-35.26" />
+<text xml:space="preserve" text-anchor="middle" x="873.73" y="-78.01" font-family="Arial" font-size="10.00">T10 explicit run cancellation</text>
+</g>
+</g>
+</svg>

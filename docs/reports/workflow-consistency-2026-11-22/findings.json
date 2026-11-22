@@ -1,0 +1,42 @@
+[
+  {
+    "id": "base-uri",
+    "severity": "P1",
+    "title": "Destinazioni dei collegamenti",
+    "before": "Un cambiamento di base href poteva lasciare i link apparentemente corrispondenti.",
+    "after": "Base del documento attivo e finalUrl corretti; template inerti esclusi; ambiguità sospese senza fetch.",
+    "test": "holds a changed base"
+  },
+  {
+    "id": "transport-proof",
+    "severity": "P2",
+    "title": "Prove dei fallimenti",
+    "before": "Un errore di integrità poteva diventare status 0 e motivo generico.",
+    "after": "HTTP, codice limitato e fatti del trasferimento sono conservati senza eccezioni private.",
+    "test": "keeps transport integrity status"
+  },
+  {
+    "id": "attachment-budget",
+    "severity": "P2",
+    "title": "Budget degli allegati",
+    "before": "Il limite di 2 MB riguardava i byte conservati; ulteriori richieste potevano continuare.",
+    "after": "Riserva decodificata condivisa prima del fetch, limite residuo al decoder e stop a budget esaurito.",
+    "test": "stops creating attachment requests"
+  },
+  {
+    "id": "rebaseline-gate",
+    "severity": "P2",
+    "title": "Richiesta di rebaseline",
+    "before": "Poteva avviare una richiesta che il gate del worker non avrebbe potuto completare.",
+    "after": "UI e server applicano la stessa condizione pubblicabile; nessuna deroga manuale.",
+    "test": "rejects a rebaseline request"
+  },
+  {
+    "id": "terminal-review",
+    "severity": "P2",
+    "title": "Evidenza nelle revisioni terminali",
+    "before": "Artefatto nel checkpoint conservato ma non sempre visibile con dati e stato HTTP.",
+    "after": "DTO dell’osservazione effettiva coerente in API e UI; payload originale preservato.",
+    "test": "loads evidence retained only"
+  }
+]

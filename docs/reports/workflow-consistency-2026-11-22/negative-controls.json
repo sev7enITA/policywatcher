@@ -1,0 +1,37 @@
+[
+  {
+    "mutation": "document-base-bypass",
+    "test": "holds a changed base",
+    "exitCode": 1,
+    "expectedFailureObserved": true,
+    "sourceRestoredSha256": "1500ebcdc5c11208addace6142020a940eba6d990037454e73404f910e5373bd"
+  },
+  {
+    "mutation": "failure-proof-loss",
+    "test": "keeps transport integrity status",
+    "exitCode": 1,
+    "expectedFailureObserved": true,
+    "sourceRestoredSha256": "1500ebcdc5c11208addace6142020a940eba6d990037454e73404f910e5373bd"
+  },
+  {
+    "mutation": "attachment-budget-bypass",
+    "test": "stops creating attachment requests",
+    "exitCode": 1,
+    "expectedFailureObserved": true,
+    "sourceRestoredSha256": "1500ebcdc5c11208addace6142020a940eba6d990037454e73404f910e5373bd"
+  },
+  {
+    "mutation": "rebaseline-gate-bypass",
+    "test": "rejects a rebaseline request",
+    "exitCode": 1,
+    "expectedFailureObserved": true,
+    "sourceRestoredSha256": "098ed199e361c4ac38a7a242565a7c1594d7e3a4b75dc049cc15300af8611ccf"
+  },
+  {
+    "mutation": "terminal-evidence-loss",
+    "test": "loads evidence retained only",
+    "exitCode": 1,
+    "expectedFailureObserved": true,
+    "sourceRestoredSha256": "8380719938bcf02f57bae8c41dcb84b6349c96d7538e00456ed8f8b9e82cde85"
+  }
+]

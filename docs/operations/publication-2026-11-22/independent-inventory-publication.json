@@ -1,0 +1,41 @@
+{
+  "sourceRevision": "9d60d30a119c1f88d494ae07da73f9156badec06",
+  "archive": "PolicyWatcher-5.6.0-hostinger-2026-11-22-independent-inventory-methodology-diary.zip",
+  "sha256": "c41b194f9900e3c4c6f5b537a0fc5cc4b812e205872e158a92f05138c9762088",
+  "files": 1071,
+  "unchangedFiles": 1067,
+  "changedFilesComparedWithPrevious56": [
+    "release-manifest.json",
+    "src/app/methodology/confidence/page.tsx",
+    "src/app/engine-6-preview/page.tsx",
+    "src/lib/extractionProfile.generated.json"
+  ],
+  "scannerLogicUnchanged": true,
+  "stableExtractionProfile": {
+    "before": "e717f5728a2a0bbd1a078708282e0cf8fec1fc5e126ffeda57c86ee989d8d9c4",
+    "after": "fcc7f2145af676a4973bcdcba82a6701176cca950b949c2563043733b1d70062",
+    "reason": "Only root lockfile version metadata advanced to 5.6; all seven extraction-source digests unchanged",
+    "flagsChanged": false,
+    "baselineAdoptionPerformed": false
+  },
+  "state": "ready_for_staging_not_published",
+  "productVersion": "5.6.0",
+  "newPrivateEngineCodeIncluded": false,
+  "privateCandidatePR": 84,
+  "stableTables": 35,
+  "stableMigrations": 19,
+  "hostedActionsPerformed": false,
+  "requiredSequence": [
+    "Fresh observed deployment state and Preview database snapshot",
+    "Exact package verified in staging",
+    "Exact private r3 and protected data restored and verified",
+    "Same public package verified in production"
+  ],
+  "fullNpmBuildIncludingPrebuild": "passed",
+  "releaseAndSourceTestsPassed": 56,
+  "compiledHttpControlsPassed": 28,
+  "pristineMigrationRehearsalControlsPassed": 1,
+  "privateCandidateTestsPassed": 1845,
+  "publicDiarySnapshotTestsPassed": 1844,
+  "attachmentBearingPublicationEnabled": false
+}
