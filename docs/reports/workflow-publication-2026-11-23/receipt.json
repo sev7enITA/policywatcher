@@ -1,0 +1,76 @@
+{
+  "archiveName": "PolicyWatcher-5.6.0-hostinger-2026-11-22-workflow-audit-atlas-cumulative.zip",
+  "archiveSha256": "34fff71682d318d4df9a8bec800bcb51ab984080ae8ecf31ad7a97d4cb4ec2bc",
+  "artifactSource": "31cb963c425be64a308a992a828ac45f43ec2e7b",
+  "packageCutDate": "2026-11-22",
+  "actualPublicationDateEuropeRome": "2026-11-23",
+  "stableEngineRetained": true,
+  "candidateEngineDeployed": false,
+  "newLiveQualificationDays": 0,
+  "candidateCodeDocumented": "3eabf9d8b420efb13debfcd8b6e378e81a2c4c61",
+  "candidateDocumentationCommit": "caffc1a81d33b02360ddc4434e64956997b9275b",
+  "staging": {
+    "deployment": "01a2055f-7f35-7303-a07b-c90ffa635513",
+    "httpPassed": 37,
+    "operationalPassed": 12,
+    "sourceFilesMatched": 1128
+  },
+  "restoredPreview": {
+    "deployment": "01a20583-7de2-7247-a7b6-2594e2489595",
+    "archiveSha256": "e82ff8ff3fe33275e62475054889cdaf97f1a12d7442bb0ca6d42ec30cf99341",
+    "implementation": "84085328fffc7b22fac33cc2cbe150120c540b75deda59d3b207c32b768a9a00",
+    "authenticatedChecks": 14,
+    "protectedTableHashesUnchanged": 14,
+    "savedReports": 3,
+    "sourceFilesMatched": 1090,
+    "activeTasks": 0,
+    "publication": false,
+    "notifications": false
+  },
+  "local": {
+    "build": "passed from exact archive with locked dependencies",
+    "nextVersion": "16.4.6",
+    "httpChecks": 37,
+    "contentRegressionTests": 35,
+    "interactiveTabsExercised": 10,
+    "width390Overflow": 0,
+    "enItNavigation": "passed",
+    "hashAnchoredReload": "passed"
+  },
+  "production": {
+    "deployment": "01a20587-f898-71da-a5af-3201e785a870",
+    "state": "Completed / Current, live verified",
+    "completedEuropeRome": "2026-11-23 00:15",
+    "release": "5.6.0",
+    "httpChecksPassed": 37,
+    "publicAssetsHashMatched": 53,
+    "sourceFilesHashMatched": 1128,
+    "internalChecksPassed": 9,
+    "independentSecurityCheck": "external, not a pentest",
+    "overallOperationalStatus": "attention solely for external independent check",
+    "requiredApplicationTables": 35,
+    "actualExistingTablesPreserved": 36,
+    "migrations": 19,
+    "integrity": "ok",
+    "onlyChangedTable": "AdminAccessLog, verification access records",
+    "CorrectionCasePreserved": true,
+    "browser": "EN/IT language links, all10interactive tabs, keyboard node activation and reload of a selected panel passed under production CSP"
+  },
+  "remainingQualification": [
+    "independent real-source completeness",
+    "general semantic accuracy",
+    "500 successful full-pipeline completions/day"
+  ],
+  "legacyPrivateDependencyAlerts": "Exact r3 build reported4npmadvisories(1moderate,3high); retained for separate security maintenance, not remediated by public content delivery.",
+  "state": "published_verified",
+  "retainedAttempts": [
+    "Initial snapshot expected a historical NotificationLog table absent from r3; first backup preserved, final14existing protected tables verified.",
+    "Initial artifact held because static assets changed during packaging; never deployed.",
+    "Earlier upload held after browser found base-relative history replacing the route; fixed in31cb963, exact newZIP rebuilt and browser reload verified.",
+    "Initial cloned dependencies were Next16.4.3 instead of locked16.4.6; security guard rejected that build. Exact-lockfile install and final builds passed without disabling guards.",
+    "Local manifest without trusted proxy identity correctly refusedHTTP503; hosted manifest verified200and5.6.0.",
+    "An additional staging deployment at23:57 was observed after browser reconnection; its submission origin is not attributed. All1128source hashes matched; no false qualification credit.",
+    "Source next.config differed in transient build workspace; finalized retained source matches all1128files."
+  ],
+  "modelReviewBoundary": "Prior audit used separate agents, free Nemotron/Particle and partial local Qwen advice. This publication adds independent static review and executed browser/HTTP/build checks, not a new Gemini or GLM verdict."
+}
