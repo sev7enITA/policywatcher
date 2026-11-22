@@ -1,0 +1,19 @@
+{
+  "scope": "Current per-store copy, release metadata and rendered public consumers",
+  "tests": 267,
+  "suites": 15,
+  "network": "OS sandbox deny network*",
+  "typecheck": "passed",
+  "scopedEslint": "passed",
+  "diffCheck": "passed",
+  "negativeControl": "Restoring stale centralized English Chrome/Edge published summary produces 3 failures",
+  "states": {
+    "chrome": "published, exact public listing verified by separate extension audit",
+    "edge": "unverified, historical publication report preserved",
+    "safari": "unavailable through Apple distribution, unsigned developer candidate only"
+  },
+  "legacyReleaseState": "Historical compatibility identifier retained; not a current install or presentation gate",
+  "sourceIdentity": "release.ts belongs to implementation closure; root must regenerate manifest and retain distinct-candidate boundary",
+  "ssrFixture": "Homepage dashboard TermsGate passes through children under explicit consent-granted fixture only; actual consent persistence is not tested",
+  "deploymentOrStoreSubmission": false
+}

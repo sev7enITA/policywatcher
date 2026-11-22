@@ -33,8 +33,8 @@ describe('browser-extension public candidate and localized handoff', () => {
     expect(html).toContain(`<main class=`);
     expect(html).toContain(`lang="${lang}"`);
     expect((await generateMetadata(props)).alternates?.canonical).toBe(`https://policywatcher.online/browser-extension${query}`);
-    expect(html).toContain('data-store-state="historical"');
-    expect(html).toContain(lang === 'it' ? 'Pubblicazione dichiarata in precedenza' : 'Previously reported as published');
+    expect(html).toContain('data-store-state="unverified"');
+    expect(html).toContain(lang === 'it' ? 'Scheda Edge attuale non verificata' : 'Current Edge listing unverified');
     expect(html).not.toContain('6 August 2026');
     expect(html).not.toContain('6 agosto 2026');
   });

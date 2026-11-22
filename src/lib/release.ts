@@ -20,10 +20,12 @@ export const POLICYWATCHER_BROWSER_EXTENSION_VERSION = '3.8.3-beta.3' as const;
 export const POLICYWATCHER_BROWSER_EXTENSION_DISPLAY_VERSION = '3.8.3 Beta 3' as const;
 export const POLICYWATCHER_BROWSER_EXTENSION_RELEASE_BADGE =
   `v${POLICYWATCHER_BROWSER_EXTENSION_DISPLAY_VERSION} · EXTENSION BETA` as const;
+// Historical release identifier retained for compatibility; it is not the current per-store verdict.
+// Current listing evidence and user distribution are described by RELEASE_STATUS and browserExtensionStores.
 export const POLICYWATCHER_BROWSER_EXTENSION_RELEASE_STATE = 'chrome-edge-store-published' as const;
 export const POLICYWATCHER_BROWSER_EXTENSION_RELEASE_STATUS = {
-  en: 'Chrome Web Store and Microsoft Edge Add-ons published · Safari not yet available',
-  it: 'Pubblicata su Chrome Web Store e Microsoft Edge Add-ons · Safari non ancora disponibile',
+  en: 'Chrome Web Store listing available · Edge listing unverified, publication historically reported · Safari iOS unsigned developer candidate; no App Store or TestFlight release',
+  it: 'Scheda Chrome Web Store disponibile · scheda Edge non verificata, pubblicazione storica dichiarata · candidato Safari iOS non firmato; nessuna release App Store o TestFlight',
 } as const;
 
 // Product release and experimental scanner identity have independent lifecycles.

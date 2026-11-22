@@ -14,14 +14,14 @@ export const POLICYWATCHER_BROWSER_EXTENSION_STORE_STATUS = {
     it: 'Pubblicata sul Chrome Web Store',
   },
   edge: {
-    state: 'published',
-    en: 'Published on Microsoft Edge Add-ons',
-    it: 'Pubblicata su Microsoft Edge Add-ons',
+    state: 'unverified',
+    en: 'Current Edge listing unverified · previously reported as published',
+    it: 'Scheda Edge attuale non verificata · pubblicazione dichiarata in precedenza',
   },
   safari: {
     state: 'unavailable',
-    en: 'Not available yet · signing and App Store review required',
-    it: 'Non ancora disponibile · firma e revisione App Store necessarie',
+    en: 'Unsigned iOS developer candidate · no App Store or TestFlight release',
+    it: 'Candidato iOS per sviluppatori non firmato · nessuna release App Store o TestFlight',
   },
 } as const satisfies Record<BrowserExtensionStore, {
   state: BrowserExtensionStoreState;

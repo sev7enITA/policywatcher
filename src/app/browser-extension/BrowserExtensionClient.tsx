@@ -35,7 +35,7 @@ const copy = {
       ['Verifica le evidenze', 'Solo i campi strutturati confermati raggiungono PolicyWatcher.'],
     ],
     installTitle: 'Disponibilità per browser', installLead: 'Stati distinti per browser. Candidato iOS aggiornato il 22 novembre 2026; le indicazioni storiche degli store sono separate dalle prove di compilazione.',
-    chrome: 'Google Chrome', edge: 'Microsoft Edge', safari: 'Safari', edgeHistorical: 'Pubblicazione dichiarata in precedenza',
+    chrome: 'Google Chrome', edge: 'Microsoft Edge', safari: 'Safari',
     chromeBody: 'Estensione Manifest V3 per browser desktop basati su Chromium.',
     edgeBody: 'La pubblicazione su Edge Add-ons è stata dichiarata in precedenza. La verifica attuale e l’URL della scheda restano da confermare.',
     safariBody: 'Candidato Safari iOS per sviluppatori 0.1.0 (1), runtime condiviso 3.8.3.3. Non disponibile per gli utenti tramite App Store o TestFlight.',
@@ -59,7 +59,7 @@ const copy = {
       ['Verify the evidence', 'Only confirmed structured fields reach PolicyWatcher.'],
     ],
     installTitle: 'Browser availability', installLead: 'Independent browser states. iOS candidate updated on 22 November 2026; historical store statements are separate from build evidence.',
-    chrome: 'Google Chrome', edge: 'Microsoft Edge', safari: 'Safari', edgeHistorical: 'Previously reported as published',
+    chrome: 'Google Chrome', edge: 'Microsoft Edge', safari: 'Safari',
     chromeBody: 'Manifest V3 extension for Chromium-based desktop browsers.',
     edgeBody: 'Edge Add-ons publication was previously reported. Current listing availability and its exact URL still require verification.',
     safariBody: 'Safari iOS developer candidate 0.1.0 (1), shared runtime 3.8.3.3. Not available to end users through the App Store or TestFlight.',
@@ -111,15 +111,15 @@ export default function BrowserExtensionClient({ storeLinks, lang = 'en' }: { st
         const status = POLICYWATCHER_BROWSER_EXTENSION_STORE_STATUS[id];
         const isPublished = status.state === 'published';
         const hasInstallLink = isPublished && Boolean(storeLinks[id]);
-        return <article key={id} data-store-state={id === 'edge' ? 'historical' : status.state}>
+        return <article key={id} data-store-state={status.state}>
         <Icon aria-hidden="true" /><div><h3>{name}</h3>
-          <strong className={isPublished && id !== 'edge' ? styles.storePublished : styles.storePending}>
-            <span aria-hidden="true" />{id === 'edge' ? t.edgeHistorical : status[lang]}
+          <strong className={isPublished ? styles.storePublished : styles.storePending}>
+            <span aria-hidden="true" />{status[lang]}
           </strong>
           <p>{body}</p>{hasInstallLink
           ? <a href={storeLinks[id]!} target="_blank" rel="noopener noreferrer">{t.install}<ExternalLink aria-hidden="true" /></a>
           : null}
-          {id === 'edge' && isPublished && !hasInstallLink && <small>{t.directLinkPending}</small>}
+          {id === 'edge' && !hasInstallLink && <small>{t.directLinkPending}</small>}
           {id === 'safari' && <small>{t.safariNote}</small>}
         </div>
       </article>})}</div>
