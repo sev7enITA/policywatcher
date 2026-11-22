@@ -1,15 +1,15 @@
 import { POLICYWATCHER_VERSION, POLICYWATCHER_RELEASE_NAME } from '@/lib/release';
 import { POLICYWATCHER_ORIGIN } from '@/lib/publicKnowledge';
-import { latestResearchUpdate } from '@/lib/pressKit';
+import { chatbotPolicyWatchRelease, latestResearchUpdate } from '@/lib/pressKit';
 
 const content = `# PolicyWatcher
 
 PolicyWatcher is a public evidence laboratory that records verified policy baselines and published policy changes for monitored companies. AI-assisted screening outputs are not legal advice, compliance determinations, or provider statements.
 
 ## Stable public service and private research, updated ${latestResearchUpdate.dateModified}
-${POLICYWATCHER_VERSION} ${POLICYWATCHER_RELEASE_NAME}. ${latestResearchUpdate.summary.en} ${latestResearchUpdate.boundaries[0].en} ${latestResearchUpdate.boundaries[1].en} Public release notes: https://policywatcher.online/press-kit/releases/engine-six-preview-5-5-0. Optional shadow observation compares extraction recipes on preserved inputs while retaining the operational baseline. It is disabled by default. Provisional labels cannot validate their own lessons. No automatic promotion, model training or calibrated confidence is claimed.
+${POLICYWATCHER_VERSION} ${POLICYWATCHER_RELEASE_NAME}. ${chatbotPolicyWatchRelease.summary.en} ${latestResearchUpdate.summary.en} ${latestResearchUpdate.boundaries[0].en} ${latestResearchUpdate.boundaries[1].en} Public release notes: https://policywatcher.online/press-kit/releases/${chatbotPolicyWatchRelease.slug}. Optional shadow observation compares extraction recipes on preserved inputs while retaining the operational baseline. It is disabled by default. Provisional labels cannot validate their own lessons. No automatic promotion, model training or calibrated confidence is claimed.
 
-- [Release record](${POLICYWATCHER_ORIGIN}/press-kit/releases/engine-six-preview-5-5-0)
+- [Release record](${POLICYWATCHER_ORIGIN}/press-kit/releases/${chatbotPolicyWatchRelease.slug})
 - [Feature inventory and limits](${POLICYWATCHER_ORIGIN}/feature-atlas)
 
 ## Preview research and evidence

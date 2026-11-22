@@ -866,7 +866,39 @@ export const engineSixProgressUpdate: PressKitRelease = {
   ]
 };
 
+export const releaseLabels = {
+  product: { en: 'Product', it: 'Prodotto' },
+  methodology: { en: 'Methodology', it: 'Metodologia' },
+  distribution: { en: 'Distribution', it: 'Distribuzione' },
+  confidence: { en: 'Confidence', it: 'Affidabilità' },
+  current: { en: 'Current', it: 'Corrente' },
+  archived: { en: 'Archived', it: 'Archiviata' },
+  research: { en: 'Experimental research', it: 'Ricerca sperimentale' },
+} as const;
+
+export const chatbotPolicyWatchRelease: PressKitRelease = {
+  slug: 'chatbot-policy-watch-5-6-0', version: '5.6.0', displayVersion: '5.6.0',
+  datePublished: '2026-11-22', dateModified: '2026-11-22', status: 'current', category: 'product',
+  title: { en: 'PolicyWatcher 5.6 monitors chatbot policies every six hours', it: 'PolicyWatcher 5.6 controlla le policy dei chatbot ogni sei ore' },
+  summary: { en: 'The server checked 32 documents across 11 platforms on 22 November. It retrieved 30, including the terms and privacy notices for Kimi, Qwen Studio and Grok.', it: 'Il 22 novembre il server ha controllato 32 documenti di 11 piattaforme. Ne ha acquisiti 30, inclusi i termini e le informative privacy di Kimi, Qwen Studio e Grok.' },
+  changes: [
+    { en: 'Six new public snapshots let readers inspect the terms and privacy wording for each of the three services. A fresh check of the Meta AI Terms matched the stored version.', it: 'Sei nuove copie pubbliche permettono di leggere i termini e le informative privacy dei tre servizi. Per Meta AI il confronto ha confermato i termini già archiviati.' },
+    { en: 'Reports sent to segnalazioni@policywatcher.online reach the curator on arrival. The server checks the monitored documents every six hours.', it: 'Le segnalazioni inviate a segnalazioni@policywatcher.online arrivano subito al curatore. Il server ricontrolla i documenti ogni sei ore.' },
+  ],
+  boundaries: [
+    { en: 'Subscriber alerts require a substantive change, official-source confirmation and two public versions. First snapshots establish the comparison baseline.', it: 'Gli avvisi agli iscritti richiedono una modifica sostanziale, la conferma sulla fonte ufficiale e due versioni pubbliche. La prima copia serve da riferimento per il confronto.' },
+    { en: 'Both Perplexity documents returned HTTP 403 during the 22 November check and remain pending. Engine 6 continues in private Preview.', it: 'Durante il controllo del 22 novembre i due documenti di Perplexity hanno restituito HTTP 403 e restano da verificare. Engine 6 prosegue nella Preview privata.' },
+  ],
+  evidenceLinks: [
+    { href: '/knowledge/companies/kimi', label: { en: 'Kimi documents', it: 'Documenti Kimi' } },
+    { href: '/knowledge/companies/qwen', label: { en: 'Qwen Studio documents', it: 'Documenti Qwen Studio' } },
+    { href: '/knowledge/companies/xai', label: { en: 'Grok documents', it: 'Documenti Grok' } },
+    { href: '/knowledge/companies/meta/policies/8e2eb94e-eb92-458f-9012-494c6fc36707', label: { en: 'Meta AI Terms', it: 'Termini di Meta AI' } },
+  ],
+};
+
 export const pressKitReleases: PressKitRelease[] = [
+  chatbotPolicyWatchRelease,
   engineSixDemoAuditUpdate,
   engineSixRemoteFollowupUpdate,
   engineSixProgressUpdate,
@@ -877,7 +909,7 @@ export const pressKitReleases: PressKitRelease[] = [
   "displayVersion": "5.5.0",
   "datePublished": "2026-11-02",
   "dateModified": "2026-11-19",
-  "status": "current",
+  "status": "archived",
   "category": "product",
   "title": {
     "en": "PolicyWatcher 5.5: Engine 6 Preview",
@@ -975,7 +1007,7 @@ export const pressKitReleases: PressKitRelease[] = [
       { en: 'The development diary, repository entry points and wiki distinguish implemented features, recorded tests and remaining qualification work.', it: 'Il diario di sviluppo, i punti di accesso nel repository e la wiki distinguono funzionalità implementate, test registrati e qualificazioni ancora aperte.' },
     ],
     boundaries: [
-      { en: 'Historical record of the first separate Preview build. The current product release is 5.5.0; Engine 6 remains experimental and separately authenticated.', it: 'Registro storico della prima build Preview separata. La release corrente del prodotto è 5.5.0; Engine 6 resta sperimentale e con autenticazione separata.' },
+      { en: 'Historical record of the first separate Preview build. Engine 6 requires administrator access.', it: 'Registro storico della prima build Preview separata. Engine 6 richiede un account amministratore.' },
       { en: 'Comparison applies two extractors to the same captured response. It does not compare independent acquisition paths or AI models, and identical text does not establish completeness.', it: 'Il confronto applica due estrattori alla stessa risposta catturata. Non confronta percorsi di acquisizione indipendenti o modelli AI; un testo identico non dimostra completezza.' },
       { en: 'Corpus completeness, observations across multiple days and operation with 500 real policy sources remain under qualification. Model opinions, replay and retries are not substitutes for executed live evidence.', it: 'Completezza del corpus, osservazioni su più giorni e funzionamento con 500 fonti policy reali restano da qualificare. Opinioni dei modelli, replay e tentativi ripetuti non sostituiscono le evidenze live eseguite.' },
       { en: 'Historical press packages, fact sheets and companion releases retain their original dates and versions. They have not been relabelled as Engine 6 assets.', it: 'Pacchetti stampa storici, schede e release dei companion conservano date e versioni originali. Non sono stati rinominati come asset Engine 6.' },

@@ -1,10 +1,10 @@
-export const POLICYWATCHER_VERSION = '5.5.0' as const;
-export const POLICYWATCHER_VERSION_DISPLAY = '5.5.0' as const;
-export const POLICYWATCHER_RELEASE_NAME = 'Engine 6 Preview' as const;
-export const POLICYWATCHER_RELEASE_DATE = '2026-11-02' as const;
+export const POLICYWATCHER_VERSION = '5.6.0' as const;
+export const POLICYWATCHER_VERSION_DISPLAY = '5.6.0' as const;
+export const POLICYWATCHER_RELEASE_NAME = 'Chatbot Policy Watch' as const;
+export const POLICYWATCHER_RELEASE_DATE = '2026-11-22' as const;
 export const POLICYWATCHER_RELEASE_DATE_LABEL = {
-  en: '2 November 2026',
-  it: '2 novembre 2026',
+  en: '22 November 2026',
+  it: '22 novembre 2026',
 } as const;
 export const POLICYWATCHER_RELEASE_MONTH_LABEL = {
   en: 'November 2026',
