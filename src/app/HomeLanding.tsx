@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { POLICYWATCHER_VERSION } from '@/lib/release';
 import { useState } from 'react';
 import DashboardClient from './DashboardClient';
 import PublicCompanyFinder from '@/components/PublicCompanyFinder';
@@ -30,10 +31,10 @@ export default function HomeLanding({ initialLang, initiallyHidden, knowledge }:
             {!noticeHidden && <aside className={styles.enginePreviewNotice} aria-label={it ? 'Novità di Engine 6 Preview' : 'Engine 6 Preview news'}>
               <details className={styles.previewDetails}>
                 <summary>{it ? 'Engine 6 Preview · Novità' : 'Engine 6 Preview · Research update'}</summary>
-                <p>{it ? 'Il servizio pubblico usa la versione stabile 5.5.0. Il diario descrive le prove di estrazione. La preview r3 richiede un account amministratore.' : 'The public service runs stable version 5.5.0. The research diary covers the extraction trials. The r3 preview requires an administrator account.'}</p>
+                <p>{it ? `Il servizio pubblico usa la versione stabile ${POLICYWATCHER_VERSION}. Il diario descrive le prove di estrazione. La preview r3 richiede un account amministratore.` : `The public service runs stable version ${POLICYWATCHER_VERSION}. The research diary covers the extraction trials. The r3 preview requires an administrator account.`}</p>
                 <nav data-engine-diary aria-label={it ? 'Accesso alla preview e risultati' : 'Engine 6 Preview access and evidence'}>
                   <a href={it ? '/engine-6-preview?lang=it#validation' : '/engine-6-preview#validation'} hrefLang={lang} lang={lang}>{it ? 'Leggi i risultati' : 'Read the latest findings'}</a>
-                  <Link href={local('/press-kit/releases/engine-six-preview-5-5-0')}>{it ? 'Versione stabile 5.5' : 'Stable 5.5 release'}</Link>
+                  <Link href={local('/press-kit/releases/chatbot-policy-watch-5-6-0')}>{it ? 'Versione stabile 5.6' : 'Stable 5.6 release'}</Link>
                   <a href="https://staging.policywatcher.online/admin/engine">{it ? 'Apri la preview privata' : 'Open private preview'} ↗</a>
                   <Link href={local('/engine-6-preview')}>{it ? 'Architettura e prove' : 'Architecture and evidence'}</Link>
                   <a href="https://github.com/sev7enITA/policywatcher/wiki">{it ? 'Wiki su GitHub' : 'GitHub wiki'}</a>

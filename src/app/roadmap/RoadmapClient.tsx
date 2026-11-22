@@ -31,8 +31,8 @@ import Footer from '@/components/Footer';
 import PublicHeader from '@/components/PublicHeader';
 import PlanningResearchStatus from '@/components/PlanningResearchStatus';
 import { planningHref, type PlanningLanguage } from '@/lib/planningLocale';
-import { POLICYWATCHER_RELEASE_NAME, POLICYWATCHER_VERSION } from '@/lib/release';
-import { latestResearchUpdate } from '@/lib/pressKit';
+import { POLICYWATCHER_RELEASE_DATE_LABEL, POLICYWATCHER_RELEASE_NAME, POLICYWATCHER_VERSION } from '@/lib/release';
+import { chatbotPolicyWatchRelease, latestResearchUpdate } from '@/lib/pressKit';
 import RoadmapSignalComposer, {
   type RoadmapSignalComposerRequest,
 } from './RoadmapSignalComposer';
@@ -258,7 +258,16 @@ const priorityPipeline = [
 
 const nowItems = [
   {
-    phase: `Current · ${POLICYWATCHER_VERSION} · 2 November 2026`,
+    phase: `Current · ${POLICYWATCHER_VERSION} · ${POLICYWATCHER_RELEASE_DATE_LABEL.en}`,
+    title: chatbotPolicyWatchRelease.title.en,
+    body: chatbotPolicyWatchRelease.summary.en,
+    benefit: chatbotPolicyWatchRelease.changes[0].en,
+    validation: chatbotPolicyWatchRelease.boundaries[0].en,
+    icon: Eye,
+    href: `/press-kit/releases/${chatbotPolicyWatchRelease.slug}`,
+  },
+  {
+    phase: 'Delivered · 5.5.0 · 2 November 2026',
     title: 'PolicyWatcher 5.5: Engine 6 Preview',
     body: 'The new Engine 6 is available in a separate authenticated Preview, with durable scans, source contracts, private evidence and extraction comparison.',
     benefit: 'Operators can inspect saved reports and export JSON; readers can follow architecture, decision-flow and entity diagrams in the public diary.',
@@ -829,10 +838,16 @@ const releaseLanes = [
     state: 'delivered',
   },
   {
-    label: POLICYWATCHER_VERSION,
-    title: POLICYWATCHER_RELEASE_NAME,
+    label: '5.5.0',
+    title: 'Engine 6 Preview',
     body:
       'Product 5.5 connects the main service to the separate experimental Engine 6.0 Preview: durable private scans, source contracts, saved comparison reports and JSON export. Publication and notifications remain disabled in Preview.',
+    state: 'delivered',
+  },
+  {
+    label: POLICYWATCHER_VERSION,
+    title: POLICYWATCHER_RELEASE_NAME,
+    body: chatbotPolicyWatchRelease.summary.en,
     state: 'current',
   },
   {

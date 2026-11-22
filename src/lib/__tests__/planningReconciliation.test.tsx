@@ -85,7 +85,7 @@ describe('planning page language and evidence handoff', () => {
 
   it.each(['en', 'it'] as const)('separates stable, deployed private and unqualified candidate states in %s', lang => {
     const html = renderToStaticMarkup(<PlanningResearchStatus lang={lang} path="/atlas" />);
-    expect(html).toContain('5.5.0');
+    expect(html).toContain('5.6.0');
     expect(html).toContain('r3');
     expect(html).toContain('133');
     expect(html).toContain('129');
@@ -132,7 +132,7 @@ describe('latest research distribution', () => {
     const { GET: xmlFeed } = await import('@/app/press-kit/feed.xml/route');
     const { generateStaticParams, default: Detail, generateMetadata } = await import('@/app/press-kit/releases/[slug]/page');
     const slug = latestResearchUpdate.slug;
-    expect((await jsonFeed().json()).items[0].url).toContain(`/press-kit/releases/${slug}`);
+    expect((await jsonFeed().json()).items.map((item: { url: string }) => item.url)).toContain(`https://policywatcher.online/press-kit/releases/${slug}`);
     expect(await xmlFeed().text()).toContain(`/press-kit/releases/${slug}`);
     expect(generateStaticParams()).toContainEqual({ slug });
     for (const lang of ['en', 'it'] as const) {

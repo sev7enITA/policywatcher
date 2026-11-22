@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
+import { POLICYWATCHER_VERSION } from '@/lib/release';
 import { ArrowDown, ArrowUpRight, Download, FlaskConical, GitBranch, ShieldCheck } from 'lucide-react';
 import PublicHeader from '@/components/PublicHeader';
 import Footer from '@/components/Footer';
@@ -17,7 +18,7 @@ const copy = {
     title: 'A clearer path from source to evidence.',
     intro: 'Engine 6 Preview is being developed and tested to make policy retrieval, comparison and validation more traceable. This page opens the design for inspection.',
     boundary: 'Private preview access / staging environment',
-    boundaryText: 'PolicyWatcher 5.5.0 includes access to the experimental Engine 6.0 Preview. Engine 6 trials use a separate staging environment with administrator authentication and private observations. Qualification remains open.',
+    boundaryText: `PolicyWatcher ${POLICYWATCHER_VERSION} includes access to the experimental Engine 6.0 Preview. Engine 6 trials use a separate staging environment with administrator authentication and private observations. Qualification remains open.`,
     hostingStatus: 'Private Engine 6 Preview r3 was deployed on 7 November. Thirteen authenticated checks passed; one bounded Apple run kept all results private. The earlier 47-check result belongs to a previous build and is retained below.',
     access: 'Open private 6.0 Preview', resources: 'Preview access, code and evidence',
     development: 'Engine 6 source on main', wiki: 'GitHub wiki', reports: 'Verification reports',
@@ -130,7 +131,7 @@ const copy = {
     title: 'Un percorso più chiaro dalla fonte alle prove.',
     intro: 'Engine 6 Preview è in sviluppo e sperimentazione per rendere più tracciabili recupero, confronto e validazione delle policy. Questa pagina rende il progetto consultabile.',
     boundary: 'Accesso alla preview privata / ambiente staging',
-    boundaryText: 'PolicyWatcher 5.5.0 include l’accesso al nuovo Engine 6.0 Preview sperimentale. Le prove Engine 6 usano un ambiente staging separato, con autenticazione amministratore e osservazioni private. La qualificazione resta aperta.',
+    boundaryText: `PolicyWatcher ${POLICYWATCHER_VERSION} include l’accesso al nuovo Engine 6.0 Preview sperimentale. Le prove Engine 6 usano un ambiente staging separato, con autenticazione amministratore e osservazioni private. La qualificazione resta aperta.`,
     hostingStatus: 'Engine 6 Preview r3 privata è stata distribuita il 7 novembre. Superati tredici controlli autenticati; una prova Apple limitata ha mantenuto privati tutti i risultati. I precedenti 47 controlli riguardano una build diversa e restano documentati sotto.',
     access: 'Apri la 6.0 Preview privata', resources: 'Accesso alla preview, codice e prove',
     development: 'Codice Engine 6 su main', wiki: 'Wiki GitHub', reports: 'Rapporti di verifica',
@@ -306,11 +307,11 @@ export default async function EnginePreviewPage({ searchParams }: Props) {
       </section>
       <section className={styles.goals} aria-labelledby="preview-answers"><h2 id="preview-answers">{lang === 'it' ? 'Stabile e Preview: cosa puoi usare oggi?' : 'Stable and Preview: what can you use today?'}</h2><div>
         {(lang === 'it' ? [
-          ['01', 'Quale versione è pubblica?', 'PolicyWatcher 5.5.0 è il servizio stabile pubblico, pubblicato il 2 novembre. Mantiene lo scanner consolidato. r3 identifica la revisione della Preview privata, non una nuova release stabile.'],
+          ['01', 'Quale versione è pubblica?', `PolicyWatcher ${POLICYWATCHER_VERSION} è il servizio stabile pubblico, pubblicato il 22 novembre. Mantiene lo scanner consolidato. r3 identifica la revisione della Preview privata, non una nuova release stabile.`],
           ['02', 'Posso provare Engine 6?', 'La Preview r3 richiede l’accesso amministratore nell’ambiente separato. Chiunque può consultare qui architettura, prove e limiti. Scansioni, rapporti e risultati sperimentali restano privati.'],
           ['03', 'Sono già qualificate 500 policy al giorno?', 'No. La prova locale su 500 endpoint candidati ha tentato 498 recuperi, ottenuto 383 risposte accettate e prodotto 342 estrazioni. Non includeva l’intera pipeline AI e non qualifica l’operatività completa sull’hosting.'],
         ] : [
-          ['01', 'Which version is public?', 'PolicyWatcher 5.5.0 is the stable public service, released on 2 November. It retains the established scanner. r3 identifies a private Preview revision, not a new stable release.'],
+          ['01', 'Which version is public?', `PolicyWatcher ${POLICYWATCHER_VERSION} is the stable public service, released on 22 November. It retains the established scanner. r3 identifies a private Preview revision, not a new stable release.`],
           ['02', 'Can I try Engine 6?', 'Preview r3 requires administrator access in the separate environment. Anyone can inspect the architecture, evidence and limits here. Experimental scans, reports and results remain private.'],
           ['03', 'Are 500 policies per day qualified?', 'No. The local trial on 500 candidate endpoints attempted 498 retrievals, accepted 383 responses and produced 342 extractions. It did not include the full AI pipeline and does not qualify complete hosted operation.'],
         ]).map(([n, question, answer]) => <article key={n}><span>{n}</span><h3>{question}</h3><p>{answer}</p></article>)}

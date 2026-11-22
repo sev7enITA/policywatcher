@@ -12,6 +12,7 @@ import {
 } from '@/lib/browserExtensionStores';
 import {
   POLICYWATCHER_BROWSER_EXTENSION_RELEASE_BADGE,
+  POLICYWATCHER_VERSION,
 } from '@/lib/release';
 import styles from './browserExtension.module.css';
 import { localizedPublicPath } from '@/lib/seo';
@@ -129,7 +130,7 @@ export default function BrowserExtensionClient({ storeLinks, lang = 'en' }: { st
       <p>{lang === 'it' ? 'Evidenze di sviluppo · 22 novembre 2026' : 'Development evidence · 22 November 2026'}</p>
       <h2 id="ios-candidate-title">{lang === 'it' ? 'Safari iOS: candidato per sviluppatori' : 'Safari iOS: developer candidate'}</h2>
       <dl>
-        <div><dt>{lang === 'it' ? 'Versioni separate' : 'Separate versions'}</dt><dd>{lang === 'it' ? 'Contenitore iOS 0.1.0, build 1. Runtime dell’estensione 3.8.3.3, invariato. La versione del sito rimane 5.5.0.' : 'iOS container 0.1.0, build 1. Extension runtime 3.8.3.3, unchanged. The website remains version 5.5.0.'}</dd></div>
+        <div><dt>{lang === 'it' ? 'Versioni separate' : 'Separate versions'}</dt><dd>{lang === 'it' ? `Contenitore iOS 0.1.0, build 1. Runtime dell’estensione 3.8.3.3, invariato. Versione del sito: ${POLICYWATCHER_VERSION}.` : `iOS container 0.1.0, build 1. Extension runtime 3.8.3.3, unchanged. Website version: ${POLICYWATCHER_VERSION}.`}</dd></div>
         <div><dt>{lang === 'it' ? 'Osservato localmente' : 'Observed locally'}</dt><dd>{lang === 'it' ? 'Build simulatore e archivio ARM64 per dispositivo, entrambi non firmati. Il contenitore ha mostrato la schermata iniziale in inglese su un simulatore iPhone Duo con iOS 27.1.' : 'Unsigned simulator build and ARM64 device archive. The containing app displayed its initial English screen in an iPhone Duo simulator running iOS 27.1.'}</dd></div>
         <div><dt>{lang === 'it' ? 'Ancora da verificare' : 'Still unverified'}</dt><dd>{lang === 'it' ? 'Attivazione e funzionamento reale in Safari, iPhone fisico, iPad, iOS 17 minimo e accessibilità. Firma, provisioning e revisione Apple restano da completare. Nessun caricamento su App Store o TestFlight.' : 'Actual Safari activation and operation, physical iPhone, iPad, minimum iOS 17 and accessibility. Signing, provisioning and Apple review remain open. No App Store or TestFlight upload.'}</dd></div>
       </dl>
