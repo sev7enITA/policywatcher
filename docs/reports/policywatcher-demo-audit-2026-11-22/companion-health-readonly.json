@@ -1,0 +1,48 @@
+{
+  "checkedAt": "2026-11-22T02:48:22.483799+00:00",
+  "scope": "Existing configured endpoints, readiness GET only. No rendering, scan, service action or paid inference. Credentials and endpoint addresses excluded.",
+  "data": {
+    "public_stable": {
+      "configuration": {
+        "rendererUrlPresent": true,
+        "rendererSecretPresent": true,
+        "agentUrlPresent": false,
+        "agentSecretPresent": false,
+        "geminiApiKeyPresent": true,
+        "explicitAnalystModel": false,
+        "explicitVerifierModel": false
+      },
+      "renderer": {
+        "http": 200,
+        "latencyMs": 584,
+        "https": true,
+        "health": {
+          "ok": true,
+          "active": 0,
+          "capacity": 3,
+          "service": "policywatcher-renderer",
+          "version": "1.2.0",
+          "state": "ready",
+          "targetAllowlistCount": 18,
+          "subresourceAllowlistCount": 2,
+          "browserVersionMajor": "149",
+          "userAgentMode": "browser-default"
+        }
+      },
+      "agent": {
+        "state": "not_configured"
+      }
+    },
+    "private_preview": {
+      "configuration": {
+        "rendererUrlPresent": false,
+        "rendererSecretPresent": false,
+        "agentUrlPresent": false,
+        "agentSecretPresent": false,
+        "geminiApiKeyPresent": false,
+        "explicitAnalystModel": false,
+        "explicitVerifierModel": false
+      }
+    }
+  }
+}

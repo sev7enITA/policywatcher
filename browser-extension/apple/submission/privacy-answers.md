@@ -1,4 +1,4 @@
-# App Privacy answers — publisher review draft / Bozza da revisionare
+# App Privacy answers  -  publisher review draft / Bozza da revisionare
 
 These are code-based proposed answers, **not submitted declarations**. Apple requires the publisher to account for server/partner processing as well as the client. The current source stores structured inquiry records; a blanket “Data Not Collected” answer is not supported. Transient processing and retained records are different. [Apple's current definitions](https://developer.apple.com/app-store/app-privacy-details/) distinguish off-device retention and require declaration even where data is used only for functionality.
 

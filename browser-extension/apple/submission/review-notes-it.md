@@ -1,4 +1,4 @@
-# Note per revisione Apple/TestFlight — bozza
+# Note per revisione Apple/TestFlight  -  bozza
 
 **Non inviata.** Versione 0.1.0 (1), app `online.policywatcher.safari`, estensione `online.policywatcher.safari.Extension`. Runtime condiviso 3.8.3.3. Non sono richiesti account dell'app, abbonamenti o acquisti in-app. Contatto del publisher, team Apple e titolarità degli identificativi devono essere completati dal publisher prima dell'upload; non sono inventati in questo kit.
 

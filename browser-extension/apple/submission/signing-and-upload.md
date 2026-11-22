@@ -1,4 +1,4 @@
-# Signing, archive and upload — NOT EXECUTED
+# Signing, archive and upload  -  NOT EXECUTED
 
 No purchase, team selection, App ID registration, signing-key creation, provisioning request, Apple upload or membership change is part of this audit. Local development identities were visible; this alone does not establish active distribution membership, bundle ownership or an App Store Connect record.
 

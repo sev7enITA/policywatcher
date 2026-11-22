@@ -1,0 +1,409 @@
+{
+  "verifiedAt": "2026-11-22T02:41:36.453649+00:00",
+  "deliveryState": "published_verified",
+  "stableRelease": "5.5.0",
+  "stableSourceRevision": "8ca13cc98f7a12b185852c72839fe10340dc886c",
+  "implementationAndEvidenceMerge": "c7deedbc1d926eb54845c2ffeca0e42efab2b6aa",
+  "archive": "PolicyWatcher-5.5.0-hostinger-2026-11-21-engine6-remote133-final.zip",
+  "archiveSha256": "64050939c9207aa0b8b080bf04c7005288e2e2f4ca313f89b562e01d014fca07",
+  "stagingDeployment": "01a20115-1657-737b-9a9a-252a916c97e0",
+  "restorationDeployment": "01a2011a-429d-724c-9726-4d589ae6ed75",
+  "publicDeployment": "01a2011d-f0fd-739b-9239-a63d70ade166",
+  "stagingVerification": {
+    "checkedAt": "2026-11-22T02:31:19.761Z",
+    "checks": [
+      {
+        "id": "homepage",
+        "status": "passed",
+        "detail": "HTTP 200; release 5.5.0 present in initial HTML."
+      },
+      {
+        "id": "diary-navigation-en-it",
+        "status": "passed",
+        "detail": "Both homepage links reached their matching diary language and validation section."
+      },
+      {
+        "id": "staging-banner",
+        "status": "passed",
+        "detail": "Visible staging identity and DOM marker are present."
+      },
+      {
+        "id": "search-engine-boundary",
+        "status": "passed",
+        "detail": "Staging pages return noindex, nofollow, noarchive."
+      },
+      {
+        "id": "robots-boundary",
+        "status": "passed",
+        "detail": "robots.txt disallows the staging origin."
+      },
+      {
+        "id": "release-identity",
+        "status": "passed",
+        "detail": "Public manifest matches artifact release 5.5.0."
+      },
+      {
+        "id": "publication-readiness-contract",
+        "status": "passed",
+        "detail": "Database-derived publication readiness contract, stage order, no-store boundary and latest capture are valid."
+      },
+      {
+        "id": "health-auth-boundary",
+        "status": "passed",
+        "detail": "Operational health rejects unauthenticated requests."
+      },
+      {
+        "id": "database-health",
+        "status": "passed",
+        "detail": "18 companies; database is configured, readable and writable."
+      },
+      {
+        "id": "admin-authentication",
+        "status": "passed",
+        "detail": "Dedicated staging administrator can establish a signed session."
+      },
+      {
+        "id": "database-readiness",
+        "status": "passed",
+        "detail": "35 tables and 19 migrations reported ready."
+      },
+      {
+        "id": "public-dataset",
+        "status": "passed",
+        "detail": "18 public companies pass the staging evidence gate."
+      }
+    ],
+    "reportSha256": "9be8a441439c30ff0d6a761682deb48338ab059dec050beff6d934754de67cd0"
+  },
+  "sites": {
+    "staging.policywatcher.online": {
+      "checkedAt": "2026-11-22T02:33:50.626Z",
+      "ui": [
+        {
+          "lang": "it",
+          "width": 390,
+          "firstDisplay": "inline",
+          "stylesheetWaitMs": 198,
+          "links": 8,
+          "minimumLinkHeight": 44,
+          "focusMovedAndVisible": true,
+          "overflow": 0
+        },
+        {
+          "lang": "it",
+          "width": 1366,
+          "firstDisplay": "inline",
+          "stylesheetWaitMs": 91,
+          "links": 8,
+          "minimumLinkHeight": 44,
+          "focusMovedAndVisible": true,
+          "overflow": 0
+        },
+        {
+          "lang": "en",
+          "width": 390,
+          "firstDisplay": "inline",
+          "stylesheetWaitMs": 368,
+          "links": 8,
+          "minimumLinkHeight": 44,
+          "focusMovedAndVisible": true,
+          "overflow": 0
+        },
+        {
+          "lang": "en",
+          "width": 1366,
+          "firstDisplay": "inline",
+          "stylesheetWaitMs": 32,
+          "links": 8,
+          "minimumLinkHeight": 44,
+          "focusMovedAndVisible": true,
+          "overflow": 0
+        }
+      ],
+      "matchedSourceFiles": 529,
+      "absentFromBoth": 1
+    },
+    "policywatcher.online": {
+      "checkedAt": "2026-11-22T02:41:11.284Z",
+      "ui": [
+        {
+          "lang": "it",
+          "width": 390,
+          "firstDisplay": "inline",
+          "stylesheetWaitMs": 787,
+          "links": 8,
+          "minimumLinkHeight": 44,
+          "focusMovedAndVisible": true,
+          "overflow": 0
+        },
+        {
+          "lang": "it",
+          "width": 1366,
+          "firstDisplay": "inline",
+          "stylesheetWaitMs": 32,
+          "links": 8,
+          "minimumLinkHeight": 44,
+          "focusMovedAndVisible": true,
+          "overflow": 0
+        },
+        {
+          "lang": "en",
+          "width": 390,
+          "firstDisplay": "inline",
+          "stylesheetWaitMs": 1161,
+          "links": 8,
+          "minimumLinkHeight": 44,
+          "focusMovedAndVisible": true,
+          "overflow": 0
+        },
+        {
+          "lang": "en",
+          "width": 1366,
+          "firstDisplay": "inline",
+          "stylesheetWaitMs": 35,
+          "links": 8,
+          "minimumLinkHeight": 44,
+          "focusMovedAndVisible": true,
+          "overflow": 0
+        }
+      ],
+      "matchedSourceFiles": 529,
+      "absentFromBoth": 1
+    }
+  },
+  "productionRuntime": {
+    "checkedAt": "2026-11-22T02:40:59.756Z",
+    "status": "attention",
+    "release": "5.5.0",
+    "health": "ok",
+    "applicationTables": 35,
+    "migrations": 19,
+    "integrity": "ok",
+    "verificationSummary": {
+      "passed": 9,
+      "attention": 0,
+      "unavailable": 0,
+      "external": 1
+    },
+    "attention": []
+  },
+  "privateR3": {
+    "archiveSha256": "e82ff8ff3fe33275e62475054889cdaf97f1a12d7442bb0ca6d42ec30cf99341",
+    "implementation": "84085328fffc7b22fac33cc2cbe150120c540b75deda59d3b207c32b768a9a00",
+    "authenticatedChecks": [
+      {
+        "name": "credential_origin",
+        "pass": true
+      },
+      {
+        "name": "private_page_boundary",
+        "pass": true,
+        "http": 307
+      },
+      {
+        "name": "private_api_boundary",
+        "pass": true,
+        "http": 401
+      },
+      {
+        "name": "administrator_login",
+        "pass": true
+      },
+      {
+        "name": "worker_active",
+        "pass": true
+      },
+      {
+        "name": "same_implementation",
+        "pass": true,
+        "implementationHash": "84085328fffc7b22fac33cc2cbe150120c540b75deda59d3b207c32b768a9a00",
+        "worker": "84085328fffc7b22fac33cc2cbe150120c540b75deda59d3b207c32b768a9a00"
+      },
+      {
+        "name": "private_channels",
+        "pass": true,
+        "channels": {
+          "defaultChannel": "preview",
+          "stable": false,
+          "preview": true,
+          "compare": true,
+          "comparisonScope": "same-capture-extraction",
+          "reason": null
+        },
+        "publicationEnabled": false
+      },
+      {
+        "name": "manifest_available",
+        "pass": true
+      },
+      {
+        "name": "database_health",
+        "pass": true,
+        "http": 200
+      },
+      {
+        "name": "schema_ready",
+        "pass": true,
+        "status": "ready"
+      },
+      {
+        "name": "schema_47_22",
+        "pass": true,
+        "schema": {
+          "expectedTableCount": 47,
+          "presentTableCount": 47,
+          "appliedMigrationCount": 22,
+          "lastAppliedMigration": "20261106120000_engine_claim_ledger"
+        }
+      },
+      {
+        "name": "saved_report_4e9eef90",
+        "pass": true,
+        "http": 200,
+        "status": "completed"
+      },
+      {
+        "name": "saved_report_781ceb98",
+        "pass": true,
+        "http": 200,
+        "status": "completed"
+      },
+      {
+        "name": "saved_report_6982c663",
+        "pass": true,
+        "http": 200,
+        "status": "completed"
+      }
+    ],
+    "preservedReports": 3,
+    "preservedEvidenceTables": 14,
+    "comparedTables": 48,
+    "changedOperationalTables": [
+      "EngineOrigin"
+    ],
+    "activeTasks": 0,
+    "releaseMetadataPreserved": true,
+    "evidenceTableHashesBefore": {
+      "Policy": {
+        "rows": 113,
+        "sha256": "a9f876fe8d583714850428dbea472bb2ab0d66910b4b89655350b32583a66abf"
+      },
+      "PolicySnapshot": {
+        "rows": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "PolicyChange": {
+        "rows": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "PolicyCheckLog": {
+        "rows": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "Subscriber": {
+        "rows": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "EngineOutbox": {
+        "rows": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "EngineSourceContract": {
+        "rows": 1,
+        "sha256": "94d1b21930caf7cdf51394003c10e2ebffcd5442493057f2e0fcdb7bf1304410"
+      },
+      "ExtractionBaseline": {
+        "rows": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "EngineRun": {
+        "rows": 3,
+        "sha256": "8c91d098a6d5ea678748f41686169aa4ad34597c5a2f7764a7a276a10eb34d74"
+      },
+      "EngineTask": {
+        "rows": 24,
+        "sha256": "6a02f61df1ae36cbb05136f8450f42e06e0b1882c130e19c410f9c28679bb19f"
+      },
+      "EngineReview": {
+        "rows": 6,
+        "sha256": "66d3f9dbbe4ee9c89d9a74731f8117d867a60beddd0a3a0b341cec470077a2df"
+      },
+      "EngineArtifact": {
+        "rows": 4,
+        "sha256": "e497519746aee70c78b940a565f35faf4405b5f1e94a06da3e37c0b73cd9fbdb"
+      },
+      "EngineClaim": {
+        "rows": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "EngineClaimEvidence": {
+        "rows": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      }
+    },
+    "evidenceTableHashesAfter": {
+      "Policy": {
+        "rows": 113,
+        "sha256": "a9f876fe8d583714850428dbea472bb2ab0d66910b4b89655350b32583a66abf"
+      },
+      "PolicySnapshot": {
+        "rows": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "PolicyChange": {
+        "rows": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "PolicyCheckLog": {
+        "rows": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "Subscriber": {
+        "rows": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "EngineOutbox": {
+        "rows": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "EngineSourceContract": {
+        "rows": 1,
+        "sha256": "94d1b21930caf7cdf51394003c10e2ebffcd5442493057f2e0fcdb7bf1304410"
+      },
+      "ExtractionBaseline": {
+        "rows": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "EngineRun": {
+        "rows": 3,
+        "sha256": "8c91d098a6d5ea678748f41686169aa4ad34597c5a2f7764a7a276a10eb34d74"
+      },
+      "EngineTask": {
+        "rows": 24,
+        "sha256": "6a02f61df1ae36cbb05136f8450f42e06e0b1882c130e19c410f9c28679bb19f"
+      },
+      "EngineReview": {
+        "rows": 6,
+        "sha256": "66d3f9dbbe4ee9c89d9a74731f8117d867a60beddd0a3a0b341cec470077a2df"
+      },
+      "EngineArtifact": {
+        "rows": 4,
+        "sha256": "e497519746aee70c78b940a565f35faf4405b5f1e94a06da3e37c0b73cd9fbdb"
+      },
+      "EngineClaim": {
+        "rows": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "EngineClaimEvidence": {
+        "rows": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      }
+    }
+  },
+  "publicMobileItalianScreenshotSha256": "5f37b0619ab0b3267e7ad749e98f7e6bec9d8a96323ba46525d2eee72f001c08",
+  "newAlgorithmActivatedInHostedApplication": false,
+  "newScansTriggeredByPublication": 0,
+  "securityLimit": "Nine internal runtime checks passed. Independent security assessment remains external; no pentest is claimed.",
+  "qualificationLimit": "The 133-source follow-up yielded four extractions and 129 holds. No contemporaneous 500-success qualification or general source completeness approval.",
+  "attemptsPreserved": "Initial Browser integration failures, native interaction retry, legacy UI selector failure and during-restoration snapshot are retained in local output/remote133/publication-20261122. The updated UI test exercises the actual current homepage disclosure and Italian link."
+}

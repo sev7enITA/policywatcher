@@ -1,4 +1,4 @@
-# Apple/TestFlight review notes — draft
+# Apple/TestFlight review notes  -  draft
 
 **Not submitted.** Version 0.1.0 (1), app `online.policywatcher.safari`, extension `online.policywatcher.safari.Extension`. Source runtime 3.8.3.3. No app account, subscription or in-app purchase is required. Publisher contact details, Apple team and final bundle ownership must be supplied by the publisher before upload; none are invented here.
 

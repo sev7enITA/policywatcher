@@ -1,4 +1,4 @@
-# Safari API review — source compatibility, not runtime qualification
+# Safari API review  -  source compatibility, not runtime qualification
 
 Reviewed against [Apple's current compatibility guidance](https://developer.apple.com/documentation/safariservices/assessing-your-safari-web-extension-s-browser-compatibility).
 

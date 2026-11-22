@@ -1,4 +1,4 @@
-# PolicyWatcher Safari iOS 0.1.0 (1) — unsigned developer preview
+# PolicyWatcher Safari iOS 0.1.0 (1)  -  unsigned developer preview
 
 **Developer artifacts only. Not available on the App Store or TestFlight. The unsigned device archive cannot be installed on an iPhone/iPad without appropriate signing and provisioning.**
 

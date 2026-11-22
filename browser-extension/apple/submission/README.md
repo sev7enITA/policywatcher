@@ -1,4 +1,4 @@
-# Apple submission preparation — not an upload
+# Apple submission preparation  -  not an upload
 
 This kit is prepared for publisher review. It includes EN/IT metadata and descriptions, TestFlight testing copy, review notes, code-based privacy-answer proposals, signing/export instructions, screenshot requirements, a synthetic notice and a QA matrix. It does not include passwords, keys, signing profiles, a selected team or an App Store Connect record.
 

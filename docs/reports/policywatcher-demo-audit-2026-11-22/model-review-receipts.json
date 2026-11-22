@@ -1,0 +1,41 @@
+{
+  "date": "2026-11-22",
+  "scope": "Advisory reviews of supplied evidence summary; not independent execution, not pipeline inference. Raw local UI receipts are private and not committed.",
+  "receipts": [
+    {
+      "model": "GLM-5.3 Max, ZCode native app",
+      "status": "Completed; corrected follow-up also received",
+      "localReceipt": "glm-app-first-response-ui.txt",
+      "bytes": 27594,
+      "sha256": "8ff0c08bbc3b2ac571766fa1daa05a98afc76d39ddae60cb66649d1ac5c00987"
+    },
+    {
+      "model": "GLM-5.3 Max, ZCode native app",
+      "status": "Completed correction and falsifier acceptance proposal",
+      "localReceipt": "glm-followup-latest-ui.txt",
+      "bytes": 33292,
+      "sha256": "112e166e3dccd0f54aa62bc011f612a2bdec2e39fb8d10a317a1b8c1acaf8159"
+    },
+    {
+      "model": "Claude Opus 5.5 Medium, Google Antigravity native app",
+      "status": "Completed summary-based adversarial review",
+      "localReceipt": "opus-local-app-response-ui.txt",
+      "bytes": 37108,
+      "sha256": "2114c281716dc4b80ade50f65bea4d90cf5ef961437a1fab54e5ad07c9dcc58c"
+    },
+    {
+      "model": "Orchestrator Gemini 4 Neon Extra High, Google Antigravity native app",
+      "status": "Completed brief-based adversarial review; not original Argon High attempt",
+      "localReceipt": "gemini-local-latest-ui.txt",
+      "bytes": 25300,
+      "sha256": "bcc985a290c7a8e14c91544d8e6a077b14fa98e234e17752b55415b3d5bebe4b"
+    },
+    {
+      "model": "qwen3.8-27b-uncensored, LM Studio native app",
+      "status": "Completed initial final answer; follow-up reached context limit and is not a completed amendment",
+      "localReceipt": "lmstudio-qwen-uncensored-final-ui.txt",
+      "bytes": 8082,
+      "sha256": "72edd3f753434ca20547e0d0c006d23526bce62c88c51ea6280a1c84c464a37b"
+    }
+  ]
+}
