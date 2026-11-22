@@ -1,0 +1,24 @@
+[
+  {
+    "file": "display1-sample-1.png",
+    "elapsedAfterOcrCompilationSeconds": 7.09,
+    "sha256": "deab636617741d29f6f0b2c1cce997b5c82b971ccf14d2fd2691c0170f12f2e5",
+    "lines": [
+      "04:25",
+      "Safari . iPhone & iPad . PREVIEW",
+      "PolicyWatcher",
+      "Safari companion 0.1.0 (1) shared extension",
+      "3.8.3.3",
+      "Enable the extension",
+      "1. Open Settings and search for Safari.",
+      "2. Open Extensions, select PolicyWatcher",
+      "and enable it.",
+      "3. Open a public policy notice in Safari and",
+      "choose PolicyWatcher from the page",
+      "menu.",
+      "4. Read the disclosure, inspect locally and",
+      "review the structured fields before"
+    ],
+    "onboardingHeadingsDetected": true
+  }
+]

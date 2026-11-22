@@ -1,0 +1,17 @@
+{
+  "startedAt": "2026-11-22T03:21:23.276700+00:00",
+  "appBundleIdentifier": "online.policywatcher.safari",
+  "version": "0.1.0",
+  "build": "1",
+  "containingAppOnly": true,
+  "macSimulatorAppOpened": false,
+  "safariExtensionExecution": "not_executed",
+  "physicalDeviceExecution": "not_executed",
+  "status": "failed_or_unavailable",
+  "runtime": "iOS 27.1",
+  "deviceType": "iPhone Duo",
+  "dedicatedSimulatorId": "4F01C19E-67BD-4299-AFBE-F3613D4476B7",
+  "failure": "Command '['/Users/fabriziodegni/Projects/PolicyWatcher-extensions-ios-20261122/output/audit-20261122/extensions/functional/container-render-verified/local-screenshot-ocr', '/Users/fabriziodegni/Projects/PolicyWatcher-extensions-ios-20261122/output/audit-20261122/extensions/functional/container-render-verified/display1-sample-1.png']' timed out after 30 seconds",
+  "ownSimulatorShutdownExit": 0,
+  "completedAt": "2026-11-22T03:22:39.058284+00:00"
+}

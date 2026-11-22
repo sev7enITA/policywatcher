@@ -55,7 +55,9 @@ python3 scripts/validate-safari-submission-kit.py
 python3 scripts/smoke-safari-ios-simulator.py --app '/path/to/PolicyWatcher.app' --output /absolute/new/smoke-evidence
 ```
 
-The simulator smoke script creates and shuts down only its own device. It reports a bounded launch/screenshot observation and never enables Safari or submits a request. Capture review and final privacy/signing decisions remain separate.
+The simulator smoke script creates and shuts down only its own device. An earlier three-second capture was white despite a live app process; that receipt is retained as launch evidence and does not count as rendered onboarding. The first semantic-render attempt then produced a rendered image but its default Vision OCR timed out after 30 seconds, so the automated run remained failed. The corrected local fast, CPU-only OCR helper avoids that dependency. A fresh dedicated simulator run passed the explicit PolicyWatcher + Enable-the-extension heading gate and independent visual review; its final screenshot hash is `deab636617741d29f6f0b2c1cce997b5c82b971ccf14d2fd2691c0170f12f2e5`. Its 7.09-second sample interval is measured **after OCR-helper compilation**, not a cold-start performance benchmark. The helper's CPU-only compatibility property emits a deprecation warning on the installed macOS SDK; it compiles and runs successfully. Every failure and intermediate capture remains preserved. [Render receipt](browser-extension-ios-assessment-2026-11-22/container-render-verified.json) and [retained OCR timeout](browser-extension-ios-assessment-2026-11-22/container-ocr-timeout.json).
+
+This bounded smoke never enables Safari or submits a request. Initial EN rendering, real Safari operation, physical-device testing and final privacy/signing decisions remain separate.
 
 ## Remaining gates and recording guidance
 

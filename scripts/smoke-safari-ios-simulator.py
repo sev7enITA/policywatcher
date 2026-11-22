@@ -60,15 +60,39 @@ def main():
         sim('install', device, str(app))
         launched = sim('launch', '--stdout=' + str(output / 'app-stdout.log'), '--stderr=' + str(output / 'app-stderr.log'), device, info['CFBundleIdentifier'])
         pid = int(re.search(r': (\d+)\s*$', launched)[1])
-        time.sleep(3)
-        process = command(['ps', '-p', str(pid), '-o', 'command='])
-        if process.returncode or device not in process.stdout or '/PolicyWatcher.app/PolicyWatcher' not in process.stdout:
-            raise RuntimeError('Containing app process not alive at bounded observation.')
-        sim('io', device, 'screenshot', '--display=1', str(output / 'containing-app-display1.png'))
-        screenshot = output / 'containing-app-display1.png'
-        receipt.update({'status': 'containing_app_launched_screenshot_captured', 'aliveAfterSeconds': 3,
-                        'screenshotSha256': hashlib.sha256(screenshot.read_bytes()).hexdigest(),
-                        'limit': 'Screenshot requires visual inspection; no scrolling, link activation, Safari enablement/injection or live query is tested.'})
+        root = Path(__file__).resolve().parent.parent
+        ocr = output / 'local-screenshot-ocr'
+        compiled = command(['xcrun', 'swiftc', '-O', str(root / 'scripts/ocr-safari-preview.swift'), '-o', str(ocr)], timeout=120)
+        (output / 'ocr-compile.log').write_text(compiled.stdout + compiled.stderr)
+        if compiled.returncode:
+            raise RuntimeError('Local OCR helper did not compile; do not count a blank screenshot as UI evidence.')
+        samples = []
+        started = time.monotonic()
+        rendered = False
+        while time.monotonic() - started < 45:
+            time.sleep(3)
+            process = command(['ps', '-p', str(pid), '-o', 'command='])
+            if process.returncode or device not in process.stdout or '/PolicyWatcher.app/PolicyWatcher' not in process.stdout:
+                raise RuntimeError('Containing app process not alive at bounded observation.')
+            screenshot = output / ('display1-sample-' + str(len(samples) + 1) + '.png')
+            sim('io', device, 'screenshot', '--display=1', str(screenshot))
+            result = command([str(ocr), str(screenshot)], timeout=30)
+            if result.returncode:
+                raise RuntimeError('Screenshot OCR failed.')
+            recognized = json.loads(result.stdout)['lines']
+            normalized = ''.join(recognized).replace(' ', '').lower()
+            rendered = 'policywatcher' in normalized and 'enabletheextension' in normalized
+            samples.append({'file': screenshot.name, 'elapsedAfterOcrCompilationSeconds': round(time.monotonic() - started, 3),
+                            'sha256': hashlib.sha256(screenshot.read_bytes()).hexdigest(), 'lines': recognized,
+                            'onboardingHeadingsDetected': rendered})
+            if rendered:
+                break
+        (output / 'render-samples.json').write_text(json.dumps(samples, indent=2) + '\n')
+        if not rendered:
+            raise RuntimeError('Containing-app onboarding headings not observed within the bounded render window.')
+        receipt.update({'status': 'containing_app_onboarding_headings_observed', 'renderSamples': samples,
+                        'screenshotSha256': samples[-1]['sha256'], 'ocrScope': 'Local Vision OCR; no remote model or upload.',
+                        'limit': 'Observed initial English onboarding only; no scrolling, link activation, Safari enablement/injection or live query is tested.'})
     except (RuntimeError, subprocess.TimeoutExpired) as error:
         receipt.update({'status': 'failed_or_unavailable', 'failure': str(error)})
         raise
