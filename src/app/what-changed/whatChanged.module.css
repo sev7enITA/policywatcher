@@ -150,3 +150,6 @@
     display: none;
   }
 }
+
+/* Language switching is navigation; keep its link visible on compact screens. */
+.header nav a.languageSwitch { display: inline-flex; min-height: 44px; padding: 7px; }
