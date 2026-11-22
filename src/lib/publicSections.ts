@@ -68,7 +68,7 @@ export const publicSectionNodes: PublicSectionNode[] = [
   },
   {
     id: 'engine-6-preview', label: 'Engine 6 Preview', href: '/engine-6-preview', group: 'community',
-    summary: 'Engine 6 research through 21 November: stable public service 5.5.0, private r3 and a separate Git qualification candidate. The 133-source follow-up completed four extractions; 129 scopes remain held. Completeness and 500 daily full-pipeline completions remain unqualified.',
+    summary: 'Engine 6 research through 22 November: stable public 5.5.0, private r3 and a separate Git candidate. A rerun on c7deedb reconfirms that four of six incomplete synthetic texts satisfy declared contract checks; this is not a parser benchmark. The earlier 133-source follow-up completed four extractions with 129 holds. Completeness and 500 daily full-pipeline completions remain unqualified.',
     role: 'Connects private administrator trials with public qualification evidence. Preview observations do not publish official changes or notify subscribers.',
     status: 'reference', icon: 'layers', x: 91, y: 52,
   },

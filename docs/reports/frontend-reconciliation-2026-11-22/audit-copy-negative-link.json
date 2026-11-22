@@ -1,0 +1,7 @@
+{
+  "observedAt": "2026-11-22T03:35:21.849868+00:00",
+  "mutation": "Remove localized Italian query from actual browser-extension fallback link only",
+  "result": "Italian rendered consumer fails; English control passes",
+  "expectedNonzeroExit": 1,
+  "sourceRestored": true
+}

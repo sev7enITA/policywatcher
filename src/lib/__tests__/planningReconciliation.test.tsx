@@ -4,7 +4,7 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import PlanningResearchStatus from '@/components/PlanningResearchStatus';
 import { planningHref } from '../planningLocale';
 import { publicRequestLanguage } from '../seo';
-import { engineSixRemoteFollowupUpdate, latestResearchUpdate, pressKitReleases, previewResearchUpdate } from '../pressKit';
+import { engineSixDemoAuditUpdate, engineSixRemoteFollowupUpdate, latestResearchUpdate, pressKitReleases, previewResearchUpdate } from '../pressKit';
 
 const pages = [
   ['atlas', 'Mappa del sito', () => import('@/app/atlas/page')],
@@ -96,14 +96,17 @@ describe('planning page language and evidence handoff', () => {
 
 describe('latest research distribution', () => {
   it('retains the historical r3 record and distinguishes observation and publication dates', () => {
-    expect(latestResearchUpdate).toBe(engineSixRemoteFollowupUpdate);
+    expect(latestResearchUpdate).toBe(engineSixDemoAuditUpdate);
+    expect(pressKitReleases).toContain(engineSixRemoteFollowupUpdate);
     expect(latestResearchUpdate.status).toBe('research');
     expect(latestResearchUpdate.version).toBe('5.5.0');
     expect(latestResearchUpdate.datePublished).toBe('2026-11-22');
-    expect(latestResearchUpdate.summary.en).toContain('21 November');
+    expect(engineSixRemoteFollowupUpdate.summary.en).toContain('21 November');
+    expect(latestResearchUpdate.summary.en).toContain('reconfirmed four of six');
     expect(previewResearchUpdate.datePublished).toBe('2026-11-07');
     expect(pressKitReleases).toContain(previewResearchUpdate);
-    expect(latestResearchUpdate.boundaries.map(x => x.en).join(' ')).toContain('cannot be added');
+    expect(engineSixRemoteFollowupUpdate.boundaries.map(x => x.en).join(' ')).toContain('cannot be added');
+    expect(latestResearchUpdate.boundaries.map(x => x.en).join(' ')).toContain('do not run HTML acquisition');
   });
 
   it.each(['en', 'it'] as const)('labels the latest research paragraphs independently of an older release topic in %s', async lang => {
@@ -112,15 +115,16 @@ describe('latest research distribution', () => {
     const section = html.match(/<section[^>]*id="latest-research"[\s\S]*?<\/section>/)?.[0];
     expect(section).toBeDefined();
     for (const number of [1, 2, 3]) expect(section).toContain(`<h3>${lang === 'it' ? 'Osservazione' : 'Observation'} ${number}</h3>`);
-    expect(section).toContain('133');
-    expect(section).toContain('129');
-    expect(section).toContain(lang === 'it' ? 'Superati 81 test mirati' : 'Eighty-one focused tests');
-    expect(section).toContain('HTTP2');
+    for (const item of latestResearchUpdate.changes.slice(0, 3)) expect(section).toContain(renderToStaticMarkup(<p>{item[lang]}</p>));
+    expect(section).toContain('contract_satisfied');
+    expect(section).toContain('3.8.3.3');
+    expect(html).toContain(lang === 'it' ? '21 novembre · Verifica dei 133 casi' : '21 November · Follow-up of 133 remote');
+    expect(html).toContain('129');
     expect(section).not.toContain('r4 remediation');
     expect(section).not.toContain('Passage recovery');
     expect(section).not.toContain('Correzioni r4');
     expect(section).not.toContain('Recupero dei passaggi');
-    expect(html).toContain('dateTime="2026-11-21"');
+    expect(html).toContain('dateTime="2026-11-22"');
   });
 
   it('includes the same dated record in JSON feed, RSS, static detail routes and bilingual structured data', async () => {

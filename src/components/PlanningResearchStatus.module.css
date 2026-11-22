@@ -11,3 +11,6 @@
 .panel nav a:focus-visible { outline: 2px solid #0f766e; outline-offset: 3px; }
 .languageNote { padding-top: .75rem; border-top: 1px solid #cbd5e1; }
 @media(max-width: 700px) { .states { grid-template-columns: 1fr; } }
+
+.auditLink { display: inline-flex; align-items: center; min-height: 44px; color: #155e75; text-underline-offset: .2em; }
+.auditLink:focus-visible { outline: 2px solid #0f766e; outline-offset: 3px; }
