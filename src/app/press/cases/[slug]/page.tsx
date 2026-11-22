@@ -1,3 +1,5 @@
+import type { Metadata } from 'next';
+import { languageAlternates, publicLanguage, withSocialMetadata, type PublicLanguage } from '@/lib/seo';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { db } from '@/lib/db';
@@ -12,9 +14,28 @@ import styles from '../../../briefing/briefing.module.css';
 
 type Props = { params: Promise<{ slug: string }>; searchParams: Promise<{ lang?: string }> };
 
+function caseHeading(slug: string, lang: PublicLanguage): string {
+  return slug === 'meta-ai'
+    ? (lang === 'it' ? 'Meta e i contenuti pubblici degli adulti' : 'Meta and public content shared by adults')
+    : (lang === 'it' ? 'TikTok: a chi si applica la modifica sugli annunci?' : 'TikTok: who does the advertising change cover?');
+}
+
+export async function generateMetadata({ params, searchParams }: Props): Promise<Metadata> {
+  const [{ slug }, query] = await Promise.all([params, searchParams]);
+  if (!pressCoverageRecords.some(record => record.caseSlug === slug)) notFound();
+  const lang = publicLanguage(query.lang);
+  return withSocialMetadata({
+    title: `${caseHeading(slug, lang)} | PolicyWatcher`,
+    description: lang === 'it'
+      ? 'Un caso documentato che distingue la fonte originale, il contesto storico e le evidenze pubbliche disponibili.'
+      : 'A documented case separating the original source, historical context and available public evidence.',
+    alternates: languageAlternates(`/press/cases/${slug}`, lang),
+  }, lang);
+}
+
 export default async function PressCase({ params, searchParams }: Props) {
   const { slug } = await params;
-  const lang = (await searchParams).lang === 'it' ? 'it' : 'en';
+  const lang = publicLanguage((await searchParams).lang);
   const it = lang === 'it';
   const article = pressCoverageRecords.find(record => record.caseSlug === slug);
   if (!article) notFound();
@@ -30,8 +51,7 @@ export default async function PressCase({ params, searchParams }: Props) {
   return <main lang={lang} className={styles.page}><article className={styles.shared}>
     <nav className={styles.related}><Link href={`/press?lang=${lang}#registry`}>{it ? 'Rassegna stampa' : 'Press coverage'}</Link>
       <Link href={`/press/cases/${slug}?lang=${it ? 'en' : 'it'}`}>{it ? 'English' : 'Italiano'}</Link></nav>
-    <h1>{meta ? (it ? 'Meta e i contenuti pubblici degli adulti' : 'Meta and public content shared by adults')
-      : (it ? 'TikTok: a chi si applica la modifica sugli annunci?' : 'TikTok: who does the advertising change cover?')}</h1>
+    <h1>{caseHeading(slug, lang)}</h1>
     <a href={article.sourceUrl}>{it ? 'Articolo originale' : 'Original article'} · {article.sourceName}</a>
     {meta ? <>
       <h2>{it ? 'Il caso del maggio 2025' : 'The May 2025 case'}</h2>

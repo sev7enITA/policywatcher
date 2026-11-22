@@ -1,0 +1,40 @@
+{
+  "checkedAt": "2026-11-22T03:52:18.795825+00:00",
+  "baseRevision": "30a5effd20470ddebe32b8ef6d7d04681d300f99",
+  "implementationHash": "fdf0f6ed9ec8ed54d3483ee959b7ac1258a797331d3e733784299d2a54604298",
+  "testResults": {
+    "consumerSuite": {
+      "passed": 12,
+      "failed": 0,
+      "documentRenderAssertions": 16,
+      "effectUnitAssertions": 16
+    },
+    "focusedFiveFileSuite": {
+      "passed": 55,
+      "failed": 0
+    },
+    "negativeOldHelper": {
+      "failed": 5,
+      "passed": 7,
+      "fixedBytesRestored": true
+    },
+    "sourceTypeScriptExit": 0,
+    "consumerTypeScriptExit": 0,
+    "publishedConfigTypeScriptExit": 0,
+    "focusedEslintExit": 0,
+    "inventoryGeneratorEslintExit": 0,
+    "manifestCheckExit": 0
+  },
+  "scope": [
+    "Real page/root render with proxy header, controlled database/font/request APIs",
+    "Actual DocumentLanguage component, controlled navigation hooks/effect execution/document",
+    "Not a browser hydration, live HTTP, real database or deployed check"
+  ],
+  "sourceSha256": {
+    "src/lib/seo.ts": "658cd5e3080b7904080db92ceaa09eda42fccb54085d8a813b23ca7cb3496b01",
+    "src/app/press/page.tsx": "f58fc812bedf129c8d6ec6f5820089b8da9697b98fdac0138d3218aa58081be6",
+    "src/app/press/cases/[slug]/page.tsx": "2d29d81eb508f0b73c4c4cce7f3463b3874e29b8f7981cd1753b128b40a5e193",
+    "src/app/briefing/comparison/[id]/page.tsx": "6dce9c48039310046777b47180c3d8c8643ac19588427db5bf882726489fd79b",
+    "src/lib/__tests__/publicDocumentLanguageConsumers.test.tsx": "b14f267715a4b12f929a29b0c86db8c25da7d09fb2e7c25117ae72ae3b91795b"
+  }
+}
