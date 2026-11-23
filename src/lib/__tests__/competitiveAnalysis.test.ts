@@ -31,7 +31,7 @@ describe('valutazione competitiva riservata', () => {
     expect(privateMemo).toBeGreaterThan(rejection);
     expect(page).toContain("session.role !== 'admin' && session.role !== 'auditor'");
     expect(page).toContain("session.role === 'admin'");
-    expect(page).toContain('L’Auditor consulta score e storico senza modificare il ledger.');
+    expect(page).toContain('Auditors have read-only access to scores and history.');
   });
 
   it('ricontrolla una sessione Admin e ricalcola senza payload client prima dello snapshot', () => {
@@ -74,33 +74,35 @@ describe('valutazione competitiva riservata', () => {
     expect(page).toContain('noimageindex: true');
   });
 
-  it('espone cockpit, missing state, matrice, trend e impatti dinamici in italiano', () => {
+  it('displays the cockpit, missing states, matrix, history and priorities in English', () => {
     const page = read('src/app/admin/competitive-analysis/page.tsx');
-    expect(page).toContain('Valutazione live · ricalcolata');
-    expect(page).toContain('Registra snapshot');
-    expect(page).toContain('Ricalcola ora');
-    expect(page).toContain('La spina dorsale dei divari');
-    expect(page).toContain('Dalla configurazione all’analisi pubblica');
-    expect(page).toContain('Il peso è escluso: un dato mancante non viene trasformato in zero.');
-    expect(page).toContain('Undici dimensioni, formule visibili');
-    expect(page).toContain('Nessuno snapshot registrato');
-    expect(page).toContain('Il gap pesato ordina la risposta');
-    expect(page).toContain('Proteggere');
-    expect(page).toContain('Colmare');
-    expect(page).toContain('Non imitare');
-    expect(page).toContain('aria-label="Avviso di riservatezza"');
-    expect(page).toContain('aria-label="Tabella scorrevole degli score competitivi"');
+    expect(page).toContain("await loadCompetitiveAnalysis('en')");
+    expect(page).toContain("Intl.DateTimeFormat('en-GB'");
+    expect(page).toContain('Live assessment · recalculated');
+    expect(page).toContain('Record snapshot');
+    expect(page).toContain('Recalculate now');
+    expect(page).toContain('Score differences by axis');
+    expect(page).toContain('From configuration to public analysis');
+    expect(page).toContain('The score excludes the weight for missing data.');
+    expect(page).toContain('Eleven dimensions and their formulas');
+    expect(page).toContain('No snapshots recorded');
+    expect(page).toContain('Priorities by weighted gap');
+    expect(page).toContain('Protect');
+    expect(page).toContain('Close gaps');
+    expect(page).toContain('Avoid');
+    expect(page).toContain('aria-label="Confidentiality notice"');
+    expect(page).toContain('aria-label="Scrollable competitive scores table"');
     expect(page).toContain('target="_blank" rel="noopener noreferrer"');
   });
 
   it('non rappresenta dati assenti come parità o zero e mantiene il radar accessibile', () => {
     const page = read('src/app/admin/competitive-analysis/page.tsx');
     expect(page).toContain('<figure className={styles.gapSpine}>');
-    expect(page).toContain('Confronto accessibile dei tre assi');
+    expect(page).toContain('Accessible comparison of the three axes');
     expect(page).not.toContain('className={styles.gapSpine} role="img"');
     expect(page).toContain('delta !== null');
-    expect(page).toContain('Scostamento non calcolabile');
-    expect(page).toContain('Percentuale non calcolabile: denominatore non disponibile.');
+    expect(page).toContain('Score difference unavailable');
+    expect(page).toContain('Percentage unavailable because the denominator is missing.');
     expect(page).toContain('percentage !== null');
     expect(page).not.toContain('`${percentage ?? 0}%');
   });
@@ -110,10 +112,10 @@ describe('valutazione competitiva riservata', () => {
     const scoring = read('src/lib/competitiveAnalysis.ts');
     const server = read('src/lib/competitiveAnalysisServer.ts');
     expect(scoring).toContain('export const COMPETITIVE_AXIS_LABELS');
-    expect(scoring).toContain("market: 'Mercato e corpus'");
+    expect(scoring).toContain("market: copy('Mercato e corpus', 'Market and corpus')");
     expect(scoring).toContain("evidence: 'Evidence control'");
-    expect(scoring).toContain("operations: 'Prodotto e operazioni'");
-    expect(server).toContain('axisLabels: COMPETITIVE_AXIS_LABELS');
+    expect(scoring).toContain("operations: copy('Prodotto e operazioni', 'Product and operations')");
+    expect(server).toContain('presentCompetitiveAnalysisInEnglish(metrics, evaluation)');
     expect(page).toContain('analysis.axisLabels[row.axis]');
     expect(page).not.toContain('{row.axis}</small>');
   });
@@ -121,11 +123,11 @@ describe('valutazione competitiva riservata', () => {
   it('resta nella navigazione Admin e assente dalle superfici pubbliche', () => {
     const layout = read('src/app/admin/layout.tsx');
     const guides = read('src/lib/adminGuides.ts');
-    expect(layout).toContain("label: 'Analisi competitiva'");
+    expect(layout).toContain("label: 'Competitive Analysis'");
     expect(layout).toContain(`href: '${route}'`);
     expect(guides).toContain(`'${route}'`);
-    expect(guides).toContain('Indice direzionale');
-    expect(guides).toContain('Snapshot auditabile');
+    expect(guides).toContain('Directional index');
+    expect(guides).toContain('Audit snapshot');
     expect(existsSync('src/app/competitive-analysis/page.tsx')).toBe(false);
 
     const publicSources = [
