@@ -10,11 +10,11 @@ export function ChangeClassificationBadge({ classification, lang = 'en' }: Props
   return <span className={styles.badge} data-change-kind={kind}>{CHANGE_KIND_LABELS[lang][kind]}</span>;
 }
 
-function Excerpt({ value }: { value: ChangeExcerpt }) {
+function Excerpt({ value, block }: { value: ChangeExcerpt; block: boolean }) {
   const from = value.changedStart - value.start, to = value.changedEnd - value.start;
   return <blockquote className={styles.quote}>
     {value.start > 0 && <span aria-label="excerpt">…</span>}
-    {value.text.slice(0, from)}<mark>{value.text.slice(from, to)}</mark>{value.text.slice(to)}
+    {block ? value.text : <>{value.text.slice(0, from)}<mark>{value.text.slice(from, to)}</mark>{value.text.slice(to)}</>}
     <span aria-label="excerpt">…</span>
   </blockquote>;
 }
@@ -35,12 +35,19 @@ export default function ChangeClassificationPanel({ classification, lang = 'en',
     {!classification?.evidence.length && <p>{it ? 'Destinatari della clausola · Applicabilità da verificare' : 'Clause audience · Applicability needs verification'}</p>}
     {Boolean(classification?.evidence.length) && <details className={styles.evidence} open>
       <summary>{it ? 'Confronto prima / dopo' : 'Before / after comparison'} <span>({classification!.evidence.length}/{classification!.totalHunks})</span></summary>
-      <p className={styles.note}>{it ? 'Estratti esatti degli snapshot. Evidenziazioni = testo modificato; il contesto non evidenziato può essere invariato. Il diff completo segue nell’analisi.' : 'Exact snapshot excerpts. Highlights show edited text; surrounding context can be unchanged. The full diff follows in the analysis.'}</p>
-      {classification!.evidence.map((evidence, index) => <div className={styles.comparison} key={index}>
-        <div><ExcerptHeading>{it ? 'Prima' : 'Before'} · V{classification!.oldVersion ?? '?'}</ExcerptHeading><Excerpt value={evidence.before} /><p className={styles.note}>{clauseAudience(editedSentences(evidence.before), lang)}</p></div>
-        <div><ExcerptHeading>{it ? 'Dopo' : 'After'} · V{classification!.newVersion ?? '?'}</ExcerptHeading><Excerpt value={evidence.after} /><p className={styles.note}>{clauseAudience(editedSentences(evidence.after), lang)}</p></div>
-        {evidence.anchoredQuote && <p className={styles.anchor}>{it ? 'Clausola selezionata dall’AI e riscontrata nel testo modificato' : 'AI-selected clause located in the edited text'}: <q>{evidence.anchoredQuote.text}</q></p>}
-      </div>)}
+      <p className={styles.note}>{it ? 'Estratti esatti degli snapshot. Le evidenziazioni mostrano le singole modifiche individuate.' : 'Exact snapshot excerpts. Highlights show individual edits found in the comparison.'}</p>
+      {Boolean(classification!.blockHunks) && <p className={styles.note}>{it
+        ? `Blocchi che differiscono tra le versioni e richiedono un confronto di dettaglio: ${classification!.blockHunks}.`
+        : `Blocks that differ between the versions and need closer comparison: ${classification!.blockHunks}.`}</p>}
+      {classification!.evidence.map((evidence, index) => {
+        const block = evidence.precision === 'block';
+        return <div className={styles.comparison} key={index}>
+          <div><ExcerptHeading>{it ? 'Prima' : 'Before'} · V{classification!.oldVersion ?? '?'}</ExcerptHeading><Excerpt value={evidence.before} block={block} />{!block && <p className={styles.note}>{clauseAudience(editedSentences(evidence.before), lang)}</p>}</div>
+          <div><ExcerptHeading>{it ? 'Dopo' : 'After'} · V{classification!.newVersion ?? '?'}</ExcerptHeading><Excerpt value={evidence.after} block={block} />{!block && <p className={styles.note}>{clauseAudience(editedSentences(evidence.after), lang)}</p>}</div>
+          {block && <p className={styles.anchor}>{it ? 'Estratti da un blocco da confrontare nel dettaglio.' : 'Excerpts from a block that needs closer comparison.'}</p>}
+          {evidence.anchoredQuote && <p className={styles.anchor}>{it ? 'Clausola selezionata dall’AI e riscontrata nel testo modificato' : 'AI-selected clause located in the edited text'}: <q>{evidence.anchoredQuote.text}</q></p>}
+        </div>;
+      })}
     </details>}
     {classification?.oldHash && classification.newHash && <details className={styles.provenance}>
       <summary>{it ? 'Metodo e riferimenti degli snapshot' : 'Method and snapshot references'}</summary>
