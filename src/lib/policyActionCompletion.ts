@@ -1,6 +1,7 @@
 export const POLICY_ACTION_HOLD_CODES = [
   'analysis_input_incomplete',
   'analysis_output_incomplete',
+  'analysis_execution_failed',
   'comparison_incomplete',
   'baseline_conflict',
 ] as const;

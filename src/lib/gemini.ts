@@ -221,9 +221,7 @@ export async function analyzePolicyChange(
   const apiKey = getApiKey();
   if (!apiKey) {
     if (!allowDemoAiFallback()) {
-      throw new Error(
-        'GEMINI_API_KEY is not configured. AI analysis is disabled because demo fallback is off.'
-      );
+      throw new PolicyActionHold('analysis_execution_failed', 'provider_not_configured');
     }
 
     console.warn('GEMINI_API_KEY is not defined. Returning mock analysis because ALLOW_DEMO_AI_FALLBACK=true.');
@@ -423,7 +421,7 @@ Do not include any markdown styling like \`\`\`json ... \`\`\` in your response.
 
   console.error('[Gemini] All models failed. Demo fallback is disabled:', lastError);
   if (outputHold) throw outputHold;
-  throw new Error(`Gemini analysis failed: ${getErrorMessage(lastError)}`);
+  throw new PolicyActionHold('analysis_execution_failed', classifyAiTelemetryError(lastError).errorCode);
 }
 
 /**

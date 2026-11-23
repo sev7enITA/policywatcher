@@ -154,6 +154,15 @@ describe('Gemini supported models and structured output', () => {
     expect(result.inferenceManifest?.validation.responseFinishReason).toBe('STOP');
   });
 
+  it('distinguishes provider failure from an incomplete output', async () => {
+    mocks.generateContent.mockRejectedValue(new Error('503 UNAVAILABLE'));
+    await expect(analyzePolicyChange('Fixture', 'Privacy', 'old', 'new'))
+      .rejects.toMatchObject({ code: 'analysis_execution_failed', detail: 'provider_unavailable' });
+    vi.stubEnv('GEMINI_API_KEY', '');
+    await expect(analyzePolicyChange('Fixture', 'Privacy', 'old', 'new'))
+      .rejects.toMatchObject({ code: 'analysis_execution_failed', detail: 'provider_not_configured' });
+  });
+
   it('does not call a provider or publish a full-coverage result for over-limit input', async () => {
     await expect(analyzePolicyChange('Fixture', 'Privacy', '', 'x'.repeat(MAX_ANALYSIS_DOCUMENT_CHARS + 1)))
       .rejects.toThrow('coverage_incomplete');
