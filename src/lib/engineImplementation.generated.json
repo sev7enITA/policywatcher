@@ -299,11 +299,15 @@
     ],
     [
       "src/lib/engine/acquisition.ts",
-      "1500ebcdc5c11208addace6142020a940eba6d990037454e73404f910e5373bd"
+      "d6865e0b473cd62c6b5b1b8eeb66ec731997f1a21636c2ce78cd535e5f3d0174"
     ],
     [
       "src/lib/engine/channelReports.ts",
       "c7a00d4c9ef4a810aa3bed3e5f2c0365e59c74c15da7b379e4ab58ba4caabcee"
+    ],
+    [
+      "src/lib/engine/claimDates.ts",
+      "ba7f857a8368a8250234be96f1868966c2b9e7d6da034d6fb28113e2c0ff7dad"
     ],
     [
       "src/lib/engine/claimLedger.ts",
@@ -311,7 +315,7 @@
     ],
     [
       "src/lib/engine/claims.ts",
-      "b92f48538cd86c9533fa48024274edf7f45df4a8c49c205aea614275f13f9cec"
+      "8061adf9b8774b211528e91dd699105b3c8bde56c75becc2a62b6aff15e8b64e"
     ],
     [
       "src/lib/engine/comparison.ts",
@@ -323,7 +327,7 @@
     ],
     [
       "src/lib/engine/document.ts",
-      "5c97ccb9754977e5317b81a0a0e4ec2c812e69115865dd520687a2d95575b0d0"
+      "3319b66e4984f5a1046117ad2a3cbbcaa4c96041e7d87bcd5044f741afac3734"
     ],
     [
       "src/lib/engine/failures.ts",
@@ -339,7 +343,7 @@
     ],
     [
       "src/lib/engine/pipeline.ts",
-      "098ed199e361c4ac38a7a242565a7c1594d7e3a4b75dc049cc15300af8611ccf"
+      "f6dfa32ffe45b4c67d9d9059ad70cc906b1bdaafe4f2d3ecd54f12ce3892a612"
     ],
     [
       "src/lib/engine/qualification.ts",
@@ -355,7 +359,7 @@
     ],
     [
       "src/lib/extractionProfile.generated.json",
-      "39821a5b0942b054bb1a4780ad127f7f806ff8d2950e66141aecb747d44ea3f2"
+      "75976a2f7d36e26404e7f0f0e0890f748f9535dde2cab0770cc565f6542209c4"
     ],
     [
       "src/lib/extractionProfile.ts",
@@ -455,7 +459,7 @@
     ],
     [
       "src/lib/scraper.ts",
-      "b431a74792173fc79cfc2b5e034786905a36145d5bfe0f5eb13912891dab8e17"
+      "48248b2adecdbc47c8966f52d9029da35136940ccef25f470c099d7f84ddfad0"
     ],
     [
       "src/lib/seo.ts",
@@ -494,5 +498,5 @@
       "9a58ee8a17ae157f8639415c9a07249dcfd7f46d9b8371d9592eb8e460e56005"
     ]
   ],
-  "hash": "6c5f05109de8858462a2abe9657a58783ce4347aafbb8450786728a65358d253"
+  "hash": "da9b3a85db911cef38a078804e692870677633a6a4a6869befc3beb410f78a72"
 }

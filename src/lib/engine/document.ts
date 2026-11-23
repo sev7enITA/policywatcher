@@ -153,7 +153,8 @@ export interface ClauseDelta { id: string; side: 'old' | 'new'; block: DocumentB
 export interface ClauseComparison { kind: 'unchanged' | 'formatting' | 'changed'; deltas: ClauseDelta[] }
 export function compareDocuments(oldDoc: StructuredDocument, newDoc: StructuredDocument): ClauseComparison {
   if (oldDoc.hash === newDoc.hash) return { kind: 'unchanged', deltas: [] };
-  const content = (b: DocumentBlock) => b.text.replace(/^#{1,6}\s+/, '');
+  // Heading level alone can be presentation. A changed block type or section path can change applicability.
+  const content = (b: DocumentBlock) => JSON.stringify([b.kind, b.section, b.text.replace(/^#{1,6}\s+/, '')]);
   const parts = diffArrays(oldDoc.blocks.map(content), newDoc.blocks.map(content), { maxEditLength: 2000 });
   if (!parts) throw new Error('comparison_budget_exceeded');
   const deltas: ClauseDelta[] = [];

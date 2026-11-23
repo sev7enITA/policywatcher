@@ -25,8 +25,12 @@ export function publicChangeWhere<T extends WhereObject>(base?: T): T {
 
   const baseObject = (base || {}) as WhereObject;
   const policy = (baseObject.policy || {}) as WhereObject;
+  const inherited = baseObject.AND;
+  const filters = Array.isArray(inherited) ? inherited : inherited ? [inherited] : [];
   return {
     ...baseObject,
+    // A first snapshot can be public as a baseline. A change needs both versions.
+    AND: [...filters, { oldSnapshot: { publicEvidence: true }, newSnapshot: { publicEvidence: true } }],
     publicEvidence: true,
     policy: {
       ...policy,

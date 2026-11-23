@@ -24,6 +24,13 @@ describe('publicDataGate', () => {
     });
   });
 
+  it('requires public evidence on both versions of a public change and preserves existing predicates', () => {
+    const before = { policy: { companyId: 'c1' } };
+    expect(publicChangeWhere({ AND: [before] }).AND).toEqual([
+      before, { oldSnapshot: { publicEvidence: true }, newSnapshot: { publicEvidence: true } },
+    ]);
+  });
+
   it('allows the seeded override only outside production', () => {
     vi.stubEnv('NODE_ENV', 'development');
     vi.stubEnv('ALLOW_SEEDED_PUBLIC_DATA', 'true');

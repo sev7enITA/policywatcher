@@ -206,13 +206,22 @@ export function extractEngineBody(html: string, sourceUrl: string, contentLangua
   if (detectBlockPage(html) || detectSoft404(html)) throw new Error('source_block_or_soft_404');
   // Identity is established by the reviewed contract, not English keyword counts.
   const prepared = prepareEngineHtml(html, contract);
-  let text = extractPolicyText(prepared.html, sourceUrl, { minimumTextLength: 100, preserveNestedBlockOrder: true });
+  let scopeLanguages: string[] = [];
+  let text = extractPolicyText(prepared.html, sourceUrl, { minimumTextLength: 100, preserveNestedBlockOrder: true,
+    onScopedLanguage: languages => { scopeLanguages = languages; } });
   const scoped = Boolean(new URL(sourceUrl).hash);
   const restoredTitleFromDom = !scoped && text.length >= 100 && prepared.titles.length === 1
     && !text.split(/\r?\n/).some(line => line.replace(/^#{1,6}\s+/, '').trim() === prepared.titles[0]);
   if (restoredTitleFromDom) text = `# ${prepared.titles[0]}\n\n${text}`;
   if (text.length < 100 || text.length > 500_000) throw new Error('extraction_size_out_of_bounds');
-  const language = load(html)('html').attr('lang') || contentLanguage;
+  const pageLanguage = load(html)('html').attr('lang');
+  const signals = scopeLanguages.length ? scopeLanguages : [pageLanguage, ...(contentLanguage?.split(',') || [])];
+  const languages = [...new Set(signals.flatMap(signal => {
+    const primary = signal?.trim().toLowerCase().split(/[-_]/)[0];
+    return primary && /^[a-z]{2,3}$/.test(primary) ? [primary] : [];
+  }))];
+  const language = languages.length === 1 ? languages[0] : undefined;
+  if (languages.length > 1) prepared.issues.push({ reason: 'document_language_conflicting', target: null, chars: 0 });
   return { html, captureId: randomUUID(), documentUrl: sourceUrl, document: structureDocument(text), ...(language ? { language } : {}),
     extraction: { retainedDisclosureIds: prepared.retainedDisclosureIds, retainedDocumentHeaders: prepared.retainedDocumentHeaders, retainedUnstructuredRuns: prepared.retainedUnstructuredRuns, restoredTitleFromDom, issues: prepared.issues, appliedExclusions: prepared.appliedExclusions,
       reviewedExclusionHash: digest(JSON.stringify(contract?.reviewedExclusions || [])) } };

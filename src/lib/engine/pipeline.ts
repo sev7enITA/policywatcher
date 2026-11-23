@@ -179,7 +179,8 @@ async function evaluate(lease: Lease, input: TaskInput) {
   if (!establishing && oldAnchor!.profileHash !== input.profileHash) {
     if (!oldAnchor!.input || digest(oldAnchor!.input) !== oldAnchor!.inputHash) return hold(lease, observation, ['extraction_replay_unavailable']);
     let replayBody: CaptureBody;
-    try { replayBody = extractEngineBody(oldAnchor!.input, input.sourceUrl, input.contract?.language, input.contract); }
+    // The reviewed contract sets the expected language; it is not a transport observation.
+    try { replayBody = extractEngineBody(oldAnchor!.input, input.sourceUrl, undefined, input.contract); }
     catch { return hold(lease, observation, ['extraction_replay_incomplete']); }
     // The reviewer explicitly checks old language and extraction before adoption.
     const baselineCandidateArtifactId = await putArtifact(replayBody);
