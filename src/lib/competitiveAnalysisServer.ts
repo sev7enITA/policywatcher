@@ -13,6 +13,7 @@ import {
   buildCompetitiveSnapshot,
   calculateCompetitiveEvaluation,
   parseCompetitiveSnapshot,
+  presentCompetitiveAnalysisInEnglish,
   type CompetitiveLiveMetrics,
   type CompetitiveMetric,
   type CompetitiveMetricKey,
@@ -83,7 +84,7 @@ function historySummary(snapshot: CompetitiveSnapshotPayload) {
   };
 }
 
-export async function loadCompetitiveAnalysis() {
+export async function loadCompetitiveAnalysis(language: 'en' | 'it' = 'it') {
   const checkedAt = new Date();
   const cutoff30d = new Date(checkedAt.getTime() - 30 * 24 * 60 * 60 * 1000);
   const companyScope = { slug: { not: FIXTURE_COMPANY_SLUG } };
@@ -193,14 +194,27 @@ export async function loadCompetitiveAnalysis() {
       .map(historySummary)
     : [];
 
+  const presentation = language === 'en'
+    ? presentCompetitiveAnalysisInEnglish(metrics, evaluation)
+    : {
+        evaluation,
+        benchmark: CONDUCT_ATLAS_BENCHMARK,
+        axisLabels: COMPETITIVE_AXIS_LABELS,
+        dimensionCatalog: COMPETITIVE_DIMENSION_CATALOG,
+        priorities: buildCompetitivePriorities(evaluation),
+      };
+
   return {
+    ...presentation,
     metrics,
-    evaluation,
-    benchmark: CONDUCT_ATLAS_BENCHMARK,
-    axisLabels: COMPETITIVE_AXIS_LABELS,
-    dimensionCatalog: COMPETITIVE_DIMENSION_CATALOG,
+    publicationStageReasons: {
+      configuredPolicies: readinessStages.get('configured')?.reason,
+      retrievedPolicies: readinessStages.get('retrieved')?.reason,
+      baselineVerifiedPolicies: readinessStages.get('baseline-verified')?.reason,
+      publicPolicies: readinessStages.get('public')?.reason,
+      analysedPolicies: readinessStages.get('analysed')?.reason,
+    },
     currentSnapshot,
-    priorities: buildCompetitivePriorities(evaluation),
     history,
     historyStatus: snapshotLogs.available ? 'available' as const : 'unavailable' as const,
     buildLabel: POLICYWATCHER_VERSION,

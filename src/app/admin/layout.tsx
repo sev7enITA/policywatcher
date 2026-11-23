@@ -135,7 +135,7 @@ const NAV_ITEMS: NavItem[] = [
     section: 'Govern',
   },
   {
-    label: 'Analisi competitiva',
+    label: 'Competitive Analysis',
     href: '/admin/competitive-analysis',
     icon: <Scale size={18} />,
     section: 'Govern',

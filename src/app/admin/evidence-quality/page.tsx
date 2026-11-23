@@ -83,7 +83,14 @@ export default function EvidenceQualityPage() {
           {' · '}{evidence.comparison.ranges} changed ranges · {evidence.comparison.unresolvedRanges} unresolved blocks
           {' · '}<code>{evidence.comparison.reason}</code></p>
         <details><summary>AI summaries and before/after source passages</summary>
-          <h3>AI summary</h3><p style={{ whiteSpace: 'pre-wrap' }}>{evidence.change.aiSummaryEn}</p><p>{evidence.change.aiSummaryIt}</p>
+          <h3>AI summary</h3>
+          <p style={{ whiteSpace: 'pre-wrap' }}>{evidence.change.aiSummaryEn || 'English summary unavailable.'}</p>
+          {evidence.change.aiSummaryIt && (
+            <details>
+              <summary>Italian version</summary>
+              <p lang="it" style={{ whiteSpace: 'pre-wrap' }}>{evidence.change.aiSummaryIt}</p>
+            </details>
+          )}
           <h3>Before</h3><pre style={{ whiteSpace: 'pre-wrap', maxHeight: 300, overflow: 'auto' }}>{evidence.change.oldSnapshot?.text || 'No baseline'}</pre>
           <h3>After</h3><pre style={{ whiteSpace: 'pre-wrap', maxHeight: 300, overflow: 'auto' }}>{evidence.change.newSnapshot?.text || 'No snapshot'}</pre>
         </details>

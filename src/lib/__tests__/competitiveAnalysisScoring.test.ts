@@ -6,6 +6,7 @@ import {
   buildCompetitiveSnapshot,
   calculateCompetitiveEvaluation,
   parseCompetitiveSnapshot,
+  presentCompetitiveAnalysisInEnglish,
   type CompetitiveLiveMetrics,
   type CompetitiveMetricKey,
 } from '../competitiveAnalysis';
@@ -77,6 +78,39 @@ describe('metodo competitivo puro', () => {
     const changed = calculateCompetitiveEvaluation(changedMetrics);
     expect(first?.fingerprint).toBe(later?.fingerprint);
     expect(changed?.fingerprint).not.toBe(first?.fingerprint);
+  });
+
+  it('projects English copy while preserving legacy fingerprints, scores and ranks', () => {
+    const full = metrics();
+    const partial = metrics({ status: 'partial' });
+    partial.values.configuredPolicies = { value: null, state: 'unavailable', reason: 'Query fallita.' };
+    const fixtures = [
+      [full, 'ffb2e368545e130e03c7418f48da59b2712347c5fee6b1976cafbce687a97c4c'],
+      [partial, '1f6973e6b4ecb90a3d0361b91ea44dacf905970112bdb198de06a68b2ba0ee0f'],
+    ] as const;
+
+    for (const [input, fingerprint] of fixtures) {
+      const canonical = calculateCompetitiveEvaluation(input)!;
+      const display = presentCompetitiveAnalysisInEnglish(input, canonical);
+      expect(canonical.fingerprint).toBe(fingerprint);
+      expect(display.evaluation?.fingerprint).toBe(fingerprint);
+      expect(display.evaluation?.coverage).toBe(canonical.coverage);
+      expect(display.evaluation?.policyWatcherIndex).toBe(canonical.policyWatcherIndex);
+      expect(display.evaluation?.conductAtlasIndex).toBe(canonical.conductAtlasIndex);
+      expect(display.evaluation?.axes[0].label).toBe('Market and corpus');
+      expect(display.evaluation?.dimensions.map(({ policyWatcher, conductAtlas }) => [policyWatcher.score, conductAtlas.score]))
+        .toEqual(canonical.dimensions.map(({ policyWatcher, conductAtlas }) => [policyWatcher.score, conductAtlas.score]));
+      expect(display.evaluation?.dimensions[0].policyWatcher.evidence).toContain('verified public policies');
+      expect(display.evaluation?.dimensions[0].conductAtlas.calculation).toContain('Corpus rubric');
+      expect(display.priorities.map(({ id, weightedGap }) => [id, weightedGap]))
+        .toEqual(buildCompetitivePriorities(canonical).map(({ id, weightedGap }) => [id, weightedGap]));
+      expect(display.priorities[0].target).toContain('with verifiable evidence');
+    }
+
+    const fallback = presentCompetitiveAnalysisInEnglish(metrics({ status: 'unavailable' }), null);
+    expect(fallback.evaluation).toBeNull();
+    expect(fallback.dimensionCatalog[0].label).toBe('Corpus coverage');
+    expect(fallback.benchmark.boundary).toContain('Dated benchmark');
   });
 
   it('conserva e valida lo snapshot storico senza ricalcolarlo', () => {
