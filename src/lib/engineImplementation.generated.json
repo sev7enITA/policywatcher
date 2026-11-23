@@ -255,7 +255,7 @@
     ],
     [
       "src/lib/changeClassification.ts",
-      "a14f416e4a6f086a0b5825f4c5ed8c3ffe7e417365355fd7a1f62a0d08f5a23f"
+      "447c519f8081758cbd0f82abfd7104828aaf1e7031280d54b0488750f8f347f6"
     ],
     [
       "src/lib/changeClassificationCopy.ts",
@@ -263,7 +263,7 @@
     ],
     [
       "src/lib/changeClassificationTypes.ts",
-      "e37d8f446a6e516ad956b6a4f1b9bba1d6777de9a25c494142492ec6aa418964"
+      "ba5e31995dcebafd93c4d8eb90d13acb5e9faedbcbb940386eb0ab5a2edcd018"
     ],
     [
       "src/lib/changeConfirmation.ts",
@@ -402,6 +402,10 @@
       "afa34656afb22784c22839621aef3bbcbf41035c4f4cce6afe7659cd32b9f91f"
     ],
     [
+      "src/lib/policyChangeHunks.ts",
+      "3c46e89cb13004959978ec1619a1b3f71629878c1b3f9a4527e384575bb7326d"
+    ],
+    [
       "src/lib/policyConfidence.ts",
       "98ae8c83ca2381036fb494dd2b6e792962991a6e109f0644181924b7f9871a3c"
     ],
@@ -490,5 +494,5 @@
       "9a58ee8a17ae157f8639415c9a07249dcfd7f46d9b8371d9592eb8e460e56005"
     ]
   ],
-  "hash": "787f8a080761919275cdc18ca793dc171e0aad283be19d573c115ec95f77c922"
+  "hash": "416be8cde2f0626fb3de2aff4a9551e83688a3d78ed1b4107f3feecca065c0b9"
 }
