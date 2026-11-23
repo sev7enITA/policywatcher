@@ -70,10 +70,6 @@ function allowDemoAiFallback(): boolean {
   return process.env.ALLOW_DEMO_AI_FALLBACK === 'true';
 }
 
-function getErrorMessage(error: unknown): string {
-  return error instanceof Error ? error.message : String(error);
-}
-
 /**
  * Ordered model fallback chain. If the primary model is overloaded (503)
  * or rate-limited (429), we retry with the next model in the list.
