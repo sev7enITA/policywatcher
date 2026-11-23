@@ -227,6 +227,181 @@
 }
 
 /* Methodology figures use text plus shape to communicate every state. */
+.relationshipMap {
+  margin: 32px 0 20px;
+  padding: 24px;
+  text-align: left;
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  background: var(--bg-secondary);
+}
+
+.relationshipMap h2 {
+  margin: 0;
+  font-size: 1.3rem;
+  line-height: 1.3;
+}
+
+.relationshipMap figcaption p {
+  margin: 6px 0 18px;
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+
+.entityGraph,
+.entityLinks {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.entityGraph {
+  --relationship-gap: 88px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--relationship-gap);
+}
+
+.entityColumn {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  min-width: 0;
+}
+
+.entity {
+  display: block;
+  padding: 12px;
+  border: 1px solid var(--border-color-active);
+  border-radius: 10px;
+  color: var(--text-main);
+  background: var(--bg-main);
+}
+
+.entityColumn > .entity {
+  min-height: 108px;
+  border-top: 3px solid var(--primary);
+}
+
+a.entity {
+  text-decoration: none;
+}
+
+a.entity strong,
+.entityLinks a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.entity span {
+  display: block;
+  margin-top: 5px;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  color: var(--text-muted);
+}
+
+.entityEdge {
+  position: absolute;
+  top: 15px;
+  left: 100%;
+  width: var(--relationship-gap);
+  display: grid;
+  place-items: center;
+  gap: 1px;
+  padding-inline: 3px;
+  font-size: 0.72rem;
+  line-height: 1.25;
+  text-align: center;
+  color: var(--text-muted);
+}
+
+.entityEdge small {
+  font-size: inherit;
+}
+
+.entityEdge svg,
+.entityBranch svg {
+  color: var(--primary);
+}
+
+.entityBranch > span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin: 7px 0;
+  color: var(--text-muted);
+  font-size: 0.78rem;
+}
+
+.entityBranch .entity {
+  border-style: dashed;
+}
+
+.entityLinks {
+  display: grid;
+  gap: 4px;
+  margin-top: 8px;
+  font-size: 0.8rem;
+}
+
+.entityLinks a {
+  color: var(--primary);
+}
+
+.relationshipMap a:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.relationshipMap a:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
+}
+
+@media (max-width: 860px) {
+  .relationshipMap {
+    padding: 16px;
+  }
+
+  .entityGraph {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 6px;
+  }
+
+  .entityColumn > .entity {
+    min-height: 0;
+    border-top: 1px solid var(--border-color-active);
+    border-inline-start: 3px solid var(--primary);
+  }
+
+  .entityEdge {
+    position: static;
+    order: 1;
+    width: auto;
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    min-height: 30px;
+  }
+
+  .entityEdge svg {
+    order: -1;
+    transform: rotate(90deg);
+  }
+
+  .entityEdge small {
+    padding-inline-start: 6px;
+    border-inline-start: 1px solid var(--border-color-active);
+  }
+
+  .entityBranch {
+    margin-inline-start: 18px;
+    padding-inline-start: 10px;
+    border-inline-start: 1px dashed var(--border-color-active);
+  }
+}
+
 .diagramLinks {
   display: flex;
   flex-wrap: wrap;

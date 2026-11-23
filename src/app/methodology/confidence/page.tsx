@@ -18,7 +18,7 @@ import {
   RefreshCw,
 } from 'lucide-react';
 import styles from './confidence.module.css';
-import { EvidenceDiagramLinks, EvidenceVisual, MethodologyDetails, hasEvidenceDiagram } from './evidence-visuals';
+import { EvidenceDiagramLinks, EvidenceRelationshipMap, EvidenceVisual, MethodologyDetails, hasEvidenceDiagram } from './evidence-visuals';
 import Footer from '@/components/Footer';
 import PublicHeader from '@/components/PublicHeader';
 import { DOCUMENT_SCOPE_METHODOLOGY } from '@/lib/documentScopeCopy';
@@ -413,7 +413,6 @@ export default async function MethodologyConfidence({ searchParams }: Props) {
       </header>
 
       <main className={styles.main}>
-        <WorkflowAuditNotice lang={lang} />
         <div className={styles.heroSection}>
           <div className={styles.tagRow}>
             <ShieldCheck size={16} className={styles.tagIcon} />
@@ -421,12 +420,14 @@ export default async function MethodologyConfidence({ searchParams }: Props) {
           </div>
           <h1 className={styles.title}>{t.title}</h1>
           <p className={styles.subtitle}>{t.subtitle}</p>
+          <EvidenceRelationshipMap lang={lang} />
           <div className={styles.introBox}>
             <p>{t.intro}</p>
           </div>
         </div>
 
         <EvidenceDiagramLinks lang={lang} />
+        <WorkflowAuditNotice lang={lang} />
 
         <div className={styles.sectionsGrid}>
           {t.sections.map(section => {

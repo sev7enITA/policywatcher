@@ -1,7 +1,101 @@
-import { ArrowDown, ArrowRight, Check, CircleHelp, FileCheck, Fingerprint, Layers, LockKeyhole, Split } from 'lucide-react';
+import { ArrowDown, ArrowRight, Check, CircleHelp, FileCheck, Fingerprint, Layers, LockKeyhole } from 'lucide-react';
 import styles from './confidence.module.css';
 
 type Language = 'en' | 'it';
+
+const mapCopy = {
+  en: {
+    title: 'How the evidence fits together',
+    description: 'An entity–relationship map from the monitored policy to its comparison, with links to the controls that support each step.',
+    entities: [
+      ['Policy', 'Service, document type and scope'],
+      ['Capture', 'Retrieval method, source, time and hash'],
+      ['Archived version', 'Versioned text and its provenance'],
+      ['Comparison', 'Changed passages from the two versions'],
+    ],
+    relations: ['Has captures', 'Can support', 'Before and after'],
+    cardinalities: ['1 to many', 'Optional provenance', '2 versions'],
+    inventory: ['Is checked against', 'Reference inventory', 'Expected clauses, rows and attachments'],
+    review: ['Informs', 'Assessment and review', 'Ground the interpretation in exact passages.'],
+    followUp: [
+      ['ai-analysis', 'AI analysis and risk'],
+      ['responsible-ai', 'Review and corrections'],
+      ['workspace', 'How evidence is shared'],
+    ],
+  },
+  it: {
+    title: 'Come si collegano le evidenze',
+    description: 'Una mappa entità–relazioni dalla policy monitorata al confronto, con i collegamenti ai controlli di ogni passaggio.',
+    entities: [
+      ['Policy', 'Servizio, tipo di documento e ambito'],
+      ['Cattura', 'Metodo di recupero, fonte, data e hash'],
+      ['Versione archiviata', 'Testo versionato e relativa provenienza'],
+      ['Confronto', 'Passaggi cambiati nelle due versioni'],
+    ],
+    relations: ['Ha catture', 'Può sostenere', 'Prima e dopo'],
+    cardinalities: ['1 a molti', 'Provenienza facoltativa', '2 versioni'],
+    inventory: ['Si verifica rispetto a', 'Inventario di riferimento', 'Clausole, righe e allegati attesi'],
+    review: ['Supporta', 'Valutazione e revisione', 'Collega l’interpretazione a passaggi precisi.'],
+    followUp: [
+      ['ai-analysis', 'Analisi IA e rischio'],
+      ['responsible-ai', 'Revisione e correzioni'],
+      ['workspace', 'Come si condividono le evidenze'],
+    ],
+  },
+} as const;
+
+const entityLinks = ['scope', 'ingestion', 'traceability', 'evidence-controls'];
+
+export function EvidenceRelationshipMap({ lang }: { lang: Language }) {
+  const t = mapCopy[lang];
+  const [inventoryRelation, inventoryTitle, inventoryDetail] = t.inventory;
+  const [reviewRelation, reviewTitle, reviewDetail] = t.review;
+
+  return (
+    <figure className={styles.relationshipMap} aria-labelledby="evidence-map-title">
+      <figcaption>
+        <h2 id="evidence-map-title">{t.title}</h2>
+        <p>{t.description}</p>
+      </figcaption>
+      <ol className={styles.entityGraph}>
+        {t.entities.map(([title, detail], index) => (
+          <li key={title} className={styles.entityColumn}>
+            <a className={styles.entity} href={`#${entityLinks[index]}`}>
+              <strong>{title}</strong>
+              <span>{detail}</span>
+            </a>
+            {index < t.relations.length && (
+              <div className={styles.entityEdge}>
+                <span>{t.relations[index]}</span>
+                <ArrowRight aria-hidden="true" size={20} />
+                <small>{t.cardinalities[index]}</small>
+              </div>
+            )}
+            {index === 2 && (
+              <div className={styles.entityBranch}>
+                <span><ArrowDown aria-hidden="true" size={16} />{inventoryRelation}</span>
+                <a className={styles.entity} href="#completeness">
+                  <strong>{inventoryTitle}</strong><span>{inventoryDetail}</span>
+                </a>
+              </div>
+            )}
+            {index === 3 && (
+              <div className={styles.entityBranch}>
+                <span><ArrowDown aria-hidden="true" size={16} />{reviewRelation}</span>
+                <div className={styles.entity}>
+                  <strong>{reviewTitle}</strong><span>{reviewDetail}</span>
+                  <ul className={styles.entityLinks}>
+                    {t.followUp.map(([id, label]) => <li key={id}><a href={`#${id}`}>{label}</a></li>)}
+                  </ul>
+                </div>
+              </div>
+            )}
+          </li>
+        ))}
+      </ol>
+    </figure>
+  );
+}
 
 const copy = {
   en: {
@@ -136,7 +230,7 @@ export function EvidenceVisual({ lang, section }: { lang: Language; section: str
     case 'completeness':
       return <figure className={styles.visual}>
         <ul className={styles.inputs}>{t.inventory.map(label => <li key={label}>{label}</li>)}</ul>
-        <div className={styles.connector}><Split size={18} aria-hidden="true" /></div>
+        <div className={styles.connector}><ArrowDown size={18} aria-hidden="true" /></div>
         <div className={styles.operation}>{t.inventoryKeys}</div>
         <div className={styles.connector}><ArrowDown size={18} aria-hidden="true" /></div>
         <Branches entries={t.inventoryStates} />
