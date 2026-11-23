@@ -1,6 +1,6 @@
 import { publicChangeFields } from './publicChangeFields';
 import { createHash } from 'node:crypto';
-import { diffWordsWithSpace } from 'diff';
+import { compareSnapshotText, type ChangeHunk } from './policyChangeHunks';
 import { KPI_FIELD_KEYS } from './metricsCatalog';
 import type { ChangeClassification, ChangeClassificationReason, ChangeEvidence, ChangeExcerpt, ChangeKind } from './changeClassificationTypes';
 
@@ -19,8 +19,7 @@ interface Input {
   newSnapshot?: Snapshot | null;
   riskReasonsJson?: string | null;
 }
-interface Hunk { oldStart: number; oldEnd: number; newStart: number; newEnd: number }
-const MAX_TEXT = 500_000;
+const MAX_TEXT = 2_000_000;
 const MAX_EVIDENCE = 4;
 const cache = new Map<string, ChangeClassification>();
 const kpis = new Set<string>(KPI_FIELD_KEYS);
@@ -68,29 +67,12 @@ export function classifyPolicyChange(input: Input): ChangeClassification {
   }
   const oldNormalized = normalizePresentation(old.text), newNormalized = normalizePresentation(next.text);
   const editorial = oldNormalized === newNormalized;
-  const parts = diffWordsWithSpace(old.text, next.text, { maxEditLength: 512 });
-  if (!parts) {
-    Object.assign(result, { kind: editorial ? 'editorial' : 'needs_review', reason: editorial ? 'presentation_only' : 'comparison_limit', compared: editorial });
-    return save();
-  }
+  const hunks = compareSnapshotText(old.text, next.text);
   result.compared = true;
-  const hunks: Hunk[] = [];
-  let oldOffset = 0, newOffset = 0, active: Hunk | null = null;
-  for (const part of parts) {
-    if (part.added || part.removed) {
-      active ??= { oldStart: oldOffset, oldEnd: oldOffset, newStart: newOffset, newEnd: newOffset };
-      if (part.removed) oldOffset += part.value.length;
-      if (part.added) newOffset += part.value.length;
-      active.oldEnd = oldOffset; active.newEnd = newOffset;
-    } else {
-      if (active) hunks.push(active);
-      active = null;
-      oldOffset += part.value.length; newOffset += part.value.length;
-    }
-  }
-  if (active) hunks.push(active);
   result.totalHunks = hunks.length;
-  let anchor: { hunk: Hunk; quote: NonNullable<ChangeEvidence['anchoredQuote']>; start: number } | undefined;
+  const broad = hunks.filter(hunk => hunk.precision === 'block');
+  if (broad.length) Object.assign(result, { blockHunks: broad.length });
+  let anchor: { hunk: ChangeHunk; quote: NonNullable<ChangeEvidence['anchoredQuote']>; start: number } | undefined;
   // A quote in an unchanged passage does NOT establish a change. Neither do AI scores or summaries.
   if (!editorial && Math.min(old.text.length, next.text.length) / Math.max(old.text.length, next.text.length) >= 0.65) {
     let reasons: unknown = [];
@@ -106,6 +88,7 @@ export function classifyPolicyChange(input: Input): ChangeClassification {
       const start = source.indexOf(quote);
       if (start < 0) continue;
       const hunk = hunks.find(h => {
+        if (h.precision === 'block') return false;
         const from = side === 'old' ? h.oldStart : h.newStart;
         const to = side === 'old' ? h.oldEnd : h.newEnd;
         return from < start + quote.length && to > start
@@ -114,10 +97,13 @@ export function classifyPolicyChange(input: Input): ChangeClassification {
       if (hunk) { anchor = { hunk, quote: { text: quote, side, relatedKpi }, start }; break; }
     }
   }
-  const selected = anchor ? [anchor.hunk, ...hunks.filter(h => h !== anchor.hunk)] : hunks;
+  const precise = hunks.filter(hunk => hunk !== anchor?.hunk && hunk.precision !== 'block');
+  const preferred = [...(anchor ? [anchor.hunk] : []), ...precise];
+  const selected = broad.length ? [...preferred.slice(0, MAX_EVIDENCE - 1), ...broad] : preferred;
   result.evidence = selected.slice(0, MAX_EVIDENCE).map(h => ({
     before: excerpt(old.text, h.oldStart, h.oldEnd, anchor?.hunk === h && anchor.quote.side === 'old' ? anchor.start : undefined),
     after: excerpt(next.text, h.newStart, h.newEnd, anchor?.hunk === h && anchor.quote.side === 'new' ? anchor.start : undefined),
+    ...(h.precision ? { precision: h.precision } : {}),
     ...(anchor?.hunk === h ? { anchoredQuote: anchor.quote } : {}),
   }));
   if (editorial) Object.assign(result, { kind: 'editorial', reason: 'presentation_only' });
