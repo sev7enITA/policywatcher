@@ -13,6 +13,8 @@ export interface ChangeExcerpt {
 export interface ChangeEvidence {
   before: ChangeExcerpt;
   after: ChangeExcerpt;
+  /** Both versions differ in this window; individual edits could not be aligned. */
+  precision?: 'block';
   /** An AI-selected quote is shown only after independent exact anchoring. */
   anchoredQuote?: { text: string; side: 'old' | 'new'; relatedKpi: string };
 }
@@ -28,6 +30,8 @@ export interface ChangeClassification {
   oldVersion: number | null;
   newVersion: number | null;
   totalHunks: number;
+  /** Changed windows whose edits were not resolved individually. */
+  blockHunks?: number;
   evidence: ChangeEvidence[];
 }
 
