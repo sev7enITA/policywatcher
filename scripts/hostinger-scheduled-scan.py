@@ -85,7 +85,18 @@ def should_skip(runs, policy_count, now_ms):
 def safe_result(row):
     fields = ("id", "status", "startedAt", "completedAt", "selectedRecords", "uniqueSources",
               "uniqueAvailableSources", "uniqueUnavailableSources", "errorRecords")
-    return {key: row.get(key) for key in fields}
+    result = {key: row.get(key) for key in fields}
+    if row.get("status") == "completed":
+        result["execution"] = "unverified"
+        try:
+            metrics = json.loads(row.get("metricsJson") or "{}")
+            receipts = metrics.get("actionReceipts")
+            if isinstance(receipts, dict) and receipts.get("complete") is True:
+                if metrics.get("execution") in ("complete", "attention"):
+                    result["execution"] = metrics["execution"]
+        except (ValueError, TypeError, AttributeError):
+            pass
+    return result
 
 
 def validate_capabilities(secret, opener):
@@ -133,7 +144,8 @@ def wait_for_scan(db, before_ids, request_ms, scan_id, http_status):
         if candidates:
             row = candidates[-1]
             if row["status"] == "completed":
-                return {"status": "completed", "httpStatus": http_status, "scan": safe_result(row)}
+                report = safe_result(row)
+                return {"status": report["execution"], "httpStatus": http_status, "scan": report}
             if row["status"] == "failed":
                 raise ScanError("Persisted scan failed; inspect ScanRun on the server")
         elif time.monotonic() > deadline - MAX_WAIT_SECONDS + 30:

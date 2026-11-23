@@ -14,7 +14,11 @@ import { guardExtraction, anchorCommittedExtraction } from '@/lib/extractionGuar
  * cron-status endpoint can invoke it directly (no self-fetch required).
  */
 
-import { classifyPolicyChange } from '@/lib/changeClassification';
+import { classifyPolicyChange, requireCompleteComparison } from '@/lib/changeClassification';
+import { assertVerifiedAnalysisExecution } from '@/lib/policyAnalysisManifest';
+import { buildVerifiedPolicyDiff } from '@/lib/policyChangeHunks';
+import { PolicyActionHold, reconcilePolicyActionReceipts, type PolicyActionHoldCode } from '@/lib/policyActionCompletion';
+import { advancePolicyBaseline, recordPolicyActionHold } from '@/lib/policyActionReceipts';
 import { shouldNotifyChange } from '@/lib/changeClassificationTypes';
 import { NextRequest, NextResponse } from 'next/server';
 import { createHash, randomUUID } from 'node:crypto';
@@ -136,7 +140,7 @@ async function renewScanLease(scanRunId: string): Promise<void> {
   if (renewed.count !== 1) throw new Error('scan_lease_lost');
 }
 
-async function failScanRun(scanRunId: string, metricsJson?: string): Promise<void> {
+async function failScanRun(scanRunId: string, metricsJson?: string, failureReason = 'scan_execution_failed'): Promise<void> {
   await db.scanRun.updateMany({
     where: { id: scanRunId, status: 'running' },
     data: {
@@ -144,7 +148,7 @@ async function failScanRun(scanRunId: string, metricsJson?: string): Promise<voi
       completedAt: new Date(),
       leaseKey: null,
       leaseExpiresAt: null,
-      failureReason: 'scan_execution_failed',
+      failureReason,
       ...(metricsJson ? { metricsJson } : {}),
     },
   });
@@ -169,6 +173,7 @@ interface CheckDetail {
     | 'unavailable' // page temporarily unreachable (timeout, maintenance, bot block)
     | 'invalid'; // URL permanently gone (404/410/soft-404)
   error?: string;
+  actionHold?: PolicyActionHoldCode;
   httpStatus?: number;
   source?: string;
   runtime?: RetrievalRuntime;
@@ -188,6 +193,9 @@ export interface ScanResult {
   changed: number;
   confirmationPending: number;
   extractionHeld: number;
+  actionHolds: number;
+  execution: 'complete' | 'attention';
+  actionReceipts: ReturnType<typeof reconcilePolicyActionReceipts>;
   rebaselined: number;
   partial: number;
   errors: number;
@@ -485,6 +493,7 @@ export async function runFullScan(
   const scanRun = await acquireScanRun(options);
   let scrapingShadow: Awaited<ReturnType<typeof optionalShadowRuntime>> | undefined;
   let retrievalMetrics: RetrievalMetrics | undefined;
+  let actionReceipts: ReturnType<typeof reconcilePolicyActionReceipts> | undefined;
 
   try {
 
@@ -598,6 +607,8 @@ export async function runFullScan(
       jurisdiction: policy.jurisdiction,
       status: 'unchanged',
     };
+
+    let actionEvidence: Parameters<typeof recordPolicyActionHold>[0] | undefined;
 
     try {
       onProgress?.({
@@ -1248,7 +1259,17 @@ export async function runFullScan(
       const newVersion = latestSnapshot ? latestSnapshot.version + 1 : 1;
       const oldText = latestSnapshot ? latestSnapshot.text : '';
 
+      actionEvidence = {
+        policyId: policy.id, checkedAt: new Date(), source: source || 'direct',
+        httpStatus: scrapeResult.httpStatus ?? null, finalUrl: scrapeResult.finalUrl || policy.url,
+        textHash: newHash, textLength: newText.length, archiveTimestamp,
+        durationMs: persistedRetrieval.durationMs, scanRunId: scanRun.id,
+        sourceRetrievalId: persistedRetrieval.sourceRetrievalId,
+      };
       // Run Gemini analysis
+      if (latestSnapshot?.hash !== policy.currentHash) {
+        throw new PolicyActionHold('baseline_conflict', 'snapshot_does_not_match_current_baseline');
+      }
       const analysisTraceId = randomUUID();
       const analysis = await analyzePolicyChange(
         policy.company.name,
@@ -1258,14 +1279,29 @@ export async function runFullScan(
         { traceId: analysisTraceId }
       );
 
+      assertVerifiedAnalysisExecution(analysis, oldText, newText, analysisTraceId);
+      const classification = requireCompleteComparison(classifyPolicyChange({
+        policyId: policy.id, oldSnapshot: latestSnapshot,
+        newSnapshot: { policyId: policy.id, text: newText, version: newVersion, publicEvidence: true },
+        riskReasonsJson: JSON.stringify(analysis.riskReasons),
+      }));
+
       // Compute diff on the FULL texts (a 10k-char truncation here used to
       // hide any change beyond the first pages of long policies), using the
       // same JSON diffLines format as /api/scrape so the viewer has one format.
-      const diffLib = await import('diff');
-      const diffResult = JSON.stringify(diffLib.diffLines(oldText, newText));
+      const diffResult = buildVerifiedPolicyDiff(oldText, newText);
 
       const checkedAt = new Date();
       const recordedChangeId = await db.$transaction(async (tx) => {
+        await advancePolicyBaseline(tx, policy.id, policy.currentHash, {
+          currentText: newText,
+          currentHash: newHash,
+          lastCheckDate: checkedAt,
+          lastSuccessfulCheckDate: checkedAt,
+          dataStatus: 'Available',
+          ingestionMethod: normalizeIngestionMethod(scrapeResult.source || 'direct'),
+        });
+
         const newSnapshot = await tx.policySnapshot.create({
           data: {
             policyId: policy.id,
@@ -1311,7 +1347,7 @@ export async function runFullScan(
               versionId: newSnapshot.id,
               oldVersionId: latestSnapshot?.id ?? null,
               contentHash: newHash,
-              analysis,
+              analysis, comparison: classification,
             })),
             aiTrainingOptOut: analysis.aiTrainingOptOut,
             aiDataScrapingRestricted: analysis.aiDataScrapingRestricted,
@@ -1329,18 +1365,6 @@ export async function runFullScan(
                 complianceNoteIt: ri.complianceNoteIt || null,
               })),
             },
-          },
-        });
-
-        await tx.policy.update({
-          where: { id: policy.id },
-          data: {
-            currentText: newText,
-            currentHash: newHash,
-            lastCheckDate: checkedAt,
-            lastSuccessfulCheckDate: checkedAt,
-            dataStatus: 'Available',
-            ingestionMethod: normalizeIngestionMethod(scrapeResult.source || 'direct'),
           },
         });
 
@@ -1362,21 +1386,14 @@ export async function runFullScan(
           },
         });
 
+        await anchorCommittedExtraction(policy.id, scrapeResult, tx);
         await dualWriteCanonicalPolicyGraph(tx, policy.id);
         return recordedChange.id;
       });
 
-      await anchorCommittedExtraction(policy.id, scrapeResult);
 
       // Count only a successfully committed revision.
       changed++;
-
-      // Archive every revision; suppress only proven presentation/identical updates in alerts.
-      const classification = classifyPolicyChange({
-        policyId: policy.id, oldSnapshot: latestSnapshot,
-        newSnapshot: { policyId: policy.id, text: newText, version: newVersion, publicEvidence: true },
-        riskReasonsJson: JSON.stringify(analysis.riskReasons),
-      });
 
       // Track for subscriber notifications
       if (shouldNotifyChange(classification)) changedPolicySummaries.push({
@@ -1409,6 +1426,19 @@ export async function runFullScan(
         message: `${policyProgressLabel}: CHANGED CONFIRMED [ATTENTION] (Risk: ${analysis.overallRisk}, Score: ${analysis.overallScore}/10) [${formatSourceMarker(source)}]`,
       });
     } catch (policyError) {
+      if (actionEvidence && policyError instanceof PolicyActionHold) {
+        await recordPolicyActionHold(actionEvidence, policy.currentHash, policyError);
+        detail.status = 'needs_review';
+        detail.actionHold = policyError.code;
+        detail.error = policyError.message;
+        details.push(detail);
+        onProgress?.({
+          phase: 'policy_done', total: policies.length, current: checked,
+          company: policy.company.name, policy: policy.name, status: detail.status,
+          message: `${policy.company.name} - ${policy.name}: ACTION HELD [ATTENTION] (${policyError.code})`,
+        });
+        continue;
+      }
       const errorReference = createErrorReference('scan');
       console.error(
         `[Cron] Error reference ${errorReference}: ${policy.company.name} - ${policy.name}: ${getErrorMessage(policyError)}`
@@ -1477,7 +1507,11 @@ export async function runFullScan(
   }
 
   await renewScanLease(scanRun.id);
-  await deliverScanNotifications(options.notificationMode || 'subscribers', changedPolicySummaries, suspendedSourceAlerts);
+  const recorded = policies.length ? await db.policyCheckLog.findMany({
+    where: { scanRunId: scanRun.id }, select: { policyId: true },
+  }) : [];
+  actionReceipts = reconcilePolicyActionReceipts(policies.map(policy => policy.id), recorded);
+  if (!actionReceipts.complete) throw new Error('scan_action_receipts_incomplete');
 
   // Derived counts for honest reporting (unavailable/invalid never
   // produced fake snapshots: they are tracked here for transparency).
@@ -1485,8 +1519,13 @@ export async function runFullScan(
   const invalidCount = details.filter((d) => d.status === 'invalid').length;
   const partialCount = details.filter((d) => d.status === 'partial').length;
 
+  const actionHolds = details.filter(detail => detail.actionHold).length;
+  const extractionHeld = details.filter(detail => detail.status === 'needs_review' && !detail.actionHold).length;
+  const execution = errors || partialCount || unavailableCount || invalidCount
+    || actionHolds || confirmationPending || extractionHeld ? 'attention' : 'complete';
+
   await db.scanRun.update({
-    where: { id: scanRun.id },
+    where: { id: scanRun.id, status: 'running', leaseKey: GLOBAL_SCAN_LEASE_KEY, leaseExpiresAt: { gt: new Date() } },
     data: {
       status: 'completed',
       completedAt: new Date(),
@@ -1501,17 +1540,21 @@ export async function runFullScan(
       invalidRecords: invalidCount,
       partialRecords: partialCount,
       errorRecords: errors,
-      metricsJson: JSON.stringify({ ...retrievalMetrics, extractionHeld: details.filter(d => d.status === 'needs_review').length, scrapingShadow: await scrapingShadow.finish() }),
+      metricsJson: JSON.stringify({ ...retrievalMetrics, execution, actionReceipts, extractionHeld, actionHolds, scrapingShadow: await scrapingShadow.finish() }),
     },
   });
 
-  const extractionHeld = details.filter(d => d.status === 'needs_review').length;
+  await deliverScanNotifications(options.notificationMode || 'subscribers', changedPolicySummaries, suspendedSourceAlerts);
+
   const result: ScanResult = {
     checked,
     selected: policies.length,
     changed,
     confirmationPending,
     extractionHeld,
+    actionHolds,
+    execution,
+    actionReceipts,
     rebaselined,
     partial: partialCount,
     errors,
@@ -1525,21 +1568,22 @@ export async function runFullScan(
   };
 
   console.log(
-    `[Cron] Check complete. Checked: ${checked}, Unique sources: ${retrievalMetrics.uniqueSources}, Network retrievals: ${retrievalMetrics.networkRetrievals}, Deduplicated: ${retrievalMetrics.deduplicatedRetrievals}, Changed: ${changed}, Confirmation pending: ${confirmationPending}, Re-baselined: ${rebaselined}, Partial: ${partialCount}, Unavailable: ${unavailableCount}, Invalid: ${invalidCount}, Errors: ${errors}`
+    `[Cron] Scan execution: ${execution}. Action holds: ${actionHolds}. Checked: ${checked}, Unique sources: ${retrievalMetrics.uniqueSources}, Network retrievals: ${retrievalMetrics.networkRetrievals}, Deduplicated: ${retrievalMetrics.deduplicatedRetrievals}, Changed: ${changed}, Confirmation pending: ${confirmationPending}, Re-baselined: ${rebaselined}, Partial: ${partialCount}, Unavailable: ${unavailableCount}, Invalid: ${invalidCount}, Errors: ${errors}`
   );
 
   return result;
   } catch (error) {
-    let metricsJson: string | undefined;
+    const failureReason = getErrorMessage(error) === 'scan_action_receipts_incomplete' ? 'scan_action_receipts_incomplete' : 'scan_execution_failed';
+    let metricsJson = actionReceipts ? JSON.stringify({ ...retrievalMetrics, actionReceipts, execution: 'incomplete' }) : undefined;
     if (scrapingShadow) {
       try {
-        metricsJson = JSON.stringify({ ...retrievalMetrics, extractionHeld: details.filter(d => d.status === 'needs_review').length, scrapingShadow: await scrapingShadow.finish() });
+        metricsJson = JSON.stringify({ ...retrievalMetrics, actionReceipts, execution: 'incomplete', extractionHeld: details.filter(d => d.status === 'needs_review').length, scrapingShadow: await scrapingShadow.finish() });
       } catch {
         // Persisting observer evidence must never replace the original scan error.
         console.warn('[Scraping shadow] Failed-run summary unavailable.');
       }
     }
-    await failScanRun(scanRun.id, metricsJson).catch(() => undefined);
+    await failScanRun(scanRun.id, metricsJson, failureReason).catch(() => undefined);
     throw error;
   }
 }

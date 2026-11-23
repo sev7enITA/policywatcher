@@ -1,3 +1,4 @@
+import { scanExecutionStatus } from '@/lib/policyActionCompletion';
 import { NextRequest, NextResponse } from 'next/server';
 import { getSession } from '@/lib/adminAuth';
 import { db } from '@/lib/db';
@@ -133,6 +134,7 @@ export async function GET(request: NextRequest) {
       },
       scanRuns: scanRuns.map((run) => ({
         ...run,
+        executionStatus: scanExecutionStatus(run.status, run.metricsJson),
         metrics: (() => {
           try {
             return run.metricsJson ? JSON.parse(run.metricsJson) : null;

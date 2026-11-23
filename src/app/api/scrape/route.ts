@@ -23,7 +23,11 @@ import { POLICY_ANALYSIS_SCHEMA_VERSION } from '@/lib/geminiPolicySchema';
  * @body {{ policyId: string }}
  * @returns {{ changed: boolean, message: string, policy?, change? }} or error.
  */
-import { classifyPolicyChange } from '@/lib/changeClassification';
+import { classifyPolicyChange, requireCompleteComparison } from '@/lib/changeClassification';
+import { assertVerifiedAnalysisExecution } from '@/lib/policyAnalysisManifest';
+import { buildVerifiedPolicyDiff } from '@/lib/policyChangeHunks';
+import { PolicyActionHold } from '@/lib/policyActionCompletion';
+import { advancePolicyBaseline, recordPolicyActionHold } from '@/lib/policyActionReceipts';
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { scrapePolicyText } from '@/lib/scraper';
@@ -39,7 +43,6 @@ import { sendSourceSuspensionAdminAlert } from '@/lib/mailer';
 import { establishSourceMigrationBaseline, establishVerifiedPolicyBaseline, replaceSeededPolicyBaseline } from '@/lib/policyBaseline';
 import { createErrorReference, getErrorMessage } from '@/lib/safeErrors';
 import { normalizeKpiFields } from '@/lib/kpiDefaults';
-import * as Diff from 'diff';
 import { dualWriteCanonicalPolicyGraph } from '@/lib/documentEvidenceSync';
 
 function archiveTimestampFromScrape(value: string | undefined): Date | null {
@@ -78,6 +81,7 @@ export async function POST(request: NextRequest) {
   });
   if (limited) return limited;
 
+  let action: { evidence: Parameters<typeof recordPolicyActionHold>[0]; expectedHash: string } | undefined;
   try {
     const { policyId } = await request.json();
 
@@ -474,11 +478,16 @@ export async function POST(request: NextRequest) {
     const oldText = latestSnapshot ? latestSnapshot.text : '';
     const newVersion = latestSnapshot ? latestSnapshot.version + 1 : 1;
 
-    // Compute diff
-    const diffObjects = Diff.diffLines(oldText, newText);
-    const serializedDiff = JSON.stringify(diffObjects);
+    action = { expectedHash: policy.currentHash, evidence: {
+      policyId: policy.id, checkedAt, source: scrapeResult.source || 'direct',
+      httpStatus: scrapeResult.httpStatus ?? null, finalUrl: scrapeResult.finalUrl || policy.url,
+      textHash: newHash, textLength: newText.length, archiveTimestamp,
+    } };
 
     // Call Gemini AI
+    if (latestSnapshot?.hash !== policy.currentHash) {
+      throw new PolicyActionHold('baseline_conflict', 'snapshot_does_not_match_current_baseline');
+    }
     const analysisTraceId = randomUUID();
     const aiAnalysis = await analyzePolicyChange(
       policy.company.name,
@@ -488,7 +497,24 @@ export async function POST(request: NextRequest) {
       { traceId: analysisTraceId }
     );
 
+    assertVerifiedAnalysisExecution(aiAnalysis, oldText, newText, analysisTraceId);
+    const classification = requireCompleteComparison(classifyPolicyChange({
+      policyId: policy.id, oldSnapshot: latestSnapshot,
+      newSnapshot: { policyId: policy.id, text: newText, publicEvidence: true, version: newVersion },
+      riskReasonsJson: JSON.stringify(aiAnalysis.riskReasons),
+    }));
+    const serializedDiff = buildVerifiedPolicyDiff(oldText, newText);
+
     const { policyChange, updatedPolicy } = await db.$transaction(async (tx) => {
+      await advancePolicyBaseline(tx, policy.id, policy.currentHash, {
+        currentText: newText,
+        currentHash: newHash,
+        lastCheckDate: checkedAt,
+        lastSuccessfulCheckDate: checkedAt,
+        dataStatus: 'Available',
+        ingestionMethod,
+      });
+
       const newSnapshot = await tx.policySnapshot.create({
         data: {
           policyId: policy.id,
@@ -527,7 +553,7 @@ export async function POST(request: NextRequest) {
           analysisPromptVersion: AI_ANALYSIS_PROMPT_VERSION,
           analysisInputHash: aiAnalysis.inferenceManifest?.requestSha256 ?? null,
           analysisEvidenceJson: JSON.stringify(buildAnalysisProvenance({
-            traceId: analysisTraceId, versionId: newSnapshot.id, oldVersionId: latestSnapshot?.id ?? null, contentHash: newHash, analysis: aiAnalysis,
+            traceId: analysisTraceId, versionId: newSnapshot.id, oldVersionId: latestSnapshot?.id ?? null, contentHash: newHash, analysis: aiAnalysis, comparison: classification,
           })),
           aiTrainingOptOut: aiAnalysis.aiTrainingOptOut,
           aiDataScrapingRestricted: aiAnalysis.aiDataScrapingRestricted,
@@ -548,18 +574,6 @@ export async function POST(request: NextRequest) {
         },
       });
 
-      const savedPolicy = await tx.policy.update({
-        where: { id: policy.id },
-        data: {
-          currentText: newText,
-          currentHash: newHash,
-          lastCheckDate: checkedAt,
-          lastSuccessfulCheckDate: checkedAt,
-          dataStatus: 'Available',
-          ingestionMethod,
-        },
-      });
-
       await tx.policyCheckLog.create({
         data: {
           policyId: policy.id,
@@ -574,30 +588,34 @@ export async function POST(request: NextRequest) {
         },
       });
 
+      await anchorCommittedExtraction(policy.id, scrapeResult, tx);
       await dualWriteCanonicalPolicyGraph(tx, policy.id);
 
       return {
         policyChange: createdPolicyChange,
-        updatedPolicy: savedPolicy,
+        updatedPolicy: await tx.policy.findUniqueOrThrow({ where: { id: policy.id } }),
       };
     });
 
-    await anchorCommittedExtraction(policy.id, scrapeResult);
     return NextResponse.json({
       changed: true,
       message: 'Nuova versione rilevata ed analizzata con successo!',
       policy: updatedPolicy,
       change: {
         ...policyChange,
-        classification: classifyPolicyChange({
-          policyId: policy.id, oldSnapshot: latestSnapshot,
-          newSnapshot: { policyId: policy.id, text: newText, publicEvidence: true, version: newVersion },
-          riskReasonsJson: JSON.stringify(aiAnalysis.riskReasons),
-        }),
+        classification,
         regionImpacts: aiAnalysis.regionImpacts,
       },
     });
   } catch (error) {
+    if (action && error instanceof PolicyActionHold) {
+      try {
+        await recordPolicyActionHold(action.evidence, action.expectedHash, error);
+        return NextResponse.json({ changed: false, actionStatus: 'held', reason: error.code, detail: error.detail }, { status: 409 });
+      } catch (receiptError) {
+        console.error('[Scrape] Could not record held action receipt.', receiptError);
+      }
+    }
     console.error('Error in scrape API route:', error);
     const errorReference = createErrorReference('scrape');
     console.error(`[Scrape] Error reference ${errorReference}: ${getErrorMessage(error)}`);

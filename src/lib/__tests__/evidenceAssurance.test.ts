@@ -6,6 +6,7 @@ import { execFileSync } from 'node:child_process';
 import { PrismaClient } from '@prisma/client';
 import { buildPolicyAnalysisManifest, buildPolicyAnalysisPrompt } from '../policyAnalysisManifest';
 import { NextRequest } from 'next/server';
+import { PolicyActionHold } from '../policyActionCompletion';
 import { extractionEvidence, extractionProfileHash, sha256 } from '../extractionProfile';
 import { compareExtractions, reviewedMetrics } from '../evidenceQuality';
 import { confirmationReason, isConsecutiveChangeConfirmation } from '../changeConfirmation';
@@ -26,7 +27,7 @@ const analyze = vi.fn().mockImplementation(async (companyName, policyName, oldTe
   inferenceManifest: buildPolicyAnalysisManifest({
     traceId: options.traceId, context: { companyName, policyName }, oldText, newText,
     request: { model: 'fixture-model', contents: buildPolicyAnalysisPrompt(companyName, policyName, oldText, newText), config: { systemInstruction: 'Fixture instruction' } },
-    rawResponse: JSON.stringify(analysisFixture), normalizedResponse: analysisFixture, promptVersion: 'fixture', schemaVersion: 'fixture', attempt: 0,
+    rawResponse: JSON.stringify(analysisFixture), normalizedResponse: analysisFixture, promptVersion: 'fixture', schemaVersion: 'fixture', attempt: 0, responseFinishReason: 'STOP',
   }),
 }));
 let session = { valid: true, role: 'admin' as 'admin' | 'auditor' };
@@ -145,6 +146,10 @@ describe('extraction guard with real isolated SQLite', () => {
     const provenance = JSON.parse(stored.analysisEvidenceJson!);
     expect(stored.analysisInputHash).toBe(provenance.inference.requestSha256);
     expect(stored.analysisTraceId).toBe(provenance.inference.traceId);
+    expect(provenance.inference.validation.responseFinishReason).toBe('STOP');
+    expect(provenance.comparison).toMatchObject({ status: 'complete', unresolvedRanges: 0,
+      sourceHashes: { old: stored.oldSnapshot?.hash, new: stored.newSnapshot.hash } });
+    expect(await second.clone().json()).toMatchObject({ change: { classification: { comparisonStatus: 'complete' } } });
     const companyApi = await import('../../app/api/companies/route');
     const policyApi = await import('../../app/api/policies/[id]/route');
     const companiesResponse = await companyApi.GET(new NextRequest('https://localhost/api/companies'));
@@ -162,6 +167,73 @@ describe('extraction guard with real isolated SQLite', () => {
     const third = await scrapeApi.POST(request({ policyId: policy.id }));
     expect(third.status).toBe(200); expect(analyze).toHaveBeenCalledOnce();
   });
+  it('records a truncated assessment as held and preserves the verified baseline', async () => {
+    const { policy, result } = await setup();
+    await guard.guardExtraction(policy, result);
+    const newHtml = html.replace('</main>', '<p>We now retain personal data for 900 days.</p></main>');
+    const parsed = await scraper.validateContent(newHtml, url);
+    if (!parsed.ok) throw new Error(parsed.reason);
+    vi.spyOn(scraper, 'scrapePolicyText').mockResolvedValue({
+      ...result, text: parsed.text, hash: parsed.hash, extraction: extractionEvidence(newHtml, url),
+    });
+    expect((await scrapeApi.POST(request({ policyId: policy.id }))).status).toBe(202);
+    analyze.mockRejectedValueOnce(new PolicyActionHold('analysis_output_incomplete', 'token_limit'));
+    const held = await scrapeApi.POST(request({ policyId: policy.id }));
+    expect(held.status).toBe(409);
+    expect(await held.json()).toMatchObject({ changed: false, actionStatus: 'held', reason: 'analysis_output_incomplete' });
+    expect(await db.policy.findUniqueOrThrow({ where: { id: policy.id } })).toMatchObject({ currentHash: policy.currentHash });
+    expect(await db.policySnapshot.count({ where: { policyId: policy.id } })).toBe(1);
+    expect(await db.policyChange.count()).toBe(0);
+    const overview = await (await api.GET(new NextRequest('https://localhost/api/admin/evidence-quality'))).json();
+    expect(overview.actionHolds).toEqual(expect.arrayContaining([
+      expect.objectContaining({ reasonCode: 'analysis_output_incomplete', reason: 'analysis_output_incomplete:token_limit' }),
+    ]));
+  });
+
+  it('rolls back an attempted write if the baseline advanced while analysis was running', async () => {
+    const { policy, result } = await setup();
+    await guard.guardExtraction(policy, result);
+    const newHtml = html.replace('</main>', '<p>We now retain personal data for 900 days.</p></main>');
+    const parsed = await scraper.validateContent(newHtml, url);
+    if (!parsed.ok) throw new Error(parsed.reason);
+    vi.spyOn(scraper, 'scrapePolicyText').mockResolvedValue({
+      ...result, text: parsed.text, hash: parsed.hash, extraction: extractionEvidence(newHtml, url),
+    });
+    expect((await scrapeApi.POST(request({ policyId: policy.id }))).status).toBe(202);
+    const original = analyze.getMockImplementation()!;
+    const prior = 'Another verified writer took ownership of the baseline.';
+    const otherHash = sha256(prior);
+    analyze.mockImplementationOnce(async (...args) => {
+      await db.policy.update({ where: { id: policy.id }, data: { currentHash: otherHash, currentText: prior } });
+      return original(...args);
+    });
+    const response = await scrapeApi.POST(request({ policyId: policy.id }));
+    expect(response.status).toBe(409);
+    expect(await response.json()).toMatchObject({ actionStatus: 'held', reason: 'baseline_conflict' });
+    expect(await db.policy.findUniqueOrThrow({ where: { id: policy.id } })).toMatchObject({ currentHash: otherHash, currentText: prior });
+    expect(await db.policySnapshot.count({ where: { policyId: policy.id } })).toBe(1);
+    expect(await db.policyChange.count()).toBe(0);
+  });
+
+  it('rejects a batch without a receipt for its selected policy', async () => {
+    const { policy, result } = await setup();
+    await guard.guardExtraction(policy, result);
+    vi.stubEnv('POLICYWATCHER_SCRAPING_SHADOW_CONFIG', '');
+    vi.spyOn(scraper, 'scrapePolicyText').mockResolvedValue(result);
+    const { runFullScan } = await import('../../app/api/cron/check-all/route');
+    const good = await runFullScan(undefined, { companySlug: 'fixture', limit: 1, notificationMode: 'silent' });
+    expect(good).toMatchObject({ execution: 'complete', actionReceipts: { complete: true, planned: 1, receipts: 1 } });
+
+    const audit = vi.spyOn(db.policyCheckLog, 'findMany').mockResolvedValueOnce([]);
+    await expect(runFullScan(undefined, { companySlug: 'fixture', limit: 1, notificationMode: 'silent' }))
+      .rejects.toThrow('scan_action_receipts_incomplete');
+    audit.mockRestore();
+    const failed = await db.scanRun.findFirstOrThrow({ where: { failureReason: 'scan_action_receipts_incomplete' } });
+    expect(failed).toMatchObject({ status: 'failed', leaseKey: null });
+    expect(JSON.parse(failed.metricsJson!)).toMatchObject({ execution: 'incomplete',
+      actionReceipts: { complete: false, missing: [policy.id], receipts: 0 } });
+  });
+
   it('requires the same profile and live source for consecutive confirmation', () => {
     const log = { status: 'Needs Review', reason: confirmationReason('profile'), textHash: 'hash', source: 'direct' };
     expect(isConsecutiveChangeConfirmation(log, 'hash', 'profile')).toBe(true);

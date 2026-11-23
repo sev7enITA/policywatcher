@@ -67,6 +67,7 @@ interface ReliabilityData {
   scanRuns: Array<{
     id: string;
     status: string;
+    executionStatus: string;
     startedAt: string;
     completedAt: string | null;
     selectedRecords: number;
@@ -106,9 +107,9 @@ interface ReliabilityData {
 const WORKFLOW_STEPS = ['Detect', 'Verify', 'Repair', 'Rescan', 'Close'];
 
 function badge(status: string): string {
-  if (status === 'Recovered' || status === 'completed') return `${styles.badge} ${styles.badgeSuccess}`;
-  if (status === 'Open') return `${styles.badge} ${styles.badgeError}`;
-  if (status === 'Watching' || status === 'running') return `${styles.badge} ${styles.badgeWarning}`;
+  if (status === 'Recovered' || status === 'complete') return `${styles.badge} ${styles.badgeSuccess}`;
+  if (status === 'Open' || status === 'failed') return `${styles.badge} ${styles.badgeError}`;
+  if (status === 'Watching' || status === 'running' || status === 'attention') return `${styles.badge} ${styles.badgeWarning}`;
   return `${styles.badge} ${styles.badgeNeutral}`;
 }
 
@@ -412,7 +413,7 @@ export default function SourceReliabilityPage() {
                 <article className={reliabilityStyles.metricCard}><Archive size={18} /><div><span>Historical</span><strong>{data.inventory.historicalReferences}</strong><small>Excluded from change detection</small></div></article>
               </section>
               <div className={reliabilityStyles.diagnosticColumns}>
-                <section><h3><Activity size={17} /> Recent scan runs</h3>{data.scanRuns.length ? <ul>{data.scanRuns.map((run) => <li key={run.id}><span><strong>{formatDate(run.startedAt)}</strong><small>{run.selectedRecords} records · {run.uniqueSources} sources · {run.uniqueUnavailableSources} unavailable</small></span><span className={badge(run.status)}>{run.status}</span></li>)}</ul> : <p>No persisted ScanRun yet. {data.role === 'admin' ? 'Run a source scan to establish a baseline.' : 'An administrator must run the first scan.'}</p>}</section>
+                <section><h3><Activity size={17} /> Recent scan runs</h3>{data.scanRuns.length ? <ul>{data.scanRuns.map((run) => <li key={run.id}><span><strong>{formatDate(run.startedAt)}</strong><small>{run.selectedRecords} records · {run.uniqueSources} sources · {run.uniqueUnavailableSources} unavailable</small></span><span className={badge(run.executionStatus)}>{run.executionStatus}</span></li>)}</ul> : <p>No persisted ScanRun yet. {data.role === 'admin' ? 'Run a source scan to establish a baseline.' : 'An administrator must run the first scan.'}</p>}</section>
                 <section><h3><Database size={17} /> Shared acquisitions</h3>{data.inventory.duplicateGroups.length ? <ul>{data.inventory.duplicateGroups.map((group) => <li key={group.retrievalKey}><span><strong>{group.retrievalKey}</strong><small>{group.records.map((record) => `${record.company} · ${record.policy}`).join('; ')}</small></span></li>)}</ul> : <p>Every configured record currently has a distinct acquisition key.</p>}</section>
               </div>
             </div>

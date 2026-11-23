@@ -1,6 +1,7 @@
 import { AI_ANALYSIS_PROMPT_VERSION } from './aiTelemetry';
 import { POLICY_ANALYSIS_SCHEMA_VERSION } from './geminiPolicySchema';
 import type { PolicyAnalysisResult } from './gemini';
+import type { ChangeClassification } from './changeClassificationTypes';
 
 export const POLICY_SCORE_METHOD = 'ai_generated' as const;
 
@@ -10,6 +11,7 @@ export function buildAnalysisProvenance(input: {
   oldVersionId?: string | null;
   contentHash: string;
   analysis: Pick<PolicyAnalysisResult, 'overallScore' | 'overallRisk' | 'riskReasons' | 'inferenceManifest'>;
+  comparison?: ChangeClassification;
 }) {
   const anchors = input.analysis.riskReasons.flatMap((reason, index) =>
     reason.evidenceQuote && reason.evidenceSide
@@ -26,6 +28,12 @@ export function buildAnalysisProvenance(input: {
     traceId: input.traceId,
     inference: input.analysis.inferenceManifest ?? null,
     inputCoverage: input.analysis.inferenceManifest?.inputCoverage ?? 'unknown',
+    ...(input.comparison ? { comparison: {
+      status: input.comparison.comparisonStatus,
+      ranges: input.comparison.totalHunks,
+      unresolvedRanges: input.comparison.blockHunks ?? 0,
+      sourceHashes: { old: input.comparison.oldHash, new: input.comparison.newHash },
+    } } : {}),
     schemaVersion: POLICY_ANALYSIS_SCHEMA_VERSION,
     promptVersion: AI_ANALYSIS_PROMPT_VERSION,
     score: {

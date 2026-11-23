@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { POLICYWATCHER_CANONICAL_ORIGIN, policyWatcherUrl } from './siteOrigin';
-import type { ChangeClassification } from './changeClassificationTypes';
-import { CHANGE_KIND_LABELS, changeClassificationDescription } from './changeClassificationCopy';
+import { comparisonStatusOf, type ChangeClassification } from './changeClassificationTypes';
+import { CHANGE_KIND_LABELS, COMPARISON_STATUS_LABELS, changeClassificationDescription } from './changeClassificationCopy';
 
 export type PublicLanguage = 'en' | 'it';
 export { PUBLISHER_ID, FOUNDER_ID } from './structuredData';
@@ -100,7 +100,9 @@ export function recordIdentity(record: RecordIdentity): string {
 
 /** The observation's classification takes precedence over an older AI summary. */
 export function changeSearchDescription(record: RecordIdentity, classification: ChangeClassification, lang: PublicLanguage): string {
-  return `${recordIdentity(record)}. ${CHANGE_KIND_LABELS[lang][classification.kind]}. ${changeClassificationDescription(classification, lang)}`;
+  const status = comparisonStatusOf(classification);
+  const label = status === 'complete' ? CHANGE_KIND_LABELS[lang][classification.kind] : COMPARISON_STATUS_LABELS[lang][status];
+  return `${recordIdentity(record)}. ${label}. ${changeClassificationDescription(classification, lang)}`;
 }
 
 /** A successful capture's age is not proof that a source or scanner is currently healthy. */

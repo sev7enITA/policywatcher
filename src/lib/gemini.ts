@@ -22,6 +22,7 @@ import { randomUUID } from 'crypto';
 import { buildPolicyAnalysisPrompt, buildPolicyAnalysisManifest, type PolicyAnalysisManifest } from '@/lib/policyAnalysisManifest';
 import { GoogleGenAI } from '@google/genai';
 import { normalizeKpiFields, type KpiField } from '@/lib/kpiDefaults';
+import { PolicyActionHold } from '@/lib/policyActionCompletion';
 import { anchorRiskReasonEvidence } from '@/lib/riskReasonEvidence';
 import {
   GeminiStructuredOutputError,
@@ -97,6 +98,7 @@ export interface PolicyAnalysisOptions {
 function shouldTryNextModel(error: unknown): boolean {
   return (
     isTransientAiError(error) ||
+    error instanceof PolicyActionHold ||
     error instanceof GeminiStructuredOutputError ||
     error instanceof SyntaxError
   );
@@ -328,6 +330,7 @@ Do not include any markdown styling like \`\`\`json ... \`\`\` in your response.
   // Try each model in the fallback chain until one succeeds.
   const client = getClient();
   let lastError: unknown = null;
+  let outputHold: PolicyActionHold | undefined;
   const traceId = options.traceId || randomUUID();
   const modelChain = options.modelChain?.length ? options.modelChain : GEMINI_MODEL_CHAIN;
   const telemetryOperation = options.telemetryOperation || 'policy-analysis';
@@ -347,8 +350,13 @@ Do not include any markdown styling like \`\`\`json ... \`\`\` in your response.
         },
       };
       const response = await client.models.generateContent(request);
+      const finishReason = response.candidates?.[0]?.finishReason;
+      if (finishReason !== 'STOP' || !response.text?.trim()) {
+        const detail = finishReason === 'MAX_TOKENS' ? 'token_limit' : 'provider_stop_not_verified';
+        throw new PolicyActionHold('analysis_output_incomplete', detail);
+      }
 
-      const textResponse = response.text || '{}';
+      const textResponse = response.text;
       const cleanedText = textResponse
         .replace(/^```json/, '')
         .replace(/```$/, '')
@@ -378,13 +386,17 @@ Do not include any markdown styling like \`\`\`json ... \`\`\` in your response.
         ...normalized,
         inferenceManifest: buildPolicyAnalysisManifest({
           traceId, context: { companyName, policyName }, oldText, newText, request, rawResponse: textResponse,
-          normalizedResponse: normalized, attempt,
+          normalizedResponse: normalized, attempt, responseFinishReason: finishReason,
           promptVersion: AI_ANALYSIS_PROMPT_VERSION,
           schemaVersion: POLICY_ANALYSIS_SCHEMA_VERSION,
         }),
       };
     } catch (error) {
       lastError = error;
+      if (error instanceof PolicyActionHold) outputHold = error;
+      else if (error instanceof GeminiStructuredOutputError || error instanceof SyntaxError) {
+        outputHold = new PolicyActionHold('analysis_output_incomplete', 'invalid_structured_output');
+      }
       const classified = classifyAiTelemetryError(error);
       await recordAiTelemetry({
         traceId,
@@ -410,6 +422,7 @@ Do not include any markdown styling like \`\`\`json ... \`\`\` in your response.
   }
 
   console.error('[Gemini] All models failed. Demo fallback is disabled:', lastError);
+  if (outputHold) throw outputHold;
   throw new Error(`Gemini analysis failed: ${getErrorMessage(lastError)}`);
 }
 

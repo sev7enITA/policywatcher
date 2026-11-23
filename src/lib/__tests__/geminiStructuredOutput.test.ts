@@ -98,7 +98,7 @@ describe('Gemini supported models and structured output', () => {
   });
 
   it('sends the provider-side JSON Schema on every analysis request', async () => {
-    mocks.generateContent.mockResolvedValue({ text: JSON.stringify(validPolicyAnalysis()) });
+    mocks.generateContent.mockResolvedValue({ candidates: [{ finishReason: 'STOP' }], text: JSON.stringify(validPolicyAnalysis()) });
 
     const result = await analyzePolicyChange('Example', 'Privacy', '', 'New policy text');
 
@@ -118,7 +118,7 @@ describe('Gemini supported models and structured output', () => {
     const newText = `${prefix}Retention lasts indefinitely.`;
     const payload = validPolicyAnalysis();
     const rawResponse = JSON.stringify(payload);
-    mocks.generateContent.mockResolvedValue({ text: rawResponse });
+    mocks.generateContent.mockResolvedValue({ candidates: [{ finishReason: 'STOP' }], text: rawResponse });
     const result = await analyzePolicyChange('Fixture', 'Privacy', oldText, newText);
     const request = mocks.generateContent.mock.calls[0][0];
     expect(request.contents).toContain(oldText);
@@ -130,11 +130,28 @@ describe('Gemini supported models and structured output', () => {
 
   it('records the successful fallback model and attempt, not the failed primary', async () => {
     mocks.generateContent.mockRejectedValueOnce(new Error('429 RESOURCE_EXHAUSTED'))
-      .mockResolvedValueOnce({ text: JSON.stringify(validPolicyAnalysis()) });
+      .mockResolvedValueOnce({ candidates: [{ finishReason: 'STOP' }], text: JSON.stringify(validPolicyAnalysis()) });
     const result = await analyzePolicyChange('Fixture', 'Privacy', 'old', 'new');
     expect(result.inferenceManifest?.model).toBe(GEMINI_MODEL_CHAIN[1]);
     expect(result.inferenceManifest?.attempt).toBe(1);
     expect(result.inferenceManifest?.requestSha256).toBe(analysisDigest(JSON.stringify(mocks.generateContent.mock.calls[1][0])));
+  });
+
+  it('rejects schema-valid content when the provider reports truncation', async () => {
+    mocks.generateContent.mockResolvedValue({
+      candidates: [{ finishReason: 'MAX_TOKENS' }], text: JSON.stringify(validPolicyAnalysis()),
+    });
+    await expect(analyzePolicyChange('Fixture', 'Privacy', 'old', 'new'))
+      .rejects.toMatchObject({ code: 'analysis_output_incomplete', detail: 'token_limit' });
+    expect(mocks.generateContent).toHaveBeenCalledTimes(GEMINI_MODEL_CHAIN.length);
+  });
+
+  it('accepts a completed fallback and records the provider stop marker', async () => {
+    const text = JSON.stringify(validPolicyAnalysis());
+    mocks.generateContent.mockResolvedValueOnce({ text }).mockResolvedValueOnce({ text, candidates: [{ finishReason: 'STOP' }] });
+    const result = await analyzePolicyChange('Fixture', 'Privacy', 'old', 'new');
+    expect(result.inferenceManifest?.attempt).toBe(1);
+    expect(result.inferenceManifest?.validation.responseFinishReason).toBe('STOP');
   });
 
   it('does not call a provider or publish a full-coverage result for over-limit input', async () => {
@@ -158,7 +175,7 @@ describe('Gemini supported models and structured output', () => {
   it('uses the supported fallback after a transient primary failure', async () => {
     mocks.generateContent
       .mockRejectedValueOnce(new Error('429 RESOURCE_EXHAUSTED'))
-      .mockResolvedValueOnce({ text: JSON.stringify(validPolicyAnalysis()) });
+      .mockResolvedValueOnce({ candidates: [{ finishReason: 'STOP' }], text: JSON.stringify(validPolicyAnalysis()) });
 
     await analyzePolicyChange('Example', 'Privacy', '', 'New policy text');
 
@@ -174,7 +191,7 @@ describe('Gemini supported models and structured output', () => {
       .mockRejectedValueOnce(new TypeError('fetch failed', {
         cause: Object.assign(new Error('socket reset'), { code: 'ECONNRESET' }),
       }))
-      .mockResolvedValueOnce({ text: JSON.stringify(validPolicyAnalysis()) });
+      .mockResolvedValueOnce({ candidates: [{ finishReason: 'STOP' }], text: JSON.stringify(validPolicyAnalysis()) });
 
     await analyzePolicyChange('Example', 'Privacy', '', 'New policy text');
 
@@ -188,8 +205,8 @@ describe('Gemini supported models and structured output', () => {
     const invalid = validPolicyAnalysis();
     invalid.regionImpacts[5] = { ...invalid.regionImpacts[0] };
     mocks.generateContent
-      .mockResolvedValueOnce({ text: JSON.stringify(invalid) })
-      .mockResolvedValueOnce({ text: JSON.stringify(validPolicyAnalysis()) });
+      .mockResolvedValueOnce({ candidates: [{ finishReason: 'STOP' }], text: JSON.stringify(invalid) })
+      .mockResolvedValueOnce({ candidates: [{ finishReason: 'STOP' }], text: JSON.stringify(validPolicyAnalysis()) });
 
     const result = await analyzePolicyChange('Example', 'Privacy', '', 'New policy text');
 

@@ -153,7 +153,8 @@ describe('admin metrics resilience', () => {
   });
 
   it('derives inventory freshness only from a completed full-scope scan', async () => {
-    await GET(new Request('https://policywatcher.online/api/admin/metrics') as never);
+    const response = await GET(new Request('https://policywatcher.online/api/admin/metrics') as never);
+    expect((await response.json()).data.sourceReliability.lastScanStatus).toBe('unverified');
 
     expect(mocks.scanFindFirst).toHaveBeenCalledWith({
       where: {
@@ -161,7 +162,7 @@ describe('admin metrics resilience', () => {
         selectedRecords: { gte: 32 },
       },
       orderBy: { startedAt: 'desc' },
-      select: { status: true, startedAt: true },
+      select: { status: true, startedAt: true, metricsJson: true },
     });
   });
 });
