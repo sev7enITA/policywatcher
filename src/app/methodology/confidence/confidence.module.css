@@ -225,3 +225,297 @@
   font-size: 0.9rem;
   line-height: 1.6;
 }
+
+/* Methodology figures use text plus shape to communicate every state. */
+.diagramLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.diagramLinks a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 6px 14px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: var(--bg-secondary);
+  color: var(--text-main);
+  font-size: 0.86rem;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.diagramLinks a:hover,
+.details summary:hover {
+  color: var(--primary);
+}
+
+.diagramLinks a:focus-visible,
+.details summary:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
+}
+
+.card[id] {
+  scroll-margin-top: 140px;
+}
+
+.iconContainer {
+  flex-shrink: 0;
+}
+
+.visual,
+.lenses {
+  margin: 16px 0 20px;
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
+.visual figcaption:first-child {
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+
+.visualNote {
+  margin: 12px 0 0;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+.scoreBands,
+.scoreBand ol,
+.inputs,
+.branches,
+.retrievalSteps,
+.lenses {
+  list-style: none;
+  padding: 0;
+}
+
+.scoreBands,
+.scoreBand ol {
+  display: grid;
+  margin: 0;
+  gap: 6px;
+}
+
+.scoreBands {
+  grid-template-columns: 3fr 3fr 4fr;
+}
+
+.scoreBand {
+  min-width: 0;
+  border-radius: 9px;
+  padding: 8px;
+  border-top: 3px solid var(--risk-low);
+  background: color-mix(in srgb, var(--risk-low) 9%, var(--bg-main));
+}
+
+.scoreBand[data-band="1"] {
+  border-color: var(--risk-medium);
+  background: color-mix(in srgb, var(--risk-medium) 11%, var(--bg-main));
+}
+
+.scoreBand[data-band="2"] {
+  border-color: var(--risk-high);
+  background: color-mix(in srgb, var(--risk-high) 9%, var(--bg-main));
+}
+
+.scoreBand ol {
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(0, 1fr);
+  margin-top: 6px;
+  gap: 3px;
+}
+
+.scoreBand ol li {
+  padding: 4px 0;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  border-radius: 4px;
+  background: var(--bg-secondary);
+}
+
+.lenses,
+.inputs,
+.branches,
+.retrievalSteps {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.inputs,
+.branches,
+.retrievalSteps {
+  margin: 0;
+}
+
+.lenses li,
+.inputs li,
+.branches li,
+.retrievalSteps li,
+.operation {
+  min-width: 0;
+  padding: 14px;
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-main);
+}
+
+.lenses li,
+.branches li {
+  display: flex;
+  gap: 10px;
+}
+
+.lenses svg,
+.branches svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+  color: var(--primary);
+}
+
+.lenses p,
+.lenses span,
+.visual li p,
+.operation p,
+.sample p {
+  margin: 3px 0 0;
+  color: var(--text-muted);
+}
+
+.lenses span {
+  display: block;
+  font-size: 0.82rem;
+}
+
+.inputs li,
+.operation {
+  text-align: center;
+}
+
+.operation {
+  font-weight: 600;
+  border-color: color-mix(in srgb, var(--primary) 55%, var(--border-color));
+}
+
+.operation p {
+  font-weight: 400;
+}
+
+.connector {
+  display: flex;
+  justify-content: center;
+  color: var(--text-muted);
+  padding: 4px 0;
+}
+
+.branches li {
+  border-inline-start: 3px solid var(--risk-low);
+}
+
+.branches li[data-review="true"] {
+  border-inline-start-color: var(--risk-medium);
+}
+
+.retrievalSteps {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 30px;
+}
+
+.retrievalSteps li {
+  position: relative;
+}
+
+.stepArrow {
+  position: absolute;
+  left: -26px;
+  top: calc(50% - 10px);
+  color: var(--text-muted);
+}
+
+.sample {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  margin-top: 14px;
+  padding: 12px 14px;
+  border-radius: 8px;
+  background: var(--bg-main);
+}
+
+.sampleCells {
+  display: grid;
+  grid-template-columns: repeat(6, 10px);
+  gap: 4px;
+}
+
+.sampleCells span {
+  height: 13px;
+  border: 1px solid var(--text-muted);
+  border-radius: 2px;
+}
+
+.sampleCells span[data-admitted="true"] {
+  background: var(--risk-medium);
+  border-color: var(--risk-medium);
+}
+
+.details {
+  border-top: 1px solid var(--border-color);
+}
+
+.details summary {
+  min-height: 44px;
+  padding: 12px 0 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.details[open] .bulletList {
+  margin-top: 8px;
+}
+
+@media (max-width: 640px) {
+  .main {
+    padding-inline: 16px;
+  }
+
+  .card {
+    padding: 17px;
+  }
+
+  .lenses,
+  .inputs,
+  .branches,
+  .retrievalSteps {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .retrievalSteps {
+    gap: 26px;
+  }
+
+  .stepArrow {
+    left: calc(50% - 10px);
+    top: -24px;
+    transform: rotate(90deg);
+  }
+
+  .sample {
+    flex-wrap: wrap;
+  }
+
+  .scoreBand {
+    padding-inline: 4px;
+  }
+
+  .scoreBand ol {
+    font-size: 0.8rem;
+  }
+}

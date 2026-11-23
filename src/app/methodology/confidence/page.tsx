@@ -18,6 +18,7 @@ import {
   RefreshCw,
 } from 'lucide-react';
 import styles from './confidence.module.css';
+import { EvidenceDiagramLinks, EvidenceVisual, MethodologyDetails, hasEvidenceDiagram } from './evidence-visuals';
 import Footer from '@/components/Footer';
 import PublicHeader from '@/components/PublicHeader';
 import { DOCUMENT_SCOPE_METHODOLOGY } from '@/lib/documentScopeCopy';
@@ -39,8 +40,9 @@ const translationContent = {
     
     // Cards / Sections
     sections: [
-      { icon: Scale, title: DOCUMENT_SCOPE_METHODOLOGY.en.title, desc: DOCUMENT_SCOPE_METHODOLOGY.en.intro, bullets: DOCUMENT_SCOPE_METHODOLOGY.en.bullets },
+      { id: 'scope', icon: Scale, title: DOCUMENT_SCOPE_METHODOLOGY.en.title, desc: DOCUMENT_SCOPE_METHODOLOGY.en.intro, bullets: DOCUMENT_SCOPE_METHODOLOGY.en.bullets },
       {
+        id: 'evidence-controls',
         icon: Eye,
         title: "Four separate questions about the evidence",
         desc: "A successful download, a matching fingerprint, a completed transaction and a convincing explanation answer different questions. None is a universal certificate:",
@@ -52,6 +54,7 @@ const translationContent = {
         ]
       },
       {
+        id: 'completeness',
         icon: ShieldCheck,
         title: "Completeness controls under local verification",
         desc: "The 22 November audit found a blind spot in the earlier heading-and-terminal contract: four of six deliberately incomplete synthetic documents were accepted. This is a targeted counterexample set, not an error rate for real policies.",
@@ -66,6 +69,7 @@ const translationContent = {
         ]
       },
       {
+        id: 'responsible-ai',
         icon: Eye,
         title: "Responsible AI: inspect, question and correct",
         desc: "Transparency means exposing what was observed, what was inferred and what remains unresolved. Human oversight needs usable evidence and the ability to withhold or correct an output:",
@@ -78,6 +82,7 @@ const translationContent = {
         ]
       },
       {
+        id: 'mapping',
         icon: Scale,
         title: '1. Informational mapping and scope',
         desc: 'PolicyWatcher tracks and maps public policy information for risk screening, benchmarking and lifecycle review. Its scope is limited to public disclosures and policy text:',
@@ -89,6 +94,7 @@ const translationContent = {
         ]
       },
       {
+        id: 'ingestion',
         icon: RefreshCw,
         title: '2. Ingestion pipeline',
         desc: 'To avoid fabricated data and expose source failures clearly, the ingestion pipeline uses a prioritized retrieval cascade:',
@@ -113,6 +119,7 @@ const translationContent = {
         ]
       },
       {
+        id: 'ai-analysis',
         icon: Cpu,
         title: '3. AI Analysis & LLM Constraints',
         desc: 'Automated reviews use configured AI models, including Google Gemini. Model outputs can be wrong; engineering constraints reduce unsupported claims and preserve a review trail rather than guaranteeing accuracy:',
@@ -124,6 +131,7 @@ const translationContent = {
         ]
       },
       {
+        id: 'traceability',
         icon: Eye,
         title: '4. Traceability Controls & Evidence',
         desc: 'PolicyWatcher exposes the following traceability elements in the interface:',
@@ -146,6 +154,7 @@ const translationContent = {
         ]
       },
       {
+        id: 'workspace',
         icon: ShieldCheck,
         title: '5. Adaptive Workspace & Public Surfaces',
         desc: `Release ${POLICYWATCHER_VERSION} combines shared document scope with protected operational-readiness presentation and bounded measurement without changing public evidence rules or server-side authorization.`,
@@ -176,6 +185,7 @@ const translationContent = {
         ]
       },
       {
+        id: 'limitations',
         icon: FileWarning,
         title: '6. Known Limitations & Risks',
         desc: 'Users and legal teams must be aware of the following platform boundaries:',
@@ -206,8 +216,9 @@ const translationContent = {
     
     // Cards / Sections
     sections: [
-      { icon: Scale, title: DOCUMENT_SCOPE_METHODOLOGY.it.title, desc: DOCUMENT_SCOPE_METHODOLOGY.it.intro, bullets: DOCUMENT_SCOPE_METHODOLOGY.it.bullets },
+      { id: 'scope', icon: Scale, title: DOCUMENT_SCOPE_METHODOLOGY.it.title, desc: DOCUMENT_SCOPE_METHODOLOGY.it.intro, bullets: DOCUMENT_SCOPE_METHODOLOGY.it.bullets },
       {
+        id: 'evidence-controls',
         icon: Eye,
         title: "Quattro domande distinte sulle evidenze",
         desc: "Un download riuscito, un hash coincidente, una transazione conclusa e una spiegazione convincente rispondono a domande diverse. Nessuno di questi elementi è un certificato universale:",
@@ -219,6 +230,7 @@ const translationContent = {
         ]
       },
       {
+        id: 'completeness',
         icon: ShieldCheck,
         title: "Controlli di completezza in verifica locale",
         desc: "L’audit del 22 novembre ha individuato un limite del precedente contratto basato su intestazioni e termine atteso: accettava quattro documenti sintetici intenzionalmente incompleti su sei. È un insieme mirato di controesempi, non il tasso di errore delle policy reali.",
@@ -233,6 +245,7 @@ const translationContent = {
         ]
       },
       {
+        id: 'responsible-ai',
         icon: Eye,
         title: "IA responsabile: ispezionare, contestare e correggere",
         desc: "Trasparenza significa distinguere osservazioni, inferenze e questioni irrisolte. La supervisione umana richiede evidenze utilizzabili e la possibilità di sospendere o correggere un risultato:",
@@ -245,6 +258,7 @@ const translationContent = {
         ]
       },
       {
+        id: 'mapping',
         icon: Scale,
         title: '1. Mappatura informativa e ambito',
         desc: 'PolicyWatcher traccia e organizza informazioni pubbliche sulle policy per screening dei rischi, benchmarking e revisione del ciclo di vita. L’ambito è limitato alle dichiarazioni pubbliche e ai testi delle policy:',
@@ -256,6 +270,7 @@ const translationContent = {
         ]
       },
       {
+        id: 'ingestion',
         icon: RefreshCw,
         title: '2. Pipeline di ingestione',
         desc: 'Per evitare dati inventati ed esporre chiaramente i fallimenti di recupero, il sistema utilizza una cascata di acquisizione:',
@@ -280,6 +295,7 @@ const translationContent = {
         ]
       },
       {
+        id: 'ai-analysis',
         icon: Cpu,
         title: '3. Analisi IA e Limiti dei Modelli (LLM)',
         desc: 'Le analisi automatiche usano modelli IA configurati, tra cui Google Gemini. Gli output possono essere errati: i vincoli ingegneristici riducono le affermazioni non supportate e conservano una traccia revisionabile, senza garantire accuratezza:',
@@ -291,6 +307,7 @@ const translationContent = {
         ]
       },
       {
+        id: 'traceability',
         icon: Eye,
         title: '4. Controlli di Tracciabilità ed Evidenze',
         desc: 'PolicyWatcher espone i seguenti elementi di tracciabilità nell\'interfaccia:',
@@ -313,6 +330,7 @@ const translationContent = {
         ]
       },
       {
+        id: 'workspace',
         icon: ShieldCheck,
         title: '5. Workspace adattivo e superfici pubbliche',
         desc: `La release ${POLICYWATCHER_VERSION} combina ambito documentale condiviso, presentazione della readiness operativa protetta e misurazione circoscritta senza cambiare le regole di evidenza pubblica o l autorizzazione server-side.`,
@@ -340,6 +358,7 @@ const translationContent = {
         ]
       },
       {
+        id: 'limitations',
         icon: FileWarning,
         title: '6. Limitazioni Note e Rischi',
         desc: 'Gli utenti e i team legali devono essere consapevoli dei seguenti limiti dello strumento:',
@@ -407,24 +426,24 @@ export default async function MethodologyConfidence({ searchParams }: Props) {
           </div>
         </div>
 
+        <EvidenceDiagramLinks lang={lang} />
+
         <div className={styles.sectionsGrid}>
-          {t.sections.map((section, idx) => {
+          {t.sections.map(section => {
             const Icon = section.icon;
+            const sectionId = section.id;
             return (
-              <div key={idx} className={styles.card}>
+              <section id={sectionId} key={sectionId} className={styles.card} aria-labelledby={`${sectionId}-title`}>
                 <div className={styles.cardHeader}>
                   <div className={styles.iconContainer}>
                     <Icon size={20} />
                   </div>
-                  <h2>{section.title}</h2>
+                  <h2 id={`${sectionId}-title`}>{section.title}</h2>
                 </div>
                 <p className={styles.cardDesc}>{section.desc}</p>
-                <ul className={styles.bulletList}>
-                  {section.bullets.map((bullet, bIdx) => (
-                    <li key={bIdx}>{bullet}</li>
-                  ))}
-                </ul>
-              </div>
+                <EvidenceVisual lang={lang} section={sectionId} />
+                <MethodologyDetails lang={lang} bullets={section.bullets} collapsible={hasEvidenceDiagram(sectionId)} />
+              </section>
             );
           })}
         </div>
