@@ -22,6 +22,7 @@ import { randomUUID } from 'crypto';
 import { buildPolicyAnalysisPrompt, buildPolicyAnalysisManifest, type PolicyAnalysisManifest } from '@/lib/policyAnalysisManifest';
 import { GoogleGenAI } from '@google/genai';
 import { normalizeKpiFields, type KpiField } from '@/lib/kpiDefaults';
+import { PolicyActionHold } from '@/lib/policyActionCompletion';
 import { anchorRiskReasonEvidence } from '@/lib/riskReasonEvidence';
 import {
   GeminiStructuredOutputError,
@@ -69,10 +70,6 @@ function allowDemoAiFallback(): boolean {
   return process.env.ALLOW_DEMO_AI_FALLBACK === 'true';
 }
 
-function getErrorMessage(error: unknown): string {
-  return error instanceof Error ? error.message : String(error);
-}
-
 /**
  * Ordered model fallback chain. If the primary model is overloaded (503)
  * or rate-limited (429), we retry with the next model in the list.
@@ -97,6 +94,7 @@ export interface PolicyAnalysisOptions {
 function shouldTryNextModel(error: unknown): boolean {
   return (
     isTransientAiError(error) ||
+    error instanceof PolicyActionHold ||
     error instanceof GeminiStructuredOutputError ||
     error instanceof SyntaxError
   );
@@ -219,9 +217,7 @@ export async function analyzePolicyChange(
   const apiKey = getApiKey();
   if (!apiKey) {
     if (!allowDemoAiFallback()) {
-      throw new Error(
-        'GEMINI_API_KEY is not configured. AI analysis is disabled because demo fallback is off.'
-      );
+      throw new PolicyActionHold('analysis_execution_failed', 'provider_not_configured');
     }
 
     console.warn('GEMINI_API_KEY is not defined. Returning mock analysis because ALLOW_DEMO_AI_FALLBACK=true.');
@@ -328,6 +324,7 @@ Do not include any markdown styling like \`\`\`json ... \`\`\` in your response.
   // Try each model in the fallback chain until one succeeds.
   const client = getClient();
   let lastError: unknown = null;
+  let outputHold: PolicyActionHold | undefined;
   const traceId = options.traceId || randomUUID();
   const modelChain = options.modelChain?.length ? options.modelChain : GEMINI_MODEL_CHAIN;
   const telemetryOperation = options.telemetryOperation || 'policy-analysis';
@@ -347,8 +344,13 @@ Do not include any markdown styling like \`\`\`json ... \`\`\` in your response.
         },
       };
       const response = await client.models.generateContent(request);
+      const finishReason = response.candidates?.[0]?.finishReason;
+      if (finishReason !== 'STOP' || !response.text?.trim()) {
+        const detail = finishReason === 'MAX_TOKENS' ? 'token_limit' : 'provider_stop_not_verified';
+        throw new PolicyActionHold('analysis_output_incomplete', detail);
+      }
 
-      const textResponse = response.text || '{}';
+      const textResponse = response.text;
       const cleanedText = textResponse
         .replace(/^```json/, '')
         .replace(/```$/, '')
@@ -378,13 +380,17 @@ Do not include any markdown styling like \`\`\`json ... \`\`\` in your response.
         ...normalized,
         inferenceManifest: buildPolicyAnalysisManifest({
           traceId, context: { companyName, policyName }, oldText, newText, request, rawResponse: textResponse,
-          normalizedResponse: normalized, attempt,
+          normalizedResponse: normalized, attempt, responseFinishReason: finishReason,
           promptVersion: AI_ANALYSIS_PROMPT_VERSION,
           schemaVersion: POLICY_ANALYSIS_SCHEMA_VERSION,
         }),
       };
     } catch (error) {
       lastError = error;
+      if (error instanceof PolicyActionHold) outputHold = error;
+      else if (error instanceof GeminiStructuredOutputError || error instanceof SyntaxError) {
+        outputHold = new PolicyActionHold('analysis_output_incomplete', 'invalid_structured_output');
+      }
       const classified = classifyAiTelemetryError(error);
       await recordAiTelemetry({
         traceId,
@@ -410,7 +416,8 @@ Do not include any markdown styling like \`\`\`json ... \`\`\` in your response.
   }
 
   console.error('[Gemini] All models failed. Demo fallback is disabled:', lastError);
-  throw new Error(`Gemini analysis failed: ${getErrorMessage(lastError)}`);
+  if (outputHold) throw outputHold;
+  throw new PolicyActionHold('analysis_execution_failed', classifyAiTelemetryError(lastError).errorCode);
 }
 
 /**

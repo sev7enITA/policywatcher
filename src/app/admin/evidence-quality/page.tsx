@@ -4,12 +4,16 @@ import Link from 'next/link';
 import styles from './evidence-quality.module.css';
 import ReviewedEvidenceMetrics from '@/components/admin/ReviewedEvidenceMetrics';
 import type { ReviewedChange } from '@/lib/evidenceQuality';
+import type { ChangeComparisonStatus } from '@/lib/changeClassificationTypes';
+import { COMPARISON_STATUS_LABELS } from '@/lib/changeClassificationCopy';
 
 type Reference = { id: string; service: string; title: string; commitSha: string; blobId: string; recordedAt: string;
   referenceUrl: string; status: string; jurisdiction: string; attribution: string; license: string };
 type Data = { role: string; references: Reference[]; referenceScope: string;
   policies: { id: string; name: string; jurisdiction: string; company: { name: string } }[];
   changes: { id: string; policy: { name: string; company: { name: string } } }[];
+  actionHolds: { id: string; reason: string; reasonCode: string; checkedAt: string; scanRunId: string | null;
+    policy: { name: string; jurisdiction: string; company: { name: string } } }[];
   held: { policyId: string; reason: string; checkedAt: string; policy: { name: string; currentHash: string } }[] };
 
 export default function EvidenceQualityPage() {
@@ -17,7 +21,8 @@ export default function EvidenceQualityPage() {
   const [message, setMessage] = useState('');
   const [busy, setBusy] = useState(false);
   const [changeId, setChangeId] = useState('');
-  const [evidence, setEvidence] = useState<{ change: ReviewedChange; evidenceHash: string } | null>(null);
+  const [evidence, setEvidence] = useState<{ change: ReviewedChange; evidenceHash: string;
+    comparison: { status: ChangeComparisonStatus; reason: string; ranges: number; unresolvedRanges: number } } | null>(null);
   const [metric, setMetric] = useState('substantive_change');
   const [verdict, setVerdict] = useState('unassessed');
   const [claim, setClaim] = useState(''); const [quote, setQuote] = useState('');
@@ -74,6 +79,9 @@ export default function EvidenceQualityPage() {
       <button type="button" disabled={!changeId || busy} onClick={inspect}>Load evidence</button>
       {evidence && <>
         <p>Evidence fingerprint: <code>{evidence.evidenceHash}</code></p>
+        <p data-comparison-status={evidence.comparison.status}><strong>{COMPARISON_STATUS_LABELS.en[evidence.comparison.status]}</strong>
+          {' · '}{evidence.comparison.ranges} changed ranges · {evidence.comparison.unresolvedRanges} unresolved blocks
+          {' · '}<code>{evidence.comparison.reason}</code></p>
         <details><summary>AI summaries and before/after source passages</summary>
           <h3>AI summary</h3><p style={{ whiteSpace: 'pre-wrap' }}>{evidence.change.aiSummaryEn}</p><p>{evidence.change.aiSummaryIt}</p>
           <h3>Before</h3><pre style={{ whiteSpace: 'pre-wrap', maxHeight: 300, overflow: 'auto' }}>{evidence.change.oldSnapshot?.text || 'No baseline'}</pre>
@@ -90,6 +98,16 @@ export default function EvidenceQualityPage() {
         <label>Review rationale<textarea maxLength={2000} value={note} onChange={e => setNote(e.target.value)} /></label>
         <button type="button" disabled={disabled || note.trim().length < 10} onClick={() => post({ changeId, evidenceHash: evidence.evidenceHash, metric, verdict, claim, quote, note })}>Save human review</button>
       </>}
+    </section>
+    <section style={box}>
+      <h2>Analysis and comparison holds</h2>
+      <p>Latest 50 saved holds. The last verified baseline stays in force while a new assessment is on hold.</p>
+      {data && !data.actionHolds.length && <p>No action holds recorded in this history.</p>}
+      {data?.actionHolds.map(hold => <article key={hold.id}>
+        <strong>{hold.policy.company.name} · {hold.policy.name} · {hold.policy.jurisdiction}</strong>
+        <p><time dateTime={hold.checkedAt}>{hold.checkedAt}</time>{' · '}<code>{hold.reasonCode}</code></p>
+        <p>{hold.reason}{hold.scanRunId && <> · Run <code>{hold.scanRunId}</code></>}</p>
+      </article>)}
     </section>
     <section style={box}>
       <h2>External extraction comparison</h2>

@@ -2,6 +2,8 @@ import { publicChangeFields } from './publicChangeFields';
 import { createHash } from 'node:crypto';
 import { compareSnapshotText, type ChangeHunk } from './policyChangeHunks';
 import { KPI_FIELD_KEYS } from './metricsCatalog';
+import { comparisonStatusOf } from './changeClassificationTypes';
+import { PolicyActionHold } from './policyActionCompletion';
 import type { ChangeClassification, ChangeClassificationReason, ChangeEvidence, ChangeExcerpt, ChangeKind } from './changeClassificationTypes';
 
 export const classificationSnapshotSelect = { id: true, policyId: true, text: true, publicEvidence: true, version: true } as const;
@@ -41,7 +43,7 @@ export function classifyPolicyChange(input: Input): ChangeClassification {
   const old = input.oldSnapshot;
   const next = input.newSnapshot;
   const base = (kind: ChangeKind, reason: ChangeClassificationReason): ChangeClassification => ({
-    version: '1.0', kind, reason, impact: 'not_assessed', compared: false,
+    version: '1.0', kind, reason, impact: 'not_assessed', compared: false, comparisonStatus: 'incomplete',
     oldHash: null, newHash: null, oldVersion: null, newVersion: null, totalHunks: 0, evidence: [],
   });
   if (!old?.publicEvidence || !next?.publicEvidence || !old.text?.trim() || !next.text?.trim()
@@ -57,6 +59,7 @@ export function classifyPolicyChange(input: Input): ChangeClassification {
   if (cached) return structuredClone(cached);
   const result = { ...base('needs_review', 'unverified_meaning'), oldHash, newHash, oldVersion: old.version ?? null, newVersion: next.version ?? null };
   const save = () => {
+    result.comparisonStatus = comparisonStatusOf(result);
     if (cache.size >= 64) cache.delete(cache.keys().next().value!);
     cache.set(key, structuredClone(result));
     return result;
@@ -109,6 +112,15 @@ export function classifyPolicyChange(input: Input): ChangeClassification {
   if (editorial) Object.assign(result, { kind: 'editorial', reason: 'presentation_only' });
   else if (anchor) Object.assign(result, { kind: 'substantive', reason: 'changed_clause_anchor' });
   return save();
+}
+
+export function requireCompleteComparison(classification: ChangeClassification): ChangeClassification {
+  const status = comparisonStatusOf(classification);
+  if (status !== 'complete') {
+    const detail = status === 'partial' ? `unresolved_blocks:${classification.blockHunks}` : classification.reason;
+    throw new PolicyActionHold('comparison_incomplete', detail);
+  }
+  return classification;
 }
 
 /** Keep full snapshot texts on the server for list endpoints. */

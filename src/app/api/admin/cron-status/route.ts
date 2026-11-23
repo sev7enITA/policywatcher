@@ -144,8 +144,9 @@ export async function POST(request: NextRequest) {
       cronState.lastResult = result as unknown as Record<string, unknown>;
       cronState.lastCompletedAt = new Date().toISOString();
       cronState.lastError = null;
-      cronState.progressActivity = `Scan complete: ${result.checked} checked, ${result.changed} changed, ${result.confirmationPending} awaiting confirmation, ${result.rebaselined} re-baselined, ${result.partial} partial, ${result.errors} errors.`;
-      cronState.progressLog.push(formatScanCompletionLog(result));
+      const completionSummary = formatScanCompletionLog(result);
+      cronState.progressActivity = completionSummary;
+      cronState.progressLog.push(completionSummary);
     })
     .catch((err) => {
       const errorMessage = err instanceof Error ? err.message : String(err);

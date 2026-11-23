@@ -1,7 +1,9 @@
 import { diffWordsWithSpace } from 'diff';
 import { describe, expect, it } from 'vitest';
-import { classifyPolicyChange } from '../changeClassification';
-import { compareSnapshotText, type ChangeHunk } from '../policyChangeHunks';
+import { classifyPolicyChange, requireCompleteComparison } from '../changeClassification';
+import { buildVerifiedPolicyDiff, compareSnapshotText, type ChangeHunk } from '../policyChangeHunks';
+import { shouldNotifyChange } from '../changeClassificationTypes';
+import { reconcilePolicyActionReceipts } from '../policyActionCompletion';
 
 function pair(oldText: string, newText: string, evidenceQuote?: string) {
   return {
@@ -37,7 +39,10 @@ describe('bounded comparison recovery', () => {
     expect(hunks.every(hunk => hunk.precision === undefined)).toBe(true);
     expectExactAlignment(before, after, hunks);
     const result = classifyPolicyChange(pair(before, after));
-    expect(result).toMatchObject({ compared: true, oldVersion: 5, newVersion: 6, totalHunks: 300, kind: 'needs_review' });
+    expect(result).toMatchObject({ compared: true, comparisonStatus: 'complete', oldVersion: 5, newVersion: 6, totalHunks: 300, kind: 'needs_review' });
+    const stored = JSON.parse(buildVerifiedPolicyDiff(before, after)) as { value: string; added?: boolean; removed?: boolean }[];
+    expect(stored.filter(p => !p.added).map(p => p.value).join('')).toBe(before);
+    expect(stored.filter(p => !p.removed).map(p => p.value).join('')).toBe(after);
     expect(result.evidence[0].before.text).toBe(before.slice(result.evidence[0].before.start, result.evidence[0].before.end));
     expect(result.evidence[0].after.text).toBe(after.slice(result.evidence[0].after.start, result.evidence[0].after.end));
   });
@@ -50,7 +55,9 @@ describe('bounded comparison recovery', () => {
     expect(hunks[0]).toMatchObject({ oldStart: 6, newStart: 6, precision: 'block' });
     expectExactAlignment(before, after, hunks);
     const result = classifyPolicyChange(pair(before, after, 'new purpose and retention schedule'));
-    expect(result).toMatchObject({ compared: true, blockHunks: 1, reason: 'unverified_meaning' });
+    expect(result).toMatchObject({ compared: true, comparisonStatus: 'partial', blockHunks: 1, reason: 'unverified_meaning' });
+    expect(shouldNotifyChange(result)).toBe(false);
+    expect(() => requireCompleteComparison(result)).toThrow('comparison_incomplete:unresolved_blocks:1');
     expect(result.evidence[0].precision).toBe('block');
     expect(result.evidence[0].anchoredQuote).toBeUndefined();
   });
@@ -62,6 +69,7 @@ describe('bounded comparison recovery', () => {
     expect(hunks).toHaveLength(1);
     expect(hunks[0]).toMatchObject({ oldStart: 13, newStart: 13, precision: 'block' });
     expectExactAlignment(before, after, hunks);
+    expect(() => buildVerifiedPolicyDiff(before, after)).toThrow('comparison_incomplete:full_diff_edit_limit');
   });
 
   it('handles documents beyond the previous length limit and preserves the public-pair gate', () => {
@@ -70,6 +78,17 @@ describe('bounded comparison recovery', () => {
     expect(input.oldSnapshot.text.length).toBeGreaterThan(500_000);
     expect(classifyPolicyChange(input)).toMatchObject({ compared: true, totalHunks: 1 });
     const privatePair = { ...input, oldSnapshot: { ...input.oldSnapshot, publicEvidence: false } };
-    expect(classifyPolicyChange(privatePair)).toMatchObject({ compared: false, reason: 'missing_public_pair', evidence: [] });
+    const incomplete = classifyPolicyChange(privatePair);
+    expect(incomplete).toMatchObject({ compared: false, comparisonStatus: 'incomplete', reason: 'missing_public_pair', evidence: [] });
+    expect(shouldNotifyChange(incomplete)).toBe(false);
+  });
+});
+
+describe('durable action receipts', () => {
+  it('fails receipt reconciliation even if the number of rows matches the plan', () => {
+    expect(reconcilePolicyActionReceipts(['a', 'b', 'c'], [
+      { policyId: 'a' }, { policyId: 'a' }, { policyId: 'd' },
+    ])).toMatchObject({ complete: false, missing: ['b', 'c'], duplicate: ['a'], unexpected: ['d'] });
+    expect(reconcilePolicyActionReceipts(['a', 'b'], [{ policyId: 'b' }, { policyId: 'a' }]).complete).toBe(true);
   });
 });

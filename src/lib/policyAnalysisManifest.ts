@@ -1,4 +1,5 @@
 import { createHash } from 'node:crypto';
+import { PolicyActionHold } from './policyActionCompletion';
 
 // Matches the extraction ceiling. This is an application limit, not a token
 // estimate or a claim about the provider's attention to the supplied text.
@@ -10,10 +11,10 @@ export function analysisDigest(value: string): string {
 }
 
 export function assertCompleteAnalysisInput(oldText: string, newText: string): void {
-  if (!newText.trim()) throw new Error('analysis_input_empty');
+  if (!newText.trim()) throw new PolicyActionHold('analysis_input_incomplete', 'analysis_input_empty');
   for (const [side, text] of [['old', oldText], ['new', newText]] as const) {
     if (text.length > MAX_ANALYSIS_DOCUMENT_CHARS) {
-      throw new Error(`analysis_input_limit:${side}:${text.length}:coverage_incomplete`);
+      throw new PolicyActionHold('analysis_input_incomplete', `analysis_input_limit:${side}:${text.length}:coverage_incomplete`);
     }
   }
 }
@@ -44,6 +45,7 @@ export function buildPolicyAnalysisManifest(input: {
   promptVersion: string;
   schemaVersion: string;
   attempt: number;
+  responseFinishReason?: 'STOP';
 }) {
   assertCompleteAnalysisInput(input.oldText, input.newText);
   const { systemInstruction, ...generationConfig } = input.request.config;
@@ -77,11 +79,29 @@ export function buildPolicyAnalysisManifest(input: {
     rawResponse: input.rawResponse,
     rawResponseSha256: analysisDigest(input.rawResponse),
     normalizedResponseSha256: analysisDigest(JSON.stringify(input.normalizedResponse)),
-    validation: { structuredSchema: 'passed', normalization: 'applied' },
+    validation: {
+      structuredSchema: 'passed', normalization: 'applied',
+      ...(input.responseFinishReason ? { responseFinishReason: input.responseFinishReason } : {}),
+    },
   } as const;
 }
 
 export type PolicyAnalysisManifest = ReturnType<typeof buildPolicyAnalysisManifest>;
+
+/** Check the finished response is bound to the exact inputs and normalized output before committing. */
+export function assertVerifiedAnalysisExecution<T extends { inferenceManifest?: PolicyAnalysisManifest }>(
+  result: T, oldText: string, newText: string, traceId: string,
+) {
+  const { inferenceManifest, ...normalized } = result;
+  if (inferenceManifest?.validation?.responseFinishReason !== 'STOP') {
+    throw new PolicyActionHold('analysis_output_incomplete', 'completion_receipt_missing');
+  }
+  if (inferenceManifest.traceId !== traceId
+    || !verifyPolicyAnalysisManifest(inferenceManifest, oldText, newText).valid
+    || inferenceManifest.normalizedResponseSha256 !== analysisDigest(JSON.stringify(normalized))) {
+    throw new PolicyActionHold('analysis_output_incomplete', 'completion_receipt_mismatch');
+  }
+}
 
 /** Reconstructs the SDK request from retained templates and immutable snapshots. */
 export function verifyPolicyAnalysisManifest(manifest: PolicyAnalysisManifest, oldText: string, newText: string) {

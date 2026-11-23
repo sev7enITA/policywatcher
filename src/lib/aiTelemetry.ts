@@ -139,6 +139,9 @@ export function classifyAiTelemetryError(error: unknown): {
 } {
   const name = error instanceof Error ? error.name : '';
   const message = errorFingerprint(error);
+  if (name === 'PolicyActionHold' && message.includes('analysis_output_incomplete')) {
+    return { outcome: 'structured-output-error', errorCode: 'analysis_output_incomplete' };
+  }
   if (name === 'GeminiStructuredOutputError' || name === 'SyntaxError') {
     return { outcome: 'structured-output-error', errorCode: 'invalid_structured_output' };
   }

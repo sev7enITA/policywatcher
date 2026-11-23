@@ -128,6 +128,8 @@ const translationContent = {
         title: '4. Traceability Controls & Evidence',
         desc: 'PolicyWatcher exposes the following traceability elements in the interface:',
         bullets: [
+          'Execution evidence for stable screening: the provider must confirm that generation ended, and the stored comparison must reconstruct both original texts. An incomplete analysis or comparison creates an operational hold while the last verified baseline stays in force.',
+          'Atomic commit: an assessment may advance the baseline only if the starting fingerprint still matches. A scheduled run also reconciles one saved outcome per selected policy before allowing notification dispatch.',
           'Configured URL: Direct link to the source document monitored.',
           'Ingestion method: indication of whether the current record was seeded, directly retrieved, fetched via HTTP/2, rendered through the VPS service, or recovered through an archive source.',
           'Scan timestamps: policy detail views expose Last Checked and Last Successful Fetch values when recorded.',
@@ -295,6 +297,8 @@ const translationContent = {
         title: '4. Controlli di Tracciabilità ed Evidenze',
         desc: 'PolicyWatcher espone i seguenti elementi di tracciabilità nell\'interfaccia:',
         bullets: [
+          'Evidenze di esecuzione per lo screening stabile: il provider deve confermare la fine della generazione e il confronto salvato deve ricostruire entrambi i testi originali. Se analisi o confronto sono incompleti, si registra un blocco operativo e resta in vigore l’ultima baseline verificata.',
+          'Commit atomico: la valutazione può aggiornare la baseline solo se l’impronta di partenza corrisponde ancora. Una scansione pianificata verifica inoltre un esito salvato per ogni policy selezionata prima di consentire l’invio delle notifiche.',
           'URL Configurato: Link diretto al documento sorgente monitorato.',
           'Metodo di ingestione: indicazione se il record corrente deriva da seed, recupero diretto, HTTP/2, renderer VPS o fonte archivio.',
           'Timestamp scansioni: le viste di dettaglio mostrano Ultimo Controllo e Ultimo Check Riuscito quando registrati.',

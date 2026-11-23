@@ -1,4 +1,10 @@
-import type { ChangeClassification, ChangeClassificationReason, ChangeKind } from './changeClassificationTypes';
+import type { ChangeClassification, ChangeClassificationReason, ChangeComparisonStatus, ChangeKind } from './changeClassificationTypes';
+import { comparisonStatusOf } from './changeClassificationTypes';
+
+export const COMPARISON_STATUS_LABELS: Record<'en' | 'it', Record<ChangeComparisonStatus, string>> = {
+  en: { complete: 'Comparison complete', partial: 'Comparison partial', incomplete: 'Comparison not completed' },
+  it: { complete: 'Confronto completato', partial: 'Confronto parziale', incomplete: 'Confronto non completato' },
+};
 
 export const CHANGE_KIND_LABELS: Record<'en' | 'it', Record<ChangeKind, string>> = {
   en: { substantive: 'Potentially substantive', editorial: 'Editorial revision', unchanged: 'Unchanged content', needs_review: 'Needs verification' },
@@ -25,5 +31,8 @@ const REASONS: Record<'en' | 'it', Record<ChangeClassificationReason, string>> =
 };
 
 export function changeClassificationDescription(classification: ChangeClassification | null | undefined, lang: 'en' | 'it'): string {
+  if (comparisonStatusOf(classification) === 'partial') return lang === 'it'
+    ? 'Il confronto ha individuato differenze nei testi archiviati. Alcuni blocchi richiedono ancora un confronto di dettaglio.'
+    : 'The comparison found differences in the archived texts. Some blocks still need closer comparison.';
   return REASONS[lang][classification?.reason ?? 'missing_public_pair'];
 }

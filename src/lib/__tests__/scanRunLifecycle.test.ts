@@ -33,7 +33,7 @@ describe('durable scan-run lifecycle', () => {
   it('holds a unique renewable lease and clears it on ordinary completion', async () => {
     const result = await runFullScan(undefined, { limit: 5 });
 
-    expect(result).toMatchObject({ scanRunId: 'scan-1', selected: 0, checked: 0 });
+    expect(result).toMatchObject({ scanRunId: 'scan-1', selected: 0, checked: 0, execution: 'complete', actionReceipts: { complete: true, planned: 0, receipts: 0 } });
     expect(mocks.scanCreate).toHaveBeenCalledWith({ data: expect.objectContaining({
       status: 'running', leaseKey: 'policy-scan', leaseExpiresAt: expect.any(Date),
     }) });
@@ -42,7 +42,7 @@ describe('durable scan-run lifecycle', () => {
       data: { leaseExpiresAt: expect.any(Date) },
     }));
     expect(mocks.scanUpdate).toHaveBeenLastCalledWith({
-      where: { id: 'scan-1' },
+      where: expect.objectContaining({ id: 'scan-1', status: 'running', leaseKey: 'policy-scan' }),
       data: expect.objectContaining({ status: 'completed', leaseKey: null, leaseExpiresAt: null }),
     });
   });

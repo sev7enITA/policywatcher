@@ -11,7 +11,9 @@ export function publicAnalysisLineage(input: {
   newSnapshot: Snapshot;
 }) {
   const boundary = 'Hash verification links retained inputs and the application SDK request. It does not prove provider execution, semantic completeness or legal correctness.';
-  const unavailable = (status: 'not_recorded' | 'unverifiable' | 'mismatch') => ({ status, inputCoverage: 'unknown' as const, semanticCoverage: 'not_measured' as const, boundary });
+  const unavailable = (status: 'not_recorded' | 'unverifiable' | 'mismatch') => ({
+    status, inputCoverage: 'unknown' as const, semanticCoverage: 'not_measured' as const, generationCompletion: 'unverified' as const, boundary,
+  });
   if (!input.evidenceJson) return unavailable('not_recorded');
   if (!input.newSnapshot.publicEvidence || (input.oldSnapshot && !input.oldSnapshot.publicEvidence)) return unavailable('unverifiable');
   try {
@@ -32,6 +34,7 @@ export function publicAnalysisLineage(input: {
       schemaVersion: manifest.schemaVersion,
       inputCoverage: manifest.inputCoverage,
       semanticCoverage: manifest.semanticCoverage,
+      generationCompletion: manifest.validation?.responseFinishReason === 'STOP' ? 'provider_stop_recorded' as const : 'unverified' as const,
       documents: { old: manifest.oldDocument, new: manifest.newDocument },
       boundary,
     };

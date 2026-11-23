@@ -5,6 +5,7 @@
  * action center. Accessible by both admin and auditor roles.
  */
 
+import { scanExecutionStatus } from '@/lib/policyActionCompletion';
 import { NextRequest, NextResponse } from 'next/server';
 import { getSession } from '@/lib/adminAuth';
 import { db } from '@/lib/db';
@@ -92,13 +93,12 @@ export async function GET(request: NextRequest) {
     try {
       const lastScan = await db.scanRun.findFirst({
         where: {
-          status: 'completed',
           selectedRecords: { gte: policyCount },
         },
         orderBy: { startedAt: 'desc' },
-        select: { status: true, startedAt: true },
+        select: { status: true, startedAt: true, metricsJson: true },
       });
-      latestScanStatus = lastScan?.status || null;
+      latestScanStatus = lastScan ? scanExecutionStatus(lastScan.status, lastScan.metricsJson) : null;
       latestScanAt = lastScan?.startedAt || null;
     } catch (error) {
       scanMetricAvailable = false;

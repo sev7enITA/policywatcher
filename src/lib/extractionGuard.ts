@@ -79,11 +79,13 @@ export async function guardExtraction(policy: PolicyInput, result: ScrapeResult)
 }
 
 /** Persist only an input that corresponds exactly to a committed baseline. */
-export async function anchorCommittedExtraction(policyId: string, result: ScrapeResult) {
+export async function anchorCommittedExtraction(
+  policyId: string, result: ScrapeResult, store: Pick<typeof db, 'policy' | 'extractionBaseline'> = db,
+) {
   if (!extractionGuardEnabled() || !result.extraction || result.partial || !LIVE.has(result.source)) return;
-  const current = await db.policy.findUnique({ where: { id: policyId } });
+  const current = await store.policy.findUnique({ where: { id: policyId } });
   if (current?.currentHash !== result.hash) return;
-  await db.extractionBaseline.upsert({
+  await store.extractionBaseline.upsert({
     where: { policyId }, create: { policyId, baselineHash: result.hash, ...result.extraction, capturedAt: new Date() },
     update: { baselineHash: result.hash, ...result.extraction, capturedAt: new Date() },
   });

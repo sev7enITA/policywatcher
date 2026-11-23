@@ -49,6 +49,7 @@ import type { Metadata } from 'next';
 import { publicChangeWhere } from '@/lib/publicDataGate';
 import { PUBLIC_ANALYSIS_DISCLAIMER_COMPACT } from '@/lib/publicAnalysisDisclaimer';
 import { POLICYWATCHER_CANONICAL_ORIGIN } from '@/lib/siteOrigin';
+import { publicAnalysisLineage } from '@/lib/publicAnalysisLineage';
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
@@ -87,8 +88,8 @@ const getChangeRecord = cache(async (id: string) => {
         },
       },
       regionImpacts: true,
-      oldSnapshot: { select: { ...classificationSnapshotSelect, createdAt: true } },
-      newSnapshot: { select: { ...classificationSnapshotSelect, createdAt: true } },
+      oldSnapshot: { select: { ...classificationSnapshotSelect, createdAt: true, hash: true } },
+      newSnapshot: { select: { ...classificationSnapshotSelect, createdAt: true, hash: true } },
     },
   });
 });
@@ -149,6 +150,10 @@ export default async function ChangePage({
 
   const classification = classifyPolicyChange(change);
   const score = change.overallScore;
+  const analysisCompletion = publicAnalysisLineage({
+    evidenceJson: change.analysisEvidenceJson, requestHash: change.analysisInputHash,
+    traceId: change.analysisTraceId, oldSnapshot: change.oldSnapshot, newSnapshot: change.newSnapshot,
+  }).generationCompletion;
   const risk = change.overallRisk;
   const screeningDate = change.createdAt.toISOString().split('T')[0];
   const scoreColor =
@@ -296,6 +301,9 @@ export default async function ChangePage({
           <h2 className={styles.sectionTitle}>
             <ShieldAlert size={14} /> {t.aiSummaryTitle}
           </h2>
+          <p data-analysis-completion={analysisCompletion}><strong>{analysisCompletion === 'provider_stop_recorded'
+            ? (isIt ? 'Fine della generazione attestata dal provider' : 'Provider termination recorded')
+            : (isIt ? 'Fine della generazione non verificabile' : 'Generation termination unverified')}</strong></p>
           <p>{isIt ? 'Analisi automatica conservata con il record: può non descrivere correttamente questa revisione. Per stabilire cosa cambia, consulta la verifica e il confronto delle versioni.' : 'Automated analysis retained with the record; it may not accurately describe this revision. Use the change verification and version comparison to determine what changed.'}</p>
           <AISummary
             tldrEn={change.tldrEn}

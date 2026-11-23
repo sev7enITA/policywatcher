@@ -1,13 +1,17 @@
 import { clauseAudience, editedSentences } from '../../shared/clauseAudience';
-import type { ChangeClassification, ChangeExcerpt } from '@/lib/changeClassificationTypes';
-import { CHANGE_KIND_LABELS, changeClassificationDescription } from '@/lib/changeClassificationCopy';
+import { comparisonStatusOf, type ChangeClassification, type ChangeExcerpt } from '@/lib/changeClassificationTypes';
+import { CHANGE_KIND_LABELS, COMPARISON_STATUS_LABELS, changeClassificationDescription } from '@/lib/changeClassificationCopy';
 import styles from './ChangeClassification.module.css';
 
 interface Props { classification?: ChangeClassification | null; lang?: 'en' | 'it'; headingLevel?: 2 | 3 }
 
 export function ChangeClassificationBadge({ classification, lang = 'en' }: Props) {
   const kind = classification?.kind ?? 'needs_review';
-  return <span className={styles.badge} data-change-kind={kind}>{CHANGE_KIND_LABELS[lang][kind]}</span>;
+  const status = comparisonStatusOf(classification);
+  return <span className={styles.badge} data-comparison-status={status}
+    data-change-kind={status === 'complete' ? kind : 'needs_review'}>
+    {status === 'complete' ? CHANGE_KIND_LABELS[lang][kind] : COMPARISON_STATUS_LABELS[lang][status]}
+  </span>;
 }
 
 function Excerpt({ value, block }: { value: ChangeExcerpt; block: boolean }) {
@@ -23,11 +27,13 @@ export default function ChangeClassificationPanel({ classification, lang = 'en',
   const it = lang === 'it';
   const Heading = headingLevel === 2 ? 'h2' : 'h3';
   const ExcerptHeading = headingLevel === 2 ? 'h3' : 'h4';
+  const comparisonStatus = comparisonStatusOf(classification);
   return <section className={styles.panel} aria-label={it ? 'Verifica della modifica' : 'Change verification'}>
     <div className={styles.heading}>
       <Heading>{it ? 'Cosa cambia davvero' : 'What actually changed'}</Heading>
       <ChangeClassificationBadge classification={classification} lang={lang} />
     </div>
+    {comparisonStatus === 'complete' && <p className={styles.note} data-comparison-status="complete">{COMPARISON_STATUS_LABELS[lang].complete}</p>}
     <p>{changeClassificationDescription(classification, lang)}</p>
     <p className={styles.impact}><strong>{it ? 'Impatto della modifica: da valutare.' : 'Change impact: not assessed.'}</strong>{' '}
       {it ? 'Il punteggio di rischio descrive la policy analizzata e non misura l’effetto di questa revisione.' : 'The risk score describes the assessed policy and does not measure the effect of this revision.'}

@@ -5,6 +5,9 @@ import { readBoundedJsonObject } from '@/lib/requestBody';
 import { compareExtractions, reviewEvidenceHash } from '@/lib/evidenceQuality';
 import { getReviewedQualityMetrics } from '@/lib/evidenceQualityData';
 import { sha256 } from '@/lib/extractionProfile';
+import { classifyPolicyChange } from '@/lib/changeClassification';
+import { comparisonStatusOf } from '@/lib/changeClassificationTypes';
+import { POLICY_ACTION_HOLD_CODES } from '@/lib/policyActionCompletion';
 
 const headers = { 'Cache-Control': 'private, no-store' };
 export async function GET(request: NextRequest) {
@@ -15,9 +18,13 @@ export async function GET(request: NextRequest) {
   if (changeId) {
     const change = await db.policyChange.findUnique({ where: { id: changeId }, include: { oldSnapshot: true, newSnapshot: true, policy: true } });
     if (!change) return NextResponse.json({ error: 'Change not found' }, { status: 404 });
-    return NextResponse.json({ change, evidenceHash: reviewEvidenceHash(change) }, { headers });
+    const classification = classifyPolicyChange(change);
+    return NextResponse.json({ change, evidenceHash: reviewEvidenceHash(change), comparison: {
+      status: comparisonStatusOf(classification), reason: classification.reason,
+      ranges: classification.totalHunks, unresolvedRanges: classification.blockHunks ?? 0,
+    } }, { headers });
   }
-  const [metrics, references, reviews, changes, held, policies] = await Promise.all([
+  const [metrics, references, reviews, changes, held, policies, actionHolds] = await Promise.all([
     getReviewedQualityMetrics(),
     db.externalDocumentReference.findMany({ orderBy: { recordedAt: 'desc' }, take: 100 }),
     db.evidenceQualityReview.findMany({ orderBy: { updatedAt: 'desc' }, take: 50 }),
@@ -26,9 +33,13 @@ export async function GET(request: NextRequest) {
     db.policyCheckLog.findMany({ where: { reasonCode: { in: ['extraction_baseline_missing', 'extraction_replay_unavailable', 'extraction_replay_incomplete', 'parser_upgrade'] } },
       orderBy: { checkedAt: 'desc' }, take: 50, select: { policyId: true, reason: true, checkedAt: true, policy: { select: { currentHash: true, name: true } } } }),
     db.policy.findMany({ orderBy: { name: 'asc' }, take: 1000, select: { id: true, name: true, jurisdiction: true, company: { select: { name: true } } } }),
+    db.policyCheckLog.findMany({ where: { reasonCode: { in: [...POLICY_ACTION_HOLD_CODES] } },
+      orderBy: [{ checkedAt: 'desc' }, { id: 'desc' }], take: 50,
+      select: { id: true, reasonCode: true, reason: true, checkedAt: true, scanRunId: true,
+        policy: { select: { name: true, jurisdiction: true, company: { select: { name: true } } } } } }),
   ]);
-  return NextResponse.json({ role: session.role, metrics, references, reviews, changes, held, policies,
-    limits: { references: 100, reviews: 50, changes: 50, held: 50 },
+  return NextResponse.json({ role: session.role, metrics, references, reviews, changes, held, policies, actionHolds,
+    limits: { references: 100, reviews: 50, changes: 50, held: 50, actionHolds: 50 },
     referenceScope: 'Metadata-only pilot, up to three revisions per document. No live confirmation, no completeness claim.' }, { headers });
 }
 

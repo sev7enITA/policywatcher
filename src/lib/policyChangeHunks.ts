@@ -1,4 +1,5 @@
 import { diffLines, diffWordsWithSpace, type ChangeObject } from 'diff';
+import { PolicyActionHold } from './policyActionCompletion';
 
 export interface ChangeHunk {
   oldStart: number;
@@ -11,6 +12,7 @@ export interface ChangeHunk {
 const MAX_WORD_INPUT = 500_000;
 const MAX_REFINEMENT_INPUT = 24_000;
 const WORD_EDIT_LIMIT = 512;
+const LINE_EDIT_LIMIT = 1024;
 // A conservative bound on the cumulative edit search across changed blocks.
 const REFINEMENT_WORK = 32 * WORD_EDIT_LIMIT ** 2;
 
@@ -59,7 +61,7 @@ export function compareSnapshotText(oldText: string, newText: string): ChangeHun
     : undefined;
   if (words) return hunksFromParts(words);
 
-  const lines = diffLines(oldText, newText, { maxEditLength: 1024 });
+  const lines = diffLines(oldText, newText, { maxEditLength: LINE_EDIT_LIMIT });
   // If line alignment also exhausts its budget, retain the exact matching edges
   // and expose the remaining window as a block that requires review.
   const blocks = lines ? hunksFromParts(lines) : [{
@@ -81,4 +83,16 @@ export function compareSnapshotText(oldText: string, newText: string): ChangeHun
     }
     return [block];
   });
+}
+
+/** The stored diff must be bounded and reconstruct both full snapshots. */
+export function buildVerifiedPolicyDiff(oldText: string, newText: string): string {
+  const lines = diffLines(oldText, newText, { maxEditLength: LINE_EDIT_LIMIT });
+  if (!lines) throw new PolicyActionHold('comparison_incomplete', 'full_diff_edit_limit');
+  const oldRebuilt = lines.filter(part => !part.added).map(part => part.value).join('');
+  const newRebuilt = lines.filter(part => !part.removed).map(part => part.value).join('');
+  if (oldRebuilt !== oldText || newRebuilt !== newText) {
+    throw new PolicyActionHold('comparison_incomplete', 'full_diff_integrity_failed');
+  }
+  return JSON.stringify(lines);
 }
