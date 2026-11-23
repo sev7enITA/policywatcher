@@ -295,7 +295,7 @@ export default function AdminDashboardPage() {
               <article className={sourceReliability.openRemediationIssues > 0 ? styles.reliabilitySummaryWarning : undefined}><AlertTriangle size={17} /><span>Active source issues</span><strong>{sourceReliability.openRemediationIssues}</strong></article>
             </div>
             <p className={styles.reliabilitySummaryBoundary}>
-              Last scan: {sourceReliability.lastScanAt ? `${formatDate(sourceReliability.lastScanAt)} · ${sourceReliability.lastScanStatus}` : 'No persisted ScanRun yet'}.
+              Latest full-scope scan attempt: {sourceReliability.lastScanAt ? `${formatDate(sourceReliability.lastScanAt)} · ${sourceReliability.lastScanStatus}` : 'No persisted full-scope ScanRun yet'}.
               {sourceReliability.publicEvidencePolicies === 0 && ' Public surfaces remain empty until exact source-verified baselines pass the evidence gate.'}
             </p>
           </>

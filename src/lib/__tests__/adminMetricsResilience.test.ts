@@ -152,17 +152,22 @@ describe('admin metrics resilience', () => {
     expect(stages.analysed).toMatchObject({ availability: 'measured', count: 32, denominator: 32 });
   });
 
-  it('derives inventory freshness only from a completed full-scope scan', async () => {
+  it('looks up the latest full-scope attempt and marks legacy completion unverified', async () => {
     const response = await GET(new Request('https://policywatcher.online/api/admin/metrics') as never);
     expect((await response.json()).data.sourceReliability.lastScanStatus).toBe('unverified');
 
     expect(mocks.scanFindFirst).toHaveBeenCalledWith({
       where: {
-        status: 'completed',
         selectedRecords: { gte: 32 },
       },
       orderBy: { startedAt: 'desc' },
       select: { status: true, startedAt: true, metricsJson: true },
     });
+  });
+
+  it('reports a failed full-scope attempt without falling back to an earlier completed run', async () => {
+    mocks.scanFindFirst.mockResolvedValueOnce({ status: 'failed', startedAt: new Date(), metricsJson: null });
+    const response = await GET(new Request('https://policywatcher.online/api/admin/metrics') as never);
+    expect((await response.json()).data.sourceReliability.lastScanStatus).toBe('failed');
   });
 });

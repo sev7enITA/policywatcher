@@ -93,7 +93,6 @@ export async function GET(request: NextRequest) {
     try {
       const lastScan = await db.scanRun.findFirst({
         where: {
-          status: 'completed',
           selectedRecords: { gte: policyCount },
         },
         orderBy: { startedAt: 'desc' },
