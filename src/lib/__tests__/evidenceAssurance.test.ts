@@ -162,7 +162,8 @@ describe('extraction guard with real isolated SQLite', () => {
     }
     expect(stored.newSnapshot).toMatchObject({ sourceUrl: url, requestedUrl: url, finalUrl: url, sourceProvenance: 'captured' });
     const { publicAnalysisLineage } = await import('../publicAnalysisLineage');
-    expect(publicAnalysisLineage({ evidenceJson: stored.analysisEvidenceJson, requestHash: stored.analysisInputHash, traceId: stored.analysisTraceId, oldSnapshot: stored.oldSnapshot, newSnapshot: stored.newSnapshot }).status).toBe('verified');
+    expect(publicAnalysisLineage({ evidenceJson: stored.analysisEvidenceJson, requestHash: stored.analysisInputHash, traceId: stored.analysisTraceId, oldSnapshot: stored.oldSnapshot, newSnapshot: stored.newSnapshot }))
+      .toMatchObject({ status: 'verified', generationCompletion: 'provider_stop_recorded' });
     expect((await db.extractionBaseline.findUniqueOrThrow({ where: { policyId: policy.id } })).baselineHash).toBe(changed.hash);
     const third = await scrapeApi.POST(request({ policyId: policy.id }));
     expect(third.status).toBe(200); expect(analyze).toHaveBeenCalledOnce();
