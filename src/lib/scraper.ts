@@ -1736,6 +1736,13 @@ function buildFragmentScopedHtml(
   return null;
 }
 
+function scopedLanguages(target: CheerioSelection): string[] {
+  const inherited = target.closest('[lang]').not('html').attr('lang');
+  const nested = target.find('main[lang], article[lang], section[lang], [role="main"][lang]')
+    .map((_, node) => node.attribs.lang).get();
+  return [...new Set([inherited, ...nested].map(lang => lang?.trim()).filter((lang): lang is string => Boolean(lang)))];
+}
+
 export interface PolicyExtractionContract {
   /** Explicitly reviewed source minimum. Marker and block-page gates still apply. */
   minimumTextLength?: number;
@@ -1743,6 +1750,8 @@ export interface PolicyExtractionContract {
   preserveNestedBlockOrder?: boolean;
   /** Internal recursion guard: an explicit URL fragment must not be narrowed again. */
   fragmentScopeResolved?: boolean;
+  /** Engine 6 only: record language evidence from the actual selected DOM scope. */
+  onScopedLanguage?: (languages: string[]) => void;
 }
 
 function extractionMinimum(contract: PolicyExtractionContract): number | null {
@@ -1771,14 +1780,20 @@ export function extractPolicyText(html: string, sourceUrl?: string, contract: Po
     const scopedHtml = buildFragmentScopedHtml($, target, minimumTextLength);
     if (!scopedHtml) return '';
 
-    return extractPolicyText(scopedHtml, undefined, { ...contract, fragmentScopeResolved: true });
+    return extractPolicyText(scopedHtml, undefined, { ...contract, fragmentScopeResolved: true,
+      onScopedLanguage: contract.onScopedLanguage
+        ? languages => contract.onScopedLanguage!(languages.length ? languages : scopedLanguages(target))
+        : undefined });
   }
 
   // OneTrust document text is a sibling of its language picker. Generic
   // policy-class matching otherwise selects the picker and loses the notice.
   const notice = $('.otnotice-content');
   if (!contract.fragmentScopeResolved && notice.length === 1 && notice.text().trim().length >= MIN_TEXT_LENGTH) {
-    return extractPolicyText(`<main>${notice.html()}</main>`, undefined, contract);
+    return extractPolicyText(`<main>${notice.html()}</main>`, undefined, { ...contract,
+      onScopedLanguage: contract.onScopedLanguage
+        ? languages => contract.onScopedLanguage!(languages.length ? languages : scopedLanguages(notice))
+        : undefined });
   }
 
   const mainSelectors = [
@@ -1810,6 +1825,7 @@ export function extractPolicyText(html: string, sourceUrl?: string, contract: Po
   }
 
   const $target = container || $('body');
+  contract.onScopedLanguage?.(scopedLanguages($target));
   const blocks: string[] = [];
 
   // Extract structured text from semantic leaf blocks. Avoid generic div/span
