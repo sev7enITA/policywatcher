@@ -382,6 +382,10 @@
       "345ca71d9974234914e6404da3ed50c823841f77f778dfb8f2d3104b994ad9f4"
     ],
     [
+      "src/lib/liveDevDiary.ts",
+      "c43eba270ce9595b93d339e9de21da56d600324270dd607d736e2b4cf273c192"
+    ],
+    [
       "src/lib/mailer.ts",
       "9a7297b6b681cc082b7292192bb0b47d3b7f0dfd1d2159bca19cf47d9055130f"
     ],
@@ -455,7 +459,7 @@
     ],
     [
       "src/lib/seo.ts",
-      "658cd5e3080b7904080db92ceaa09eda42fccb54085d8a813b23ca7cb3496b01"
+      "7a033e7eb9b2bb8604dd44aa05cd8679d47035ebdfdc46cfdecf63f59adeac25"
     ],
     [
       "src/lib/siteOrigin.ts",
@@ -487,8 +491,8 @@
     ],
     [
       "src/proxy.ts",
-      "9a58ee8a17ae157f8639415c9a07249dcfd7f46d9b8371d9592eb8e460e56005"
+      "ca107ec4e4d0b6f6b8bb87f6413f251f20ae8f11e126c8c3a3ccac2728de1449"
     ]
   ],
-  "hash": "787f8a080761919275cdc18ca793dc171e0aad283be19d573c115ec95f77c922"
+  "hash": "4f4842de3746334ef129a9d915b89fd25a7840ec8c93af662405a1857aa5adf1"
 }
