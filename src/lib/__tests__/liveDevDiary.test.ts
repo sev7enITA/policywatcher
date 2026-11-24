@@ -35,6 +35,19 @@ describe('Live Dev Diary episode 001', () => {
     expect(responseFor('/live-dev-diary').headers.get('content-security-policy')).toContain("'strict-dynamic'");
   });
 
+  it('covers the public interface and reserves the engine for episode 002', () => {
+    const $ = load(deck);
+    const agenda = $('[data-slide="02"] .agenda-list li').map((_, item) => $(item).text()).get();
+    expect(agenda).toEqual([
+      'Homepage and main navigation',
+      'Interactive workspace and controls',
+      'Citizen tools and evidence views',
+      'More tools, Atlas and methodology',
+    ]);
+    expect($('[data-slide="10"]').text()).toContain('Episode 002');
+    expect($('[data-slide] a[href*="/change/"], [data-slide] a[href*="/knowledge/companies/"]')).toHaveLength(0);
+  });
+
   it('keeps the Italian index attached to the URL language', () => {
     expect(publicRequestLanguage('/live-dev-diary', 'it')).toBe('it');
     expect(publicNavigationPath('/live-dev-diary', 'it')).toBe('/live-dev-diary?lang=it');
