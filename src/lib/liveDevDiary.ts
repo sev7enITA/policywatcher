@@ -2,7 +2,7 @@ export const LIVE_DEV_DIARY_PATH = '/live-dev-diary';
 export const LIVE_DEV_EPISODE_001 = {
   number: '001',
   publishedOn: '2026-11-24',
-  deckPath: '/live-dev-diary/episode-001.html',
+  deckPath: '/live-dev-diary/episode-001',
   klarnaCompany: '/knowledge/companies/klarna',
   klarnaEu: '/change/c76db656-7902-40a8-a02a-4f6aebe36246',
   klarnaUs: '/change/1ee4e96e-0be3-46bf-8c66-10c4e8f3718a',
