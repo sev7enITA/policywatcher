@@ -290,6 +290,11 @@ html:not(.js) .head-tools, html:not(.js) .foot { display:none; }
   .hero,.agenda,.next-topic,.close,.js .slide.hero,.js .slide.agenda,.js .slide.next-topic,.js .slide.close { display:grid !important; }
   .slide:last-child { break-after:auto; }
 }
+[data-animation-order="0"] { --i:0; }
+[data-animation-order="1"] { --i:1; }
+[data-animation-order="2"] { --i:2; }
+[data-animation-order="3"] { --i:3; }
+[data-flow-steps="3"] { --steps:3; }
 </style>
 </head>
 <body>
@@ -362,10 +367,10 @@ html:not(.js) .head-tools, html:not(.js) .foot { display:none; }
       <p class="kicker">Evidence methodology</p>
       <h2 id="title-04" tabindex="-1">The record behind a change</h2>
       <ol class="flow">
-        <li style="--i:0"><span class="step-label">Scope</span><span class="step-name">Policy</span><span class="step-detail">Company, region and official URL</span></li>
-        <li style="--i:1"><span class="step-label">Acquisition</span><span class="step-name">Retrieval</span><span class="step-detail">Response and final source location</span></li>
-        <li style="--i:2"><span class="step-label">Retention</span><span class="step-name">Snapshots</span><span class="step-detail">Saved text and SHA-256 digests</span></li>
-        <li style="--i:3"><span class="step-label">Comparison</span><span class="step-name">Change record</span><span class="step-detail">Previous and new snapshot references</span></li>
+        <li data-animation-order="0"><span class="step-label">Scope</span><span class="step-name">Policy</span><span class="step-detail">Company, region and official URL</span></li>
+        <li data-animation-order="1"><span class="step-label">Acquisition</span><span class="step-name">Retrieval</span><span class="step-detail">Response and final source location</span></li>
+        <li data-animation-order="2"><span class="step-label">Retention</span><span class="step-name">Snapshots</span><span class="step-detail">Saved text and SHA-256 digests</span></li>
+        <li data-animation-order="3"><span class="step-label">Comparison</span><span class="step-name">Change record</span><span class="step-detail">Previous and new snapshot references</span></li>
       </ol>
       <p class="takeaway">The first verified baseline gives us a reference. HTTP status describes the response. A digest identifies the retained text.</p>
       <a class="link-out" href="https://policywatcher.online/methodology/confidence" target="_blank" rel="noopener">Read the evidence methodology <span aria-hidden="true">↗</span></a>
@@ -397,8 +402,8 @@ html:not(.js) .head-tools, html:not(.js) .foot { display:none; }
       <p class="kicker">Stable 5.6.0 · Comparison integrity</p>
       <h2 id="title-06" tabindex="-1">Reconstruct both saved versions</h2>
       <div class="chunk-demo" role="group" aria-label="Illustrative reconstruction. The before snapshot joins unchanged and removed chunks in order. The after snapshot joins unchanged and added chunks in order.">
-        <div class="rebuild"><h3>Before</h3><div class="blocks" aria-hidden="true"><span class="chunk" style="--i:0">Unchanged</span><span aria-hidden="true">+</span><span class="chunk remove" style="--i:1">Removed</span><span aria-hidden="true">+</span><span class="chunk" style="--i:2">Unchanged</span></div></div>
-        <div class="rebuild"><h3>After</h3><div class="blocks" aria-hidden="true"><span class="chunk" style="--i:0">Unchanged</span><span aria-hidden="true">+</span><span class="chunk add" style="--i:1">Added</span><span aria-hidden="true">+</span><span class="chunk" style="--i:2">Unchanged</span></div></div>
+        <div class="rebuild"><h3>Before</h3><div class="blocks" aria-hidden="true"><span class="chunk" data-animation-order="0">Unchanged</span><span aria-hidden="true">+</span><span class="chunk remove" data-animation-order="1">Removed</span><span aria-hidden="true">+</span><span class="chunk" data-animation-order="2">Unchanged</span></div></div>
+        <div class="rebuild"><h3>After</h3><div class="blocks" aria-hidden="true"><span class="chunk" data-animation-order="0">Unchanged</span><span aria-hidden="true">+</span><span class="chunk add" data-animation-order="1">Added</span><span aria-hidden="true">+</span><span class="chunk" data-animation-order="2">Unchanged</span></div></div>
       </div>
       <p class="takeaway">Replay chunks in order and match each reconstructed string exactly before saving a new stable assessment.</p>
       <p class="small muted">Complete and partial describe the saved pair. The public page presents selected excerpts.</p>
@@ -419,10 +424,10 @@ html:not(.js) .head-tools, html:not(.js) .foot { display:none; }
     <section class="slide" data-slide="08" aria-labelledby="title-08">
       <p class="kicker">Responsible AI</p>
       <h2 id="title-08" tabindex="-1">What the evidence supports</h2>
-      <ol class="flow" style="--steps:3">
-        <li style="--i:0"><span class="step-label">Observe</span><span class="step-name">Exact passage</span><span class="step-detail">Link wording to the saved before or after copy.</span></li>
-        <li style="--i:1"><span class="step-label">Interpret</span><span class="step-name">Candidate meaning</span><span class="step-detail">Carry document type, jurisdiction and audience.</span></li>
-        <li style="--i:2"><span class="step-label">Review</span><span class="step-name">Impact assessment</span><span class="step-detail">Keep effect and applicability open when evidence falls short.</span></li>
+      <ol class="flow" data-flow-steps="3">
+        <li data-animation-order="0"><span class="step-label">Observe</span><span class="step-name">Exact passage</span><span class="step-detail">Link wording to the saved before or after copy.</span></li>
+        <li data-animation-order="1"><span class="step-label">Interpret</span><span class="step-name">Candidate meaning</span><span class="step-detail">Carry document type, jurisdiction and audience.</span></li>
+        <li data-animation-order="2"><span class="step-label">Review</span><span class="step-name">Impact assessment</span><span class="step-detail">Keep effect and applicability open when evidence falls short.</span></li>
       </ol>
       <p class="takeaway">Policy risk describes the document. Revision impact has a separate assessment state.</p>
     </section>

@@ -23,6 +23,7 @@ describe('Live Dev Diary episode 001', () => {
   it('authorises the exact public deck scripts and style without relaxing adjacent routes', () => {
     const scripts = [...deck.matchAll(/<script>([\s\S]*?)<\/script>/g)].map(match => digest(match[1]));
     const styles = [...deck.matchAll(/<style>([\s\S]*?)<\/style>/g)].map(match => digest(match[1]));
+    expect(deck).not.toMatch(/\sstyle="/);
     expect(scripts).toHaveLength(2);
     expect(styles).toHaveLength(1);
     expect(LIVE_DEV_EPISODE_001_CSP).toContain('script-src ' + scripts.join(' '));
