@@ -1,13 +1,12 @@
 import { createHash } from 'node:crypto';
-import { readFileSync } from 'node:fs';
 import { NextRequest } from 'next/server';
 import { describe, expect, it } from 'vitest';
+import { html as deck } from '../../app/live-dev-diary/episode-001/deck.generated.json';
 import { proxy } from '../../proxy';
 import { LIVE_DEV_EPISODE_001, LIVE_DEV_EPISODE_001_CSP } from '../liveDevDiary';
 import { publicNavigationPath, publicRequestLanguage } from '../seo';
 
 const deckPath = LIVE_DEV_EPISODE_001.deckPath;
-const deck = readFileSync('public' + deckPath, 'utf8');
 const digest = (value: string) => "'sha256-" + createHash('sha256').update(value).digest('base64') + "'";
 
 describe('Live Dev Diary episode 001', () => {
