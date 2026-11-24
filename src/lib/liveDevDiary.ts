@@ -13,7 +13,7 @@ export const LIVE_DEV_EPISODE_001 = {
 export const LIVE_DEV_EPISODE_001_CSP = [
   "default-src 'none'",
   "script-src 'sha256-/x7W7R75k8Roq0WaVRQX9blP4OufE5xbAdzklGxsgpw=' 'sha256-oHffb7yGc36aiNKOkn6iNnNQ0g5hE8nvn4x4THFtfEU='",
-  "style-src 'sha256-UH5GgEt3bApwRYyHyCXCOzl8oca3tVCDPmpaQlE6Mjc='",
+  "style-src 'sha256-xt8bVgy6wovidP6+gjnp3TXrOMrTEp5nwGZYYRHfjt4='",
   'img-src data:',
   'font-src data:',
   "base-uri 'none'",
