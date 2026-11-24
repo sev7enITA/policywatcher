@@ -24,6 +24,7 @@ export type PublicSection =
   | 'atlas'
   | 'feature-atlas'
   | 'methodology'
+  | 'live-dev-diary'
   | 'observatory'
   | 'developers'
   | 'integrations'
@@ -56,6 +57,7 @@ const links: Array<{ id: PublicSection; href: string; en: string; it: string }> 
   { id: 'signals', href: '/leaderboard', en: 'Signals', it: 'Segnali' },
   { id: 'infographics', href: '/infographics', en: 'Infographics', it: 'Infografiche' },
   { id: 'trust', href: '/trust', en: 'Trust QA', it: 'Trust QA' },
+  { id: 'live-dev-diary', href: '/live-dev-diary', en: 'Live Dev Diary', it: 'Live Dev Diary' },
   { id: 'pulse', href: '/pulse', en: 'Pulse', it: 'Pulse' },
   { id: 'press-kit', href: '/press-kit', en: 'Press Kit', it: 'Press Kit' },
   { id: 'legal', href: '/terms', en: 'Terms', it: 'Termini' },
