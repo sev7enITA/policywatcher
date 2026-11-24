@@ -1,4 +1,5 @@
 import { createHash } from 'node:crypto';
+import { load } from 'cheerio';
 import { NextRequest } from 'next/server';
 import { describe, expect, it } from 'vitest';
 import { html as deck } from '../../app/live-dev-diary/episode-001/deck.generated.json';
@@ -20,8 +21,9 @@ describe('Live Dev Diary episode 001', () => {
   });
 
   it('authorises the exact public deck scripts and style without relaxing adjacent routes', () => {
-    const scripts = [...deck.matchAll(/<script>([\s\S]*?)<\/script>/g)].map(match => digest(match[1]));
-    const styles = [...deck.matchAll(/<style>([\s\S]*?)<\/style>/g)].map(match => digest(match[1]));
+    const $ = load(deck);
+    const scripts = $('script').map((_, tag) => digest($(tag).text())).get();
+    const styles = $('style').map((_, tag) => digest($(tag).text())).get();
     expect(deck).not.toMatch(/\sstyle="/);
     expect(scripts).toHaveLength(2);
     expect(styles).toHaveLength(1);
@@ -31,6 +33,19 @@ describe('Live Dev Diary episode 001', () => {
     const responseFor = (path: string) => proxy(new NextRequest('https://policywatcher.online' + path));
     expect(responseFor(deckPath).headers.get('content-security-policy')).toBe(LIVE_DEV_EPISODE_001_CSP);
     expect(responseFor('/live-dev-diary').headers.get('content-security-policy')).toContain("'strict-dynamic'");
+  });
+
+  it('covers the public interface and reserves the engine for episode 002', () => {
+    const $ = load(deck);
+    const agenda = $('[data-slide="02"] .agenda-list li').map((_, item) => $(item).text()).get();
+    expect(agenda).toEqual([
+      'Homepage and main navigation',
+      'Interactive workspace and controls',
+      'Citizen tools and evidence views',
+      'More tools, Atlas and methodology',
+    ]);
+    expect($('[data-slide="10"]').text()).toContain('Episode 002');
+    expect($('[data-slide] a[href*="/change/"], [data-slide] a[href*="/knowledge/companies/"]')).toHaveLength(0);
   });
 
   it('keeps the Italian index attached to the URL language', () => {

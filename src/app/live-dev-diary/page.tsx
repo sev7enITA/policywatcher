@@ -9,37 +9,37 @@ type PageProps = { searchParams: Promise<{ lang?: string }> };
 
 const copy = {
   en: {
-    description: 'Hands-on episodes with Fabrizio Degni on how PolicyWatcher retrieves, verifies and publishes evidence of policy changes.',
-    firstTitle: 'The evidence behind a policy update',
-    summary: 'Follow a Klarna privacy notice from the public catalogue to its source, saved versions and before-and-after passages. Compare the complete EU result with the partial US result, then explore the methodology behind both.',
+    description: 'Hands-on episodes with Fabrizio Degni on using PolicyWatcher and how it verifies evidence of policy changes.',
+    firstTitle: 'A tour of the PolicyWatcher interface',
+    summary: 'Explore the homepage, main menus and interactive workspace. See where to find tools for consumers, public evidence views, the Atlas and the methodology.',
     episode: 'Episode',
     displayDate: '24 November 2026',
     open: 'Open the interactive slides',
     deckLanguage: 'Presentation in English',
-    resources: 'Follow the evidence',
-    company: 'Klarna policy records',
-    eu: 'EU comparison',
-    us: 'US comparison',
+    resources: 'Explore the interface',
+    workspace: 'Interactive workspace',
+    knowledge: 'Companies and policies',
+    atlas: 'Feature Atlas',
     methodology: 'Evidence methodology',
     next: 'Next episode',
-    nextSummary: 'A look at retrieval and selective rendering, reviewed inventories, and how structured PolicyAsCode research connects findings to source evidence.',
+    nextSummary: 'Episode 002 goes behind the interface to look at document retrieval, evidence and quality checks, and the Engine 6 Preview trials.',
     preview: 'Read the Engine 6 research diary',
   },
   it: {
-    description: 'Episodi pratici con Fabrizio Degni su come PolicyWatcher acquisisce, verifica e pubblica le evidenze delle modifiche alle policy.',
-    firstTitle: 'Le evidenze dietro l’aggiornamento di una policy',
-    summary: 'Segui un’informativa privacy di Klarna dal catalogo pubblico alla fonte, alle versioni salvate e ai passaggi prima e dopo. Confronta l’esito completo UE con quello parziale USA e scopri il metodo usato per entrambi.',
+    description: 'Episodi pratici con Fabrizio Degni su come usare PolicyWatcher e su come la piattaforma verifica le evidenze delle modifiche alle policy.',
+    firstTitle: 'Tour dell’interfaccia di PolicyWatcher',
+    summary: 'Esplora la homepage, i menu principali e l’area di lavoro interattiva. Scopri dove trovare gli strumenti per i consumatori, le evidenze pubbliche, l’Atlante e la metodologia.',
     episode: 'Episodio',
     displayDate: '24 novembre 2026',
     open: 'Apri le slide interattive',
     deckLanguage: 'Presentazione in inglese',
-    resources: 'Consulta le evidenze',
-    company: 'Schede delle policy di Klarna',
-    eu: 'Confronto UE',
-    us: 'Confronto USA',
+    resources: 'Esplora l’interfaccia',
+    workspace: 'Area di lavoro',
+    knowledge: 'Aziende e policy',
+    atlas: 'Atlante delle funzionalità',
     methodology: 'Metodologia delle evidenze',
     next: 'Prossimo episodio',
-    nextSummary: 'Uno sguardo ad acquisizione e rendering selettivo, inventari revisionati e ricerca PolicyAsCode per collegare i risultati strutturati alle fonti.',
+    nextSummary: 'L’Episodio 002 entra nel motore di PolicyWatcher per mostrare come acquisisce i documenti, controlla le evidenze e sperimenta con Engine 6 Preview.',
     preview: 'Leggi il diario di ricerca Engine 6',
   },
 } as const;
@@ -72,9 +72,9 @@ export default async function LiveDevDiaryPage({ searchParams }: PageProps) {
           <a className={styles.open} href={episode.deckPath} hrefLang="en">{t.open}<span aria-hidden="true"> →</span></a>
           <p className={styles.language}>{t.deckLanguage}</p>
           <nav className={styles.references} aria-label={t.resources}>
-            <Link href={episode.klarnaCompany}>{t.company}</Link>
-            <Link href={localized(episode.klarnaEu)}>{t.eu}</Link>
-            <Link href={localized(episode.klarnaUs)}>{t.us}</Link>
+            <Link href={localized('/') + '#workspace'}>{t.workspace}</Link>
+            <Link href={localized('/knowledge')}>{t.knowledge}</Link>
+            <Link href={localized('/feature-atlas')}>{t.atlas}</Link>
             <Link href={localized('/methodology/confidence')}>{t.methodology}</Link>
           </nav>
         </article>
