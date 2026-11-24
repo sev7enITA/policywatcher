@@ -1,3 +1,4 @@
+import { LIVE_DEV_EPISODE_001, LIVE_DEV_EPISODE_001_CSP } from '@/lib/liveDevDiary';
 import { publicRequestLanguage } from '@/lib/seo';
 import { NextRequest, NextResponse } from 'next/server';
 import {
@@ -284,6 +285,15 @@ export function proxy(request: NextRequest) {
     || request.nextUrl.pathname === '/sitemap.xml'
   ) {
     return applyDeploymentResponseHeaders(NextResponse.next());
+  }
+
+  if (request.nextUrl.pathname === LIVE_DEV_EPISODE_001.deckPath) {
+    return applyDeploymentResponseHeaders(NextResponse.next({
+      headers: {
+        'Content-Security-Policy': LIVE_DEV_EPISODE_001_CSP,
+        'Referrer-Policy': 'no-referrer',
+      },
+    }));
   }
 
   const nonce = createNonce();
