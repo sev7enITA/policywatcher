@@ -1,4 +1,5 @@
 import { createHash } from 'node:crypto';
+import { load } from 'cheerio';
 import { NextRequest } from 'next/server';
 import { describe, expect, it } from 'vitest';
 import { html as deck } from '../../app/live-dev-diary/episode-001/deck.generated.json';
@@ -20,8 +21,9 @@ describe('Live Dev Diary episode 001', () => {
   });
 
   it('authorises the exact public deck scripts and style without relaxing adjacent routes', () => {
-    const scripts = [...deck.matchAll(/<script>([\s\S]*?)<\/script>/g)].map(match => digest(match[1]));
-    const styles = [...deck.matchAll(/<style>([\s\S]*?)<\/style>/g)].map(match => digest(match[1]));
+    const $ = load(deck);
+    const scripts = $('script').map((_, tag) => digest($(tag).text())).get();
+    const styles = $('style').map((_, tag) => digest($(tag).text())).get();
     expect(deck).not.toMatch(/\sstyle="/);
     expect(scripts).toHaveLength(2);
     expect(styles).toHaveLength(1);
