@@ -58,6 +58,7 @@ export default function HomeLanding({ initialLang, initiallyHidden, knowledge }:
                   <Link href={local('/guides')}>{it ? "Esplora le guide al monitoraggio" : "Explore policy monitoring guides"}</Link>
                   <a href="#workspace">{it ? "Apri l’area di lavoro interattiva" : "Open the interactive workspace"}</a>
                   <Link href={local('/methodology/confidence')}>{it ? "Consulta il metodo" : "Read the methodology"}</Link>
+                  <Link href={local('/live-dev-diary')}>Live Dev Diary</Link>
                   <Link href={local('/about')}>{it ? "Progetto e contatti" : "About and contact"}</Link>
                 </nav>
               </div>
