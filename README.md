@@ -68,6 +68,10 @@ PolicyWatcher monitors configured public policy sources. The live catalogue repo
 
 The platform is designed as a **civic tech tool** that produces structured summaries and governance indicators from retrieved public policy texts for review by citizens, SMEs, DPOs, and compliance professionals.
 
+### One governance hub, three frameworks
+
+[PolicyWatcher](https://policywatcher.online/) supplies source evidence from the bottom up. [PALO Framework](https://paloframework.org/PALO_PlatformMap.html#three-frameworks) defines decision authority and governance gates from the top down. [OnToGraPh](https://www.fabriziodegni.com/OnToGraPh/#ecosystem) is a spin-off of both and the hub's semantic change and verification engine. A published evidence packet and authorized excerpt can enter the OnToGraPh offline reference for human review. The release and observations can support PolicyWatcher follow-up and PALO review. PolicyWatcher and PALO already exchange monitoring signals. Automated return of OnToGraPh observations to the live services remains pilot work.
+
 ### Evidence assurance update · 7 October 2026
 
 Scheduled and manual scans share an opt-in native extraction guard: parser upgrades replay the preserved baseline input before provider-change comparison. The protected `/admin/evidence-quality` workbench adds human-reviewed false-positive share and AI citation support with explicit denominators, metadata-only EU references, and transient extraction diagnostics. Unknown samples remain unassessed; archive metadata cannot confirm a live change or authorize third-party text republication.
