@@ -70,7 +70,7 @@ The platform is designed as a **civic tech tool** that produces structured summa
 
 ### One governance hub, three frameworks
 
-[PolicyWatcher](https://policywatcher.online/) supplies source evidence from the bottom up. [PALO Framework](https://paloframework.org/PALO_PlatformMap.html#three-frameworks) defines decision authority and governance gates from the top down. [OnToGraPh](https://www.fabriziodegni.com/OnToGraPh/#ecosystem) is a spin-off of both and the hub's semantic change and verification engine. A published evidence packet and authorized excerpt can enter the OnToGraPh offline reference for human review. The release and observations can support PolicyWatcher follow-up and PALO review. PolicyWatcher and PALO already exchange monitoring signals. Automated return of OnToGraPh observations to the live services remains pilot work.
+[PolicyWatcher](https://policywatcher.online/) supplies source evidence from the bottom up. [PALO Framework](https://paloframework.org/PALO_PlatformMap.html#three-frameworks) defines decision authority and governance gates from the top down. [OnToGraPh](https://www.fabriziodegni.com/OnToGraPh/#ecosystem) is a standalone spin-off of both. In the hub it provides the reusable ontology layer for dictionaries, taxonomies, typed relationships and versioned controls. A published evidence packet and authorized excerpt can enter the OnToGraPh offline reference for human review. The release and observations can support PolicyWatcher follow-up and PALO review. PolicyWatcher and PALO already exchange monitoring signals. Automated return of OnToGraPh observations to the live services remains pilot work.
 
 ### Evidence assurance update · 7 October 2026
 

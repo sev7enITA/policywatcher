@@ -81,8 +81,8 @@ export default function HomeLanding({ initialLang, initiallyHidden, knowledge }:
             <section className={styles.faq} id="governance-hub" aria-labelledby="home-governance-title">
               <h2 id="home-governance-title">{it ? "Un hub di governance, tre framework" : "One governance hub, three frameworks"}</h2>
               <p>{it
-                ? "PolicyWatcher raccoglie dal basso le evidenze sulle modifiche alle policy. PALO definisce dall’alto autorità e passaggi decisionali. OnToGraPh nasce come spin-off dei due e collega evidenze, regole versionate ed esiti osservati nelle applicazioni."
-                : "PolicyWatcher supplies bottom-up evidence of policy changes. PALO sets top-down decision authority and review gates. OnToGraPh is their spin-off and links evidence, versioned rules and observed application outcomes."}</p>
+                ? "PolicyWatcher raccoglie dal basso le evidenze sulle modifiche alle policy. PALO definisce dall’alto autorità e passaggi decisionali. OnToGraPh è uno spin-off autonomo dei due. Nell’hub offre il livello ontologico riusabile che collega evidenze, dizionari, tassonomie, controlli versionati ed esiti osservati nelle applicazioni."
+                : "PolicyWatcher supplies bottom-up evidence of policy changes. PALO sets top-down decision authority and review gates. OnToGraPh is their standalone spin-off. In the hub it provides the reusable ontology layer linking evidence, dictionaries, taxonomies, versioned controls and observed application outcomes."}</p>
               <p>{it
                 ? "La versione di riferimento importa le evidenze offline. Il ritorno automatico degli esiti ai servizi live è oggetto di pilota."
                 : "The reference imports evidence offline. Automated feedback to the live services is pilot work."}</p>
