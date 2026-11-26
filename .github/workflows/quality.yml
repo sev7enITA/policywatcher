@@ -42,6 +42,9 @@ jobs:
       - name: Verify renderer and VPS Agent controls
         run: node --test renderer/server.test.mjs renderer/http.test.mjs vps-agent/agent.test.mjs
 
+      - name: Verify PolicyAsCode observation-only contract and isolated drafts
+        run: node --test integrations/policy-as-code/*.test.mjs
+
       - name: Install Android companion dependencies
         run: npm ci --prefix mobile/android-companion
 

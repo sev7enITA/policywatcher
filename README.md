@@ -16,7 +16,7 @@
   <a href="https://github.com/sev7enITA/policywatcher/actions/workflows/coverage.yml"><img src="https://github.com/sev7enITA/policywatcher/actions/workflows/coverage.yml/badge.svg?branch=main" alt="Targeted Reliability Coverage" /></a>
   <a href="https://scorecard.dev/viewer/?uri=github.com/sev7enITA/policywatcher"><img src="https://api.scorecard.dev/projects/github.com/sev7enITA/policywatcher/badge" alt="OpenSSF Scorecard" /></a>
   <a href="https://www.bestpractices.dev/projects/13465"><img src="https://www.bestpractices.dev/projects/13465/badge" alt="OpenSSF Best Practices" /></a>
-  <img src="https://img.shields.io/badge/Next.js-16.4.3-black" alt="Next.js 16" />
+  <img src="https://img.shields.io/badge/Next.js-16.4.6-black" alt="Next.js 16" />
   <img src="https://img.shields.io/badge/React-19-61dafb" alt="React 19" />
   <img src="https://img.shields.io/badge/TypeScript-5-3178c6" alt="TypeScript" />
   <img src="https://img.shields.io/badge/Gemini-2.5%20Flash-4285f4" alt="Gemini 2.5 Flash" />
@@ -32,6 +32,12 @@
 </p>
 
 ---
+
+## Machine-readable insights · local MVP, 22 November 2026
+
+The [PolicyAsCode MVP](docs/architecture/policy-as-code-mvp.md) adds a versioned, read-only public InsightIR export and an offline importer into a separate draft store. Every interpretation remains unapproved and non-executable. Public/private boundaries, exact UTF-16 citations, tamper detection and concurrent idempotent imports have been tested with networking denied by the operating system. This is a local candidate, **not a deployed endpoint or live enterprise-model integration**. [Evidence and remaining limits](docs/reports/policy-as-code-mvp-2026-11-22.md).
+
+Reproduce the bounded offline verification on macOS: `node scripts/verify-policy-as-code-mvp.mjs`. Portable contract/import tests: `node --test integrations/policy-as-code/*.test.mjs`.
 
 ## Policy Briefing and press materials · 20 November 2026
 
