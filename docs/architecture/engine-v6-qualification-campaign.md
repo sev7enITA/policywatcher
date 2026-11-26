@@ -20,4 +20,6 @@ Implementation checkpoint `ec736c2`, evidence checkpoint `8b27951`. There are 1,
 
 ## Activation and progress reporting
 
+The stages from integrated source to gated publication, and the operational workflows added by the claim-evidence ledger, are defined in the [Engine 6 operationalization model](engine-v6-operationalization.md). Its stages do not lower any gate in this campaign.
+
 Keep implementation, observed results, reviewer opinions and pending qualification distinct. Missing dates remain pending. Unannotated or unresolved sources remain held. The public notebook should show timestamp, source commit, corpus size, actual completed daily windows, measured test/scale scope and explicit limitations. Preserve earlier evidence and update the progress record only from verified outputs. A new paid service, infrastructure purchase, production Engine 6 activation or publication of policy changes is not part of this campaign's implicit authorization.
