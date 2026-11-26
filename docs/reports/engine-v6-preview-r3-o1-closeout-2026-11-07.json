@@ -1,0 +1,148 @@
+{
+  "schema": "pw-preview-r3-o1-closeout-1",
+  "date": "2026-11-07",
+  "stageO1": "complete",
+  "stageO2": "not_started",
+  "deployment": {
+    "host": "staging.policywatcher.online",
+    "id": "01a1b650-b2e9-716a-a69a-d3850b2e5c05",
+    "hostingerStatus": "Completed / Current",
+    "displayedCompletedAtEuropeRome": "2026-11-07 15:04",
+    "sourceRevision": "734729732fe1b494f844406f719ce2005a4c4d6b",
+    "archiveSha256": "e82ff8ff3fe33275e62475054889cdaf97f1a12d7442bb0ca6d42ec30cf99341",
+    "implementationHash": "84085328fffc7b22fac33cc2cbe150120c540b75deda59d3b207c32b768a9a00",
+    "tables": 47,
+    "migrations": 22,
+    "authenticatedChecksPassed": 13
+  },
+  "run": {
+    "runId": "6982c663-2b7b-4191-b8b6-e10bdd60f013",
+    "createdAt": "2026-11-07T15:00:32.747Z",
+    "completedAt": "2026-11-07T15:00:40.774Z",
+    "elapsedMs": 8027,
+    "selected": 4,
+    "status": "completed",
+    "mode": "observe",
+    "notifications": "silent",
+    "metadata": {
+      "schema": "pw-scan-channel-1",
+      "channel": "preview",
+      "requestFingerprint": "48c6a176984670369643547da406a6562aa49ff59e59c4400fd08699fbf66e14",
+      "limit": 4,
+      "companySlug": "apple",
+      "implementationHash": "84085328fffc7b22fac33cc2cbe150120c540b75deda59d3b207c32b768a9a00",
+      "extractionProfileHash": "716e9cd3d47ca5711c6775f28f4a2a5047e5001aa02eaa477d833a03fc1518bd",
+      "stableVersion": "5.2.0",
+      "previewVersion": "pw-engine-6.0.0-alpha.1",
+      "requestedModels": {
+        "analyst": null,
+        "verifier": null
+      },
+      "comparisonScope": null,
+      "modelComparisonPerformed": false,
+      "notificationMode": "silent"
+    }
+  },
+  "outcomes": {
+    "directHttp200": 1,
+    "confirmationPending": 1,
+    "sourceContractMissing": 3,
+    "analysisOrVerifierCalls": 0,
+    "claimRows": 0,
+    "claimEvidenceRows": 0,
+    "comparisonRequested": false
+  },
+  "preservation": {
+    "officialAndConfigurationTables": {
+      "Company": {
+        "rows": 18,
+        "sha256": "64ab15522a59c66902122644ba24bc7d1329d3b7acac63eadc411cf9e8f0a689"
+      },
+      "Policy": {
+        "rows": 113,
+        "sha256": "a544b9516fb908f44f4333f35f23967c14e7f12378a191c611ce26e3cf2db119"
+      },
+      "PolicySnapshot": {
+        "rows": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "PolicyChange": {
+        "rows": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "PolicyCheckLog": {
+        "rows": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "Subscriber": {
+        "rows": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "EngineOutbox": {
+        "rows": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "EngineSourceContract": {
+        "rows": 1,
+        "sha256": "4292ef2978e2a5c6a71d5a6700d44948cee75485d88d56132befc7dd5cfd5d06"
+      },
+      "ExtractionBaseline": {
+        "rows": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      }
+    },
+    "allNineUnchangedBeforeDeploymentThroughAfterRun": true,
+    "deploymentChangedExistingTables": [
+      "AdminAccessLog",
+      "EngineOrigin",
+      "_prisma_migrations"
+    ],
+    "runChangedExistingTables": [
+      "AdminAccessLog",
+      "EngineAttempt",
+      "EngineOrigin",
+      "EnginePolicyState",
+      "EngineReview",
+      "EngineRun",
+      "EngineTask"
+    ],
+    "oldRunsRetained": [
+      "4e9eef90-0bbb-42ee-b945-922ac76ffffc",
+      "781ceb98-37fa-4947-af47-fec46e1e85b3"
+    ],
+    "activeTasksAfterRun": 0
+  },
+  "limitations": [
+    "Source completeness remains unqualified",
+    "No semantic analysis or verifier stage reached; hosted ledger write path not exercised",
+    "No qualification of 500 fully processed policies per day",
+    "No new temporal cohort qualification",
+    "Run provenance retains historical stableVersion 5.2.0 and previewVersion pw-engine-6.0.0-alpha.1; immutable implementation and release manifest identify r3",
+    "No public-site deployment; frozen 050af19 unchanged"
+  ],
+  "retainedIncidents": [
+    "Initial post-deployment SSH attempt timed out at 45000 ms",
+    "hPanel displayed a Network error notification beside Completed / Current",
+    "Concurrent browser changes and Mac lock delayed UI checks; no duplicate scan",
+    "Local preflight receipt script indentation and snapshot filename selection errors were corrected before evidence generation"
+  ],
+  "localEvidenceDigests": {
+    "all-tables-deployment-comparison.json": "610d3aa386aeaaa4c1bc5be485d8aa0d23b69d89970582298598753d8735428d",
+    "all-tables-after-2026-11-07T14-16-17.881764+00-00.json": "b5a02d3addab8c38e30c165542950f3d1b5ea151dad4f0fa20b9cd883e213511",
+    "all-tables-before-2026-11-07T13-57-52.161516+00-00.json": "da496c889776789f1fab894aeff8187ac914634997efd65e61f9a8ef57c0215c",
+    "hostinger-completed-current.txt": "81731b1f0a367f6839fceb1bcf9f896e87a790c79dba08c035600f02fdbf023f",
+    "preflight-independent.json": "e7987df001d644fe62fad69fdf37665f8fdade8f8fd0bdd7df11e264d0d95a0c",
+    "after-2026-11-07T15-02-18-860Z.json": "600da2a6a6a900e4afcc666a0568a206023bc537770dc610ffb8a353fc447142",
+    "bounded-run-ui.png": "48fa22398278961567b0cb72f1d7e70ff178172b9e4ccc868cfedfa311a0c164",
+    "all-tables-before-same-method.json": "a6a3ba636a36d81033f4df32d998a6db430aa5a8ff00de64442b61999d7cdab5",
+    "bounded-run-ui.txt": "db8d8c6cc83865f55a30f6795386f0a50306ddea0b69b9e52d7fd7c1340d843f",
+    "all-tables-after-run-2026-11-07T15-01-20.700464+00-00.json": "734cb3de6f010016f7f2393187cb6f66e28630f1e7615b4d667e8f2bfdb76b8c",
+    "automatic-backup-readonly.json": "b501cdc17f7c4a529d0856b7871eee609dc962ef7459a4f68f992c31f634861d",
+    "after-2026-11-07T14-15-15-669Z.json": "6eb1a46b8bb705b28c7c0c42799b982173cdb052ad6cadb6e6ae18d915be662b",
+    "authenticated-2026-11-07T14-14-58-387Z.json": "ac28257294ef2c5b32466af5b3739230562c2a20ac18428ad8c3c1f401ff65dd",
+    "all-tables-after.json": "f0106c07abec75399cac5290d3a39482e9d54d59e410b046ba2685a5d8b9e65b",
+    "after-2026-11-07T14-15-03-546Z.json": "4d8b1527d196cc4b6917ac57ebc26441fb17c586961a075f80111628bbcad4be",
+    "inspection-first-attempt-failed.json": "c9cdd3b5ffba07c25408aa6ba29e140c3efe78d6b8c2e558ea5f2b3a518665ce",
+    "r3-bounded-saved-report.json": "ed433a55876650e7589ad7f166bd66171225ffbef893594bf64d69b8c15dfc0c"
+  }
+}
