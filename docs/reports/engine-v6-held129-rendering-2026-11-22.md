@@ -85,8 +85,9 @@ On this Mac the stronger executed check was `sandbox-exec -f output/audit-202611
 
 ## Delivery status
 
-Rendering and the final regression receipts above were executed. Git integration and web publication remain separate delivery steps. The cumulative diary draft is prepared on the stable 5.5 line; it has not been deployed as part of this report yet. Any web release must pass staging, restore and verify the exact private r3 with its dedicated database, then promote the same stable archive to production.
+[PR #79](https://github.com/sev7enITA/policywatcher/pull/79) is integrated in main after six successful CI checks. The cumulative stable 5.5 diary archive passed staging with 12 operational checks, 20 EN/IT page checks, 531 source hashes and native visual inspection. **Production has not received this archive. The exact private r3 restoration is still pending.** Browser control repeatedly moved to another task's LinkedIn composer and timed out; coordination was requested. No successful restore submission was observed. A read-only check retained the original private database with 47 application tables, 22 migrations and zero active tasks; the hosted staging release still identifies the stable test artifact. [Current delivery checkpoint](engine-v6-held129-publication-2026-11-22.md).
 
+The remaining sequence is mandatory: finish exact r3 restoration with its private database, verify evidence hashes and saved reports, then promote the same accepted stable ZIP to production. Do not confuse source integration, successful staging or an uploaded archive with a completed public delivery.
 
 ## Next work justified by these results
 
@@ -99,4 +100,7 @@ Rendering and the final regression receipts above were executed. Git integration
 
 ## Post-observation hardening and CI failures retained
 
-The first CI run rejected a documentation em dash and reported two hostname-substring test warnings plus generic network-to-file writes in the research harness. The heading and URL assertions were corrected. Subsequent harness code confines writes to a private quarantine: explicit basename allowlist, regular directories without symlinks, exclusive no-follow0600 inodes, byte caps and read-back SHA256; its dependency is included in the harness fingerprint. Thirty-four offline guard/quarantine tests pass. This later code did not produce the live observations above; their source remains18606e9. CodeQL and the full CI outcome will be recorded after the new run. No alert was dismissed and no CI setting was weakened.
+The first CI run rejected a documentation em dash and reported two hostname-substring test warnings plus generic network-to-file writes in the research harness. The heading and URL assertions were corrected. Subsequent harness code confines writes to a private quarantine: explicit basename allowlist, regular directories without symlinks, exclusive no-follow0600 inodes, byte caps and read-back SHA256; its dependency is included in the harness fingerprint. Thirty-four offline guard/quarantine tests pass. This later code did not produce the live observations above; their source remains `18606e9`. All six CI checks passed on `8dffd33890c74eec370ecf9b05218bc51f4eaa3b`, including CodeQL, after a final test-only filesystem-race warning was corrected without removing assertions. PR #79 merged as `7bee80a5a8f4aaa349534ea4e5d89a4b51d0b4f4` at 08:21:04 UTC. No alert was dismissed and no CI setting was weakened.
+
+
+[Combined 129-case ledger](engine-v6-held129-rendering-2026-11-22/case-ledger.csv) joins each original URL to its separate static/render observations and next action; body epochs and the later unexecuted hardening remain explicit. [Six CI checks](engine-v6-held129-rendering-2026-11-22/ci-head-8dffd33.json), [merge receipt](engine-v6-held129-rendering-2026-11-22/pr79-merge.json).
